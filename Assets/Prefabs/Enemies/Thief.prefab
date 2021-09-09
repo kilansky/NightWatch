@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6663437026711871782}
   - component: {fileID: 1089942545533803517}
   - component: {fileID: 3785428787163199539}
+  - component: {fileID: -4777207016061883877}
   m_Layer: 0
   m_Name: Thief
   m_TagString: Untagged
@@ -119,3 +120,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-4777207016061883877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84103452880852107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7959cdc39ce08d74b9f1820b9f7040a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Agent: {fileID: 3785428787163199539}
+  Target: {fileID: 0}
