@@ -8,6 +8,8 @@ public class ThiefPathfinding : MonoBehaviour
     public NavMeshAgent Agent;
     //Object the Thief is currently trying to steal
     public GameObject Target;
+
+    public GameObject LevelControl;
     //Time it takes to steal objects
     public float TBD;
     //Distance from the target object that the thief will begin its steal action
@@ -18,6 +20,8 @@ public class ThiefPathfinding : MonoBehaviour
     private bool SneakPhase;
     //The phase in which the thief will attempt to sneak out of the building
     private bool EscapePhase;
+
+    private bool EvadePhase;
     //The Entry Point the Thief entered the building in
     public Transform SpawnPoint;
 
@@ -26,6 +30,7 @@ public class ThiefPathfinding : MonoBehaviour
     void Start()
     {
         Target = GameObject.FindGameObjectWithTag("Target");
+        LevelControl = GameObject.FindGameObjectWithTag("LevelControl");
 
         TBDProgress = TBD;
         SneakPhase = true;
@@ -55,11 +60,41 @@ public class ThiefPathfinding : MonoBehaviour
         //Escape Phase
         if (EscapePhase == true)
         {
+            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.1)
+            {
+                Destroy(gameObject);
+            }
+            Agent.SetDestination(SpawnPoint.position);
+        }
+
+        if (EvadePhase == true)
+        {
+            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.1)
+            {
+                Destroy(gameObject);
+            }
             Agent.SetDestination(SpawnPoint.position);
         }
     }
-
     
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "GuardDetection")
+        {
+            print("Detected");
+            if (EvadePhase == false)
+            {
+                SneakPhase = false;
+                EscapePhase = false;
+                EvadePhase = true;
+                FindClosestEscapeRoute();
+                Agent.speed = Agent.speed * 1.5f;
+            }
+            
+        }
+    }
+
     //Steal Action
     private void StealAction()
     {
@@ -77,5 +112,16 @@ public class ThiefPathfinding : MonoBehaviour
             EscapePhase = true;
         }
         
+    }
+
+    private void FindClosestEscapeRoute()
+    {
+        for (var i = 0; i < LevelControl.GetComponent<ThiefSpawnSystem>().SpawnWeights.Length; i++)
+        {
+            if(Vector3.Distance(transform.position, SpawnPoint.position) > Vector3.Distance(transform.position, LevelControl.GetComponent<ThiefSpawnSystem>().Entry_Locations[i].position))
+            {
+                SpawnPoint = LevelControl.GetComponent<ThiefSpawnSystem>().Entry_Locations[i];
+            }
+        }
     }
 }
