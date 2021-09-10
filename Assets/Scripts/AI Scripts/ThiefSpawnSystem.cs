@@ -76,6 +76,10 @@ public class ThiefSpawnSystem : MonoBehaviour
             }
 
         }
-        Instantiate(Thief, Entry_Locations[Position].position, Quaternion.identity);
+        GameObject obj = Instantiate(Thief, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
+        //Saves Entry Point location
+        obj.GetComponent<ThiefPathfinding>().SpawnPoint = Entry_Locations[Position];
+
+
     }
 }
