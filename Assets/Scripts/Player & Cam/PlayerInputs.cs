@@ -11,25 +11,43 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     private Vector3 cameraMovement = Vector3.zero;
     public Vector3 CameraMovement { get { return cameraMovement; } } //Returns the movement of the camera this frame
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private bool leftClickPressed;
+    private bool leftClickReleased;
+    private Vector2 aimPosition;
+    public bool LeftClickPressed { get { return leftClickPressed; } } //True while left mouse button is held
+    public bool LeftClickReleased { get { return leftClickReleased; } } //True for 1 frame when left mouse button is released
+    public Vector2 AimPosition { get { return aimPosition; } } //Provides the x,y position of the mouse on screen
 
-    // Update is called once per frame
-    void Update()
+    //Aim Mouse Input
+    public void PointMouse(InputAction.CallbackContext context)
     {
-        
-    }
-
-    //Interact Button Pressed
-    public void Interact(InputAction.CallbackContext context)
-    {
-        if (context.performed) //Checks if the interact button was pressed and then puts that on the queue for putting on the item
+        if (context.performed)
         {
-
+            aimPosition = context.ReadValue<Vector2>();
         }
+    }
+
+    //Check for left clicking actions
+    public void LeftClick(InputAction.CallbackContext context)
+    {      
+        if (context.performed && !leftClickPressed)//Left Click Pressed
+        {
+            leftClickPressed = true;
+        }
+        else if(leftClickPressed)//Left Click Released
+        {
+            leftClickPressed = false;
+            leftClickReleased = true;
+
+            StartCoroutine(ResetInput());
+        }
+    }
+
+    //After 1 frame, reset the left click released input event
+    private IEnumerator ResetInput()
+    {
+        yield return new WaitForEndOfFrame();
+        leftClickReleased = false;
     }
 
     //WASD Pressed to move the camera

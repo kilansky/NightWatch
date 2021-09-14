@@ -19,16 +19,49 @@ public class HUDController : SingletonPattern<HUDController>
 
     }
 
+    //Activated when the CCTV Camera Button is pressed to place a camera
     public void CameraButton()
     {
-        //Toggle the current placement mode of the button
-        if (!SecurityPlacement.Instance.placementMode)
+        GameObject objectToPlace = SecurityPlacement.Instance.cctvPrefab;
+        TogglePlacementMode(objectToPlace, true);
+    }
+
+    //Activated when the Laser Sensor Button is pressed to place a camera
+    public void LaserSensorButton()
+    {
+        GameObject objectToPlace = SecurityPlacement.Instance.laserPrefab;
+        TogglePlacementMode(objectToPlace, true);
+    }
+
+    //Activated when the Guard Button is pressed to place a camera
+    public void GuardButton()
+    {
+        GameObject objectToPlace = SecurityPlacement.Instance.guardPrefab;
+        TogglePlacementMode(objectToPlace, false);
+    }
+
+    //Activated when the Audio Sensor Button is pressed to place a camera
+    public void AudioSensorButton()
+    {
+        GameObject objectToPlace = SecurityPlacement.Instance.audioPrefab;
+        TogglePlacementMode(objectToPlace, true);
+    }
+
+    //Toggles whether an object is being placed, or changes the object being placed
+    private void TogglePlacementMode(GameObject objectToPlace, bool placedOnWalls)
+    {      
+        if (!SecurityPlacement.Instance.placementMode || objectToPlace != SecurityPlacement.Instance.heldObject)
         {
             SecurityPlacement.Instance.placementMode = true;
+            SecurityPlacement.Instance.placeOnWalls = placedOnWalls;
 
-            //Spawn new camera to try and place
-            heldObject = Instantiate(SecurityPlacement.Instance.cctvPrefab, Vector3.zero, Quaternion.identity);
-            SecurityPlacement.Instance.targetTransform = heldObject.transform; 
+            //Remove held object
+            if (heldObject != null)
+                Destroy(heldObject);
+
+            //Spawn new object to try and place
+            heldObject = Instantiate(objectToPlace, Vector3.zero, Quaternion.identity);
+            SecurityPlacement.Instance.heldObject = heldObject;
         }
         else
         {
@@ -38,7 +71,6 @@ public class HUDController : SingletonPattern<HUDController>
             if (heldObject != null)
                 Destroy(heldObject);
         }
-
     }
 
     public void ShowPauseScreen()
