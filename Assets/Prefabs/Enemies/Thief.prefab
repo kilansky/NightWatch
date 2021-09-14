@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -1333949412310162328}
   m_Layer: 0
   m_Name: Thief
-  m_TagString: Untagged
+  m_TagString: Thief
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent: {fileID: 3785428787163199539}
   Target: {fileID: 0}
+  LevelControl: {fileID: 0}
   TBD: 3
   StealRange: 2
   SpawnPoint: {fileID: 0}

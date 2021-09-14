@@ -13,9 +13,11 @@ public class GuardPathfinding : MonoBehaviour
 
     private Transform CurrentPatrolPoint;
 
-    private bool ThiefSpotted;
+    public bool ThiefSpotted;
 
-    private GameObject Thief;
+    public GameObject Thief;
+
+    public float PursuitIncrease;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +52,27 @@ public class GuardPathfinding : MonoBehaviour
         else
         {
 
-            Agent.SetDestination(Thief.transform.position);
+            
+            if (Thief == null)
+            {
+                print("Thief Gone");
+                ThiefSpotted = false;
+                Agent.SetDestination(CurrentPatrolPoint.position);
+            }
+            else
+            {
+                Agent.SetDestination(Thief.transform.position);
+            }
         }
+    }
+
+
+    public void SpeedIncrease()
+    {
+        Agent.speed = Agent.speed * PursuitIncrease;
+    }
+    public void SpeedDecrease()
+    {
+        Agent.speed = Agent.speed / PursuitIncrease;
     }
 }
