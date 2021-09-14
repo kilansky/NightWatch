@@ -26,8 +26,13 @@ public class DetectionCone : MonoBehaviour
         if (other.gameObject.tag == "Thief")
         {
             print("Detect Thief");
-            Guard.GetComponent<GuardPathfinding>().Thief = other.gameObject;
-            Guard.GetComponent<GuardPathfinding>().ThiefSpotted = true;
+            if(Guard.GetComponent<GuardPathfinding>().ThiefSpotted == false)
+            {
+                Guard.GetComponent<GuardPathfinding>().Thief = other.gameObject;
+                Guard.GetComponent<GuardPathfinding>().ThiefSpotted = true;
+                Guard.GetComponent<GuardPathfinding>().SpeedIncrease();
+            }
+            
         }
     }
 }

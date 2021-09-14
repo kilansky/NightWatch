@@ -57,6 +57,7 @@ public class GuardPathfinding : MonoBehaviour
             {
                 print("Thief Gone");
                 ThiefSpotted = false;
+                SpeedDecrease();
                 Agent.SetDestination(CurrentPatrolPoint.position);
             }
             else
@@ -69,10 +70,12 @@ public class GuardPathfinding : MonoBehaviour
 
     public void SpeedIncrease()
     {
+        print("Speed Increase");
         Agent.speed = Agent.speed * PursuitIncrease;
     }
     public void SpeedDecrease()
     {
+        print("Speed Decrease");
         Agent.speed = Agent.speed / PursuitIncrease;
     }
 }
