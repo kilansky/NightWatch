@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class SecurityPlacement : SingletonPattern<SecurityPlacement>
@@ -34,10 +35,12 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     // Update is called once per frame
     void Update()
     {
-        if (placementMode)
+        //Check if an object has been selected to place, and the mouse is not over UI       
+        if (placementMode && !EventSystem.current.IsPointerOverGameObject())
             SetAimTargetPosition();
     }
 
+    //Perform a raycast to set the position of the selected object
     private void SetAimTargetPosition()
     {
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.AimPosition);
@@ -72,14 +75,25 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             */
 
             //Set the position and rotation of the held object to snap onto the wall
+
             heldObject.transform.position = hitZ.point;
             SetPlacementRotation(hitZ.normal);
-            SetPlacementMaterial("green");
 
-            if (PlayerInputs.Instance.LeftClickReleased)
+            //If overlapping with another object, prevent placement on wall
+            if (heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
             {
-                SetPlacementMaterial("original");
-                Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
+                SetPlacementMaterial("red");
+            }
+            else //If not overlapping, allow placement on wall
+            {
+                SetPlacementMaterial("green");
+
+                //Click to place on wall
+                if (PlayerInputs.Instance.LeftClickPressed)
+                {
+                    SetPlacementMaterial("original");
+                    Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
+                }
             }
         }
         //check if mouse is over the floor
@@ -87,22 +101,24 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         {
             heldObject.transform.position = hit.point;
 
-            //check if held object is not placed on walls (ie: Guards)
-            if(!placeOnWalls)
+            //check if held object is not placed on walls (ie: Guards) and is not overlapping with other things
+            if(!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
             {
                 SetPlacementMaterial("green");
 
-                if (PlayerInputs.Instance.LeftClickReleased)
+                //Click to place on floor
+                if (PlayerInputs.Instance.LeftClickPressed)
                 {
                     SetPlacementMaterial("original");
                     Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
                 }
             }
-            else
+            else //Prevent object from being placed on floor
                 SetPlacementMaterial("red");
         }
     }
 
+    //Rotate an object to snap properly to a wall
     private void SetPlacementRotation(Vector3 hitNormal)
     {
         Quaternion cameraRotation = Quaternion.Euler(0f, 0f, 0f);
@@ -121,8 +137,11 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         heldObject.transform.rotation = cameraRotation;
     }
 
-    private void StoreOriginalMaterials()
+    //Store the materials of all children of the game object, so that they may be reset later
+    public void StoreOriginalMaterials()
     {
+        originalMats.Clear();
+
         int i = 0;
         foreach (Transform child in heldObject.transform)
         {
@@ -130,16 +149,24 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (child.GetComponent<MeshRenderer>())
             {
                 originalMats.Add(child.GetComponent<MeshRenderer>().material);
-                Debug.Log("originalMats is: " + originalMats[i]);
                 i++;
             }
         }
         originalMatsStored = true;
+        //Debug.Log("Materials Stored");
     }
 
     //Change the material of the held object to green, red, or the original material
     private void SetPlacementMaterial(string materialToSet)
     {
+        //If the material to set is already applied, exit this function
+        if (materialToSet == "green" && currMaterial == materialState.Green)
+            return;
+        else if (materialToSet == "red" && currMaterial == materialState.Red)
+            return;
+        else if (materialToSet == "original" && currMaterial == materialState.Original)
+            return;
+
         int i = 0;
         //Get all children of the held object
         foreach (Transform child in heldObject.transform)
@@ -148,17 +175,16 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (child.GetComponent<MeshRenderer>())
             {
                 //Set this child's material to green
-                if(materialToSet == "green" && currMaterial != materialState.Green)
+                if(materialToSet == "green")
                     child.GetComponent<MeshRenderer>().material = greenHighlight;
 
                 //Set this child's material to red
-                else if (materialToSet == "red" && currMaterial != materialState.Red)
+                else if (materialToSet == "red")
                     child.GetComponent<MeshRenderer>().material = redHighlight;
 
                 //Set this child's material to its original mat
-                else if (materialToSet == "original" && currMaterial != materialState.Original)
+                else if (materialToSet == "original")
                 {
-                    Debug.Log("originalMats is: " + originalMats);
                     child.GetComponent<MeshRenderer>().material = originalMats[i];
                     i++;
                 }
@@ -175,6 +201,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         //If the material is now the original material, clear the originalMats list
         if (currMaterial == materialState.Original)
         {
+            //Debug.Log("Object set to Original mats, Stored Mats Cleared");
             originalMats.Clear();
             originalMatsStored = false;
         }

@@ -62,6 +62,7 @@ public class HUDController : SingletonPattern<HUDController>
             //Spawn new object to try and place
             heldObject = Instantiate(objectToPlace, Vector3.zero, Quaternion.identity);
             SecurityPlacement.Instance.heldObject = heldObject;
+            SecurityPlacement.Instance.StoreOriginalMaterials();
         }
         else
         {

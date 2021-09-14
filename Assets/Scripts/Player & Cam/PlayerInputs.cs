@@ -6,45 +6,58 @@ using UnityEngine.InputSystem;
 public class PlayerInputs : SingletonPattern<PlayerInputs>
 {
     private bool isPaused = false;
-    public bool IsPaused { get { return isPaused; } } //True while game is paused
+    public bool IsPaused { get { return isPaused; } } //True while the game is paused
 
     private Vector3 cameraMovement = Vector3.zero;
-    public Vector3 CameraMovement { get { return cameraMovement; } } //Returns the movement of the camera this frame
+    [HideInInspector] public Vector3 CameraMovement { get { return cameraMovement; } } //Returns the movement vector of the camera this frame
 
+    //Mouse Related Variables
     private bool leftClickPressed;
+    private bool leftClickHeld;
     private bool leftClickReleased;
-    private Vector2 aimPosition;
-    public bool LeftClickPressed { get { return leftClickPressed; } } //True while left mouse button is held
-    public bool LeftClickReleased { get { return leftClickReleased; } } //True for 1 frame when left mouse button is released
-    public Vector2 AimPosition { get { return aimPosition; } } //Provides the x,y position of the mouse on screen
+    private Vector2 pointerPos;
+    [HideInInspector] public bool LeftClickPressed { get { return leftClickPressed; } }   //True for 1 frame when left mouse button is pressed
+    [HideInInspector] public bool LeftClickHeld { get { return leftClickHeld; } }         //True while left mouse button is held
+    [HideInInspector] public bool LeftClickReleased { get { return leftClickReleased; } } //True for 1 frame when left mouse button is released
+    [HideInInspector] public Vector2 AimPosition { get { return pointerPos; } }           //Provides the x,y position of the mouse on screen
 
     //Aim Mouse Input
     public void PointMouse(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            aimPosition = context.ReadValue<Vector2>();
+            pointerPos = context.ReadValue<Vector2>();
         }
     }
 
     //Check for left clicking actions
     public void LeftClick(InputAction.CallbackContext context)
     {      
-        if (context.performed && !leftClickPressed)//Left Click Pressed
+        if (context.performed && !leftClickHeld)//Left Click Pressed
         {
             leftClickPressed = true;
+            leftClickHeld = true;
+
+            StartCoroutine(ResetPressedInput());
         }
-        else if(leftClickPressed)//Left Click Released
+        else if(leftClickHeld)//Left Click Released
         {
-            leftClickPressed = false;
+            leftClickHeld = false;
             leftClickReleased = true;
 
-            StartCoroutine(ResetInput());
+            StartCoroutine(ResetReleasedInput());
         }
     }
 
     //After 1 frame, reset the left click released input event
-    private IEnumerator ResetInput()
+    private IEnumerator ResetPressedInput()
+    {
+        yield return new WaitForEndOfFrame();
+        leftClickPressed = false;
+    }
+
+    //After 1 frame, reset the left click released input event
+    private IEnumerator ResetReleasedInput()
     {
         yield return new WaitForEndOfFrame();
         leftClickReleased = false;
