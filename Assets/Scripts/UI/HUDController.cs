@@ -66,11 +66,7 @@ public class HUDController : SingletonPattern<HUDController>
         }
         else
         {
-            SecurityPlacement.Instance.placementMode = false;
-
-            //Remove held object
-            if (heldObject != null)
-                Destroy(heldObject);
+            SecurityPlacement.Instance.ExitPlacementMode();
         }
     }
 

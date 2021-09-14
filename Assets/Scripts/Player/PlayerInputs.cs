@@ -15,11 +15,17 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     private bool leftClickPressed;
     private bool leftClickHeld;
     private bool leftClickReleased;
+    private bool rightClickPressed;
+    private bool rightClickHeld;
+    private bool rightClickReleased;
     private Vector2 pointerPos;
-    [HideInInspector] public bool LeftClickPressed { get { return leftClickPressed; } }   //True for 1 frame when left mouse button is pressed
-    [HideInInspector] public bool LeftClickHeld { get { return leftClickHeld; } }         //True while left mouse button is held
-    [HideInInspector] public bool LeftClickReleased { get { return leftClickReleased; } } //True for 1 frame when left mouse button is released
-    [HideInInspector] public Vector2 AimPosition { get { return pointerPos; } }           //Provides the x,y position of the mouse on screen
+    [HideInInspector] public bool LeftClickPressed { get { return leftClickPressed; } }    //True for 1 frame when left mouse button is pressed
+    [HideInInspector] public bool LeftClickHeld { get { return leftClickHeld; } }          //True while left mouse button is held
+    [HideInInspector] public bool LeftClickReleased { get { return leftClickReleased; } }  //True for 1 frame when left mouse button is released
+    [HideInInspector] public bool RightClickPressed { get { return rightClickPressed; } }  //True for 1 frame when right mouse button is pressed
+    [HideInInspector] public bool RightClickHeld { get { return rightClickHeld; } }        //True while right mouse button is held
+    [HideInInspector] public bool RightClickReleased { get { return rightClickReleased; } }//True for 1 frame when right mouse button is released
+    [HideInInspector] public Vector2 AimPosition { get { return pointerPos; } }            //Provides the x,y position of the mouse on screen
 
     //Aim Mouse Input
     public void PointMouse(InputAction.CallbackContext context)
@@ -49,18 +55,39 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
         }
     }
 
-    //After 1 frame, reset the left click released input event
+    //Check for right clicking actions
+    public void RightClick(InputAction.CallbackContext context)
+    {
+        if (context.performed && !rightClickHeld)//Right Click Pressed
+        {
+            rightClickPressed = true;
+            rightClickHeld = true;
+
+            StartCoroutine(ResetPressedInput());
+        }
+        else if (rightClickHeld)//Right Click Released
+        {
+            rightClickHeld = false;
+            rightClickReleased = true;
+
+            StartCoroutine(ResetReleasedInput());
+        }
+    }
+
+    //After 1 frame, reset the click released input event
     private IEnumerator ResetPressedInput()
     {
         yield return new WaitForEndOfFrame();
         leftClickPressed = false;
+        rightClickPressed = false;
     }
 
-    //After 1 frame, reset the left click released input event
+    //After 1 frame, reset the click released input event
     private IEnumerator ResetReleasedInput()
     {
         yield return new WaitForEndOfFrame();
         leftClickReleased = false;
+        rightClickReleased = false;
     }
 
     //WASD Pressed to move the camera

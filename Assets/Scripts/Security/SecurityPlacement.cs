@@ -46,6 +46,11 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.AimPosition);
         RaycastHit hit;
 
+        //Check if the player right clicks to exit placement mode
+        if (PlayerInputs.Instance.RightClickPressed)
+            ExitPlacementMode();
+
+        //Check to store the mats of the held object
         if (!originalMatsStored)
             StoreOriginalMaterials();
 
@@ -116,6 +121,16 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             else //Prevent object from being placed on floor
                 SetPlacementMaterial("red");
         }
+    }
+
+    //Turn off placement mode and remove the held object
+    public void ExitPlacementMode()
+    {
+        SecurityPlacement.Instance.placementMode = false;
+
+        //Remove held object
+        if (heldObject != null)
+            Destroy(heldObject);
     }
 
     //Rotate an object to snap properly to a wall
