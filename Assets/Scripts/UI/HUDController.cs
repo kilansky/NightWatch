@@ -50,7 +50,7 @@ public class HUDController : SingletonPattern<HUDController>
     //Toggles whether an object is being placed, or changes the object being placed
     private void TogglePlacementMode(GameObject objectToPlace, bool placedOnWalls)
     {      
-        if (!SecurityPlacement.Instance.placementMode || objectToPlace != SecurityPlacement.Instance.heldObject)
+        if (!SecurityPlacement.Instance.placementMode && objectToPlace != SecurityPlacement.Instance.heldObject)
         {
             SecurityPlacement.Instance.placementMode = true;
             SecurityPlacement.Instance.placeOnWalls = placedOnWalls;
