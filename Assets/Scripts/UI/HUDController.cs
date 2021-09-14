@@ -7,18 +7,6 @@ public class HUDController : SingletonPattern<HUDController>
 {
     private GameObject heldObject;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     //Activated when the CCTV Camera Button is pressed to place a camera
     public void CameraButton()
     {
@@ -49,8 +37,10 @@ public class HUDController : SingletonPattern<HUDController>
 
     //Toggles whether an object is being placed, or changes the object being placed
     private void TogglePlacementMode(GameObject objectToPlace, bool placedOnWalls)
-    {      
-        if (!SecurityPlacement.Instance.placementMode && objectToPlace != SecurityPlacement.Instance.heldObject)
+    {
+        bool inPlacementMode = SecurityPlacement.Instance.placementMode;
+
+        if (!inPlacementMode || (inPlacementMode && objectToPlace != SecurityPlacement.Instance.heldObject))
         {
             SecurityPlacement.Instance.placementMode = true;
             SecurityPlacement.Instance.placeOnWalls = placedOnWalls;

@@ -319,7 +319,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -608,7 +608,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2467743332980197927}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2467743332891806728}
+        m_TargetAssemblyTypeName: HUDController, Assembly-CSharp
+        m_MethodName: LaserSensorButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2467743333082293925
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +741,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2467743333082293920}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2467743332891806728}
+        m_TargetAssemblyTypeName: HUDController, Assembly-CSharp
+        m_MethodName: AudioSensorButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2467743333179206403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,7 +1263,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2467743334120970108}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2467743332891806728}
+        m_TargetAssemblyTypeName: HUDController, Assembly-CSharp
+        m_MethodName: GuardButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2467743334134487591
 GameObject:
   m_ObjectHideFlags: 0

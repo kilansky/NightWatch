@@ -78,8 +78,8 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6575661075733118971}
-        m_TargetAssemblyTypeName: SecurityPlacement, Assembly-CSharp
+      - m_Target: {fileID: 6575661075733118960}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
         m_MethodName: PointMouse
         m_Mode: 0
         m_Arguments:
@@ -93,7 +93,19 @@ MonoBehaviour:
     m_ActionId: 8131691f-f367-49d3-9a0d-f72eece2d1a1
     m_ActionName: Player/Point[/Mouse/position]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6575661075733118960}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: LeftClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4d494dcf-95be-47d5-8b31-a45947af94cb
     m_ActionName: Player/Click[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -117,7 +129,19 @@ MonoBehaviour:
     m_ActionId: 337117e4-5c99-40a1-a016-166542e86c3b
     m_ActionName: Player/MiddleClick[/Mouse/middleButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6575661075733118960}
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
+        m_MethodName: RightClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: dfa83e05-7230-4d81-a2b8-37caaf256249
     m_ActionName: Player/RightClick[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -215,15 +239,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4e9a049d52d794fa6586a45729585a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cctvPrefab: {fileID: 1734525063470197938, guid: 6901608c70ec6294bab0187a44fd6d92, type: 3}
-  laserPrefab: {fileID: 0}
-  guardPrefab: {fileID: 0}
-  audioPrefab: {fileID: 0}
+  cctvPrefab: {fileID: 5636425712614561198, guid: 6901608c70ec6294bab0187a44fd6d92, type: 3}
+  laserPrefab: {fileID: 6319180074920139406, guid: 2819f25b1cd27cb41a9dc8bd6cabc0f6, type: 3}
+  guardPrefab: {fileID: 5378673790380836810, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
+  audioPrefab: {fileID: 319275592278295342, guid: 06771d4420ec96b4bb2f082618a0de9e, type: 3}
   floorMask:
     serializedVersion: 2
     m_Bits: 128
-  placeableMask:
+  wallMask:
     serializedVersion: 2
     m_Bits: 256
-  targetTransform: {fileID: 0}
+  placeableMask:
+    serializedVersion: 2
+    m_Bits: 512
+  greenHighlight: {fileID: 2100000, guid: ed5e6e3ece88f5e4e9963f4198541cfa, type: 2}
+  redHighlight: {fileID: 2100000, guid: f999c1416b06f2245952aee480f5c6c0, type: 2}
   placementMode: 0
+  placeOnWalls: 1
+  heldObject: {fileID: 0}
