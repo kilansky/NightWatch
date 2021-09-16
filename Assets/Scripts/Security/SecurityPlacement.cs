@@ -43,7 +43,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     //Perform a raycast to set the position of the selected object
     private void SetAimTargetPosition()
     {
-        Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.AimPosition);
+        Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
 
         //Check if the player right clicks to exit placement mode
