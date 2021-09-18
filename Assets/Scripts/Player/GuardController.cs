@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class GuardController : MonoBehaviour
 {
+    public enum ControlMode { Idle, Patrol, Click, Manual }
+
     public float moveSpeed = 6f;
-    public GameObject testSphere;
+
+    public ControlMode currControlMode = ControlMode.Idle;
 
     private Rigidbody rb;
     private Camera mainCamera;
     private Vector3 velocity;
-    private GameObject TestSphere;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
-
-        TestSphere = Instantiate(testSphere, Vector3.zero, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -29,8 +29,6 @@ public class GuardController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, SecurityPlacement.Instance.floorMask))
         {
-            TestSphere.transform.position = hit.point;
-
             Vector3 forward = hit.point - transform.position;
             transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
         }

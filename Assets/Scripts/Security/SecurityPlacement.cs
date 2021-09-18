@@ -10,6 +10,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     public GameObject laserPrefab;
     public GameObject guardPrefab;
     public GameObject audioPrefab;
+
     public LayerMask floorMask;
     public LayerMask wallMask;
     public LayerMask placeableMask;
@@ -95,10 +96,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
                 //Click to place on wall
                 if (PlayerInputs.Instance.LeftClickPressed)
-                {
-                    SetPlacementMaterial("original");
-                    Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
-                }
+                    PlaceSecurityMeasure();
             }
         }
         //check if mouse is over the floor
@@ -113,10 +111,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
                 //Click to place on floor
                 if (PlayerInputs.Instance.LeftClickPressed)
-                {
-                    SetPlacementMaterial("original");
-                    Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
-                }
+                    PlaceSecurityMeasure();
             }
             else //Prevent object from being placed on floor
                 SetPlacementMaterial("red");
@@ -220,5 +215,12 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             originalMats.Clear();
             originalMatsStored = false;
         }
+    }
+
+    private void PlaceSecurityMeasure()
+    {
+        SetPlacementMaterial("original");
+        Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
+        //heldObject.
     }
 }

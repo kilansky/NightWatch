@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423338209}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: -1}
+  m_LocalPosition: {x: 0, y: 20, z: -1}
   m_LocalScale: {x: 20, y: 1, z: 20}
   m_Children: []
   m_Father: {fileID: 6575661075733118964}
@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 6575661075733118960}
   - component: {fileID: 6575661075733118971}
   - component: {fileID: 1789413164978395180}
+  - component: {fileID: 398351466}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -368,3 +369,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneViewMask: {fileID: 423338209}
+  setupCanvas: {fileID: 0}
+  nightCanvas: {fileID: 0}
+--- !u!114 &398351466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6575661075733118961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4880415c6de69b4f9bcd669c71f22ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingMoney: 1500
+  moneyText: {fileID: 0}
