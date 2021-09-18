@@ -18,21 +18,21 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     private bool rightClickPressed;
     private bool rightClickHeld;
     private bool rightClickReleased;
-    private Vector2 pointerPos;
+    private Vector2 mousePos;
     [HideInInspector] public bool LeftClickPressed { get { return leftClickPressed; } }    //True for 1 frame when left mouse button is pressed
     [HideInInspector] public bool LeftClickHeld { get { return leftClickHeld; } }          //True while left mouse button is held
     [HideInInspector] public bool LeftClickReleased { get { return leftClickReleased; } }  //True for 1 frame when left mouse button is released
     [HideInInspector] public bool RightClickPressed { get { return rightClickPressed; } }  //True for 1 frame when right mouse button is pressed
     [HideInInspector] public bool RightClickHeld { get { return rightClickHeld; } }        //True while right mouse button is held
     [HideInInspector] public bool RightClickReleased { get { return rightClickReleased; } }//True for 1 frame when right mouse button is released
-    [HideInInspector] public Vector2 AimPosition { get { return pointerPos; } }            //Provides the x,y position of the mouse on screen
+    [HideInInspector] public Vector2 MousePosition { get { return mousePos; } }            //Provides the x,y position of the mouse on screen
 
     //Aim Mouse Input
     public void PointMouse(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            pointerPos = context.ReadValue<Vector2>();
+            mousePos = context.ReadValue<Vector2>();
         }
     }
 
