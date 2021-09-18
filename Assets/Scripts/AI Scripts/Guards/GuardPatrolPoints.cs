@@ -38,7 +38,7 @@ public class GuardPatrolPoints : MonoBehaviour
         if (PlayerInputs.Instance.LeftClickPressed)
         {
             print("Click");
-            Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.AimPosition);
+            Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
             RaycastHit hit;
             print("RayHit");
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
