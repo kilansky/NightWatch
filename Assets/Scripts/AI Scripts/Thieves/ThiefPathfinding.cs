@@ -93,6 +93,12 @@ public class ThiefPathfinding : MonoBehaviour
             }
             
         }
+        if (other.gameObject.tag == "CaptureHitBox")
+        {
+            print("Captured");
+            Destroy(gameObject);
+
+        }
     }
 
     //Steal Action
