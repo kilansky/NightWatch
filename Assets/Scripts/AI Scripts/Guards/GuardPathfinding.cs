@@ -5,13 +5,15 @@ using UnityEngine.AI;
 
 public class GuardPathfinding : MonoBehaviour
 {
+    public bool NightPhase;
+
     public NavMeshAgent Agent;
 
     public GameObject PatrolSource;
 
     private int PatrolNumber;
 
-    private Transform CurrentPatrolPoint;
+    private Vector3 CurrentPatrolPoint;
 
     public bool ThiefSpotted;
 
@@ -24,17 +26,25 @@ public class GuardPathfinding : MonoBehaviour
     {
         ThiefSpotted = false;
         PatrolNumber = 0;
-        CurrentPatrolPoint = PatrolSource.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber];
+        CurrentPatrolPoint = PatrolSource.GetComponent<GuardPatrolPoints>().Points[PatrolNumber];
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (NightPhase == true)
+        {
+            Pathfinding();
+        }
+    }
+
+    private void Pathfinding()
+    {
         if (ThiefSpotted == false)
         {
-            if (Vector3.Distance(transform.position, CurrentPatrolPoint.position) < 0.5)
+            if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
             {
-                if (PatrolNumber < PatrolSource.GetComponent<GuardPatrolPoints>().PatrolPoints.Length - 1)
+                if (PatrolNumber < PatrolSource.GetComponent<GuardPatrolPoints>().Points.Count - 1)
                 {
                     PatrolNumber += 1;
                 }
@@ -42,23 +52,23 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     PatrolNumber = 0;
                 }
-                CurrentPatrolPoint = PatrolSource.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber];
+                CurrentPatrolPoint = new Vector3(PatrolSource.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, 0, PatrolSource.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
             }
             else
             {
-                Agent.SetDestination(CurrentPatrolPoint.position);
+                Agent.SetDestination(CurrentPatrolPoint);
             }
         }
         else
         {
 
-            
+
             if (Thief == null)
             {
                 print("Thief Gone");
                 ThiefSpotted = false;
                 SpeedDecrease();
-                Agent.SetDestination(CurrentPatrolPoint.position);
+                Agent.SetDestination(CurrentPatrolPoint);
             }
             else
             {
@@ -66,7 +76,6 @@ public class GuardPathfinding : MonoBehaviour
             }
         }
     }
-
 
     public void SpeedIncrease()
     {
