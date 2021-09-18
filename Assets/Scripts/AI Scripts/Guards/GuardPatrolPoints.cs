@@ -5,15 +5,13 @@ using UnityEngine.AI;
 
 public class GuardPatrolPoints : MonoBehaviour
 {
-    public bool GuardIsSelected;
+    public GameObject Marker;
+    public LayerMask FloorMask;
+
+    [HideInInspector] public List<Vector3> Points = new List<Vector3>();
 
     private Camera mainCamera;
-
-    public LayerMask FloorMask;
-    
-    public List<Vector3> Points = new List<Vector3>();
-
-    public GameObject Marker;
+    private bool GuardIsSelected;//REPLACE
 
     // Start is called before the first frame update
     void Start()

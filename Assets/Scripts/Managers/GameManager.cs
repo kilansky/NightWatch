@@ -8,6 +8,8 @@ public class GameManager : SingletonPattern<GameManager>
     public GameObject setupCanvas;
     public GameObject nightCanvas;
 
+    public bool nightWatchPhase = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,8 @@ public class GameManager : SingletonPattern<GameManager>
 
     //Call when player presses button, hides the placement UI and begins spawning thieves
     public void BeginNightPhase()
-    {       
+    {
+        nightWatchPhase = true;
         setupCanvas.SetActive(false);
         //nightCanvas.SetActive(true);
     }

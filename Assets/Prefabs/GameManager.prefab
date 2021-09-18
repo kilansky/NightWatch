@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 6575661075733118971}
   - component: {fileID: 1789413164978395180}
   - component: {fileID: 398351466}
+  - component: {fileID: 1130652127497433280}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -371,6 +372,7 @@ MonoBehaviour:
   sceneViewMask: {fileID: 423338209}
   setupCanvas: {fileID: 0}
   nightCanvas: {fileID: 0}
+  nightWatchPhase: 0
 --- !u!114 &398351466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,3 +387,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingMoney: 1500
   moneyText: {fileID: 0}
+--- !u!114 &1130652127497433280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6575661075733118961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8acf1d0e591634d95138264789c0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseSpawnTimer: 0
+  Timer_Mod: 0
+  SpawnWeights: 
+  Entry_Locations: []
+  Thief: {fileID: 0}

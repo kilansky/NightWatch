@@ -13,7 +13,7 @@ public class ThiefSpawnSystem : MonoBehaviour
     //The transform values for each spawn point
     public Transform[] Entry_Locations;
     //The thief prefab
-    public GameObject Thief;
+    public GameObject ThiefPrefab;
 
     //Selected Spawnpoint
     private int Position;
@@ -61,25 +61,21 @@ public class ThiefSpawnSystem : MonoBehaviour
 
     //Thief Spawn function
     private void SpawnSequence()
-    {
-        
+    {       
         Chance = Random.Range(1, TotalChance);
-        print("Number Generated = " + Chance);
+        //print("Number Generated = " + Chance);
         for (var i = 0; i < SpawnWeights.Length; i++)
         {
             Chance -= SpawnWeights[i];
             if (Chance <= 0)
             {
                 Position = i;
-                print("Spawn at point " + Position);
+                //print("Spawn at point " + Position);
                 break;
             }
-
         }
-        GameObject obj = Instantiate(Thief, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
+        GameObject obj = Instantiate(ThiefPrefab, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
         //Saves Entry Point location
         obj.GetComponent<ThiefPathfinding>().SpawnPoint = Entry_Locations[Position];
-
-
     }
 }
