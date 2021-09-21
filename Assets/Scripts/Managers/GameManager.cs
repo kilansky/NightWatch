@@ -5,10 +5,10 @@ using UnityEngine;
 public class GameManager : SingletonPattern<GameManager>
 {
     public GameObject sceneViewMask; //allows viewing of hidden objects (like thieves) in the editor or setup phase
-    public GameObject setupCanvas;
-    public GameObject nightCanvas;
+    public GameObject planningCanvas;
+    //public GameObject nightCanvas;
 
-    public bool nightWatchPhase = false;
+    [HideInInspector] public bool nightWatchPhase = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,7 @@ public class GameManager : SingletonPattern<GameManager>
     //Call on Level Start, allow placement of security measures
     public void BeginPlanningPhase()
     {
-        setupCanvas.SetActive(true);
+        planningCanvas.SetActive(true);
         //nightCanvas.SetActive(false);
     }
 
@@ -28,7 +28,8 @@ public class GameManager : SingletonPattern<GameManager>
     public void BeginNightPhase()
     {
         nightWatchPhase = true;
-        setupCanvas.SetActive(false);
+        planningCanvas.SetActive(false);
+        ThiefSpawnSystem.Instance.BeginSpawnCycle();
         //nightCanvas.SetActive(true);
     }
 }

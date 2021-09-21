@@ -103,7 +103,7 @@ public class ThiefPathfinding : MonoBehaviour
         else
         {
             timeRemainingToSteal = timeToSteal;
-            Destroy(Target);
+            //Destroy(Target);
 
             //NEED TO CHECK IF IN BUILDING LONG ENOUGH FIRST
 

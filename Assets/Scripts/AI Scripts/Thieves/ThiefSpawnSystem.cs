@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThiefSpawnSystem : MonoBehaviour
+public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 {
     //The minimum amount of time it takes for a thief to spawn
     public float BaseSpawnTimer;
@@ -15,6 +15,8 @@ public class ThiefSpawnSystem : MonoBehaviour
     //The thief prefab
     public GameObject ThiefPrefab;
 
+    public int numThievesToSpawn;
+
     //Selected Spawnpoint
     private int Position;
     //Random Number Generated
@@ -24,39 +26,45 @@ public class ThiefSpawnSystem : MonoBehaviour
     //The time left until the thief spawns
     private float Timer;
 
+    private int thievesSpawned;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        thievesSpawned = 0;
+
         //Generates the TotalChance variable
         for (var i = 0; i < SpawnWeights.Length; i++)
         {
             TotalChance += SpawnWeights[i];
         }
-        //Spawns the first thief
-        SpawnSequence();
+
         //Sets up the first timer
         Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BeginSpawnCycle()
     {
-        SpawnTimer();
+        //Start Timer to spawn the first thief
+        StartCoroutine(SpawnTimer());
     }
 
     //Count Down To Next Thief Spawn function
-    private void SpawnTimer()
+    private IEnumerator SpawnTimer()
     {
-        if (Timer > 0)
+        while (Timer > 0)
         {
             Timer -= Time.deltaTime;
-        }
-        else
-        {
-            SpawnSequence();
-            Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
+            yield return new WaitForEndOfFrame();
         }
 
+        SpawnSequence();
+        Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
+        thievesSpawned++;
+        
+        //If the total number of thieves to spawn has not been reached, restart this coroutine
+        if(thievesSpawned < numThievesToSpawn)
+            StartCoroutine(SpawnTimer());
     }
 
     //Thief Spawn function
