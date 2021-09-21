@@ -18,6 +18,7 @@ public class FieldOfView : MonoBehaviour
 
     public MeshFilter viewMeshFilter;
     private Mesh viewMesh;
+    private List<GameObject> spottedThieves = new List<GameObject>();
 
     public float maskCutawayDist = 0.25f;
 
@@ -27,7 +28,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine("FindTargetsWithDelay", 0.25f);
+        StartCoroutine(FindTargetsWithDelay(0.25f));
     }
 
     private void LateUpdate()
@@ -42,12 +43,12 @@ public class FieldOfView : MonoBehaviour
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
 
-            if (visibleTargets.Count > 0)
-                ThiefSpotted();
+            if (visibleTargets.Count > 0 && gameObject.GetComponent<GuardPathfinding>())
+                GuardSpotsThief();
         }
     }
 
-    private void ThiefSpotted()
+    private void GuardSpotsThief()
     {
         if (gameObject.GetComponent<GuardPathfinding>().ThiefSpotted == false)
         {

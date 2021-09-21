@@ -63,6 +63,4 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionIcon.transform.localScale /= selectionScaleMod;
         selectionIcon.transform.position = offScreenPos;
     }
-
-
 }
