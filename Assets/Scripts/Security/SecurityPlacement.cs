@@ -2,14 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+using TMPro;
+
+[System.Serializable]
+public class SecurityMeasure
+{
+    public GameObject prefab;
+    public int cost;
+    public TextMeshProUGUI costText;
+}
 
 public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 {
-    public GameObject cctvPrefab;
-    public GameObject laserPrefab;
-    public GameObject guardPrefab;
-    public GameObject audioPrefab;
+    public SecurityMeasure cctvCamera;
+    public SecurityMeasure laserSensor;
+    public SecurityMeasure guard;
+    public SecurityMeasure audioSensor;
 
     public LayerMask floorMask;
     public LayerMask wallMask;
@@ -20,6 +28,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     [HideInInspector] public bool placementMode = false;
     [HideInInspector] public bool placeOnWalls = true;
     [HideInInspector] public GameObject heldObject;
+    [HideInInspector] public int heldObjectCost;
 
     private List<Material> originalMats = new List<Material>();
     private enum materialState {Red, Green, Original};
@@ -85,12 +94,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             heldObject.transform.position = hitZ.point;
             SetPlacementRotation(hitZ.normal);
 
-            //If overlapping with another object, prevent placement on wall
-            if (heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
-            {
-                SetPlacementMaterial("red");
-            }
-            else //If not overlapping, allow placement on wall
+            //If not overlapping with another object, and is affordable, allow placement on wall
+            if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping && MoneyManager.Instance.Money >= heldObjectCost)
             {
                 SetPlacementMaterial("green");
 
@@ -98,14 +103,19 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                 if (PlayerInputs.Instance.LeftClickPressed)
                     PlaceSecurityMeasure();
             }
+            else //Prevent placement on wall
+            {
+                SetPlacementMaterial("red");
+            }
         }
         //check if mouse is over the floor
         else if (Physics.Raycast(ray, out hit, Mathf.Infinity, floorMask))
         {
             heldObject.transform.position = hit.point;
 
-            //check if held object is not placed on walls (ie: Guards) and is not overlapping with other things
-            if(!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
+            //check if held object is not placed on walls (ie: Guards), is not overlapping with other things, and is affordable
+            if(!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
+                && MoneyManager.Instance.Money >= heldObjectCost)
             {
                 SetPlacementMaterial("green");
 
@@ -116,6 +126,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             else //Prevent object from being placed on floor
                 SetPlacementMaterial("red");
         }
+        else //Not over placable area or floor
+            SetPlacementMaterial("red");
     }
 
     //Turn off placement mode and remove the held object
@@ -221,6 +233,6 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     {
         SetPlacementMaterial("original");
         Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
-        //heldObject.
+        MoneyManager.Instance.SubtractMoney(heldObjectCost);
     }
 }

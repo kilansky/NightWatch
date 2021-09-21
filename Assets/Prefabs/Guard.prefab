@@ -112,6 +112,7 @@ MonoBehaviour:
   currControlMode: 0
   Agent: {fileID: 2006984200}
   PursuitSpeedMod: 1.5
+  distToCatchThief: 0
   Thief: {fileID: 0}
   ThiefSpotted: 0
 --- !u!195 &2006984200
@@ -341,7 +342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8376714390072108004}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2291301462990201698}
@@ -359,7 +360,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.8, z: 1.2}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4221533774483287931
 Rigidbody:
   m_ObjectHideFlags: 0
