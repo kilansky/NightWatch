@@ -17,6 +17,9 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 
     public int numThievesToSpawn;
 
+    public List<GameObject> TargetObjects = new List<GameObject>();
+
+
     //Selected Spawnpoint
     private int Position;
     //Random Number Generated
@@ -27,6 +30,8 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
     private float Timer;
 
     private int thievesSpawned;
+
+    private int TargetItemAssigned;
 
     // Start is called before the first frame update
     private void Start()
@@ -82,8 +87,13 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
                 break;
             }
         }
+        TargetItemAssigned = Random.Range(0, TargetObjects.Count - 1);
+
         GameObject obj = Instantiate(ThiefPrefab, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
+        obj.GetComponent<ThiefPathfinding>().Target = TargetObjects[TargetItemAssigned];
         //Saves Entry Point location
         obj.GetComponent<ThiefPathfinding>().SpawnPoint = Entry_Locations[Position];
+
+        TargetObjects.Remove(TargetObjects[TargetItemAssigned]);
     }
 }

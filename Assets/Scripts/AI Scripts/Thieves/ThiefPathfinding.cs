@@ -11,19 +11,19 @@ public class ThiefPathfinding : MonoBehaviour
     public float timeToSteal;    //Time it takes to steal objects
     public float StealRange;     //Distance from the target object that the thief will begin its steal action
     public float EvadeSpeedMod;
+    public GameObject Target;    //Object the Thief is currently trying to steal
 
     [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
 
     private NavMeshAgent Agent;
-    private GameObject Target;    //Object the Thief is currently trying to steal
+    
     private float timeRemainingToSteal;    //The progress of the steal timer
-
+    private bool ObjectStolen; //Stolen
     // Start is called before the first frame update
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
-        Target = GameObject.FindGameObjectWithTag("Target");
-
+        ObjectStolen = false;
         timeRemainingToSteal = timeToSteal; 
     }
 
@@ -53,6 +53,10 @@ public class ThiefPathfinding : MonoBehaviour
 
             if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
             {
+                if (ObjectStolen == false)
+                {
+                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                }
                 Destroy(gameObject);
             }
         }
@@ -63,6 +67,10 @@ public class ThiefPathfinding : MonoBehaviour
 
             if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
             {
+                if (ObjectStolen == false)
+                {
+                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                }
                 Destroy(gameObject);
             }
         }
@@ -86,7 +94,14 @@ public class ThiefPathfinding : MonoBehaviour
 
     public void CaughtByGuard()
     {
+
         print("Captured");
+
+        if (ObjectStolen == false)
+        {
+            ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+        }
+
         Destroy(gameObject);
     }
 
@@ -103,7 +118,8 @@ public class ThiefPathfinding : MonoBehaviour
         else
         {
             timeRemainingToSteal = timeToSteal;
-            //Destroy(Target);
+            Destroy(Target);
+            ObjectStolen = true;
 
             //NEED TO CHECK IF IN BUILDING LONG ENOUGH FIRST
 
