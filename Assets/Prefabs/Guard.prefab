@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2006984198}
   - component: {fileID: 2006984199}
   - component: {fileID: 2006984200}
+  - component: {fileID: -498021815971302158}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Untagged
@@ -137,6 +138,21 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-498021815971302158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378673790380836810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b2623ac9360224a98cd58ba00faa49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  securityType: 2
+  placedOnWalls: 0
+  cost: 350
 --- !u!1 &5713488329208210204
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +325,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7712647546217044523}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
