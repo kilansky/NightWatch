@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 682107627}
   - component: {fileID: 682107629}
   - component: {fileID: 682107628}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: SelectionIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 250
+  m_PixelsPerUnitMultiplier: 2.5
 --- !u!1 &1508960663
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 1508960666}
   - component: {fileID: 1508960665}
   - component: {fileID: 1508960664}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: SelectionCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ RectTransform:
   m_GameObject: {fileID: 1508960663}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 682107627}
   m_Father: {fileID: 6575661075733118964}
@@ -208,7 +208,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -4, y: 1.05}
-  m_SizeDelta: {x: 1.5, y: 1.5}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1508960666
 Canvas:
@@ -516,22 +516,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4e9a049d52d794fa6586a45729585a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cctvCamera:
-    prefab: {fileID: 5636425712614561198, guid: 6901608c70ec6294bab0187a44fd6d92, type: 3}
-    cost: 150
-    costText: {fileID: 0}
-  laserSensor:
-    prefab: {fileID: 6319180074920139406, guid: 2819f25b1cd27cb41a9dc8bd6cabc0f6, type: 3}
-    cost: 100
-    costText: {fileID: 0}
-  guard:
-    prefab: {fileID: 5378673790380836810, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
-    cost: 350
-    costText: {fileID: 0}
-  audioSensor:
-    prefab: {fileID: 319275592278295342, guid: 06771d4420ec96b4bb2f082618a0de9e, type: 3}
-    cost: 100
-    costText: {fileID: 0}
+  cctvCamera: {fileID: 5636425712614561198, guid: 6901608c70ec6294bab0187a44fd6d92, type: 3}
+  laserSensor: {fileID: 6319180074920139406, guid: 2819f25b1cd27cb41a9dc8bd6cabc0f6, type: 3}
+  guard: {fileID: 5378673790380836810, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
+  audioSensor: {fileID: 319275592278295342, guid: 06771d4420ec96b4bb2f082618a0de9e, type: 3}
   floorMask:
     serializedVersion: 2
     m_Bits: 128
@@ -575,7 +563,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMoney: 1500
-  moneyText: {fileID: 0}
 --- !u!114 &1130652127497433280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,6 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionIcon: {fileID: 1508960663}
+  selectionScaleMod: 1.25
   securityMeasureMask:
     serializedVersion: 2
     m_Bits: 1024
