@@ -12,7 +12,7 @@ public class GuardPatrolPoints : MonoBehaviour
     [HideInInspector] public List<Vector3> Points = new List<Vector3>(); //List of patrol points
 
     private Camera mainCamera;
-    [HideInInspector] public bool GuardIsSelected;//REPLACE
+    public bool GuardIsSelected;//REPLACE
 
     // Start is called before the first frame update
     void Start()

@@ -17,7 +17,9 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 
     public int numThievesToSpawn;
 
-    public List<GameObject> TargetObjects = new List<GameObject>();
+    public int ItemsLeft; //Number of target items left before game over
+
+    public List<GameObject> TargetObjects = new List<GameObject>(); //List of Target items
 
 
     //Selected Spawnpoint
@@ -44,9 +46,21 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
             TotalChance += SpawnWeights[i];
         }
 
+        ItemsLeft = TargetObjects.Count; //Records how many items there are in the map
+
         //Sets up the first timer
         Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
     }
+
+    private void Update()
+    {
+        //NOTE: This is a placeholder meant to test a basic gameover state.
+        if (ItemsLeft <= 0)
+        {
+            print("GAME OVER");
+        }
+    }
+
 
     public void BeginSpawnCycle()
     {
@@ -63,7 +77,11 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
             yield return new WaitForEndOfFrame();
         }
 
-        SpawnSequence();
+        if (TargetObjects.Count >= 1) //Checks to see if there are any target items left before spawning in a new thief
+        {
+            SpawnSequence();
+        }
+        
         Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
         thievesSpawned++;
         
@@ -87,13 +105,15 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
                 break;
             }
         }
-        TargetItemAssigned = Random.Range(0, TargetObjects.Count - 1);
+        TargetItemAssigned = Random.Range(0, TargetObjects.Count - 1); //Creates a randomly generated number used to assign the thief its target object
 
-        GameObject obj = Instantiate(ThiefPrefab, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
-        obj.GetComponent<ThiefPathfinding>().Target = TargetObjects[TargetItemAssigned];
+        GameObject obj = Instantiate(ThiefPrefab, Entry_Locations[Position].position, Quaternion.identity) as GameObject; //Spawns thief
+        
+        obj.GetComponent<ThiefPathfinding>().Target = TargetObjects[TargetItemAssigned]; //Assigns thief a target object to chase
+        
         //Saves Entry Point location
         obj.GetComponent<ThiefPathfinding>().SpawnPoint = Entry_Locations[Position];
 
-        TargetObjects.Remove(TargetObjects[TargetItemAssigned]);
+        TargetObjects.Remove(TargetObjects[TargetItemAssigned]); //Removes the assigned target object from the list
     }
 }
