@@ -25,7 +25,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     private enum materialState {Red, Green, Original};
     private materialState currMaterial = materialState.Original;
     private bool originalMatsStored = false;
-    private Transform movedObjectOriginalPos;
+    private Vector3 movedObjectOriginalPos;
+    private Quaternion movedObjectOriginalRot;
     private Camera mainCamera;
 
     // Start is called before the first frame update
@@ -57,7 +58,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (placementMode)
                 ExitPlacementMode();
             else if (movementMode)
+            {
                 CancelMoving();
+                return;
+            }
         }
 
         //Check to store the mats of the held object
@@ -236,7 +240,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         SecuritySelection.Instance.CloseSelection();
 
         //Begin moving the object
-        movedObjectOriginalPos = objectToMove.transform;
+        movedObjectOriginalPos = objectToMove.transform.position;
+        movedObjectOriginalRot = objectToMove.transform.rotation;
         heldObject = objectToMove;
         movementMode = true;
     }
@@ -244,9 +249,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     //Cancels the movement of a security measure and places it back where it started
     private void CancelMoving()
     {
-        heldObject.transform.position = movedObjectOriginalPos.position;
-        heldObject.transform.rotation = movedObjectOriginalPos.rotation;
+        SetPlacementMaterial("original");
         movementMode = false;
+        heldObject.transform.position = movedObjectOriginalPos;
+        heldObject.transform.rotation = movedObjectOriginalRot;
     }
 
     //Place a security measure into the level

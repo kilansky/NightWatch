@@ -9,6 +9,6 @@ public class CameraController : SingletonPattern<CameraController>
     // Update is called once per frame
     void Update()
     {
-        //transform.position += PlayerInputs.Instance.CameraMovement * camMoveSpeed * Time.deltaTime;
+        transform.position += PlayerInputs.Instance.CameraMovement * camMoveSpeed * Time.deltaTime;
     }
 }

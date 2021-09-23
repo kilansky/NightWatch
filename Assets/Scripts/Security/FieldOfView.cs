@@ -42,14 +42,14 @@ public class FieldOfView : MonoBehaviour
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
 
-            if (visibleTargets.Count > 0)
+            if (visibleTargets.Count > 0 && GetComponent<GuardPathfinding>())
                 ThiefSpotted();
         }
     }
 
     private void ThiefSpotted()
     {
-        if (gameObject.GetComponent<GuardPathfinding>().ThiefSpotted == false)
+        if (GetComponent<GuardPathfinding>().ThiefSpotted == false)
         {
             //Change Guard Behavior
             //Note- chases first found thief, not the closest - CHANGE LATER??
