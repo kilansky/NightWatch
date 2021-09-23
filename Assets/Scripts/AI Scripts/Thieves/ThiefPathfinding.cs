@@ -11,20 +11,23 @@ public class ThiefPathfinding : MonoBehaviour
     public float timeToSteal;    //Time it takes to steal objects
     public float StealRange;     //Distance from the target object that the thief will begin its steal action
     public float EvadeSpeedMod;
+    public GameObject Target;    //Object the Thief is currently trying to steal
+    public float TimeBeforeEscape; //Time before Thief will make its escape after it's stolen its last object
 
     [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
 
     private NavMeshAgent Agent;
-    private GameObject Target;    //Object the Thief is currently trying to steal
+    
     private float timeRemainingToSteal;    //The progress of the steal timer
-
+    private bool ObjectStolen; //Stolen
+    private int ItemsHeld; //Number of target items the thief is holding
     // Start is called before the first frame update
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
-        Target = GameObject.FindGameObjectWithTag("Target");
-
-        timeRemainingToSteal = timeToSteal; 
+        ObjectStolen = false;
+        timeRemainingToSteal = timeToSteal;
+        StartCoroutine(EscapeTimer()); //Starts the Escape Timer
     }
 
     // Update is called once per frame
@@ -35,6 +38,8 @@ public class ThiefPathfinding : MonoBehaviour
         //Sneak
         if (currBehavior == BehaviorStates.Sneak)
         {
+            
+           
             //Checks if the Thief is close enough to steal the target object
             if (Vector3.Distance(transform.position, Target.transform.position) < StealRange)
             {
@@ -53,6 +58,11 @@ public class ThiefPathfinding : MonoBehaviour
 
             if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
             {
+                if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
+                {
+                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                }
+                ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
                 Destroy(gameObject);
             }
         }
@@ -63,12 +73,26 @@ public class ThiefPathfinding : MonoBehaviour
 
             if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
             {
+                if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
+                {
+                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                }
+                ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
                 Destroy(gameObject);
             }
         }
         else if(currBehavior == BehaviorStates.SkillCheck)
         {
             //Stealing, hacking, lockpicking...
+        }
+    }
+
+    private IEnumerator EscapeTimer()
+    {
+        while (TimeBeforeEscape > 0)
+        {
+            TimeBeforeEscape -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -86,7 +110,14 @@ public class ThiefPathfinding : MonoBehaviour
 
     public void CaughtByGuard()
     {
+
         print("Captured");
+
+        if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
+        {
+            ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+        }
+
         Destroy(gameObject);
     }
 
@@ -103,11 +134,26 @@ public class ThiefPathfinding : MonoBehaviour
         else
         {
             timeRemainingToSteal = timeToSteal;
-            //Destroy(Target);
+            Destroy(Target);
+            ItemsHeld += 1; //Adds one item to itemsheld
+            if (TimeBeforeEscape <= 0 || ThiefSpawnSystem.Instance.TargetObjects.Count < 1) //Checks to if the Escape Timer is over and if there are any target objects left. If either are true, the thief begins the escape phase
+            {
+                ObjectStolen = true;
+                //NEED TO CHECK IF IN BUILDING LONG ENOUGH FIRST
 
-            //NEED TO CHECK IF IN BUILDING LONG ENOUGH FIRST
+                currBehavior = BehaviorStates.Escape;
+            }
+            else
+            {
+                int NextTarget;
+                NextTarget = Random.Range(0, ThiefSpawnSystem.Instance.TargetObjects.Count - 1);
+                Target = ThiefSpawnSystem.Instance.TargetObjects[NextTarget];
+                ThiefSpawnSystem.Instance.TargetObjects.Remove(ThiefSpawnSystem.Instance.TargetObjects[NextTarget]);
+            }
+            
+            print("ObjectStolen");
 
-            currBehavior = BehaviorStates.Escape;
+            
         }
         
     }
