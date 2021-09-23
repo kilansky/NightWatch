@@ -2999,6 +2999,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4647424382229484531, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
   m_PrefabInstance: {fileID: 924891356}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1012360072 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1874017536, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+  m_PrefabInstance: {fileID: 1580993586}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1025902531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3589,6 +3600,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1789413164978395180, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: planningCanvas
+      value: 
+      objectReference: {fileID: 1687564102}
     - target: {fileID: 6575661075733118961, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -4353,6 +4368,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlanningCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2467743332891806728, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: cameraCostText
+      value: 
+      objectReference: {fileID: 1012360072}
     - target: {fileID: 2467743332891806735, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4616,6 +4635,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6454788439851351129, guid: f7b63b801c05358498281a257c59c880, type: 3}
   m_PrefabInstance: {fileID: 1619330533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1687564102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2467743332891806723, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+  m_PrefabInstance: {fileID: 1580993586}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1706356774
 PrefabInstance:
