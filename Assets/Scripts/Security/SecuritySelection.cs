@@ -51,21 +51,21 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                 selectionIcon.transform.position = hit.transform.position;
 
             if (PlayerInputs.Instance.LeftClickPressed)
-                SelectSecurityMeasure(hit.transform.parent.gameObject);
+                SelectSecurityMeasure(hit.transform);
         }
         else if (!selectedObject)
             selectionIcon.transform.position = offScreenPos;
     }
 
-    private void SelectSecurityMeasure(GameObject selected)
+    private void SelectSecurityMeasure(Transform selected)
     {
         if (selectedObject)
             CloseSelection();
 
-        selectionIcon.transform.position = selected.transform.position;
+        selectionIcon.transform.position = selected.position;
         selectionIcon.transform.localScale *= selectionScaleMod;
         selectionButtons.transform.position = selectionIcon.transform.position + selectionButtonsOffset;
-        selectedObject = selected.GetComponent<SecurityMeasure>();
+        selectedObject = selected.parent.GetComponent<SecurityMeasure>();
         ActivateButtons();
     }
 

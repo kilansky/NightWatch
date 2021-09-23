@@ -7,7 +7,6 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Sells the security measure that is currently selected
     public void SellButton()
     {
-        Debug.Log("Sell Button Pressed");
         MoneyManager.Instance.AddMoney(SecuritySelection.Instance.selectedObject.cost);
         Destroy(SecuritySelection.Instance.selectedObject.gameObject);
         SecuritySelection.Instance.CloseSelection();
@@ -16,7 +15,6 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Moves the security measure that is currently selected
     public void MoveButton()
     {
-        Debug.Log("Move Button Pressed");
         SecurityPlacement.Instance.MovePlacedObject();
     }
 
