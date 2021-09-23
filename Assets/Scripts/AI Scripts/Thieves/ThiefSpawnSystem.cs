@@ -57,7 +57,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
         //NOTE: This is a placeholder meant to test a basic gameover state.
         if (ItemsLeft <= 0)
         {
-            print("GAME OVER");
+            //print("GAME OVER");
         }
     }
 
