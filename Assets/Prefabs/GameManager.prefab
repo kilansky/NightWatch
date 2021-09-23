@@ -921,7 +921,7 @@ GameObject:
   - component: {fileID: 1508960665}
   - component: {fileID: 1508960664}
   m_Layer: 15
-  m_Name: SelectionCanvas
+  m_Name: SelectionIconCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1627,7 +1627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8acf1d0e591634d95138264789c0e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseSpawnTimer: 5
+  BaseSpawnTimer: 3
   Timer_Mod: 0
   SpawnWeights: 05000000050000000500000005000000
   Entry_Locations:
@@ -1637,6 +1637,11 @@ MonoBehaviour:
   - {fileID: 0}
   ThiefPrefab: {fileID: 84103452880852107, guid: f2784a3d838020b47a0abcc09644a4e6, type: 3}
   numThievesToSpawn: 5
+  ItemsLeft: 0
+  TargetObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &162694758291135959
 MonoBehaviour:
   m_ObjectHideFlags: 0

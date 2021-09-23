@@ -19,7 +19,7 @@ public class GuardPatrolPoints : MonoBehaviour
     {
         mainCamera = Camera.main;
         Points.Add(transform.position); //Spawns a patrol point where the guard spawns at
-        Instantiate(Marker, transform.position, Quaternion.identity); //Spawns a marker at the patrol point
+        //Instantiate(Marker, transform.position, Quaternion.identity); //Spawns a marker at the patrol point
     }
 
     // Update is called once per frame
