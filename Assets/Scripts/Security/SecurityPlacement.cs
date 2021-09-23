@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 {
-    public GameObject cctvPrefab;
-    public GameObject laserPrefab;
-    public GameObject guardPrefab;
-    public GameObject audioPrefab;
+    public GameObject cctvCamera;
+    public GameObject laserSensor;
+    public GameObject guard;
+    public GameObject audioSensor;
+
     public LayerMask floorMask;
     public LayerMask wallMask;
     public LayerMask placeableMask;
@@ -17,13 +17,15 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     public Material redHighlight;
 
     [HideInInspector] public bool placementMode = false;
-    [HideInInspector] public bool placeOnWalls = true;
+    [HideInInspector] public bool movementMode = false;
     [HideInInspector] public GameObject heldObject;
+    [HideInInspector] public int heldObjectCost;
 
     private List<Material> originalMats = new List<Material>();
     private enum materialState {Red, Green, Original};
     private materialState currMaterial = materialState.Original;
     private bool originalMatsStored = false;
+    private Transform movedObjectOriginalPos;
     private Camera mainCamera;
 
     // Start is called before the first frame update
@@ -36,7 +38,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     void Update()
     {
         //Check if an object has been selected to place, and the mouse is not over UI       
-        if (placementMode && !EventSystem.current.IsPointerOverGameObject())
+        if ((placementMode || movementMode) && !EventSystem.current.IsPointerOverGameObject())
             SetAimTargetPosition();
     }
 
@@ -46,9 +48,17 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
 
+        //Determine whether the held object should be placed on walls or the floor
+        bool placeOnWalls = heldObject.GetComponent<SecurityMeasure>().placedOnWalls;
+
         //Check if the player right clicks to exit placement mode
         if (PlayerInputs.Instance.RightClickPressed)
-            ExitPlacementMode();
+        {
+            if (placementMode)
+                ExitPlacementMode();
+            else if (movementMode)
+                CancelMoving();
+        }
 
         //Check to store the mats of the held object
         if (!originalMatsStored)
@@ -70,7 +80,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (Physics.Raycast(rayZ, out hitZ, 3f, wallMask))
                 rayZDist = hitZ.distance;
 
-            /*
+            /* //Code for better placement accuracy in corners - needs adjustment
             Debug.DrawRay(hit.point - (hit.transform.right * 0.3f), hit.transform.right, Color.red);
             if (Physics.Raycast(rayX, out hitX, 3f, wallMask))
                 rayXDist = hitX.distance;
@@ -80,25 +90,21 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             */
 
             //Set the position and rotation of the held object to snap onto the wall
-
             heldObject.transform.position = hitZ.point;
             SetPlacementRotation(hitZ.normal);
 
-            //If overlapping with another object, prevent placement on wall
-            if (heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
-            {
-                SetPlacementMaterial("red");
-            }
-            else //If not overlapping, allow placement on wall
+            //If not overlapping with another object, and is affordable, allow placement on wall
+            if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping && MoneyManager.Instance.Money >= heldObjectCost)
             {
                 SetPlacementMaterial("green");
 
                 //Click to place on wall
                 if (PlayerInputs.Instance.LeftClickPressed)
-                {
-                    SetPlacementMaterial("original");
-                    Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
-                }
+                    PlaceSecurityMeasure();
+            }
+            else //Prevent placement on wall
+            {
+                SetPlacementMaterial("red");
             }
         }
         //check if mouse is over the floor
@@ -106,31 +112,21 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         {
             heldObject.transform.position = hit.point;
 
-            //check if held object is not placed on walls (ie: Guards) and is not overlapping with other things
-            if(!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
+            //check if held object is not placed on walls (ie: Guards), is not overlapping with other things, and is affordable
+            if(!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
+                && MoneyManager.Instance.Money >= heldObjectCost)
             {
                 SetPlacementMaterial("green");
 
                 //Click to place on floor
                 if (PlayerInputs.Instance.LeftClickPressed)
-                {
-                    SetPlacementMaterial("original");
-                    Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
-                }
+                    PlaceSecurityMeasure();
             }
             else //Prevent object from being placed on floor
                 SetPlacementMaterial("red");
         }
-    }
-
-    //Turn off placement mode and remove the held object
-    public void ExitPlacementMode()
-    {
-        SecurityPlacement.Instance.placementMode = false;
-
-        //Remove held object
-        if (heldObject != null)
-            Destroy(heldObject);
+        else //Not over placable area or floor
+            SetPlacementMaterial("red");
     }
 
     //Rotate an object to snap properly to a wall
@@ -219,6 +215,53 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             //Debug.Log("Object set to Original mats, Stored Mats Cleared");
             originalMats.Clear();
             originalMatsStored = false;
+        }
+    }
+
+    //Turn off placement mode and remove the held object
+    public void ExitPlacementMode()
+    {
+        placementMode = false;
+
+        //Remove held object
+        if (heldObject != null)
+            Destroy(heldObject);
+    }
+
+    //Called when a security measure is selected and the 'move' button is pressed
+    public void MovePlacedObject()
+    {
+        //Get selected object and close the selection
+        GameObject objectToMove = SecuritySelection.Instance.selectedObject.gameObject;
+        SecuritySelection.Instance.CloseSelection();
+
+        //Begin moving the object
+        movedObjectOriginalPos = objectToMove.transform;
+        heldObject = objectToMove;
+        movementMode = true;
+    }
+
+    //Cancels the movement of a security measure and places it back where it started
+    private void CancelMoving()
+    {
+        heldObject.transform.position = movedObjectOriginalPos.position;
+        heldObject.transform.rotation = movedObjectOriginalPos.rotation;
+        movementMode = false;
+    }
+
+    //Place a security measure into the level
+    private void PlaceSecurityMeasure()
+    {
+        SetPlacementMaterial("original");
+
+        if(placementMode)//Place a new security measure
+        {
+            Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
+            MoneyManager.Instance.SubtractMoney(heldObjectCost);
+        }
+        else if(movementMode)//Place a moved security measure
+        {
+            movementMode = false;
         }
     }
 }

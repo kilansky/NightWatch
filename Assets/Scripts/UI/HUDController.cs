@@ -2,48 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HUDController : SingletonPattern<HUDController>
 {
+    public TextMeshProUGUI cameraCostText;
+    public TextMeshProUGUI laserCostText;
+    public TextMeshProUGUI guardCostText;
+    public TextMeshProUGUI audioCostText;
+
+    public TextMeshProUGUI moneyText;
+
     private GameObject heldObject;
+    private SecurityPlacement securityScript;
+
+    private void Start()
+    {
+        securityScript = SecurityPlacement.Instance;
+        SetSecurityCosts();
+    }
 
     //Activated when the CCTV Camera Button is pressed to place a camera
     public void CameraButton()
     {
-        GameObject objectToPlace = SecurityPlacement.Instance.cctvPrefab;
-        TogglePlacementMode(objectToPlace, true);
+        GameObject objectToPlace = securityScript.cctvCamera;
+        securityScript.heldObjectCost = securityScript.cctvCamera.GetComponent<SecurityMeasure>().cost;
+        TogglePlacementMode(objectToPlace);
     }
 
     //Activated when the Laser Sensor Button is pressed to place a camera
     public void LaserSensorButton()
     {
-        GameObject objectToPlace = SecurityPlacement.Instance.laserPrefab;
-        TogglePlacementMode(objectToPlace, true);
+        GameObject objectToPlace = securityScript.laserSensor;
+        securityScript.heldObjectCost = securityScript.laserSensor.GetComponent<SecurityMeasure>().cost;
+        TogglePlacementMode(objectToPlace);
     }
 
     //Activated when the Guard Button is pressed to place a camera
     public void GuardButton()
     {
-        GameObject objectToPlace = SecurityPlacement.Instance.guardPrefab;
-        TogglePlacementMode(objectToPlace, false);
+        GameObject objectToPlace = securityScript.guard;
+        securityScript.heldObjectCost = securityScript.guard.GetComponent<SecurityMeasure>().cost;
+        TogglePlacementMode(objectToPlace);
     }
 
     //Activated when the Audio Sensor Button is pressed to place a camera
     public void AudioSensorButton()
     {
-        GameObject objectToPlace = SecurityPlacement.Instance.audioPrefab;
-        TogglePlacementMode(objectToPlace, true);
+        GameObject objectToPlace = securityScript.audioSensor;
+        securityScript.heldObjectCost = securityScript.audioSensor.GetComponent<SecurityMeasure>().cost;
+        TogglePlacementMode(objectToPlace);
     }
 
     //Toggles whether an object is being placed, or changes the object being placed
-    private void TogglePlacementMode(GameObject objectToPlace, bool placedOnWalls)
+    private void TogglePlacementMode(GameObject objectToPlace)
     {
-        bool inPlacementMode = SecurityPlacement.Instance.placementMode;
+        bool inPlacementMode = securityScript.placementMode;
 
-        if (!inPlacementMode || (inPlacementMode && objectToPlace != SecurityPlacement.Instance.heldObject))
+        if (!inPlacementMode || (inPlacementMode && objectToPlace != securityScript.heldObject))
         {
-            SecurityPlacement.Instance.placementMode = true;
-            SecurityPlacement.Instance.placeOnWalls = placedOnWalls;
+            securityScript.placementMode = true;
 
             //Remove held object
             if (heldObject != null)
@@ -51,13 +69,21 @@ public class HUDController : SingletonPattern<HUDController>
 
             //Spawn new object to try and place
             heldObject = Instantiate(objectToPlace, Vector3.zero, Quaternion.identity);
-            SecurityPlacement.Instance.heldObject = heldObject;
-            SecurityPlacement.Instance.StoreOriginalMaterials();
+            securityScript.heldObject = heldObject;
+            securityScript.StoreOriginalMaterials();
         }
         else
         {
-            SecurityPlacement.Instance.ExitPlacementMode();
+            securityScript.ExitPlacementMode();
         }
+    }
+
+    public void SetSecurityCosts()
+    {
+        cameraCostText.text = "$" + securityScript.cctvCamera.GetComponent<SecurityMeasure>().cost.ToString();
+        laserCostText.text = "$" + securityScript.laserSensor.GetComponent<SecurityMeasure>().cost.ToString();
+        guardCostText.text = "$" + securityScript.guard.GetComponent<SecurityMeasure>().cost.ToString();
+        audioCostText.text = "$" + securityScript.audioSensor.GetComponent<SecurityMeasure>().cost.ToString();
     }
 
     public void ShowPauseScreen()

@@ -5,46 +5,35 @@ using UnityEngine.AI;
 
 public class ThiefPathfinding : MonoBehaviour
 {
-    public NavMeshAgent Agent;
-    //Object the Thief is currently trying to steal
-    public GameObject Target;
+    public enum BehaviorStates {Sneak, Escape, Evade, SkillCheck }
 
-    public GameObject LevelControl;
-    //Time it takes to steal objects
-    public float TBD;
-    //Distance from the target object that the thief will begin its steal action
-    public float StealRange;
-    //The progress of the steal timer
-    private float TBDProgress;
-    //The phase in which the thief will attempt to steal objects
-    private bool SneakPhase;
-    //The phase in which the thief will attempt to sneak out of the building
-    private bool EscapePhase;
+    public BehaviorStates currBehavior = BehaviorStates.Sneak;
+    public float timeToSteal;    //Time it takes to steal objects
+    public float StealRange;     //Distance from the target object that the thief will begin its steal action
+    public float EvadeSpeedMod;
 
-    private bool EvadePhase;
-    //The Entry Point the Thief entered the building in
-    public Transform SpawnPoint;
+    [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
 
+    private NavMeshAgent Agent;
+    private GameObject Target;    //Object the Thief is currently trying to steal
+    private float timeRemainingToSteal;    //The progress of the steal timer
 
     // Start is called before the first frame update
     void Start()
     {
+        Agent = GetComponent<NavMeshAgent>();
         Target = GameObject.FindGameObjectWithTag("Target");
-        LevelControl = GameObject.FindGameObjectWithTag("LevelControl");
 
-        TBDProgress = TBD;
-        SneakPhase = true;
-        EscapePhase = false;
-        
+        timeRemainingToSteal = timeToSteal; 
     }
 
     // Update is called once per frame
     void Update()
     {
+        //print(currBehavior);
 
-        print("Spawn Point position is at " + SpawnPoint.position);
-        //Sneak Phase
-        if (SneakPhase == true)
+        //Sneak
+        if (currBehavior == BehaviorStates.Sneak)
         {
             //Checks if the Thief is close enough to steal the target object
             if (Vector3.Distance(transform.position, Target.transform.position) < StealRange)
@@ -57,76 +46,81 @@ public class ThiefPathfinding : MonoBehaviour
                 Agent.SetDestination(Target.transform.position);
             }
         }
-        //Escape Phase
-        if (EscapePhase == true)
+        //Escape
+        else if (currBehavior == BehaviorStates.Escape)
         {
-            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.1)
-            {
-                Destroy(gameObject);
-            }
             Agent.SetDestination(SpawnPoint.position);
-        }
 
-        if (EvadePhase == true)
-        {
-            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.1)
+            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
             {
                 Destroy(gameObject);
             }
+        }
+        //Evade
+        else if (currBehavior == BehaviorStates.Evade)
+        {
             Agent.SetDestination(SpawnPoint.position);
+
+            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if(currBehavior == BehaviorStates.SkillCheck)
+        {
+            //Stealing, hacking, lockpicking...
         }
     }
-    
 
-    private void OnTriggerEnter(Collider other)
+    public void SeenByGuard()
     {
-        if (other.gameObject.tag == "GuardDetection")
+        if (currBehavior != BehaviorStates.Evade)
         {
             print("Detected");
-            if (EvadePhase == false)
-            {
-                SneakPhase = false;
-                EscapePhase = false;
-                EvadePhase = true;
-                FindClosestEscapeRoute();
-                Agent.speed = Agent.speed * 1.5f;
-            }
-            
-        }
-        if (other.gameObject.tag == "CaptureHitBox")
-        {
-            print("Captured");
-            Destroy(gameObject);
 
+            currBehavior = BehaviorStates.Evade;
+            FindClosestEscapeRoute();
+            Agent.speed *= EvadeSpeedMod;
         }
     }
+
+    public void CaughtByGuard()
+    {
+        print("Captured");
+        Destroy(gameObject);
+    }
+
 
     //Steal Action
     private void StealAction()
     {
         //Checks to see if the steal timer is over
-        if (TBDProgress > 0)
+        if (timeRemainingToSteal > 0)
         {
-            print("Progress at " + TBDProgress);
-            TBDProgress -= Time.deltaTime;
+            //print("Progress at " + timeRemainingToSteal);
+            timeRemainingToSteal -= Time.deltaTime;
         }
         else
         {
-            TBDProgress = TBD;
-            Destroy(Target);
-            SneakPhase = false;
-            EscapePhase = true;
+            timeRemainingToSteal = timeToSteal;
+            //Destroy(Target);
+
+            //NEED TO CHECK IF IN BUILDING LONG ENOUGH FIRST
+
+            currBehavior = BehaviorStates.Escape;
         }
         
     }
 
     private void FindClosestEscapeRoute()
     {
-        for (var i = 0; i < LevelControl.GetComponent<ThiefSpawnSystem>().SpawnWeights.Length; i++)
+        ThiefSpawnSystem spawnSystem = FindObjectOfType<ThiefSpawnSystem>();
+
+        for (var i = 0; i < spawnSystem.SpawnWeights.Length; i++)
         {
-            if(Vector3.Distance(transform.position, SpawnPoint.position) > Vector3.Distance(transform.position, LevelControl.GetComponent<ThiefSpawnSystem>().Entry_Locations[i].position))
+            if(Vector3.Distance(transform.position, SpawnPoint.position) > Vector3.Distance(transform.position, spawnSystem.Entry_Locations[i].position))
             {
-                SpawnPoint = LevelControl.GetComponent<ThiefSpawnSystem>().Entry_Locations[i];
+                SpawnPoint = spawnSystem.Entry_Locations[i];
             }
         }
     }

@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.9
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.29999998
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -671,17 +671,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0cbc56d32f68d498a4ee755abb7613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PatrolPoints:
-  - {fileID: 1485395714}
-  - {fileID: 1837714489}
-  - {fileID: 8149814}
-  - {fileID: 850596964}
-  - {fileID: 1431177008}
-  - {fileID: 597348761}
   GuardIsSelected: 1
   FloorMask:
     serializedVersion: 2
     m_Bits: 128
+  Points: []
+  Marker: {fileID: 2498918373073474986, guid: 876e77b882883c044bbbb801083227c7, type: 3}
 --- !u!4 &893154716
 Transform:
   m_ObjectHideFlags: 0
@@ -690,7 +685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893154714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.17302, y: 0, z: 0.9703481}
+  m_LocalPosition: {x: 6, y: 0, z: -13.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2076839990}
@@ -1304,7 +1299,7 @@ GameObject:
   m_Name: Wall4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!65 &1359819761
@@ -1399,7 +1394,7 @@ GameObject:
   m_Name: Wall5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!65 &1390025495
@@ -1508,36 +1503,11 @@ Transform:
   m_Father: {fileID: 1240884918}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1485395713
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1485395714}
-  m_Layer: 0
-  m_Name: PatrolPoint0
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1485395714
+--- !u!4 &1485395714 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+  m_PrefabInstance: {fileID: 7823186858048521231}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485395713}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.21, y: 0, z: -14.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1240884918}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1545208466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,7 +1746,7 @@ GameObject:
   m_Name: Wall3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!65 &2070708044
@@ -1947,7 +1917,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076839986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.403021, y: 0, z: -5.1403484}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1545208467}
@@ -1967,6 +1937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f54a2dacff26787409b7c6a222120225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NightPhase: 1
   Agent: {fileID: 2076839992}
   PatrolSource: {fileID: 893154714}
   ThiefSpotted: 0
@@ -2098,3 +2069,60 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 1}
+--- !u!1001 &7823186858048521231
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1240884918}
+    m_Modifications:
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995405, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823186858995995406, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}
+      propertyPath: m_Name
+      value: PatrolPoint0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 60bcacdab9df8354a8aa2033a8294724, type: 3}

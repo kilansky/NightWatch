@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThiefSpawnSystem : MonoBehaviour
+public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 {
     //The minimum amount of time it takes for a thief to spawn
     public float BaseSpawnTimer;
@@ -13,7 +13,9 @@ public class ThiefSpawnSystem : MonoBehaviour
     //The transform values for each spawn point
     public Transform[] Entry_Locations;
     //The thief prefab
-    public GameObject Thief;
+    public GameObject ThiefPrefab;
+
+    public int numThievesToSpawn;
 
     //Selected Spawnpoint
     private int Position;
@@ -24,62 +26,64 @@ public class ThiefSpawnSystem : MonoBehaviour
     //The time left until the thief spawns
     private float Timer;
 
+    private int thievesSpawned;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        thievesSpawned = 0;
+
         //Generates the TotalChance variable
         for (var i = 0; i < SpawnWeights.Length; i++)
         {
             TotalChance += SpawnWeights[i];
         }
-        //Spawns the first thief
-        SpawnSequence();
+
         //Sets up the first timer
         Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BeginSpawnCycle()
     {
-        SpawnTimer();
+        //Start Timer to spawn the first thief
+        StartCoroutine(SpawnTimer());
     }
 
     //Count Down To Next Thief Spawn function
-    private void SpawnTimer()
+    private IEnumerator SpawnTimer()
     {
-        if (Timer > 0)
+        while (Timer > 0)
         {
             Timer -= Time.deltaTime;
-        }
-        else
-        {
-            SpawnSequence();
-            Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
+            yield return new WaitForEndOfFrame();
         }
 
+        SpawnSequence();
+        Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
+        thievesSpawned++;
+        
+        //If the total number of thieves to spawn has not been reached, restart this coroutine
+        if(thievesSpawned < numThievesToSpawn)
+            StartCoroutine(SpawnTimer());
     }
 
     //Thief Spawn function
     private void SpawnSequence()
-    {
-        
+    {       
         Chance = Random.Range(1, TotalChance);
-        print("Number Generated = " + Chance);
+        //print("Number Generated = " + Chance);
         for (var i = 0; i < SpawnWeights.Length; i++)
         {
             Chance -= SpawnWeights[i];
             if (Chance <= 0)
             {
                 Position = i;
-                print("Spawn at point " + Position);
+                //print("Spawn at point " + Position);
                 break;
             }
-
         }
-        GameObject obj = Instantiate(Thief, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
+        GameObject obj = Instantiate(ThiefPrefab, Entry_Locations[Position].position, Quaternion.identity) as GameObject;
         //Saves Entry Point location
         obj.GetComponent<ThiefPathfinding>().SpawnPoint = Entry_Locations[Position];
-
-
     }
 }
