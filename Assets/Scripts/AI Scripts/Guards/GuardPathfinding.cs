@@ -7,25 +7,30 @@ public class GuardPathfinding : MonoBehaviour
 {
     public enum ControlMode { Idle, Patrol, Click, Manual, Chase }
     public ControlMode currControlMode = ControlMode.Idle;
-
+    public LayerMask FloorMask;
     public NavMeshAgent Agent;
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
     [HideInInspector] public GameObject Thief;
     [HideInInspector] public bool ThiefSpotted;
+    [HideInInspector] public bool BeginPatrol;
+
     private int PatrolNumber;
     private Vector3 CurrentPatrolPoint;
     private Rigidbody rb;
     private Camera mainCamera;
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
+        BeginPatrol = false;
         ThiefSpotted = false;
         //currControlMode = ControlMode.Idle;
         PatrolNumber = 0;
-        CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
+        //CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
     }
 
     // Update is called once per frame
@@ -40,11 +45,20 @@ public class GuardPathfinding : MonoBehaviour
             else if (currControlMode == ControlMode.Click)
             {
                 //Click to move
+                ClickMovement();
             }
             else if (currControlMode == ControlMode.Patrol)
             {
-                //Patrol to set points
-                Pathfinding();
+                if(gameObject.GetComponent<GuardPatrolPoints>().Points.Count > 0)
+                {
+                    //Patrol to set points
+                    CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
+                    Pathfinding();
+
+                }
+
+
+
             }
             else if (currControlMode == ControlMode.Manual)
             {
@@ -54,6 +68,28 @@ public class GuardPathfinding : MonoBehaviour
             else if (currControlMode == ControlMode.Chase)
             {
                 //Auto-Chase thieves
+                Chase();
+            }
+        }
+    }
+
+    private void ClickMovement()
+    {
+        if (PlayerInputs.Instance.LeftClickPressed)
+        {
+            Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
+            {
+                NavMeshHit NavIsHit;
+                int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+                if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
+                {
+
+                    Vector3 target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                    
+
+                }
             }
         }
     }
@@ -61,34 +97,26 @@ public class GuardPathfinding : MonoBehaviour
     //Follow set patrol points
     private void Pathfinding()
     {
-        print(gameObject.GetComponent<GuardPatrolPoints>().Points.Count);
-        if (CurrentPatrolPoint != new Vector3(0.0f, 0.0f, 0.0f))
+        print("Pathfinding On");
+        print("Current Patrol Point is at " + CurrentPatrolPoint);
+        print("Distance from Patrol Point is " + Vector3.Distance(transform.position, CurrentPatrolPoint));
+        if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
         {
-            print(CurrentPatrolPoint);
-            if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
+            print("Looking for new point");
+            if (PatrolNumber < gameObject.GetComponent<GuardPatrolPoints>().Points.Count - 1)
             {
-                print("Looking for new point");
-                if (PatrolNumber < gameObject.GetComponent<GuardPatrolPoints>().Points.Count - 1)
-                {
-                    print("Next Patrol Point");
-                    PatrolNumber += 1;
-                }
-                else
-                {
-                    print("Reset Patrol Points");
-                    PatrolNumber = 0;
-                }
-                CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
+                print("Next Patrol Point");
+                PatrolNumber += 1;
             }
             else
             {
-                Agent.SetDestination(CurrentPatrolPoint);
+                print("Reset Patrol Points");
+                PatrolNumber = 0;
             }
         }
         else
         {
-            print("Wrong Patrol Point");
-            CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
+            Agent.SetDestination(CurrentPatrolPoint);
         }
         
     }
