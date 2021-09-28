@@ -98,6 +98,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   Points: []
+  GuardIsSelected: 1
 --- !u!114 &2006984199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f54a2dacff26787409b7c6a222120225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currControlMode: 0
+  currControlMode: 1
+  FloorMask:
+    serializedVersion: 2
+    m_Bits: 128
   Agent: {fileID: 2006984200}
   PursuitSpeedMod: 1.5
   distToCatchThief: 0

@@ -7,8 +7,9 @@ public class GuardPatrolPoints : MonoBehaviour
 {
     public GameObject Marker; //Marker to keep track of where the patrol points are at
     public LayerMask FloorMask;
+    public bool MarkersVisible; //Keep visible in inspector for now for testing purposes
 
-
+    // 
     [HideInInspector] public List<Vector3> Points = new List<Vector3>(); //List of patrol points
 
     private Camera mainCamera;
@@ -18,7 +19,7 @@ public class GuardPatrolPoints : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        Points.Add(transform.position); //Spawns a patrol point where the guard spawns at
+        
     }
 
     // Update is called once per frame
@@ -44,9 +45,13 @@ public class GuardPatrolPoints : MonoBehaviour
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     
-                    Vector3 target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                    Vector3 target = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                     Points.Add(target);
-                    Instantiate(Marker, target, Quaternion.identity);
+                    if (MarkersVisible == true)
+                    {
+                        Instantiate(Marker, target, Quaternion.identity);
+                    }
+                    
                     
                 }
             }

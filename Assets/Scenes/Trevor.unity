@@ -4183,6 +4183,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 423338210, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1508960663, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4209,11 +4213,11 @@ PrefabInstance:
       objectReference: {fileID: 700587220}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: Timer_Mod
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: BaseSpawnTimer
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: numThievesToSpawn
@@ -4413,6 +4417,10 @@ PrefabInstance:
     - target: {fileID: 7934679847457164727, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7934679848080791860, guid: 2d917c621e062894282a374168ad2247, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 17.91087
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d917c621e062894282a374168ad2247, type: 3}
