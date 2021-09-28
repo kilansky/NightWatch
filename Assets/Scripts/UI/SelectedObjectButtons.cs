@@ -28,5 +28,6 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     public void PatrolPointsButton()
     {
         Debug.Log("Patrol Points Button Pressed");
+        SecuritySelection.Instance.selectedObject.GetComponent<GuardPatrolPoints>().GuardIsSelected = true;
     }
 }

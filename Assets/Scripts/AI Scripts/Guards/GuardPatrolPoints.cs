@@ -28,6 +28,9 @@ public class GuardPatrolPoints : MonoBehaviour
         if (GuardIsSelected == true) //If statement that prevents patrol points from being spawned if guard isn't selected
         {
             SpawnPatrolPoint();
+
+            if (PlayerInputs.Instance.RightClickPressed)
+                GuardIsSelected = false;
         }
     }
 
