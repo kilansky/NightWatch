@@ -1,23 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
-using TMPro;
-
-[System.Serializable]
-public class SecurityMeasure
-{
-    public GameObject prefab;
-    public int cost;
-    public TextMeshProUGUI costText;
-}
 
 public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 {
-    public SecurityMeasure cctvCamera;
-    public SecurityMeasure laserSensor;
-    public SecurityMeasure guard;
-    public SecurityMeasure audioSensor;
+    public GameObject cctvCamera;
+    public GameObject laserSensor;
+    public GameObject guard;
+    public GameObject audioSensor;
 
     public LayerMask floorMask;
     public LayerMask wallMask;
@@ -26,7 +18,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     public Material redHighlight;
 
     [HideInInspector] public bool placementMode = false;
-    [HideInInspector] public bool placeOnWalls = true;
+    [HideInInspector] public bool movementMode = false;
     [HideInInspector] public GameObject heldObject;
     [HideInInspector] public int heldObjectCost;
 
@@ -34,6 +26,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     private enum materialState {Red, Green, Original};
     private materialState currMaterial = materialState.Original;
     private bool originalMatsStored = false;
+    private Vector3 movedObjectOriginalPos;
+    private Quaternion movedObjectOriginalRot;
     private Camera mainCamera;
 
     // Start is called before the first frame update
@@ -46,7 +40,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     void Update()
     {
         //Check if an object has been selected to place, and the mouse is not over UI       
-        if (placementMode && !EventSystem.current.IsPointerOverGameObject())
+        if ((placementMode || movementMode) && !EventSystem.current.IsPointerOverGameObject())
             SetAimTargetPosition();
     }
 
@@ -56,9 +50,20 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
 
+        //Determine whether the held object should be placed on walls or the floor
+        bool placeOnWalls = heldObject.GetComponent<SecurityMeasure>().placedOnWalls;
+
         //Check if the player right clicks to exit placement mode
         if (PlayerInputs.Instance.RightClickPressed)
-            ExitPlacementMode();
+        {
+            if (placementMode)
+                ExitPlacementMode();
+            else if (movementMode)
+            {
+                CancelMoving();
+                return;
+            }
+        }
 
         //Check to store the mats of the held object
         if (!originalMatsStored)
@@ -80,7 +85,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (Physics.Raycast(rayZ, out hitZ, 3f, wallMask))
                 rayZDist = hitZ.distance;
 
-            /*
+            /* //Code for better placement accuracy in corners - needs adjustment
             Debug.DrawRay(hit.point - (hit.transform.right * 0.3f), hit.transform.right, Color.red);
             if (Physics.Raycast(rayX, out hitX, 3f, wallMask))
                 rayXDist = hitX.distance;
@@ -90,7 +95,6 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             */
 
             //Set the position and rotation of the held object to snap onto the wall
-
             heldObject.transform.position = hitZ.point;
             SetPlacementRotation(hitZ.normal);
 
@@ -130,16 +134,6 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             SetPlacementMaterial("red");
     }
 
-    //Turn off placement mode and remove the held object
-    public void ExitPlacementMode()
-    {
-        SecurityPlacement.Instance.placementMode = false;
-
-        //Remove held object
-        if (heldObject != null)
-            Destroy(heldObject);
-    }
-
     //Rotate an object to snap properly to a wall
     private void SetPlacementRotation(Vector3 hitNormal)
     {
@@ -173,6 +167,18 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                 originalMats.Add(child.GetComponent<MeshRenderer>().material);
                 i++;
             }
+          
+            if (child.childCount > 0)
+            {
+                foreach (Transform child2 in child)
+                {
+                    if (child2.GetComponent<MeshRenderer>())
+                    {
+                        originalMats.Add(child2.GetComponent<MeshRenderer>().material);
+                        i++;
+                    }
+                }
+            }
         }
         originalMatsStored = true;
         //Debug.Log("Materials Stored");
@@ -193,32 +199,77 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         //Get all children of the held object
         foreach (Transform child in heldObject.transform)
         {
-            //Verify that that current child has a mesh renderer
-            if (child.GetComponent<MeshRenderer>())
+            //Set this child's material to green
+            if (materialToSet == "green")
             {
-                //Set this child's material to green
-                if(materialToSet == "green")
+                //Verify that that current child has a mesh renderer
+                if (child.GetComponent<MeshRenderer>())
                     child.GetComponent<MeshRenderer>().material = greenHighlight;
 
-                //Set this child's material to red
-                else if (materialToSet == "red")
+                if (child.childCount > 0)
+                {
+                    foreach (Transform child2 in child)
+                    {
+                        if (child2.GetComponent<MeshRenderer>())
+                            child2.GetComponent<MeshRenderer>().material = greenHighlight;
+                    }
+                }
+            }
+            //Set this child's material to red
+            else if (materialToSet == "red")
+            {
+                //Verify that that current child has a mesh renderer
+                if (child.GetComponent<MeshRenderer>())
                     child.GetComponent<MeshRenderer>().material = redHighlight;
 
-                //Set this child's material to its original mat
-                else if (materialToSet == "original")
+                if (child.childCount > 0)
+                {
+                    foreach (Transform child2 in child)
+                    {
+                        if (child2.GetComponent<MeshRenderer>())
+                            child2.GetComponent<MeshRenderer>().material = redHighlight;
+                    }
+                }
+            }
+            //Set this child's material to its original mat
+            else if (materialToSet == "original")
+            {
+                //Verify that that current child has a mesh renderer
+                if (child.GetComponent<MeshRenderer>())
                 {
                     child.GetComponent<MeshRenderer>().material = originalMats[i];
                     i++;
+                }
+
+                if (child.childCount > 0)
+                {
+                    foreach (Transform child2 in child)
+                    {
+                        if (child2.GetComponent<MeshRenderer>())
+                        {
+                            child2.GetComponent<MeshRenderer>().material = originalMats[i];
+                            i++;
+                        }
+                    }
                 }
             }
         }
 
         if(materialToSet == "green")
+        {
+            //Debug.Log("Material set to green");
             currMaterial = materialState.Green;
+        }
         else if (materialToSet == "red")
+        {
+            //Debug.Log("Material set to red");
             currMaterial = materialState.Red;
+        }
         else if (materialToSet == "original")
+        {
+            //Debug.Log("Material set to original");
             currMaterial = materialState.Original;
+        }
 
         //If the material is now the original material, clear the originalMats list
         if (currMaterial == materialState.Original)
@@ -229,10 +280,64 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         }
     }
 
+    //Turn off placement mode and remove the held object
+    public void ExitPlacementMode()
+    {
+        placementMode = false;
+
+        //Remove held object
+        if (heldObject != null)
+            Destroy(heldObject);
+    }
+
+    //Called when a security measure is selected and the 'move' button is pressed
+    public void MovePlacedObject()
+    {
+        //Get selected object and close the selection
+        GameObject objectToMove = SecuritySelection.Instance.selectedObject.gameObject;
+        SecuritySelection.Instance.CloseSelection();
+
+        if (objectToMove.GetComponent<NavMeshAgent>())
+            objectToMove.GetComponent<NavMeshAgent>().enabled = false;
+
+        //Begin moving the object
+        movedObjectOriginalPos = objectToMove.transform.position;
+        movedObjectOriginalRot = objectToMove.transform.rotation;
+        heldObject = objectToMove;
+        movementMode = true;
+
+        //Store original material of the object to move
+        StoreOriginalMaterials();
+        currMaterial = materialState.Original;
+    }
+
+    //Cancels the movement of a security measure and places it back where it started
+    private void CancelMoving()
+    {
+        SetPlacementMaterial("original");
+        currMaterial = materialState.Original;
+
+        movementMode = false;
+        heldObject.transform.position = movedObjectOriginalPos;
+        heldObject.transform.rotation = movedObjectOriginalRot;
+    }
+
+    //Place a security measure into the level
     private void PlaceSecurityMeasure()
     {
         SetPlacementMaterial("original");
-        Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
-        MoneyManager.Instance.SubtractMoney(heldObjectCost);
+
+        if(placementMode)//Place a new security measure
+        {
+            Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
+            MoneyManager.Instance.SubtractMoney(heldObjectCost);
+        }
+        else if(movementMode)//Place a moved security measure
+        {
+            movementMode = false;
+
+            if (heldObject.GetComponent<NavMeshAgent>())
+                heldObject.GetComponent<NavMeshAgent>().enabled = true;
+        }
     }
 }

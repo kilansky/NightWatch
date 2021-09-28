@@ -5,11 +5,16 @@ using UnityEngine;
 public class SecuritySelection : SingletonPattern<SecuritySelection>
 {
     public GameObject selectionIcon;
+    public GameObject selectionButtons;
+    public GameObject sellButton;
+    public GameObject moveButton;
+    public GameObject rotateButton;
+    public GameObject patrolPointsButton;
+    public Vector3 selectionButtonsOffset = new Vector3(0, 0, -1.6f);
     public float selectionScaleMod = 1.25f;
     public LayerMask securityMeasureMask;
 
-    [HideInInspector] public bool selectionMode = false;
-    [HideInInspector] public GameObject selectedObject;
+    [HideInInspector] public SecurityMeasure selectedObject;
 
     private Vector3 offScreenPos = new Vector3(0, -10, 0);
     private Camera mainCamera;
@@ -19,17 +24,18 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     {
         mainCamera = Camera.main;
         selectionIcon.transform.position = offScreenPos;
+        selectionButtons.transform.position = offScreenPos;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //If not in placement mode, allow highlighting and clicking on security measures to select them    
-        if (!selectionMode && !SecurityPlacement.Instance.placementMode)
+        //If not in placeing or moving another security measure, allow highlighting and clicking on security measures to select them    
+        if (!SecurityPlacement.Instance.placementMode && !SecurityPlacement.Instance.movementMode)
             HoverOverSecurityMeasure();
 
         //Check if the player right clicks to exit placement mode
-        if (selectionMode && PlayerInputs.Instance.RightClickPressed)
+        if (selectedObject && PlayerInputs.Instance.RightClickPressed)
             CloseSelection();
     }
 
@@ -41,26 +47,73 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         //check if mouse is over a security measure
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, securityMeasureMask))
         {
-            selectionIcon.transform.position = hit.transform.position;
+            if(!selectedObject)
+                selectionIcon.transform.position = hit.transform.position;
 
             if (PlayerInputs.Instance.LeftClickPressed)
-                SelectSecurityMeasure();
+                SelectSecurityMeasure(hit.transform);
         }
-        else
+        else if (!selectedObject)
             selectionIcon.transform.position = offScreenPos;
     }
 
-    private void SelectSecurityMeasure()
+    private void SelectSecurityMeasure(Transform selected)
     {
+        if (selectedObject)
+            CloseSelection();
+
+        selectionIcon.transform.position = selected.position;
         selectionIcon.transform.localScale *= selectionScaleMod;
-        selectionMode = true;
+        selectionButtons.transform.position = selectionIcon.transform.position + selectionButtonsOffset;
+        selectedObject = selected.parent.GetComponent<SecurityMeasure>();
+        ActivateButtons();
     }
 
-    //Turn off placement mode and remove the held object
-    private void CloseSelection()
+    //De-select the selected object
+    public void CloseSelection()
     {
-        selectionMode = false;
+        if (!selectedObject)
+            return;
+
+        selectedObject = null;
         selectionIcon.transform.localScale /= selectionScaleMod;
         selectionIcon.transform.position = offScreenPos;
+        selectionButtons.transform.position = offScreenPos;
+    }
+
+    private void ActivateButtons()
+    {
+        if(selectedObject.securityType == SecurityMeasure.SecurityType.camera)
+        {
+            //Activate camera buttons: Sell, Move, Rotate
+            sellButton.SetActive(true);
+            moveButton.SetActive(true);
+            rotateButton.SetActive(false);
+            patrolPointsButton.SetActive(false);
+        }
+        else if (selectedObject.securityType == SecurityMeasure.SecurityType.laser)
+        {
+            //Activate camera buttons: Sell, Move
+            sellButton.SetActive(true);
+            moveButton.SetActive(true);
+            rotateButton.SetActive(false);
+            patrolPointsButton.SetActive(false);
+        }
+        else if (selectedObject.securityType == SecurityMeasure.SecurityType.guard)
+        {
+            //Activate camera buttons: Sell, Move, Rotate, Patrol Points
+            sellButton.SetActive(true);
+            moveButton.SetActive(true);
+            rotateButton.SetActive(false);
+            patrolPointsButton.SetActive(true);
+        }
+        else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)
+        {
+            //Activate camera buttons: Sell, Move
+            sellButton.SetActive(true);
+            moveButton.SetActive(true);
+            rotateButton.SetActive(false);
+            patrolPointsButton.SetActive(false);
+        }
     }
 }

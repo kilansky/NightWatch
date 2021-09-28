@@ -6,7 +6,6 @@ using TMPro;
 public class MoneyManager : SingletonPattern<MoneyManager>
 {
     public int startingMoney = 1500;
-    public TextMeshProUGUI moneyText;
 
     private int money;
     public int Money { get { return money; } }
@@ -15,18 +14,18 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     private void Start()
     {
         money = startingMoney;
-        moneyText.text = "Money: $" + money.ToString();
+        HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 
     public void SubtractMoney(int amount)
     {
         money -= amount;
-        moneyText.text = "Money: $" + money.ToString();
+        HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 
     public void AddMoney(int amount)
     {
         money += amount;
-        moneyText.text = "Money: $" + money.ToString();
+        HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 }

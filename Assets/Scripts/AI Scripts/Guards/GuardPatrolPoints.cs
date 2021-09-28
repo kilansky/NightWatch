@@ -5,52 +5,57 @@ using UnityEngine.AI;
 
 public class GuardPatrolPoints : MonoBehaviour
 {
-    public GameObject Marker;
+    public GameObject Marker; //Marker to keep track of where the patrol points are at
     public LayerMask FloorMask;
+    public bool MarkersVisible; //Keep visible in inspector for now for testing purposes
 
-    [HideInInspector] public List<Vector3> Points = new List<Vector3>();
+    // 
+    [HideInInspector] public List<Vector3> Points = new List<Vector3>(); //List of patrol points
 
     private Camera mainCamera;
-    private bool GuardIsSelected;//REPLACE
+    public bool GuardIsSelected;//REPLACE
 
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
-        Points.Add(transform.position);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GuardIsSelected == true)
+        if (GuardIsSelected == true) //If statement that prevents patrol points from being spawned if guard isn't selected
         {
             SpawnPatrolPoint();
+
+            if (PlayerInputs.Instance.RightClickPressed)
+                GuardIsSelected = false;
         }
     }
 
-    private void SpawnPatrolPoint()
+    private void SpawnPatrolPoint() //Spawning function
     {
-        
-        print("Guard Is Selected");
+       
         if (PlayerInputs.Instance.LeftClickPressed)
         {
-            print("Click");
             Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
             RaycastHit hit;
-            print("RayHit");
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
             {
-                print("Ray Detects FloorMask");
                 NavMeshHit NavIsHit;
                 int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-                if (NavMesh.SamplePosition(hit.point, out NavIsHit, 1.0f, walkableMask))
+                if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     
-                    Vector3 target = hit.point;
+                    Vector3 target = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                     Points.Add(target);
-                    Instantiate(Marker, target, Quaternion.identity);
-                    print("HitNav");
+                    if (MarkersVisible == true)
+                    {
+                        Instantiate(Marker, target, Quaternion.identity);
+                    }
+                    
+                    
                 }
             }
         }

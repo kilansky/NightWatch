@@ -18,7 +18,6 @@ public class FieldOfView : MonoBehaviour
 
     public MeshFilter viewMeshFilter;
     private Mesh viewMesh;
-    private List<GameObject> spottedThieves = new List<GameObject>();
 
     public float maskCutawayDist = 0.25f;
 
@@ -28,7 +27,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine(FindTargetsWithDelay(0.25f));
+        StartCoroutine("FindTargetsWithDelay", 0.25f);
     }
 
     private void LateUpdate()
@@ -43,14 +42,14 @@ public class FieldOfView : MonoBehaviour
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
 
-            if (visibleTargets.Count > 0 && gameObject.GetComponent<GuardPathfinding>())
-                GuardSpotsThief();
+            if (visibleTargets.Count > 0 && GetComponent<GuardPathfinding>())
+                ThiefSpotted();
         }
     }
 
-    private void GuardSpotsThief()
+    private void ThiefSpotted()
     {
-        if (gameObject.GetComponent<GuardPathfinding>().ThiefSpotted == false)
+        if (GetComponent<GuardPathfinding>().ThiefSpotted == false)
         {
             //Change Guard Behavior
             //Note- chases first found thief, not the closest - CHANGE LATER??
