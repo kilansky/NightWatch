@@ -38,6 +38,10 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (GameManager.Instance.nightWatchPhase)
         {
+            if (ThiefSpotted == true)
+            {
+                currControlMode = ControlMode.Chase;
+            }
             if (currControlMode == ControlMode.Idle)
             {
                 //Do nothing
@@ -98,8 +102,6 @@ public class GuardPathfinding : MonoBehaviour
     private void Pathfinding()
     {
         print("Pathfinding On");
-        print("Current Patrol Point is at " + CurrentPatrolPoint);
-        print("Distance from Patrol Point is " + Vector3.Distance(transform.position, CurrentPatrolPoint));
         if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
         {
             print("Looking for new point");
@@ -129,10 +131,11 @@ public class GuardPathfinding : MonoBehaviour
             print("Thief Gone");
             ThiefSpotted = false;
             SpeedDecrease();
-            Agent.SetDestination(CurrentPatrolPoint);
+            currControlMode = ControlMode.Idle;
         }
         else
         {
+            print("Going after Thief");
             Agent.SetDestination(Thief.transform.position);
 
             if (Vector3.Distance(transform.position, Thief.transform.position) < distToCatchThief)
