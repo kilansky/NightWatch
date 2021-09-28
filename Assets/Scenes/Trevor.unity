@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: d0f9cf88c8e5a5744a97ae32208dd980, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 3bd8037ed688f554bbde1ae17082df9d, type: 2}
 --- !u!1 &23244244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4179,6 +4179,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 423338209, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4187,9 +4203,57 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 7.2
       objectReference: {fileID: 0}
+    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1508960663, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 162694758291135959, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: moveButton
@@ -4420,7 +4484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7934679848080791860, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.91087
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d917c621e062894282a374168ad2247, type: 3}

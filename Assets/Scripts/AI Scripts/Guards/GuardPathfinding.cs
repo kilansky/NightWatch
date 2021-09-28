@@ -18,6 +18,7 @@ public class GuardPathfinding : MonoBehaviour
 
     private int PatrolNumber;
     private Vector3 CurrentPatrolPoint;
+    private Vector3 ClickPoint;
     private Rigidbody rb;
     private Camera mainCamera;
     
@@ -28,9 +29,9 @@ public class GuardPathfinding : MonoBehaviour
     {
         BeginPatrol = false;
         ThiefSpotted = false;
+        mainCamera = Camera.main;
         //currControlMode = ControlMode.Idle;
         PatrolNumber = 0;
-        //CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
     }
 
     // Update is called once per frame
@@ -45,11 +46,17 @@ public class GuardPathfinding : MonoBehaviour
             if (currControlMode == ControlMode.Idle)
             {
                 //Do nothing
+                ClickPoint = transform.position;
             }
             else if (currControlMode == ControlMode.Click)
             {
-                //Click to move
-                ClickMovement();
+                
+                if(gameObject.GetComponent<GuardPatrolPoints>().GuardIsSelected == true)
+                {
+                    //Click to move
+                    ClickMovement();
+                }
+                
             }
             else if (currControlMode == ControlMode.Patrol)
             {
@@ -90,12 +97,13 @@ public class GuardPathfinding : MonoBehaviour
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
 
-                    Vector3 target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                    ClickPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
                     
 
                 }
             }
         }
+        Agent.SetDestination(ClickPoint);
     }
 
     //Follow set patrol points
