@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.9110001}
   m_AnchorMax: {x: 0.20552085, y: 1}
-  m_AnchoredPosition: {x: 53.239136, y: 0.000030517578}
+  m_AnchoredPosition: {x: 53.239014, y: 0}
   m_SizeDelta: {x: 106.4785, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &471386135
@@ -1320,6 +1320,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a730704570903a248b190cf71b4ed729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraCostText: {fileID: 1874017536}
+  laserCostText: {fileID: 611073332}
+  guardCostText: {fileID: 1331664813}
+  audioCostText: {fileID: 1700884466}
+  moneyText: {fileID: 471386134}
 --- !u!1 &2467743332892908057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,7 +1364,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.39800003, y: 0.149}
-  m_AnchoredPosition: {x: -31.501526, y: -8.4582}
+  m_AnchoredPosition: {x: -31.501465, y: -8.458252}
   m_SizeDelta: {x: 181.2225, y: 43.165}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2467743332892908005

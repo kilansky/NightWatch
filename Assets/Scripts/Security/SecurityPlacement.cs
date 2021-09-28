@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class SecurityPlacement : SingletonPattern<SecurityPlacement>
@@ -25,7 +26,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     private enum materialState {Red, Green, Original};
     private materialState currMaterial = materialState.Original;
     private bool originalMatsStored = false;
-    private Transform movedObjectOriginalPos;
+    private Vector3 movedObjectOriginalPos;
+    private Quaternion movedObjectOriginalRot;
     private Camera mainCamera;
 
     // Start is called before the first frame update
@@ -57,7 +59,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (placementMode)
                 ExitPlacementMode();
             else if (movementMode)
+            {
                 CancelMoving();
+                return;
+            }
         }
 
         //Check to store the mats of the held object
@@ -162,6 +167,17 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                 originalMats.Add(child.GetComponent<MeshRenderer>().material);
                 i++;
             }
+
+            /*
+            if (child.childCount > 0)
+            {
+                foreach (Transform child2 in child)
+                {
+                    originalMats.Add(child.GetComponent<MeshRenderer>().material);
+                    i++;
+                }
+            }
+            */
         }
         originalMatsStored = true;
         //Debug.Log("Materials Stored");
@@ -198,16 +214,36 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                 {
                     child.GetComponent<MeshRenderer>().material = originalMats[i];
                     i++;
+
+                    /*
+                    if (child.childCount > 0)
+                    {
+                        foreach (Transform child2 in child)
+                        {
+                            child2.GetComponent<MeshRenderer>().material = originalMats[i];
+                            i++;
+                        }
+                    }
+                    */
                 }
             }
         }
 
         if(materialToSet == "green")
+        {
+            //Debug.Log("Material set to green");
             currMaterial = materialState.Green;
+        }
         else if (materialToSet == "red")
+        {
+            //Debug.Log("Material set to red");
             currMaterial = materialState.Red;
+        }
         else if (materialToSet == "original")
+        {
+            //Debug.Log("Material set to original");
             currMaterial = materialState.Original;
+        }
 
         //If the material is now the original material, clear the originalMats list
         if (currMaterial == materialState.Original)
@@ -235,18 +271,29 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         GameObject objectToMove = SecuritySelection.Instance.selectedObject.gameObject;
         SecuritySelection.Instance.CloseSelection();
 
+        if (objectToMove.GetComponent<NavMeshAgent>())
+            objectToMove.GetComponent<NavMeshAgent>().enabled = false;
+
         //Begin moving the object
-        movedObjectOriginalPos = objectToMove.transform;
+        movedObjectOriginalPos = objectToMove.transform.position;
+        movedObjectOriginalRot = objectToMove.transform.rotation;
         heldObject = objectToMove;
         movementMode = true;
+
+        //Store original material of the object to move
+        StoreOriginalMaterials();
+        currMaterial = materialState.Original;
     }
 
     //Cancels the movement of a security measure and places it back where it started
     private void CancelMoving()
     {
-        heldObject.transform.position = movedObjectOriginalPos.position;
-        heldObject.transform.rotation = movedObjectOriginalPos.rotation;
+        SetPlacementMaterial("original");
+        currMaterial = materialState.Original;
+
         movementMode = false;
+        heldObject.transform.position = movedObjectOriginalPos;
+        heldObject.transform.rotation = movedObjectOriginalRot;
     }
 
     //Place a security measure into the level
@@ -262,6 +309,9 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         else if(movementMode)//Place a moved security measure
         {
             movementMode = false;
+
+            if (heldObject.GetComponent<NavMeshAgent>())
+                heldObject.GetComponent<NavMeshAgent>().enabled = true;
         }
     }
 }
