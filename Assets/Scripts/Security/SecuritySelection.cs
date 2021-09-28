@@ -15,8 +15,8 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     public LayerMask securityMeasureMask;
 
     [HideInInspector] public SecurityMeasure selectedObject;
+    [HideInInspector] public Vector3 offScreenPos = new Vector3(0, -10, 0);
 
-    private Vector3 offScreenPos = new Vector3(0, -10, 0);
     private Camera mainCamera;
 
     // Start is called before the first frame update
