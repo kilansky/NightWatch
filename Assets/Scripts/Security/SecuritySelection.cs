@@ -88,7 +88,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
             //Activate camera buttons: Sell, Move, Rotate
             sellButton.SetActive(true);
             moveButton.SetActive(true);
-            rotateButton.SetActive(true);
+            rotateButton.SetActive(false);
             patrolPointsButton.SetActive(false);
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.laser)
@@ -104,8 +104,8 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
             //Activate camera buttons: Sell, Move, Rotate, Patrol Points
             sellButton.SetActive(true);
             moveButton.SetActive(true);
-            rotateButton.SetActive(true);
-            patrolPointsButton.SetActive(false);
+            rotateButton.SetActive(false);
+            patrolPointsButton.SetActive(true);
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)
         {
