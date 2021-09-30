@@ -5,8 +5,9 @@ using UnityEngine.AI;
 
 public class ThiefPathfinding : MonoBehaviour
 {
-    public enum BehaviorStates {Sneak, Escape, Evade, SkillCheck }
+    
 
+    public enum BehaviorStates {Sneak, Escape, Evade, SkillCheck }
     public BehaviorStates currBehavior = BehaviorStates.Sneak;
     public float timeToSteal;    //Time it takes to steal objects
     public float StealRange;     //Distance from the target object that the thief will begin its steal action
@@ -15,9 +16,14 @@ public class ThiefPathfinding : MonoBehaviour
     public float TimeBeforeEscape; //Time before Thief will make its escape after it's stolen its last object
 
     [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
+    public int SpeedStat; //Int 0
+    public int StealthStat; //Int 1
+    public int PerceptionStat; //Int 2
+    public int HackingStat; //Int 3
+    public int LockpickingStat; //Int 4
+
 
     private NavMeshAgent Agent;
-    
     private float timeRemainingToSteal;    //The progress of the steal timer
     private bool ObjectStolen; //Stolen
     private int ItemsHeld; //Number of target items the thief is holding
