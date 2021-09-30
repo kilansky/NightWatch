@@ -97,9 +97,10 @@ MonoBehaviour:
   FloorMask:
     serializedVersion: 2
     m_Bits: 128
-  MarkersVisible: 1
+  redMarkerColor: {r: 1, g: 0, b: 0, a: 0.7058824}
+  greenMarkerColor: {r: 0.033816576, g: 1, b: 0, a: 0.7058824}
+  patrolPlacementMode: 0
   Points: []
-  GuardIsSelected: 0
 --- !u!114 &2006984199
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,21 +7,30 @@ public class GuardPatrolPoints : MonoBehaviour
 {
     public GameObject Marker; //Marker to keep track of where the patrol points are at
     public LayerMask FloorMask;
-    public bool patrolPlacementMode;//REPLACE
+    public Color redMarkerColor;
+    public Color greenMarkerColor;
 
+    [HideInInspector] public bool patrolPlacementMode;
     [HideInInspector] public List<Vector3> Points = new List<Vector3>(); //List of patrol points
 
     private Camera mainCamera;
     private GameObject heldMarker;
+    private Vector3 offScreenPos = new Vector3(0, -10, 0);
     private PatrolMarker heldMarkerScript;
+    private Color heldMarkerColor;
+    private int currMarkerNum;
+
 
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
-        heldMarker = Instantiate(Marker, Vector3.zero - new Vector3(0, -10f, 0), Quaternion.identity);
+        heldMarker = Instantiate(Marker, offScreenPos, Quaternion.identity);
         heldMarkerScript = heldMarker.GetComponent<PatrolMarker>();
-        heldMarkerScript.markerNum = 1;
+        heldMarkerColor = heldMarkerScript.markerImage.color;
+
+        currMarkerNum = 1;
+        heldMarkerScript.markerNum = currMarkerNum;
         heldMarkerScript.UpdateMarkerNum();
     }
 
@@ -33,27 +42,46 @@ public class GuardPatrolPoints : MonoBehaviour
             SpawnPatrolPoint();
 
             if (PlayerInputs.Instance.RightClickPressed)
+            {
+                heldMarker.transform.position = offScreenPos;
                 patrolPlacementMode = false;
+            }
         }
     }
 
     private void SpawnPatrolPoint() //Spawning function
-    {       
-        if (PlayerInputs.Instance.LeftClickPressed)
+    {
+        Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
         {
-            Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
-            {
-                NavMeshHit NavIsHit;
-                int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-                if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
-                {                   
-                    Vector3 target = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                    Points.Add(target);
+            //Set patrol point position at mouse cursor
+            heldMarker.transform.position = hit.point;
 
+            //Show patrol point as red/not placable
+            heldMarkerScript.markerImage.color = redMarkerColor;
+
+            //Check if hit point is a walkable area on the navmesh
+            NavMeshHit NavIsHit;
+            int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+            if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
+            {
+                //Show patrol point as green/placable
+                heldMarkerScript.markerImage.color = greenMarkerColor;
+
+                //Place patrol point
+                if (PlayerInputs.Instance.LeftClickPressed)
+                {
+                    Points.Add(hit.point);
+                    GameObject newMarker = Instantiate(Marker, hit.point, Quaternion.identity);
+                    newMarker.GetComponent<PatrolMarker>().markerNum = currMarkerNum;
+                    newMarker.GetComponent<PatrolMarker>().UpdateMarkerNum();
+
+                    currMarkerNum++;
+                    heldMarkerScript.markerNum = currMarkerNum;
+                    heldMarkerScript.UpdateMarkerNum();
                 }
             }
-        }      
+        }  
     }
 }

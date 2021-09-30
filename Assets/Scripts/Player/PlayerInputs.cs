@@ -8,8 +8,8 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     private bool isPaused = false;
     public bool IsPaused { get { return isPaused; } } //True while the game is paused
 
-    private Vector3 cameraMovement = Vector3.zero;
-    [HideInInspector] public Vector3 CameraMovement { get { return cameraMovement; } } //Returns the movement vector of the camera this frame
+    private Vector3 wasdMovement = Vector3.zero;
+    [HideInInspector] public Vector3 WASDMovement { get { return wasdMovement; } } //Returns the movement vector of the camera this frame
 
     //Mouse Related Variables
     private bool leftClickPressed;
@@ -19,6 +19,7 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     private bool rightClickHeld;
     private bool rightClickReleased;
     private Vector2 mousePos;
+    private float scrollValue;
     [HideInInspector] public bool LeftClickPressed { get { return leftClickPressed; } }    //True for 1 frame when left mouse button is pressed
     [HideInInspector] public bool LeftClickHeld { get { return leftClickHeld; } }          //True while left mouse button is held
     [HideInInspector] public bool LeftClickReleased { get { return leftClickReleased; } }  //True for 1 frame when left mouse button is released
@@ -26,6 +27,7 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     [HideInInspector] public bool RightClickHeld { get { return rightClickHeld; } }        //True while right mouse button is held
     [HideInInspector] public bool RightClickReleased { get { return rightClickReleased; } }//True for 1 frame when right mouse button is released
     [HideInInspector] public Vector2 MousePosition { get { return mousePos; } }            //Provides the x,y position of the mouse on screen
+    [HideInInspector] public float ScrollingInput { get { return scrollValue; } }            //Provides the x,y position of the mouse on screen
 
     //Aim Mouse Input
     public void PointMouse(InputAction.CallbackContext context)
@@ -91,32 +93,32 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     }
 
     //WASD Pressed to move the camera
-    public void CameraMove(InputAction.CallbackContext context)
+    public void WASDInput(InputAction.CallbackContext context)
     {
         if (context.performed) //Checks if any of the WASD keys were input
         {
-            Vector2 cameraAdjustment = context.ReadValue<Vector2>();
-            cameraMovement = new Vector3(cameraAdjustment.x, 0, cameraAdjustment.y);
+            Vector2 wasdInput = context.ReadValue<Vector2>();
+            wasdMovement = new Vector3(wasdInput.x, 0, wasdInput.y);
         }
         else if (context.canceled) //When button is released, set movement back to zero
         {
-            cameraMovement = Vector3.zero;
+            wasdMovement = Vector3.zero;
         }
     }
 
     //Scroll Wheel used to zoom the camera
-    public void CameraZoom(InputAction.CallbackContext context)
+    public void ScrollWheel(InputAction.CallbackContext context)
     {
-        float zoomInput = context.ReadValue<Vector2>().y;
+        float scrollInput = context.ReadValue<Vector2>().y;
 
-        if (context.performed && zoomInput > 0)
-            cameraMovement.y = -15;
+        if (context.performed && scrollInput > 0)
+            scrollValue = -15f;
 
-        if (context.performed && zoomInput < 0)
-            cameraMovement.y = 15;
+        if (context.performed && scrollInput < 0)
+            scrollValue = 15f;
 
-        if(zoomInput == 0)
-            cameraMovement.y = 0;
+        if(scrollInput == 0)
+            scrollValue = 0;
     }
 
     /// Pause function to pause the game based on the isPause variable and will stop the game time while displaying the pause screen

@@ -20,7 +20,8 @@ public class CameraController : SingletonPattern<CameraController>
         float maxY = boundingBox.position.y + (boundingBox.localScale.y / 2);
 
         //Set newCamPos to the current camera position + input
-        newCamPos = transform.position + PlayerInputs.Instance.CameraMovement * camMoveSpeed * Time.deltaTime;
+        newCamPos = transform.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
+        newCamPos.y = PlayerInputs.Instance.ScrollingInput * Time.deltaTime;
 
         //Clamp newCamPos within the bounding box edges
         newCamPos.x = Mathf.Clamp(newCamPos.x, minX, maxX);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7058330137862365463}
   - component: {fileID: 5532561555384922351}
   - component: {fileID: 4524292665510263330}
-  m_Layer: 15
+  m_Layer: 5
   m_Name: MarkerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4130963274432243341}
   - component: {fileID: 6012702775316706723}
   m_Layer: 0
-  m_Name: Marker
+  m_Name: PatrolMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,6 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c5f82907334b046957000a7639e1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  markerNum: 0
+  markerNumText: {fileID: 7002217021878067156}
+  markerImage: {fileID: 4524292665510263330}
 --- !u!1 &5580600297951177576
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +149,7 @@ GameObject:
   - component: {fileID: 1573283202775781253}
   - component: {fileID: 4180806125379752963}
   - component: {fileID: 1443312910806904400}
-  m_Layer: 15
+  m_Layer: 5
   m_Name: MarkerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +248,7 @@ GameObject:
   - component: {fileID: 1979383798340735201}
   - component: {fileID: 4294919212691259266}
   - component: {fileID: 7002217021878067156}
-  m_Layer: 15
+  m_Layer: 5
   m_Name: MarkerNumText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
