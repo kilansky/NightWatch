@@ -12320,6 +12320,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7934679847386057010, guid: 2d917c621e062894282a374168ad2247, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7934679847457164726, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_Name
       value: CameraSystem
@@ -12367,6 +12371,10 @@ PrefabInstance:
     - target: {fileID: 7934679847457164727, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7934679849200255997, guid: 2d917c621e062894282a374168ad2247, type: 3}
+      propertyPath: camZoomSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d917c621e062894282a374168ad2247, type: 3}
