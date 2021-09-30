@@ -169,7 +169,7 @@ public class GuardPathfinding : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
         }
 
-        transform.position += PlayerInputs.Instance.CameraMovement * Agent.speed * Time.deltaTime;
+        transform.position += PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
 
         //SWITCH CAMERA TO FOLLOW THE GUARD HERE!!
     }

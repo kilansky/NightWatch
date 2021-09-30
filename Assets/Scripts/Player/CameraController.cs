@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : SingletonPattern<CameraController>
 {
     public float camMoveSpeed = 5f;
+    public float camZoomSpeed = 5f;
     public Transform boundingBox;
     private Vector3 newCamPos;
 
@@ -20,7 +21,8 @@ public class CameraController : SingletonPattern<CameraController>
         float maxY = boundingBox.position.y + (boundingBox.localScale.y / 2);
 
         //Set newCamPos to the current camera position + input
-        newCamPos = transform.position + PlayerInputs.Instance.CameraMovement * camMoveSpeed * Time.deltaTime;
+        newCamPos = transform.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
+        newCamPos.y = transform.position.y + PlayerInputs.Instance.ScrollingInput * camZoomSpeed * Time.deltaTime;
 
         //Clamp newCamPos within the bounding box edges
         newCamPos.x = Mathf.Clamp(newCamPos.x, minX, maxX);
