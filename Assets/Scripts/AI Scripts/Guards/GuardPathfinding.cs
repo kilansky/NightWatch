@@ -21,7 +21,7 @@ public class GuardPathfinding : MonoBehaviour
     private Vector3 ClickPoint;
     private Rigidbody rb;
     private Camera mainCamera;
-    
+    private float doorOpenDelay;
 
 
     // Start is called before the first frame update
@@ -51,11 +51,10 @@ public class GuardPathfinding : MonoBehaviour
             else if (currControlMode == ControlMode.Click)
             {
                 
-                if(gameObject.GetComponent<GuardPatrolPoints>().GuardIsSelected == true)
-                {
-                    //Click to move
-                    ClickMovement();
-                }
+                
+                //Click to move
+                ClickMovement();
+                
                 
             }
             else if (currControlMode == ControlMode.Patrol)
@@ -173,6 +172,39 @@ public class GuardPathfinding : MonoBehaviour
 
         //SWITCH CAMERA TO FOLLOW THE GUARD HERE!!
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Door")
+        {
+            Agent.isStopped = true;
+            other.GetComponent<DoorControl>().OpenDoor();
+            doorOpenDelay = other.GetComponent<DoorControl>().animationDuration;
+            StartCoroutine(DelayCoroutine());
+            print("Guard Opens Door");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Door")
+        {
+            Agent.isStopped = true;
+            other.GetComponent<DoorControl>().CloseDoor();
+            doorOpenDelay = other.GetComponent<DoorControl>().animationDuration;
+            StartCoroutine(DelayCoroutine());
+            print("Guard Closes Door");
+        }
+    }
+
+    private IEnumerator DelayCoroutine()
+    {
+        yield return new WaitForSeconds(doorOpenDelay);
+        doorOpenDelay = 0;
+        Agent.isStopped = false;
+
+    }
+
 
     public void SpeedIncrease()
     {
