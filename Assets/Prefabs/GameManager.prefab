@@ -1336,7 +1336,7 @@ GameObject:
   - component: {fileID: 6162850817680564199}
   - component: {fileID: 3385245926255825554}
   m_Layer: 15
-  m_Name: Patrol_Icon
+  m_Name: Remove_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1389,7 +1389,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e0b8274b7039c0c4ba20080b37238674, type: 3}
+  m_Sprite: {fileID: 21300000, guid: abbae594b125ede4c94b17b8d8138784, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1522,7 +1522,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 782967834}
         m_TargetAssemblyTypeName: SelectedObjectButtons, Assembly-CSharp
-        m_MethodName: PatrolPointsButton
+        m_MethodName: MovePatrolPointButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1544,7 +1544,7 @@ GameObject:
   - component: {fileID: 7133798234409824006}
   - component: {fileID: 2495150084135843991}
   m_Layer: 15
-  m_Name: Patrol_Icon
+  m_Name: Move_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1946,8 +1946,8 @@ MonoBehaviour:
   moveButton: {fileID: 1841656272}
   rotateButton: {fileID: 1002216531}
   patrolPointsButton: {fileID: 700587220}
-  movePatrolPointButton: {fileID: 0}
-  removePatrolPointButton: {fileID: 0}
+  movePatrolPointButton: {fileID: 3133663376912798579}
+  removePatrolPointButton: {fileID: 8930499129977071488}
   selectionButtonsOffset: {x: 0, y: 0, z: -1.6}
   selectionScaleMod: 1.25
   securityMeasureMask:
@@ -2079,7 +2079,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 782967834}
         m_TargetAssemblyTypeName: SelectedObjectButtons, Assembly-CSharp
-        m_MethodName: PatrolPointsButton
+        m_MethodName: RemovePatrolPointButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -27,7 +27,6 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Allows setting up patrol points for the selected guard
     public void PatrolPointsButton()
     {
-        Debug.Log("Patrol Points Button Pressed");
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPatrolPoints>().patrolPlacementMode = true;
         SecuritySelection.Instance.selectionButtons.transform.position = SecuritySelection.Instance.offScreenPos;
         SecuritySelection.Instance.canSelect = false;
@@ -36,13 +35,18 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Moves a patrol point from the GuardPatrolPoints script
     public void MovePatrolPointButton()
     {
-        SecurityPlacement.Instance.MovePlacedObject();
+        GameObject patrolPoint = SecuritySelection.Instance.selectedObject.gameObject;
+        GuardPatrolPoints guardPatrol = patrolPoint.GetComponent<PatrolMarker>().connectedGuard;
+        guardPatrol.BeginMovingPatrolPoint(patrolPoint);
     }
 
 
     //Removes a patrol point from the GuardPatrolPoints script
     public void RemovePatrolPointButton()
     {
-
+        GameObject patrolPoint = SecuritySelection.Instance.selectedObject.gameObject;
+        GuardPatrolPoints guardPatrol = patrolPoint.GetComponent<PatrolMarker>().connectedGuard;
+        guardPatrol.RemovePatrolPoint(patrolPoint);
+        SecuritySelection.Instance.CloseSelection();
     }
 }

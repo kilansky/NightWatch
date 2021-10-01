@@ -125,6 +125,7 @@ MonoBehaviour:
   markerNum: 0
   markerNumText: {fileID: 7002217021878067156}
   markerImage: {fileID: 4524292665510263330}
+  connectedGuard: {fileID: 0}
 --- !u!114 &4014067888915378888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4983542083489928222}
-  - component: {fileID: 2546813976165172039}
+  - component: {fileID: 6818882080281391356}
   - component: {fileID: 7613513550477890880}
   - component: {fileID: 1624043352444771631}
   m_Layer: 10
@@ -407,8 +408,8 @@ Transform:
   m_Father: {fileID: 8077824505581908824}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2546813976165172039
-SphereCollider:
+--- !u!65 &6818882080281391356
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -418,8 +419,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.25, z: 1}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!54 &7613513550477890880
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class GuardPatrolPoints : MonoBehaviour
 {
     public GameObject Marker; //Marker to keep track of where the patrol points are at
     public LayerMask FloorMask;
+    public Color defaultMarkerColor;
     public Color redMarkerColor;
     public Color greenMarkerColor;
 
@@ -16,9 +17,11 @@ public class GuardPatrolPoints : MonoBehaviour
 
     private Camera mainCamera;
     private GameObject heldMarker;
-    private Vector3 offScreenPos = new Vector3(0, -10, 0);
+    private GameObject moveMarker;
     private PatrolMarker heldMarkerScript;
-    private Color heldMarkerColor;
+    private PatrolMarker moveMarkerScript;
+    private Vector3 offScreenPos = new Vector3(0, -10, 0);
+    private Vector3 storedMoveMarkerPos;
     private int currMarkerNum;
 
     // Start is called before the first frame update
@@ -26,9 +29,7 @@ public class GuardPatrolPoints : MonoBehaviour
     {
         mainCamera = Camera.main;
         heldMarker = Instantiate(Marker, offScreenPos, Quaternion.identity);
-        heldMarker.transform.GetChild(0).gameObject.SetActive(false);//disable overlap detection
         heldMarkerScript = heldMarker.GetComponent<PatrolMarker>();
-        heldMarkerColor = heldMarkerScript.markerImage.color;
 
         currMarkerNum = 1;
         heldMarkerScript.markerNum = currMarkerNum;
@@ -94,9 +95,14 @@ public class GuardPatrolPoints : MonoBehaviour
         }  
     }
 
-    public void BeginMovingPatrolPoint()
+    public void BeginMovingPatrolPoint(GameObject patrolPoint)
     {
-
+        patrolMovementMode = true;
+        storedMoveMarkerPos = patrolPoint.transform.position;
+        moveMarker = patrolPoint;
+        moveMarkerScript = patrolPoint.GetComponent<PatrolMarker>();
+        SecuritySelection.Instance.canSelect = false;
+        SecuritySelection.Instance.CloseSelection();
     }
 
     //Allows player to move patrol points on the ground
@@ -107,25 +113,55 @@ public class GuardPatrolPoints : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
         {
             //Set patrol point position at mouse cursor
-            heldMarker.transform.position = hit.point;
+            moveMarker.transform.position = hit.point;
 
             //Show patrol point as red/not placable
-            heldMarkerScript.markerImage.color = redMarkerColor;
+            moveMarkerScript.markerImage.color = redMarkerColor;
 
             //Check if hit point is a walkable area on the navmesh, and is not overlapping with other patrol points
             NavMeshHit NavIsHit;
             int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-            if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask) && !heldMarker.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
+            if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask) && !moveMarker.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
             {
                 //Show patrol point as green/placable
-                heldMarkerScript.markerImage.color = greenMarkerColor;
+                moveMarkerScript.markerImage.color = greenMarkerColor;
 
                 //Place patrol point
                 if (PlayerInputs.Instance.LeftClickPressed)
                 {
-
+                    patrolMovementMode = false;
+                    moveMarkerScript.markerImage.color = defaultMarkerColor;
+                    SecuritySelection.Instance.canSelect = true;
                 }
             }
+        }
+
+        //Cancel moving patrol point
+        if (PlayerInputs.Instance.RightClickPressed)
+        {
+            moveMarker.transform.position = storedMoveMarkerPos;
+            moveMarkerScript.markerImage.color = defaultMarkerColor;
+
+            patrolMovementMode = false;
+            SecuritySelection.Instance.canSelect = true;
+        }
+    }
+
+    public void RemovePatrolPoint(GameObject patrolPoint)
+    {
+        PatrolPoints.Remove(patrolPoint);
+        Destroy(patrolPoint);
+
+        currMarkerNum--;
+        heldMarkerScript.markerNum = currMarkerNum;
+        heldMarkerScript.UpdateMarkerNum();
+
+        int i = 1;
+        foreach (GameObject marker in PatrolPoints)
+        {
+            marker.GetComponent<PatrolMarker>().markerNum = i;
+            marker.GetComponent<PatrolMarker>().UpdateMarkerNum();
+            i++;
         }
     }
 }

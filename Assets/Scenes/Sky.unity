@@ -6281,11 +6281,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4647424382229484531, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
   m_PrefabInstance: {fileID: 831371179}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1061856054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3133663376912798579, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1098589946 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2161945954004639231, guid: 77d3a830069e98645b4f9a8f59bd074b, type: 3}
@@ -8845,11 +8840,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
---- !u!1 &1506544072 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8930499129977071488, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1523872606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12069,6 +12059,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2006984198, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
+      propertyPath: defaultMarkerColor.a
+      value: 0.70980394
+      objectReference: {fileID: 0}
     - target: {fileID: 2006984199, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -12202,14 +12196,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 162694758291135959, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: movePatrolPointButton
-      value: 
-      objectReference: {fileID: 1061856054}
-    - target: {fileID: 162694758291135959, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: removePatrolPointButton
-      value: 
-      objectReference: {fileID: 1506544072}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: TargetObjects.Array.data[0]
       value: 
@@ -12249,10 +12235,6 @@ PrefabInstance:
     - target: {fileID: 3737976846842419087, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018445657060743637, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: MovePatrolPointButton
       objectReference: {fileID: 0}
     - target: {fileID: 5519906749482679155, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -12322,10 +12304,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1215394557}
-    - target: {fileID: 8839860376113817625, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RemovePatrolPointButton
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
 --- !u!114 &6575661075989419028 stripped
