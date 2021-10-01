@@ -62,6 +62,7 @@ public class HUDController : SingletonPattern<HUDController>
         if (!inPlacementMode || (inPlacementMode && objectToPlace != securityScript.heldObject))
         {
             securityScript.placementMode = true;
+            SecuritySelection.Instance.canSelect = false;
 
             //Remove held object
             if (heldObject != null)

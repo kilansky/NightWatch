@@ -30,5 +30,19 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         Debug.Log("Patrol Points Button Pressed");
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPatrolPoints>().patrolPlacementMode = true;
         SecuritySelection.Instance.selectionButtons.transform.position = SecuritySelection.Instance.offScreenPos;
+        SecuritySelection.Instance.canSelect = false;
+    }
+
+    //Moves a patrol point from the GuardPatrolPoints script
+    public void MovePatrolPointButton()
+    {
+        SecurityPlacement.Instance.MovePlacedObject();
+    }
+
+
+    //Removes a patrol point from the GuardPatrolPoints script
+    public void RemovePatrolPointButton()
+    {
+
     }
 }

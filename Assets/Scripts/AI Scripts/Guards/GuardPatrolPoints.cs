@@ -11,7 +11,8 @@ public class GuardPatrolPoints : MonoBehaviour
     public Color greenMarkerColor;
 
     [HideInInspector] public bool patrolPlacementMode;
-    [HideInInspector] public List<Vector3> Points = new List<Vector3>(); //List of patrol points
+    [HideInInspector] public bool patrolMovementMode;
+    [HideInInspector] public List<GameObject> PatrolPoints = new List<GameObject>(); //List of patrol points
 
     private Camera mainCamera;
     private GameObject heldMarker;
@@ -20,12 +21,12 @@ public class GuardPatrolPoints : MonoBehaviour
     private Color heldMarkerColor;
     private int currMarkerNum;
 
-
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
         heldMarker = Instantiate(Marker, offScreenPos, Quaternion.identity);
+        heldMarker.transform.GetChild(0).gameObject.SetActive(false);//disable overlap detection
         heldMarkerScript = heldMarker.GetComponent<PatrolMarker>();
         heldMarkerColor = heldMarkerScript.markerImage.color;
 
@@ -45,11 +46,16 @@ public class GuardPatrolPoints : MonoBehaviour
             {
                 heldMarker.transform.position = offScreenPos;
                 patrolPlacementMode = false;
+                SecuritySelection.Instance.canSelect = true;
             }
         }
+
+        if (patrolMovementMode)
+            MovePatrolPoint();
     }
 
-    private void SpawnPatrolPoint() //Spawning function
+    //Allows player to place patrol points on the ground
+    private void SpawnPatrolPoint()
     {
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
@@ -61,10 +67,10 @@ public class GuardPatrolPoints : MonoBehaviour
             //Show patrol point as red/not placable
             heldMarkerScript.markerImage.color = redMarkerColor;
 
-            //Check if hit point is a walkable area on the navmesh
+            //Check if hit point is a walkable area on the navmesh, and is not overlapping with other patrol points
             NavMeshHit NavIsHit;
             int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-            if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
+            if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask) && !heldMarker.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
             {
                 //Show patrol point as green/placable
                 heldMarkerScript.markerImage.color = greenMarkerColor;
@@ -72,10 +78,13 @@ public class GuardPatrolPoints : MonoBehaviour
                 //Place patrol point
                 if (PlayerInputs.Instance.LeftClickPressed)
                 {
-                    Points.Add(hit.point);
                     GameObject newMarker = Instantiate(Marker, hit.point, Quaternion.identity);
-                    newMarker.GetComponent<PatrolMarker>().markerNum = currMarkerNum;
-                    newMarker.GetComponent<PatrolMarker>().UpdateMarkerNum();
+                    PatrolPoints.Add(newMarker);
+
+                    PatrolMarker markerScript = newMarker.GetComponent<PatrolMarker>();
+                    markerScript.markerNum = currMarkerNum;
+                    markerScript.UpdateMarkerNum();
+                    markerScript.connectedGuard = this;
 
                     currMarkerNum++;
                     heldMarkerScript.markerNum = currMarkerNum;
@@ -83,5 +92,40 @@ public class GuardPatrolPoints : MonoBehaviour
                 }
             }
         }  
+    }
+
+    public void BeginMovingPatrolPoint()
+    {
+
+    }
+
+    //Allows player to move patrol points on the ground
+    private void MovePatrolPoint()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
+        {
+            //Set patrol point position at mouse cursor
+            heldMarker.transform.position = hit.point;
+
+            //Show patrol point as red/not placable
+            heldMarkerScript.markerImage.color = redMarkerColor;
+
+            //Check if hit point is a walkable area on the navmesh, and is not overlapping with other patrol points
+            NavMeshHit NavIsHit;
+            int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+            if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask) && !heldMarker.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
+            {
+                //Show patrol point as green/placable
+                heldMarkerScript.markerImage.color = greenMarkerColor;
+
+                //Place patrol point
+                if (PlayerInputs.Instance.LeftClickPressed)
+                {
+
+                }
+            }
+        }
     }
 }

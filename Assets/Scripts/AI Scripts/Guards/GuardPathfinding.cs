@@ -59,10 +59,10 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Patrol)
             {
-                if(gameObject.GetComponent<GuardPatrolPoints>().Points.Count > 0)
+                if(gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                 {
                     //Patrol to set points
-                    CurrentPatrolPoint = new Vector3(gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].x, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].y, gameObject.GetComponent<GuardPatrolPoints>().Points[PatrolNumber].z);
+                    CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
                     Pathfinding();
 
                 }
@@ -112,7 +112,7 @@ public class GuardPathfinding : MonoBehaviour
         if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
         {
             print("Looking for new point");
-            if (PatrolNumber < gameObject.GetComponent<GuardPatrolPoints>().Points.Count - 1)
+            if (PatrolNumber < gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count - 1)
             {
                 print("Next Patrol Point");
                 PatrolNumber += 1;

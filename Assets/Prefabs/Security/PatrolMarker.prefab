@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7058330137862365463}
   - component: {fileID: 5532561555384922351}
   - component: {fileID: 4524292665510263330}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MarkerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,8 +85,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8077824505581908824}
-  - component: {fileID: 4130963274432243341}
   - component: {fileID: 6012702775316706723}
+  - component: {fileID: 4014067888915378888}
   m_Layer: 0
   m_Name: PatrolMarker
   m_TagString: Untagged
@@ -105,23 +105,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
+  - {fileID: 4983542083489928222}
   - {fileID: 2399125327860947708}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4130963274432243341
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5164396924013787424}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6012702775316706723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +125,21 @@ MonoBehaviour:
   markerNum: 0
   markerNumText: {fileID: 7002217021878067156}
   markerImage: {fileID: 4524292665510263330}
+--- !u!114 &4014067888915378888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5164396924013787424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b2623ac9360224a98cd58ba00faa49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  securityType: 4
+  placedOnWalls: 1
+  cost: 0
 --- !u!1 &5580600297951177576
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +152,7 @@ GameObject:
   - component: {fileID: 1573283202775781253}
   - component: {fileID: 4180806125379752963}
   - component: {fileID: 1443312910806904400}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MarkerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +172,7 @@ RectTransform:
   m_Children:
   - {fileID: 7058330137862365463}
   m_Father: {fileID: 8077824505581908824}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -248,7 +251,7 @@ GameObject:
   - component: {fileID: 1979383798340735201}
   - component: {fileID: 4294919212691259266}
   - component: {fileID: 7002217021878067156}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MarkerNumText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,3 +374,78 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &8783260394689714253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4983542083489928222}
+  - component: {fileID: 2546813976165172039}
+  - component: {fileID: 7613513550477890880}
+  - component: {fileID: 1624043352444771631}
+  m_Layer: 10
+  m_Name: OverlapDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4983542083489928222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783260394689714253}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8077824505581908824}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2546813976165172039
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783260394689714253}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7613513550477890880
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783260394689714253}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &1624043352444771631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783260394689714253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15c5bb9164084e41b5788acfce9319b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOverlapping: 0

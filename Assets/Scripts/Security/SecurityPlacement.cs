@@ -284,6 +284,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     public void ExitPlacementMode()
     {
         placementMode = false;
+        SecuritySelection.Instance.canSelect = true;
 
         //Remove held object
         if (heldObject != null)
@@ -305,6 +306,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         movedObjectOriginalRot = objectToMove.transform.rotation;
         heldObject = objectToMove;
         movementMode = true;
+        SecuritySelection.Instance.canSelect = false;
 
         //Store original material of the object to move
         StoreOriginalMaterials();
@@ -318,6 +320,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         currMaterial = materialState.Original;
 
         movementMode = false;
+        SecuritySelection.Instance.canSelect = true;
         heldObject.transform.position = movedObjectOriginalPos;
         heldObject.transform.rotation = movedObjectOriginalRot;
     }
@@ -335,6 +338,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         else if(movementMode)//Place a moved security measure
         {
             movementMode = false;
+            SecuritySelection.Instance.canSelect = true;
 
             if (heldObject.GetComponent<NavMeshAgent>())
                 heldObject.GetComponent<NavMeshAgent>().enabled = true;

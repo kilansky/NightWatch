@@ -10,6 +10,8 @@ public class PatrolMarker : MonoBehaviour
     public TextMeshProUGUI markerNumText;
     public Image markerImage;
 
+    [HideInInspector] public GuardPatrolPoints connectedGuard;
+
     public void UpdateMarkerNum()
     {
         markerNumText.text = markerNum.ToString();
