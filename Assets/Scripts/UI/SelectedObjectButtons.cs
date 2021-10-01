@@ -49,4 +49,32 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         guardPatrol.RemovePatrolPoint(patrolPoint);
         SecuritySelection.Instance.CloseSelection();
     }
+
+    //Sets guard control mode to idle state
+    public void GuardIdleButton()
+    {
+        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Idle;
+        SecuritySelection.Instance.CloseSelection();
+    }
+
+    //Sets guard control mode to patrol state
+    public void GuardPatrolButton()
+    {
+        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Patrol;
+        SecuritySelection.Instance.CloseSelection();
+    }
+
+    //Sets guard control mode to click state
+    public void GuardClickMoveButton()
+    {
+        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Click;
+        SecuritySelection.Instance.CloseSelection();
+    }
+
+    //Sets guard control mode to manual state
+    public void GuardManualButton()
+    {
+        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Manual;
+        SecuritySelection.Instance.CloseSelection();
+    }
 }
