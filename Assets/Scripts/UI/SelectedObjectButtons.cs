@@ -8,6 +8,12 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     public void SellButton()
     {
         MoneyManager.Instance.AddMoney(SecuritySelection.Instance.selectedObject.cost);
+
+        //Check if the security measure to sell is a guard, if it is, return its color to the Patrol Colors list
+        if(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>())
+            PatrolColors.Instance.RemoveGuardRouteColor(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>().patrolMarkerColor);
+
+        //Destroy the selected security measure and deselect it
         Destroy(SecuritySelection.Instance.selectedObject.gameObject);
         SecuritySelection.Instance.CloseSelection();
     }

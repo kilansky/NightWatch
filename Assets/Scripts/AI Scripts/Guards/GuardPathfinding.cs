@@ -108,7 +108,7 @@ public class GuardPathfinding : MonoBehaviour
     //Follow set patrol points
     private void Pathfinding()
     {
-        print("Pathfinding On");
+        //print("Pathfinding On");
         if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
         {
             print("Looking for new point");

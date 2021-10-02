@@ -164,24 +164,76 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             //Verify that that current child has a mesh renderer
             if (child.GetComponent<MeshRenderer>())
             {
-                originalMats.Add(child.GetComponent<MeshRenderer>().material);
-                i++;
+                //Store all materials attached to the child's mesh renderer
+                MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                foreach (Material mat in meshRenderer.materials)
+                {
+                    originalMats.Add(mat);
+                    i++;
+                }
             }
-          
+            //Check if child has children of its own
             if (child.childCount > 0)
             {
                 foreach (Transform child2 in child)
                 {
+                    //Check if second child has mesh renderer
                     if (child2.GetComponent<MeshRenderer>())
                     {
-                        originalMats.Add(child2.GetComponent<MeshRenderer>().material);
-                        i++;
+                        //Store all materials attached to the second child's mesh renderer
+                        MeshRenderer meshRenderer = child2.GetComponent<MeshRenderer>();
+                        foreach (Material mat in meshRenderer.materials)
+                        {
+                            originalMats.Add(mat);
+                            i++;
+                        }
                     }
                 }
             }
         }
         originalMatsStored = true;
         //Debug.Log("Materials Stored");
+    }
+
+    //Set all materials of the object back to the stored original materials
+    private void SetOriginalMaterial()
+    {
+        int i = 0;
+        foreach (Transform child in heldObject.transform)
+        {
+            //Verify that that current child has a mesh renderer
+            if (child.GetComponent<MeshRenderer>())
+            {
+                //Set all materials attached to the child's mesh renderer
+                MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                foreach (Material mat in meshRenderer.materials)
+                {
+                    meshRenderer.material = originalMats[i];
+                    i++;
+                }
+            }
+        
+            //Check if child has children of its own
+            if (child.childCount > 0)
+            {
+                foreach (Transform child2 in child)
+                {
+                    //Check if second child has mesh renderer
+                    if (child2.GetComponent<MeshRenderer>())
+                    {
+                        //Set all materials attached to the second child's mesh renderer
+                        MeshRenderer meshRenderer = child2.GetComponent<MeshRenderer>();
+                        foreach (Material mat in meshRenderer.materials)
+                        {
+                            meshRenderer.material = originalMats[i];
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        originalMats.Clear();
+        originalMatsStored = false;
     }
 
     //Change the material of the held object to green, red, or the original material
@@ -195,88 +247,55 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         else if (materialToSet == "original" && currMaterial == materialState.Original)
             return;
 
-        int i = 0;
-        //Get all children of the held object
-        foreach (Transform child in heldObject.transform)
+        //Set this child's material to green
+        if (materialToSet == "green")
         {
-            //Set this child's material to green
-            if (materialToSet == "green")
-            {
-                //Verify that that current child has a mesh renderer
-                if (child.GetComponent<MeshRenderer>())
-                    child.GetComponent<MeshRenderer>().material = greenHighlight;
-
-                if (child.childCount > 0)
-                {
-                    foreach (Transform child2 in child)
-                    {
-                        if (child2.GetComponent<MeshRenderer>())
-                            child2.GetComponent<MeshRenderer>().material = greenHighlight;
-                    }
-                }
-            }
-            //Set this child's material to red
-            else if (materialToSet == "red")
-            {
-                //Verify that that current child has a mesh renderer
-                if (child.GetComponent<MeshRenderer>())
-                    child.GetComponent<MeshRenderer>().material = redHighlight;
-
-                if (child.childCount > 0)
-                {
-                    foreach (Transform child2 in child)
-                    {
-                        if (child2.GetComponent<MeshRenderer>())
-                            child2.GetComponent<MeshRenderer>().material = redHighlight;
-                    }
-                }
-            }
-            //Set this child's material to its original mat
-            else if (materialToSet == "original")
-            {
-                //Verify that that current child has a mesh renderer
-                if (child.GetComponent<MeshRenderer>())
-                {
-                    child.GetComponent<MeshRenderer>().material = originalMats[i];
-                    i++;
-                }
-
-                if (child.childCount > 0)
-                {
-                    foreach (Transform child2 in child)
-                    {
-                        if (child2.GetComponent<MeshRenderer>())
-                        {
-                            child2.GetComponent<MeshRenderer>().material = originalMats[i];
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-
-        if(materialToSet == "green")
-        {
-            //Debug.Log("Material set to green");
+            SetMaterial(greenHighlight);
             currMaterial = materialState.Green;
         }
+        //Set this child's material to red
         else if (materialToSet == "red")
         {
-            //Debug.Log("Material set to red");
+            SetMaterial(redHighlight);
             currMaterial = materialState.Red;
         }
+        //Set this child's material to its original mat
         else if (materialToSet == "original")
         {
-            //Debug.Log("Material set to original");
+            SetOriginalMaterial();
             currMaterial = materialState.Original;
         }
+    }
 
-        //If the material is now the original material, clear the originalMats list
-        if (currMaterial == materialState.Original)
+    //Set all materials of the object to the given material
+    private void SetMaterial(Material matToSet)
+    {
+        foreach (Transform child in heldObject.transform)
         {
-            //Debug.Log("Object set to Original mats, Stored Mats Cleared");
-            originalMats.Clear();
-            originalMatsStored = false;
+            //Verify that that current child has a mesh renderer
+            if (child.GetComponent<MeshRenderer>())
+            {
+                //Set all materials attached to the child's mesh renderer
+                MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                foreach (Material mat in meshRenderer.materials)
+                    meshRenderer.material = matToSet;
+            }
+
+            //Check if child has children of its own
+            if (child.childCount > 0)
+            {
+                foreach (Transform child2 in child)
+                {
+                    //Check if second child has mesh renderer
+                    if (child2.GetComponent<MeshRenderer>())
+                    {
+                        //Set all materials attached to the second child's mesh renderer
+                        MeshRenderer meshRenderer = child2.GetComponent<MeshRenderer>();
+                        foreach (Material mat in meshRenderer.materials)
+                            meshRenderer.material = matToSet;
+                    }
+                }
+            }
         }
     }
 
@@ -332,8 +351,12 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
         if(placementMode)//Place a new security measure
         {
-            Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
+            GameObject newObject = Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
             MoneyManager.Instance.SubtractMoney(heldObjectCost);
+
+            //If the placed object was a guard, do some setup (ie: set patrol route color)
+            if (newObject.GetComponent<GuardPatrolPoints>())
+                newObject.GetComponent<GuardPatrolPoints>().SetGuardPatrolColor();
         }
         else if(movementMode)//Place a moved security measure
         {

@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class GuardPatrolPoints : MonoBehaviour
 {
     public GameObject Marker; //Marker to keep track of where the patrol points are at
     public LayerMask FloorMask;
-    public Color defaultMarkerColor;
     public Color redMarkerColor;
     public Color greenMarkerColor;
+    public Image patrolColorIndicator;
+    public bool startingGuard;
 
     [HideInInspector] public bool patrolPlacementMode;
     [HideInInspector] public bool patrolMovementMode;
     [HideInInspector] public List<GameObject> PatrolPoints = new List<GameObject>(); //List of patrol points
+    [HideInInspector] public Color patrolMarkerColor;
 
     private Camera mainCamera;
     private GameObject heldMarker;
@@ -34,6 +37,16 @@ public class GuardPatrolPoints : MonoBehaviour
         currMarkerNum = 1;
         heldMarkerScript.markerNum = currMarkerNum;
         heldMarkerScript.UpdateMarkerNum();
+
+        if (startingGuard)
+            SetGuardPatrolColor();
+    }
+
+    public void SetGuardPatrolColor()
+    {
+        patrolMarkerColor = PatrolColors.Instance.SetGuardRouteColor();
+        patrolColorIndicator.color = patrolMarkerColor;
+        heldMarkerScript.markerImage.color = patrolMarkerColor;
     }
 
     // Update is called once per frame
@@ -81,6 +94,7 @@ public class GuardPatrolPoints : MonoBehaviour
                 {
                     GameObject newMarker = Instantiate(Marker, hit.point, Quaternion.identity);
                     PatrolPoints.Add(newMarker);
+                    newMarker.GetComponent<PatrolMarker>().markerImage.color = patrolMarkerColor;
 
                     PatrolMarker markerScript = newMarker.GetComponent<PatrolMarker>();
                     markerScript.markerNum = currMarkerNum;
@@ -130,7 +144,7 @@ public class GuardPatrolPoints : MonoBehaviour
                 if (PlayerInputs.Instance.LeftClickPressed)
                 {
                     patrolMovementMode = false;
-                    moveMarkerScript.markerImage.color = defaultMarkerColor;
+                    moveMarkerScript.markerImage.color = patrolMarkerColor;
                     SecuritySelection.Instance.canSelect = true;
                 }
             }
@@ -140,7 +154,7 @@ public class GuardPatrolPoints : MonoBehaviour
         if (PlayerInputs.Instance.RightClickPressed)
         {
             moveMarker.transform.position = storedMoveMarkerPos;
-            moveMarkerScript.markerImage.color = defaultMarkerColor;
+            moveMarkerScript.markerImage.color = patrolMarkerColor;
 
             patrolMovementMode = false;
             SecuritySelection.Instance.canSelect = true;
