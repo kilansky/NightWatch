@@ -9,6 +9,7 @@ public class GuardPathfinding : MonoBehaviour
     public ControlMode currControlMode = ControlMode.Idle;
     public LayerMask FloorMask;
     public NavMeshAgent Agent;
+    public GameObject alertedIcon;
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
@@ -137,6 +138,14 @@ public class GuardPathfinding : MonoBehaviour
         
     }
 
+    //Activates the alerted icon, initiates the speed increase for the guard, and begins Chase behavior
+    public void BeginChasingThief()
+    {
+        ThiefSpotted = true;
+        alertedIcon.SetActive(true);
+        SpeedIncrease();
+    }
+
     //Automatically chase thief
     private void Chase()
     {
@@ -144,6 +153,7 @@ public class GuardPathfinding : MonoBehaviour
         {
             print("Thief Gone");
             ThiefSpotted = false;
+            alertedIcon.SetActive(false);
             SpeedDecrease();
             currControlMode = ControlMode.Idle;
         }
