@@ -27,9 +27,13 @@ public class ThiefPathfinding : MonoBehaviour
     private float timeRemainingToSteal;    //The progress of the steal timer
     private bool ObjectStolen; //Stolen
     private int ItemsHeld; //Number of target items the thief is holding
+    private float doorOpenDelay; //Time the thief must stand still as the door opens
+    private DoorControl doorInteractingwith; //References the DoorControl script that the thief is interacting with
+    private bool DoorInteraction; //Marks that the thief is interacting with the door
     // Start is called before the first frame update
     void Start()
     {
+        DoorInteraction = false;
         Agent = GetComponent<NavMeshAgent>();
         ObjectStolen = false;
         timeRemainingToSteal = timeToSteal;
@@ -39,57 +43,78 @@ public class ThiefPathfinding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(currBehavior);
+        print("Thief speed is " + Agent.speed);
 
         //Sneak
         if (currBehavior == BehaviorStates.Sneak)
         {
-            
-           
-            //Checks if the Thief is close enough to steal the target object
-            if (Vector3.Distance(transform.position, Target.transform.position) < StealRange)
-            {
-                Agent.SetDestination(transform.position);
-                StealAction();
-            }
-            else
-            {
-                Agent.SetDestination(Target.transform.position);
-            }
+            SneakBehavior();
         }
         //Escape
         else if (currBehavior == BehaviorStates.Escape)
         {
-            Agent.SetDestination(SpawnPoint.position);
-
-            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
-            {
-                if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
-                {
-                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
-                }
-                ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
-                Destroy(gameObject);
-            }
+            EscapeBehavior();
         }
         //Evade
         else if (currBehavior == BehaviorStates.Evade)
         {
-            Agent.SetDestination(SpawnPoint.position);
-
-            if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
-            {
-                if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
-                {
-                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
-                }
-                ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
-                Destroy(gameObject);
-            }
+            EvadeBehavior();
         }
         else if(currBehavior == BehaviorStates.SkillCheck)
         {
             //Stealing, hacking, lockpicking...
+        }
+    }
+
+    private void SneakBehavior()
+    {
+        //Checks if the Thief is close enough to steal the target object
+        if (Vector3.Distance(transform.position, Target.transform.position) < StealRange)
+        {
+            Agent.SetDestination(transform.position);
+            StealAction();
+        }
+        else
+        {
+            if (DoorInteraction == false) //If thief is interacting with door, SetDestination does not reset
+            {
+                Agent.SetDestination(Target.transform.position);
+            }
+        }
+    }
+
+    private void EscapeBehavior()
+    {
+        if (DoorInteraction == false) //If thief is interacting with door, SetDestination does not reset
+        {
+            Agent.SetDestination(SpawnPoint.position);
+        }
+        if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
+        {
+            if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
+            {
+                ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+            }
+            ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+            Destroy(gameObject);
+        }
+    }
+
+    private void EvadeBehavior()
+    {
+        print("Evading");
+        if (DoorInteraction == false) //If thief is interacting with door, SetDestination does not reset
+        {
+            Agent.SetDestination(SpawnPoint.position);
+        }
+        if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
+        {
+            if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
+            {
+                ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+            }
+            ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+            Destroy(gameObject);
         }
     }
 
@@ -123,7 +148,7 @@ public class ThiefPathfinding : MonoBehaviour
         {
             ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
         }
-
+        print("Deleted");
         Destroy(gameObject);
     }
 
@@ -175,5 +200,114 @@ public class ThiefPathfinding : MonoBehaviour
                 SpawnPoint = spawnSystem.Entry_Locations[i];
             }
         }
+    }
+
+    //Door Interactions
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Door" && other.GetComponent<DoorControl>().IsClosed) //Checks if thief enters a closed door's collider
+        {
+            DoorInteraction = true; //Marks that the thief is interacting with the door
+
+            doorInteractingwith = other.GetComponent<DoorControl>(); //Creates a reusable reference for the door's script
+
+            Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position); //Marks the position the thief is supposed to wait at as the door opens
+
+            if(currBehavior == BehaviorStates.Evade)
+            {
+                doorOpenDelay = other.GetComponent<DoorControl>().chaseOpenDuration; //Saves a reference to how long the door animation lasts
+
+            }
+            else
+            {
+                doorOpenDelay = other.GetComponent<DoorControl>().openAnimationDuration; //Saves a reference to how long the door animation lasts
+
+            }
+
+            Agent.SetDestination(waitPosition); //Causes thief to go towards the waitPosition
+
+           
+            StartCoroutine(OpenDelayCoroutine());
+            print("Thief Opens Door");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Door" && other.GetComponent<DoorControl>().IsOpened)
+        {
+            
+            Agent.isStopped = true;
+
+            doorInteractingwith = other.GetComponent<DoorControl>();
+
+            if (currBehavior == BehaviorStates.Evade)
+            {
+                doorOpenDelay = other.GetComponent<DoorControl>().chaseCloseDuration; //Saves a reference to how long the door animation lasts
+
+            }
+            else
+            {
+                doorOpenDelay = other.GetComponent<DoorControl>().closeAnimationDuration; //Saves a reference to how long the door animation lasts
+
+            }
+            
+            
+            StartCoroutine(CloseDelayCoroutine());
+            print("Thief Closes Door");
+        }
+    }
+
+    private IEnumerator OpenDelayCoroutine()
+    {
+        while (Vector3.Distance(Agent.destination, transform.position) > Agent.stoppingDistance + 0.5f)
+        {
+            print("Do Nothing");
+            yield return null;
+        }
+
+        if (currBehavior == BehaviorStates.Evade)
+        {
+            doorInteractingwith.GetComponent<DoorControl>().ChaseOpenDoor();
+        }
+        else
+        {
+            doorInteractingwith.GetComponent<DoorControl>().OpenDoor();
+        }
+
+        yield return new WaitForSeconds(doorOpenDelay);
+
+        if(currBehavior == BehaviorStates.Sneak)
+        {
+            Agent.SetDestination(Target.transform.position);
+            DoorInteraction = false;
+        }
+        else
+        {
+            Agent.SetDestination(SpawnPoint.position);
+            DoorInteraction = false;
+        }
+        
+        doorOpenDelay = 0;
+    }
+    private IEnumerator CloseDelayCoroutine()
+    {
+        if (currBehavior == BehaviorStates.Evade)
+        {
+            doorInteractingwith.GetComponent<DoorControl>().ChaseCloseDoor();
+        }
+        else
+        {
+            doorInteractingwith.GetComponent<DoorControl>().CloseDoor();
+        }
+       
+    
+        yield return new WaitForSeconds(doorOpenDelay);
+
+
+        Agent.isStopped = false;
+
+        doorOpenDelay = 0;
     }
 }
