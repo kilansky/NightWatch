@@ -43,7 +43,7 @@ public class ThiefPathfinding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("Thief speed is " + Agent.speed);
+        //print("Thief speed is " + Agent.speed);
 
         //Sneak
         if (currBehavior == BehaviorStates.Sneak)
@@ -96,6 +96,7 @@ public class ThiefPathfinding : MonoBehaviour
                 ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
             }
             ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+            Debug.Log("Thief Escaped");
             Destroy(gameObject);
         }
     }

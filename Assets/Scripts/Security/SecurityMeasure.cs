@@ -5,7 +5,7 @@ using TMPro;
 
 public class SecurityMeasure : MonoBehaviour
 {
-    public enum SecurityType { camera, laser, guard, audio};
+    public enum SecurityType { camera, laser, guard, audio, patrolMarker};
 
     public SecurityType securityType;
     public bool placedOnWalls = true; //false = place on floors - ie: guards

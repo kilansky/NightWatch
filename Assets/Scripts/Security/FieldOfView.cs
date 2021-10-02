@@ -54,8 +54,7 @@ public class FieldOfView : MonoBehaviour
             //Change Guard Behavior
             //Note- chases first found thief, not the closest - CHANGE LATER??
             gameObject.GetComponent<GuardPathfinding>().Thief = visibleTargets[0].gameObject;
-            gameObject.GetComponent<GuardPathfinding>().ThiefSpotted = true;
-            gameObject.GetComponent<GuardPathfinding>().SpeedIncrease();
+            gameObject.GetComponent<GuardPathfinding>().BeginChasingThief();
 
             //Change Thief Behavior
             visibleTargets[0].gameObject.GetComponent<ThiefPathfinding>().SeenByGuard();
