@@ -4,51 +4,32 @@ using UnityEngine;
 
 public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 {
-    //The minimum amount of time it takes for a thief to spawn
-    public float BaseSpawnTimer;
-    //The longest possible time that the BaseSpawnTimer can be increased by
-    public float Timer_Mod;
-    //The Weight that each possible spawnpoint has
-    public int[] SpawnWeights;
-    //The transform values for each spawn point
-    public Transform[] Entry_Locations;
-    //The thief prefab
-    public GameObject ThiefPrefab;
 
+    public float BaseSpawnTimer; //The minimum amount of time it takes for a thief to spawn
+    public float Timer_Mod; //The longest possible time that the BaseSpawnTimer can be increased by
+    public Transform[] Entry_Locations; //The transform values for each spawn point
+    public int[] SpawnWeights; //The Weight that each possible spawnpoint has
+    public GameObject ThiefPrefab; //The thief prefab 
     public int numThievesToSpawn;
-
-    public int ItemsLeft; //Number of target items left before game over
-
     public List<GameObject> TargetObjects = new List<GameObject>(); //List of Target items
-
     public int BaseSpareAttributePoints;
-
     public int[] DifficultyModifier;
-
     public int DifficultySelected; //REPLACE WHEN DIFFICULTY SYSTEM IS IMPLAMENTED
 
-    //Selected Spawnpoint
-    private int Position;
-    //Random Number Generated
-    private int Chance;
-    //The combination of all weighted spawnpoints that serve as the highest possible value for the random number generator
-    private int TotalChance;
-    //The time left until the thief spawns
-    private float Timer;
+    [HideInInspector] public int ItemsLeft; //Number of target items left before game over
 
+    private int Position; //Selected Spawnpoint   
+    private int Chance; //Random Number Generated   
+    private int TotalChance; //The combination of all weighted spawnpoints that serve as the highest possible value for the random number generator   
+    private float Timer; //The time left until the thief spawns
     private int thievesSpawned;
-
     private int TargetItemAssigned;
-
     private int[] AttributeScores = new int[5];
-
     private int PointsUsed;
 
     // Start is called before the first frame update
     private void Start()
     {
-        
-
         thievesSpawned = 0;
 
         //Generates the TotalChance variable
@@ -61,12 +42,10 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 
         //Sets up the first timer
         Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
-
     }
 
     private void Update()
-    {
-        
+    {        
         //NOTE: This is a placeholder meant to test a basic gameover state.
         if (ItemsLeft <= 0)
         {
@@ -125,12 +104,8 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
                 {
                     print("Repeat");
                 }
-
             }
             PointsUsed = 0;
-         
-
-
         }
     }
 
@@ -150,8 +125,6 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
                 break;
             }
         }
-
-        
 
         TargetItemAssigned = Random.Range(0, TargetObjects.Count - 1); //Creates a randomly generated number used to assign the thief its target object
 
