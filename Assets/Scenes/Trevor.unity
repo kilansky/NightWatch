@@ -918,6 +918,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 5140117554803427366, guid: 5054709d5c75ace4d80f9ee102c600c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5054709d5c75ace4d80f9ee102c600c3, type: 3}
 --- !u!4 &130586233 stripped
@@ -12324,6 +12328,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 714708856}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: DifficultyModifier.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: Entry_Locations.Array.data[0]
       value: 
       objectReference: {fileID: 163044095}
@@ -12555,6 +12563,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7934679849200255993, guid: 2d917c621e062894282a374168ad2247, type: 3}
+      propertyPath: m_TagString
+      value: CameraScript
+      objectReference: {fileID: 0}
     - target: {fileID: 7934679849200255997, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: smoothSpeed
       value: 0.125
@@ -12565,7 +12577,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7934679849200255997, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: distanceFromGuard.y
-      value: 5
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7934679849200255997, guid: 2d917c621e062894282a374168ad2247, type: 3}
+      propertyPath: distanceFromGuard.z
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 7934679849200255999, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_Follow

@@ -48,7 +48,26 @@ public class GuardPathfinding : MonoBehaviour
         {
             if (ThiefSpotted == true)
             {
-                currControlMode = ControlMode.Chase;
+                if (currControlMode != ControlMode.Manual)
+                {
+                    currControlMode = ControlMode.Chase;
+                }
+                else
+                {
+                    if (Thief == null)
+                    {
+                        print("Thief Gone");
+                        ThiefSpotted = false;
+                        //alertedIcon.SetActive(false);
+                        SpeedDecrease();
+
+                    }
+                    if (Vector3.Distance(transform.position, Thief.transform.position) < distToCatchThief)
+                    {
+                        CatchThief();
+                    }
+                }
+                
             }
             if (currControlMode == ControlMode.Idle)
             {
@@ -86,6 +105,7 @@ public class GuardPathfinding : MonoBehaviour
                 GuardLookAtMouse();
                 cameraScript.GetComponent<CameraController>().followGuard = true;
                 cameraScript.GetComponent<CameraController>().selectedGuard = transform;
+                
             }
             else if (currControlMode == ControlMode.Chase)
             {
@@ -152,7 +172,7 @@ public class GuardPathfinding : MonoBehaviour
     public void BeginChasingThief()
     {
         ThiefSpotted = true;
-        alertedIcon.SetActive(true);
+        //alertedIcon.SetActive(true);
         SpeedIncrease();
     }
 
@@ -189,7 +209,11 @@ public class GuardPathfinding : MonoBehaviour
     {
         print("CatchThief");
         Thief.GetComponent<ThiefPathfinding>().CaughtByGuard();
-        currControlMode = ControlMode.Idle;
+        if (currControlMode != ControlMode.Manual)
+        {
+            currControlMode = ControlMode.Idle;
+        }
+        
     }
 
     //Rotates guard in direction of mouse pointer
