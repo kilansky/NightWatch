@@ -27,8 +27,7 @@ public class GuardPatrolPoints : MonoBehaviour
     private Vector3 storedMoveMarkerPos;
     private int currMarkerNum;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         mainCamera = Camera.main;
         heldMarker = Instantiate(Marker, offScreenPos, Quaternion.identity);
@@ -109,6 +108,7 @@ public class GuardPatrolPoints : MonoBehaviour
         }  
     }
 
+    //Begins the process of moving a placed patrol point
     public void BeginMovingPatrolPoint(GameObject patrolPoint)
     {
         patrolMovementMode = true;

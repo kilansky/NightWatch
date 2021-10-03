@@ -49,8 +49,6 @@ public class CameraController : SingletonPattern<CameraController>
             Vector3 desiredPosition = selectedGuard.position + distanceFromGuard;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = smoothedPosition;
-        }
-        
+        }       
     }
-
 }
