@@ -98,13 +98,13 @@ public class DoorControl : MonoBehaviour
 
         if(Mathf.Abs(directionAngle) > 90f && Mathf.Abs(directionAngle) < 270f)
         {
-            print("Opening from the front");
+            print("Go to front");
             ExitPosition = backDoorPosition;
             return frontDoorPosition.position;
         }
         else
         {
-            print("Opening from the back");
+            print("Go to back");
             ExitPosition = frontDoorPosition;
             return backDoorPosition.position;
         }
