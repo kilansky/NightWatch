@@ -20,7 +20,6 @@ public class CameraController : SingletonPattern<CameraController>
     {
         if (followGuard == false)
         {
-            print("Camera Independent");
             //Get edges of bounding box
             float minX = boundingBox.position.x - (boundingBox.localScale.x / 2);
             float maxX = boundingBox.position.x + (boundingBox.localScale.x / 2);
@@ -50,8 +49,6 @@ public class CameraController : SingletonPattern<CameraController>
             Vector3 desiredPosition = selectedGuard.position + distanceFromGuard;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = smoothedPosition;
-        }
-        
+        }       
     }
-
 }
