@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class ThiefPathfinding : MonoBehaviour
 {
-    
-
     public enum BehaviorStates {Sneak, Escape, Evade, SkillCheck }
     public BehaviorStates currBehavior = BehaviorStates.Sneak;
     public float timeToSteal;    //Time it takes to steal objects
@@ -120,9 +118,7 @@ public class ThiefPathfinding : MonoBehaviour
 
             //Remove this thief from the guards that are chasing it
             foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
-            {
                 guard.thievesSpotted.Remove(gameObject);
-            }
 
             Destroy(gameObject);
         }
@@ -159,6 +155,11 @@ public class ThiefPathfinding : MonoBehaviour
             ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
         }
         print("Deleted");
+
+        //Remove this thief from the guards that are chasing it
+        foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
+            guard.thievesSpotted.Remove(gameObject);
+
         Destroy(gameObject);
     }
 
@@ -216,7 +217,7 @@ public class ThiefPathfinding : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Door" && other.GetComponent<DoorControl>().IsClosed) //Checks if thief enters a closed door's collider
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed) //Checks if thief enters a closed door's collider
         {
             DoorInteraction = true; //Marks that the thief is interacting with the door
 
@@ -245,7 +246,7 @@ public class ThiefPathfinding : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Door" && other.GetComponent<DoorControl>().IsOpened)
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
         {
             
             Agent.isStopped = true;

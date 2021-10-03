@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 public class GuardPathfinding : MonoBehaviour
 {
@@ -13,9 +14,9 @@ public class GuardPathfinding : MonoBehaviour
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
+    public List<GameObject> thievesSpotted = new List<GameObject>();
     [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool BeginPatrol;
-    public List<GameObject> thievesSpotted = new List<GameObject>();
 
     private int PatrolNumber;
     private Vector3 CurrentPatrolPoint;
@@ -27,11 +28,12 @@ public class GuardPathfinding : MonoBehaviour
     private bool DoorInteraction;
     private Vector3 ManualPosition;
     private CameraController cameraScript;
+    private bool canManualMove;
     private ControlMode lastControlMode;
-
     // Start is called before the first frame update
     void Start()
     {
+        canManualMove = true;
         DoorInteraction = false;
         BeginPatrol = false;
         mainCamera = Camera.main;
@@ -46,29 +48,19 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (GameManager.Instance.nightWatchPhase)
         {
-            if (thiefToChase)
-            {
-                if (currControlMode != ControlMode.Manual)
-                    currControlMode = ControlMode.Chase;
-
-                if (Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
-                    CatchThief();
-            }
             if (currControlMode == ControlMode.Idle)
             {
-                cameraScript.followGuard = false;
+                Agent.isStopped = false;
                 //Do nothing
                 ClickPoint = transform.position;
             }
             else if (currControlMode == ControlMode.Click)
             {
-                cameraScript.followGuard = false;
                 //Click to move
-                ClickMovement();             
+                ClickMovement();
             }
             else if (currControlMode == ControlMode.Patrol)
             {
-                cameraScript.followGuard = false;
                 if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                 {
                     //Patrol to set points
@@ -78,19 +70,63 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Manual)
             {
-                //Full WASD and mouse control
-                ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
-                GuardLookAtMouse();
-                cameraScript.followGuard = true;
-                cameraScript.selectedGuard = transform;              
+                if (canManualMove)
+                {
+                    //Full WASD and mouse control
+                    ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
+                    GuardLookAtMouse();
+                    cameraScript.followGuard = true;
+                    cameraScript.CameraFollow(transform);
+                    cameraScript.selectedGuard = transform;
+                    Agent.isStopped = true;
+                }
+
+                if (thiefToChase)
+                    AttemptToCatchThief();
+
+                if (DoorInteraction && doorInteractingwith.GetComponent<DoorControl>().IsClosed)
+                {
+                    print("In Door Zone");
+                    Keyboard kb = InputSystem.GetDevice<Keyboard>();
+                    if (kb.eKey.wasPressedThisFrame)
+                    {
+                        print("E Pressed");
+                        canManualMove = false;
+                        Agent.isStopped = false;
+                        Vector3 waitPosition = transform.position;
+                        Agent.SetDestination(waitPosition);
+
+                        if (thiefToChase)
+                        {
+                            doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().chaseOpenDuration;
+                        }
+                        else
+                        {
+                            doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().openAnimationDuration;
+                        }
+                        StartCoroutine(OpenDelayCoroutine());
+                    }
+                }
             }
             else if (currControlMode == ControlMode.Chase)
             {
-                //Auto-Chase thieves
-                Chase();
+                AttemptToCatchThief();
+
+                if (thiefToChase)
+                {                    
+                    //Auto-Chase thieves
+                    print("Going after Thief");
+                    if (DoorInteraction == false)
+                    {
+                        Agent.isStopped = false;
+                        currControlMode = ControlMode.Chase;
+                        Agent.SetDestination(thiefToChase.transform.position);
+                    }
+                }          
             }
         }
     }
+    
 
     private void ClickMovement()
     {
@@ -105,13 +141,15 @@ public class GuardPathfinding : MonoBehaviour
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     ClickPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-                    Agent.SetDestination(ClickPoint);
-                    print("Set Destination is " + Agent.destination);
-
+                    if (DoorInteraction == false)
+                    {
+                        Agent.isStopped = false;
+                        Agent.SetDestination(ClickPoint);
+                        print("Set Destination is " + Agent.destination);
+                    }
                 }
             }
-        }
-        
+        }       
     }
 
     //Follow set patrol points
@@ -137,9 +175,10 @@ public class GuardPathfinding : MonoBehaviour
         {
             if (DoorInteraction == false)
             {
+                Agent.isStopped = false;
                 Agent.SetDestination(CurrentPatrolPoint);
-            }            
-        }       
+            }           
+        }     
     }
 
     //Called when a thief is spotted from the FOV script
@@ -169,21 +208,17 @@ public class GuardPathfinding : MonoBehaviour
         }
     }
 
-    //Activates the alerted icon, initiates the speed increase for the guard, and begins Chase behavior
-    public void BeginChasingThief()
-    {
-        lastControlMode = currControlMode;
-        currControlMode = ControlMode.Chase;
-        alertedIcon.SetActive(true);
-        GetComponent<AudioSource>().Play();
-        SpeedIncrease();
-    }
-
     //Called when multiple thieves have been spotted, and one of the thieves has escaped or been caught
     private void SetNextThiefToChase()
     {
-        //If there is only one seen thief, set it as the thief to chase
-        if (thievesSpotted.Count == 1)
+        //If there are no thieves, return null
+        if(thievesSpotted.Count == 0)
+        {
+            thiefToChase = null;
+            return;
+        }
+        //If there is only one seen thief and it is not null, set it as the thief to chase
+        else if (thievesSpotted.Count == 1 && thievesSpotted[0])
         {
             thiefToChase = thievesSpotted[0];
             return;
@@ -191,46 +226,61 @@ public class GuardPathfinding : MonoBehaviour
 
         //If there are multiple seen thieves, find the closest one to the guard set it as the thief to chase
         float closestThief = Mathf.Infinity;
+        List<GameObject> nullThieves = new List<GameObject>();
+        thiefToChase = null;
         foreach (GameObject thief in thievesSpotted)
         {
-            float distToThief = Vector3.Distance(transform.position, thief.transform.position);
-            if (distToThief < closestThief)
+            if (thief)
             {
-                thiefToChase = thief;
+                float distToThief = Vector3.Distance(transform.position, thief.transform.position);
+                if (distToThief < closestThief)
+                    thiefToChase = thief;
             }
+            else
+                nullThieves.Add(thief);
         }
+
+        //Remove any thieves that have been deleted
+        foreach (GameObject thief in nullThieves)
+            thievesSpotted.Remove(thief);
+
+        nullThieves.Clear();
+    }
+
+    //Activates the alerted icon, initiates the speed increase for the guard, and begins Chase behavior
+    public void BeginChasingThief()
+    {
+        if(currControlMode != ControlMode.Manual)
+        {
+            lastControlMode = currControlMode;
+            currControlMode = ControlMode.Chase;
+        }
+
+        alertedIcon.SetActive(true);
+        GetComponent<AudioSource>().Play();
+        SpeedIncrease();
     }
 
     //Automatically chase thief
-    private void Chase()
+    private void AttemptToCatchThief()
     {
+        SetNextThiefToChase();
+
         if (thiefToChase == null)
         {
             print("Thief Gone");
             CheckToEndChase();
         }
         else
-        {
-            print("Going after Thief");
-            if (DoorInteraction == false)
-            {
-                Agent.SetDestination(thiefToChase.transform.position);
-            }
-            
+        {    
             if (Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
             {
-                CatchThief();
-            }             
+                print("CatchThief");
+                thiefToChase.GetComponent<ThiefPathfinding>().CaughtByGuard();
+                thievesSpotted.Remove(thiefToChase);
+                CheckToEndChase();
+            }      
         }
-    }
-
-    //Catching Thief
-    private void CatchThief()
-    {
-        print("CatchThief");
-        thiefToChase.GetComponent<ThiefPathfinding>().CaughtByGuard();
-        thievesSpotted.Remove(thiefToChase);
-        CheckToEndChase();
     }
 
     //Checks if there are more thieves to chase, or to end the chase
@@ -243,7 +293,10 @@ public class GuardPathfinding : MonoBehaviour
         else
         {
             SpeedDecrease();
-            currControlMode = lastControlMode;
+
+            if(currControlMode != ControlMode.Manual)
+                currControlMode = lastControlMode;
+
             alertedIcon.SetActive(false);
         }
     }
@@ -261,22 +314,23 @@ public class GuardPathfinding : MonoBehaviour
         }
 
         transform.position += PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
-
-        //SWITCH CAMERA TO FOLLOW THE GUARD HERE!!
     }
 
     //DOOR INTERACTIONS
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Door" && other.GetComponent<DoorControl>().IsClosed)
+        //Door enter while not in manual mode
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual)
         {
             DoorInteraction = true;
-
             doorInteractingwith = other.GetComponent<DoorControl>();
             Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position);
 
-            if (currControlMode == ControlMode.Chase)
+            Debug.LogWarning("KNOWN ERROR: NullReferenceException");
+            Agent.SetDestination(waitPosition);
+
+            if (thiefToChase)
             {
                 doorOpenDelay = other.GetComponent<DoorControl>().chaseOpenDuration;
             }
@@ -284,21 +338,41 @@ public class GuardPathfinding : MonoBehaviour
             {
                 doorOpenDelay = other.GetComponent<DoorControl>().openAnimationDuration;
             }
-            
-
-            Agent.SetDestination(waitPosition);
-            print("Set Destination is " + Agent.destination + ", waitPosition is " + waitPosition);
 
             StartCoroutine(OpenDelayCoroutine());
-            print("Guard Opens Door");
         }
+
+        //Door enter while in manual mode
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode == ControlMode.Manual)
+        {
+            DoorInteraction = true;
+            doorInteractingwith = other.GetComponent<DoorControl>();
+        }        
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Door" && other.GetComponent<DoorControl>().IsOpened)
+        //Exit door collider w/o opening it
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed)
+            DoorInteraction = false;
+
+        //Exit door collider after opeing it
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
         {
-            Agent.isStopped = true;
+            DoorInteraction = true;
+            if (currControlMode == ControlMode.Manual)
+            {
+                canManualMove = false;
+                Agent.isStopped = false;
+                Vector3 waitPosition = transform.position;
+                Agent.SetDestination(waitPosition);
+            }
+            else
+            {              
+                Agent.isStopped = true;
+                print("Stop Moving");
+            }
+            
             if (currControlMode == ControlMode.Chase)
             {
                 doorOpenDelay = other.GetComponent<DoorControl>().chaseCloseDuration;
@@ -315,11 +389,14 @@ public class GuardPathfinding : MonoBehaviour
 
     private IEnumerator OpenDelayCoroutine()
     {
-        while(Vector3.Distance(Agent.destination, transform.position) > Agent.stoppingDistance)
+        if (currControlMode != ControlMode.Manual)
         {
-            print("Do Nothing");
-            yield return null;
-        }
+            while (Vector3.Distance(Agent.destination, transform.position) > Agent.stoppingDistance)
+            {
+                print("Do Nothing");
+                yield return null;
+            }
+        }        
 
         if(currControlMode == ControlMode.Chase)
         {
@@ -329,43 +406,58 @@ public class GuardPathfinding : MonoBehaviour
         {
             doorInteractingwith.GetComponent<DoorControl>().OpenDoor();
         }
-        
 
+        print(doorOpenDelay);
         yield return new WaitForSeconds(doorOpenDelay);
+        print("Delay Over");
+        DoorInteraction = false;
 
-        if(currControlMode == ControlMode.Click)
+        if (currControlMode == ControlMode.Click)
         {
-            DoorInteraction = false;
             Agent.SetDestination(ClickPoint);
         }
         else if (currControlMode == ControlMode.Patrol)
         {
-            DoorInteraction = false;
-            Agent.SetDestination(ClickPoint);
+            Agent.SetDestination(CurrentPatrolPoint);
         }
         else if (currControlMode == ControlMode.Chase)
-        {
-            DoorInteraction = false;
+        {          
             Agent.SetDestination(thiefToChase.transform.position);
+        }
+        else if (currControlMode == ControlMode.Manual)
+        {
+            print("Can Move");
+            Agent.isStopped = true;
+            canManualMove = true;
         }
 
         doorOpenDelay = 0;
     }
+
     private IEnumerator CloseDelayCoroutine()
     {
         if (currControlMode == ControlMode.Chase)
         {
-            Debug.LogWarning("Known Error Here: NullReferenceException");
             doorInteractingwith.GetComponent<DoorControl>().ChaseCloseDoor();
         }
         else
         {
             doorInteractingwith.GetComponent<DoorControl>().CloseDoor();
-        }
-        
+        }        
+
         yield return new WaitForSeconds(doorOpenDelay);
 
-        Agent.isStopped = false;
+        if (currControlMode == ControlMode.Manual)
+        {
+            canManualMove = true;
+            Agent.isStopped = true;
+        }
+        else
+        {
+            DoorInteraction = false;
+            Agent.isStopped = false;
+        }      
+
         doorOpenDelay = 0;
     }
 

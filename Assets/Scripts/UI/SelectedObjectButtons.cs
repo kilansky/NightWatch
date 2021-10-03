@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
+    [HideInInspector] public bool guardIsInManualMode = false;
+
     //Sells the security measure that is currently selected
     public void SellButton()
     {
@@ -59,6 +61,7 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Sets guard control mode to idle state
     public void GuardIdleButton()
     {
+        ResetManualGuard();
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Idle;
         SecuritySelection.Instance.CloseSelection();
     }
@@ -66,6 +69,7 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Sets guard control mode to patrol state
     public void GuardPatrolButton()
     {
+        ResetManualGuard();
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Patrol;
         SecuritySelection.Instance.CloseSelection();
     }
@@ -73,6 +77,7 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Sets guard control mode to click state
     public void GuardClickMoveButton()
     {
+        ResetManualGuard();
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Click;
         SecuritySelection.Instance.CloseSelection();
     }
@@ -82,5 +87,17 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     {
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Manual;
         SecuritySelection.Instance.CloseSelection();
+        guardIsInManualMode = true;
+    }
+
+    private void ResetManualGuard()
+    {
+        //If this guard was in manual mode, disable it
+        if (guardIsInManualMode && SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode == GuardPathfinding.ControlMode.Manual)
+        {
+            CameraController.Instance.followGuard = false;
+            CameraController.Instance.CameraFollow(null);
+            guardIsInManualMode = false;
+        }
     }
 }
