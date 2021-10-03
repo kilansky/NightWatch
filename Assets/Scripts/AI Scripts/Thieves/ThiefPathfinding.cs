@@ -95,6 +95,11 @@ public class ThiefPathfinding : MonoBehaviour
                 ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
             }
             ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+
+            //Remove this thief from the guards that are chasing it
+            foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
+                guard.ThiefRemoved(gameObject);
+
             Debug.Log("Thief Escaped");
             Destroy(gameObject);
         }
@@ -108,6 +113,7 @@ public class ThiefPathfinding : MonoBehaviour
         {
             Agent.SetDestination(SpawnPoint.position);
         }
+        //print("Distance = " + Vector3.Distance(transform.position, SpawnPoint.position));
         if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
         {
             if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
@@ -115,11 +121,10 @@ public class ThiefPathfinding : MonoBehaviour
                 ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
             }
             ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
-
             //Remove this thief from the guards that are chasing it
             foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
-                guard.thievesSpotted.Remove(gameObject);
-
+                guard.ThiefRemoved(gameObject);
+            
             Destroy(gameObject);
         }
     }

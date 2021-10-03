@@ -61,6 +61,7 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Patrol)
             {
+                print("Patrol is Active");
                 if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                 {
                     //Patrol to set points
@@ -83,6 +84,7 @@ public class GuardPathfinding : MonoBehaviour
 
                 if (thiefToChase)
                     AttemptToCatchThief();
+                
 
                 if (DoorInteraction && doorInteractingwith.GetComponent<DoorControl>().IsClosed)
                 {
@@ -110,7 +112,9 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Chase)
             {
-                AttemptToCatchThief();
+                if (thiefToChase)
+                    AttemptToCatchThief();
+                
 
                 if (thiefToChase)
                 {                    
@@ -208,6 +212,12 @@ public class GuardPathfinding : MonoBehaviour
         }
     }
 
+    public void ThiefRemoved(GameObject target)
+    {
+        thievesSpotted.Remove(target);
+        CheckToEndChase();
+    }
+
     //Called when multiple thieves have been spotted, and one of the thieves has escaped or been caught
     private void SetNextThiefToChase()
     {
@@ -258,6 +268,7 @@ public class GuardPathfinding : MonoBehaviour
 
         alertedIcon.SetActive(true);
         GetComponent<AudioSource>().Play();
+        print("First Thief");
         SpeedIncrease();
     }
 
@@ -265,21 +276,15 @@ public class GuardPathfinding : MonoBehaviour
     private void AttemptToCatchThief()
     {
         SetNextThiefToChase();
+        print("Attempting To Catch Thief");
+        print(thiefToChase);
 
-        if (thiefToChase == null)
+        if (Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
         {
-            print("Thief Gone");
+            print("CatchThief");
+            thiefToChase.GetComponent<ThiefPathfinding>().CaughtByGuard();
+            thievesSpotted.Remove(thiefToChase);
             CheckToEndChase();
-        }
-        else
-        {    
-            if (Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
-            {
-                print("CatchThief");
-                thiefToChase.GetComponent<ThiefPathfinding>().CaughtByGuard();
-                thievesSpotted.Remove(thiefToChase);
-                CheckToEndChase();
-            }      
         }
     }
 
@@ -292,6 +297,7 @@ public class GuardPathfinding : MonoBehaviour
         //If there are no other spotted thieves, return to last control mode
         else
         {
+            print("No more Thieves");
             SpeedDecrease();
 
             if(currControlMode != ControlMode.Manual)
@@ -409,9 +415,9 @@ public class GuardPathfinding : MonoBehaviour
 
         print(doorOpenDelay);
         yield return new WaitForSeconds(doorOpenDelay);
-        print("Delay Over");
+       
         DoorInteraction = false;
-
+        print("Door Interaction = " + DoorInteraction);
         if (currControlMode == ControlMode.Click)
         {
             Agent.SetDestination(ClickPoint);
@@ -419,6 +425,7 @@ public class GuardPathfinding : MonoBehaviour
         else if (currControlMode == ControlMode.Patrol)
         {
             Agent.SetDestination(CurrentPatrolPoint);
+            print("Patrol Destination = " + CurrentPatrolPoint);
         }
         else if (currControlMode == ControlMode.Chase)
         {          
@@ -454,6 +461,7 @@ public class GuardPathfinding : MonoBehaviour
         }
         else
         {
+            canManualMove = true;
             DoorInteraction = false;
             Agent.isStopped = false;
         }      
@@ -463,12 +471,12 @@ public class GuardPathfinding : MonoBehaviour
 
     public void SpeedIncrease()
     {
-        //print("Speed Increase");
+        print("Speed Increase");
         Agent.speed = Agent.speed * PursuitSpeedMod;
     }
     public void SpeedDecrease()
     {
-        //print("Speed Decrease");
+        print("Speed Decrease");
         Agent.speed = Agent.speed / PursuitSpeedMod;
     }
 }
