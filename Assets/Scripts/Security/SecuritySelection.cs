@@ -151,6 +151,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                     default:
                         break;
                 }
+
+                //Prevent other guards from being in manual mode if already in manual mode
+                if(SelectedObjectButtons.Instance.guardIsInManualMode)
+                    guardManualButton.SetActive(false);
             }
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)

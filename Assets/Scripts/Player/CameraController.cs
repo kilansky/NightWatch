@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraController : SingletonPattern<CameraController>
 {
@@ -14,6 +15,12 @@ public class CameraController : SingletonPattern<CameraController>
     [HideInInspector] public bool followGuard;
 
     private Vector3 newCamPos;
+    private CinemachineVirtualCamera vcam;
+
+    private void Start()
+    {
+        vcam = GetComponent<CinemachineVirtualCamera>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -42,6 +49,12 @@ public class CameraController : SingletonPattern<CameraController>
         }
     }
 
+    public void CameraFollow(Transform target)
+    {
+        vcam.Follow = target;
+    }
+
+    /*
     private void LateUpdate()
     {
         if (followGuard)
@@ -51,4 +64,5 @@ public class CameraController : SingletonPattern<CameraController>
             transform.position = smoothedPosition;
         }       
     }
+    */
 }
