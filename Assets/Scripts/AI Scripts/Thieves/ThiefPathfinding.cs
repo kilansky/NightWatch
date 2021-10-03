@@ -83,6 +83,7 @@ public class ThiefPathfinding : MonoBehaviour
         }
     }
 
+    //Sneak out of the building
     private void EscapeBehavior()
     {
         if (DoorInteraction == false) //If thief is interacting with door, SetDestination does not reset
@@ -101,6 +102,7 @@ public class ThiefPathfinding : MonoBehaviour
         }
     }
 
+    //Run from guard out of the building
     private void EvadeBehavior()
     {
         print("Evading");
@@ -115,6 +117,13 @@ public class ThiefPathfinding : MonoBehaviour
                 ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
             }
             ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+
+            //Remove this thief from the guards that are chasing it
+            foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
+            {
+                guard.thievesSpotted.Remove(gameObject);
+            }
+
             Destroy(gameObject);
         }
     }

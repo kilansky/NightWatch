@@ -13,9 +13,9 @@ public class GuardPathfinding : MonoBehaviour
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
-    [HideInInspector] public GameObject Thief;
-    [HideInInspector] public bool ThiefSpotted;
+    [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool BeginPatrol;
+    public List<GameObject> thievesSpotted = new List<GameObject>();
 
     private int PatrolNumber;
     private Vector3 CurrentPatrolPoint;
@@ -25,14 +25,16 @@ public class GuardPathfinding : MonoBehaviour
     private float doorOpenDelay;
     private DoorControl doorInteractingwith;
     private bool DoorInteraction;
+    private ControlMode lastControlMode;
+
     // Start is called before the first frame update
     void Start()
     {
         DoorInteraction = false;
         BeginPatrol = false;
-        ThiefSpotted = false;
         mainCamera = Camera.main;
         //currControlMode = ControlMode.Idle;
+        lastControlMode = currControlMode;
         PatrolNumber = 0;
     }
 
@@ -41,10 +43,6 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (GameManager.Instance.nightWatchPhase)
         {
-            if (ThiefSpotted == true)
-            {
-                currControlMode = ControlMode.Chase;
-            }
             if (currControlMode == ControlMode.Idle)
             {
                 //Do nothing
@@ -138,21 +136,71 @@ public class GuardPathfinding : MonoBehaviour
         
     }
 
+    //Called when a thief is spotted from the FOV script
+    public void ThiefSpotted(GameObject target)
+    {
+        //Check if the spotten thief is already known about by the guard (has been seen recently)
+        bool knownThief = false;
+        foreach (GameObject thief in thievesSpotted)
+        {
+            if (thief == target)
+            {
+                knownThief = true;
+                return;
+            }
+        }
+
+        //If this thief is new, add it to the thieves spotted list and begin chasing interaction
+        if (!knownThief)
+        {
+            thievesSpotted.Add(target);
+            target.GetComponent<ThiefPathfinding>().SeenByGuard();
+
+            if (!thiefToChase)
+                BeginChasingThief();
+
+            SetNextThiefToChase();
+        }
+    }
+
     //Activates the alerted icon, initiates the speed increase for the guard, and begins Chase behavior
     public void BeginChasingThief()
     {
-        ThiefSpotted = true;
+        lastControlMode = currControlMode;
+        currControlMode = ControlMode.Chase;
         alertedIcon.SetActive(true);
+        GetComponent<AudioSource>().Play();
         SpeedIncrease();
+    }
+
+    //Called when multiple thieves have been spotted, and one of the thieves has escaped or been caught
+    private void SetNextThiefToChase()
+    {
+        //If there is only one seen thief, set it as the thief to chase
+        if (thievesSpotted.Count == 1)
+        {
+            thiefToChase = thievesSpotted[0];
+            return;
+        }
+
+        //If there are multiple seen thieves, find the closest one to the guard set it as the thief to chase
+        float closestThief = Mathf.Infinity;
+        foreach (GameObject thief in thievesSpotted)
+        {
+            float distToThief = Vector3.Distance(transform.position, thief.transform.position);
+            if(distToThief < closestThief)
+            {
+                thiefToChase = thief;
+            }
+        }
     }
 
     //Automatically chase thief
     private void Chase()
     {
-        if (Thief == null)
+        if (thiefToChase == null)
         {
             print("Thief Gone");
-            ThiefSpotted = false;
             alertedIcon.SetActive(false);
             SpeedDecrease();
             currControlMode = ControlMode.Idle;
@@ -163,14 +211,13 @@ public class GuardPathfinding : MonoBehaviour
             if (DoorInteraction == false)
             {
 
-                Agent.SetDestination(Thief.transform.position);
+                Agent.SetDestination(thiefToChase.transform.position);
             }
             
-            if (Vector3.Distance(transform.position, Thief.transform.position) < distToCatchThief)
+            if (Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
             {
                 CatchThief();
-            }
-                
+            }               
         }
     }
 
@@ -178,8 +225,15 @@ public class GuardPathfinding : MonoBehaviour
     private void CatchThief()
     {
         print("CatchThief");
-        Thief.GetComponent<ThiefPathfinding>().CaughtByGuard();
-        currControlMode = ControlMode.Idle;
+        thiefToChase.GetComponent<ThiefPathfinding>().CaughtByGuard();
+        thievesSpotted.Remove(thiefToChase);
+
+        //Check to go after the next thief spotted
+        if (thievesSpotted.Count > 0)
+            SetNextThiefToChase();
+        //If there are no other spotted thieves, return to last control mode
+        else
+            currControlMode = lastControlMode; 
     }
 
     //Rotates guard in direction of mouse pointer
@@ -280,7 +334,7 @@ public class GuardPathfinding : MonoBehaviour
         else if (currControlMode == ControlMode.Chase)
         {
             DoorInteraction = false;
-            Agent.SetDestination(Thief.transform.position);
+            Agent.SetDestination(thiefToChase.transform.position);
         }
 
         doorOpenDelay = 0;

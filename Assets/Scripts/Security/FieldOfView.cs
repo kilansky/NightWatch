@@ -41,23 +41,6 @@ public class FieldOfView : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
-
-            if (visibleTargets.Count > 0 && GetComponent<GuardPathfinding>())
-                ThiefSpotted();
-        }
-    }
-
-    private void ThiefSpotted()
-    {
-        if (GetComponent<GuardPathfinding>().ThiefSpotted == false)
-        {
-            //Change Guard Behavior
-            //Note- chases first found thief, not the closest - CHANGE LATER??
-            gameObject.GetComponent<GuardPathfinding>().Thief = visibleTargets[0].gameObject;
-            gameObject.GetComponent<GuardPathfinding>().BeginChasingThief();
-
-            //Change Thief Behavior
-            visibleTargets[0].gameObject.GetComponent<ThiefPathfinding>().SeenByGuard();
         }
     }
 
@@ -84,6 +67,9 @@ public class FieldOfView : MonoBehaviour
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
+
+                    if(GetComponent<GuardPathfinding>())
+                        GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
                 }
             }
         }

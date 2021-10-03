@@ -206,11 +206,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             {
                 //Set all materials attached to the child's mesh renderer
                 MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                List<Material> materialsToSet = new List<Material>();
                 foreach (Material mat in meshRenderer.materials)
                 {
-                    meshRenderer.material = originalMats[i];
+                    materialsToSet.Add(originalMats[i]);
                     i++;
                 }
+                meshRenderer.materials = materialsToSet.ToArray();
             }
         
             //Check if child has children of its own
@@ -223,11 +225,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                     {
                         //Set all materials attached to the second child's mesh renderer
                         MeshRenderer meshRenderer = child2.GetComponent<MeshRenderer>();
+                        List<Material> materialsToSet = new List<Material>();
                         foreach (Material mat in meshRenderer.materials)
                         {
-                            meshRenderer.material = originalMats[i];
+                            materialsToSet.Add(originalMats[i]);
                             i++;
                         }
+                        meshRenderer.materials = materialsToSet.ToArray();
                     }
                 }
             }
@@ -277,8 +281,11 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             {
                 //Set all materials attached to the child's mesh renderer
                 MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                List <Material> materialsToSet = new List<Material>();
                 foreach (Material mat in meshRenderer.materials)
-                    meshRenderer.material = matToSet;
+                    materialsToSet.Add(matToSet);
+
+                meshRenderer.materials = materialsToSet.ToArray();
             }
 
             //Check if child has children of its own
@@ -290,9 +297,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                     if (child2.GetComponent<MeshRenderer>())
                     {
                         //Set all materials attached to the second child's mesh renderer
+                        //Set all materials attached to the child's mesh renderer
                         MeshRenderer meshRenderer = child2.GetComponent<MeshRenderer>();
+                        List<Material> materialsToSet = new List<Material>();
                         foreach (Material mat in meshRenderer.materials)
-                            meshRenderer.material = matToSet;
+                            materialsToSet.Add(matToSet);
+
+                        meshRenderer.materials = materialsToSet.ToArray();
                     }
                 }
             }
