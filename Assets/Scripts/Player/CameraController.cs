@@ -20,7 +20,7 @@ public class CameraController : SingletonPattern<CameraController>
     {
         if (followGuard == false)
         {
-
+            print("Camera Independent");
             //Get edges of bounding box
             float minX = boundingBox.position.x - (boundingBox.localScale.x / 2);
             float maxX = boundingBox.position.x + (boundingBox.localScale.x / 2);

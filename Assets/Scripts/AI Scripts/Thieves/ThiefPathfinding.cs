@@ -15,7 +15,7 @@ public class ThiefPathfinding : MonoBehaviour
     public GameObject Target;    //Object the Thief is currently trying to steal
     public float TimeBeforeEscape; //Time before Thief will make its escape after it's stolen its last object
 
-    [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
+    [HideInInspector]  public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
     public int SpeedStat; //Int 0
     public int StealthStat; //Int 1
     public int PerceptionStat; //Int 2

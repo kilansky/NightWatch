@@ -13,6 +13,7 @@ public class GuardPathfinding : MonoBehaviour
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
+
     [HideInInspector] public GameObject Thief;
     [HideInInspector] public bool ThiefSpotted;
     [HideInInspector] public bool BeginPatrol;
@@ -25,13 +26,17 @@ public class GuardPathfinding : MonoBehaviour
     private float doorOpenDelay;
     private DoorControl doorInteractingwith;
     private bool DoorInteraction;
+    private Vector3 ManualPosition;
+    private GameObject cameraScript;
     // Start is called before the first frame update
     void Start()
     {
+
         DoorInteraction = false;
         BeginPatrol = false;
         ThiefSpotted = false;
         mainCamera = Camera.main;
+        cameraScript = GameObject.FindGameObjectWithTag("CameraScript");
         //currControlMode = ControlMode.Idle;
         PatrolNumber = 0;
     }
@@ -47,13 +52,14 @@ public class GuardPathfinding : MonoBehaviour
             }
             if (currControlMode == ControlMode.Idle)
             {
+                cameraScript.GetComponent<CameraController>().followGuard = false;
                 //Do nothing
                 ClickPoint = transform.position;
             }
             else if (currControlMode == ControlMode.Click)
             {
-                
-                
+
+                cameraScript.GetComponent<CameraController>().followGuard = false;
                 //Click to move
                 ClickMovement();
                 
@@ -61,7 +67,8 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Patrol)
             {
-                if(gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
+                cameraScript.GetComponent<CameraController>().followGuard = false;
+                if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                 {
                     //Patrol to set points
                     CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
@@ -75,7 +82,10 @@ public class GuardPathfinding : MonoBehaviour
             else if (currControlMode == ControlMode.Manual)
             {
                 //Full WASD and mouse control
+                ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
                 GuardLookAtMouse();
+                cameraScript.GetComponent<CameraController>().followGuard = true;
+                cameraScript.GetComponent<CameraController>().selectedGuard = transform;
             }
             else if (currControlMode == ControlMode.Chase)
             {
