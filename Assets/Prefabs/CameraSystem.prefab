@@ -101,7 +101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7934679847386057021}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: 0}
+  m_LocalPosition: {x: 0, y: 13.1, z: 0}
   m_LocalScale: {x: 44.597984, y: 21.145224, z: 36.793514}
   m_Children: []
   m_Father: {fileID: 7934679847457164727}
@@ -212,6 +212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7934679847706227067}
   - component: {fileID: 7934679847706227070}
+  - component: {fileID: 1809632234}
   m_Layer: 6
   m_Name: cm
   m_TagString: Untagged
@@ -245,6 +246,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1809632234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7934679847706227066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BindingMode: 4
+  m_FollowOffset: {x: 0, y: 20, z: -5}
+  m_XDamping: 1
+  m_YDamping: 1
+  m_ZDamping: 1
+  m_AngularDampingMode: 0
+  m_PitchDamping: 0
+  m_YawDamping: 0
+  m_RollDamping: 0
+  m_AngularDamping: 0
 --- !u!1 &7934679848080791857
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,4 +565,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camMoveSpeed: 20
+  camZoomSpeed: 20
   boundingBox: {fileID: 7934679847386057010}
+  distanceFromGuard: {x: 0, y: 0, z: 0}
+  smoothSpeed: 0
+  selectedGuard: {fileID: 0}
+  followGuard: 0

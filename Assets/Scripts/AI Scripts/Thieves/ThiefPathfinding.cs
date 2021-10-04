@@ -39,7 +39,7 @@ public class ThiefPathfinding : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         //print("Thief speed is " + Agent.speed);
 
@@ -152,7 +152,6 @@ public class ThiefPathfinding : MonoBehaviour
 
     public void CaughtByGuard()
     {
-
         print("Captured");
 
         if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
@@ -160,11 +159,6 @@ public class ThiefPathfinding : MonoBehaviour
             ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
         }
         print("Deleted");
-
-        //Remove this thief from the guards that are chasing it
-        foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
-            guard.thievesSpotted.Remove(gameObject);
-
         Destroy(gameObject);
     }
 

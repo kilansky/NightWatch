@@ -10290,33 +10290,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1809632231 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7934679847706227066, guid: 2d917c621e062894282a374168ad2247, type: 3}
-  m_PrefabInstance: {fileID: 7934679849287756746}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1809632234
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809632231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 20, z: -5}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 0
-  m_RollDamping: 0
-  m_AngularDamping: 0
 --- !u!1 &1820921081
 GameObject:
   m_ObjectHideFlags: 0
@@ -13144,10 +13117,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7934679847386057010, guid: 2d917c621e062894282a374168ad2247, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 13.1
-      objectReference: {fileID: 0}
     - target: {fileID: 7934679847457164726, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_Name
       value: CameraSystem
@@ -13195,10 +13164,6 @@ PrefabInstance:
     - target: {fileID: 7934679847457164727, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7934679849200255997, guid: 2d917c621e062894282a374168ad2247, type: 3}
-      propertyPath: camZoomSpeed
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d917c621e062894282a374168ad2247, type: 3}

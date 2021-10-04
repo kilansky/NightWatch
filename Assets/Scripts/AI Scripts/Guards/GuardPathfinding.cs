@@ -83,8 +83,7 @@ public class GuardPathfinding : MonoBehaviour
                 }
 
                 if (thiefToChase)
-                    AttemptToCatchThief();
-                
+                    AttemptToCatchThief();                
 
                 if (DoorInteraction && doorInteractingwith.GetComponent<DoorControl>().IsClosed)
                 {
@@ -113,20 +112,28 @@ public class GuardPathfinding : MonoBehaviour
             else if (currControlMode == ControlMode.Chase)
             {
                 if (thiefToChase)
+                {
                     AttemptToCatchThief();
-                
 
-                if (thiefToChase)
-                {                    
-                    //Auto-Chase thieves
                     print("Going after Thief");
                     if (DoorInteraction == false)
                     {
+                        //Auto-Chase thieves
                         Agent.isStopped = false;
-                        currControlMode = ControlMode.Chase;
                         Agent.SetDestination(thiefToChase.transform.position);
                     }
-                }          
+                }
+
+                List<GameObject> nullThieves = new List<GameObject>();
+                foreach (GameObject thief in thievesSpotted)
+                {
+                    if (!thief)
+                        nullThieves.Add(thief);
+                }
+                foreach (GameObject thief in nullThieves)
+                {
+                    thievesSpotted.Remove(thief);
+                }
             }
         }
     }
@@ -225,6 +232,7 @@ public class GuardPathfinding : MonoBehaviour
         if(thievesSpotted.Count == 0)
         {
             thiefToChase = null;
+            CheckToEndChase();
             return;
         }
         //If there is only one seen thief and it is not null, set it as the thief to chase
@@ -237,7 +245,6 @@ public class GuardPathfinding : MonoBehaviour
         //If there are multiple seen thieves, find the closest one to the guard set it as the thief to chase
         float closestThief = Mathf.Infinity;
         List<GameObject> nullThieves = new List<GameObject>();
-        thiefToChase = null;
         foreach (GameObject thief in thievesSpotted)
         {
             if (thief)
@@ -246,15 +253,7 @@ public class GuardPathfinding : MonoBehaviour
                 if (distToThief < closestThief)
                     thiefToChase = thief;
             }
-            else
-                nullThieves.Add(thief);
         }
-
-        //Remove any thieves that have been deleted
-        foreach (GameObject thief in nullThieves)
-            thievesSpotted.Remove(thief);
-
-        nullThieves.Clear();
     }
 
     //Activates the alerted icon, initiates the speed increase for the guard, and begins Chase behavior
@@ -276,15 +275,12 @@ public class GuardPathfinding : MonoBehaviour
     private void AttemptToCatchThief()
     {
         SetNextThiefToChase();
-        print("Attempting To Catch Thief");
-        print(thiefToChase);
 
-        if (Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
+        if (thiefToChase && Vector3.Distance(transform.position, thiefToChase.transform.position) < distToCatchThief)
         {
             print("CatchThief");
             thiefToChase.GetComponent<ThiefPathfinding>().CaughtByGuard();
-            thievesSpotted.Remove(thiefToChase);
-            CheckToEndChase();
+            ThiefRemoved(thiefToChase);
         }
     }
 
@@ -301,7 +297,10 @@ public class GuardPathfinding : MonoBehaviour
             SpeedDecrease();
 
             if(currControlMode != ControlMode.Manual)
+            {
                 currControlMode = lastControlMode;
+                print("currControlMode is " + currControlMode);
+            }
 
             alertedIcon.SetActive(false);
         }
@@ -429,7 +428,8 @@ public class GuardPathfinding : MonoBehaviour
         }
         else if (currControlMode == ControlMode.Chase)
         {          
-            Agent.SetDestination(thiefToChase.transform.position);
+            if(thiefToChase)
+                Agent.SetDestination(thiefToChase.transform.position);
         }
         else if (currControlMode == ControlMode.Manual)
         {
