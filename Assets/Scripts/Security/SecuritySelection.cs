@@ -38,7 +38,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     // Update is called once per frame
     void Update()
     {
-        //If not in placeing or moving another security measure, allow highlighting and clicking on security measures to select them    
+        //If not placing or moving another security measure, allow highlighting and clicking on security measures to select them    
         if (canSelect)
             HoverOverSecurityMeasure();
 
@@ -59,11 +59,15 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         //check if mouse is over a security measure
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, securityMeasureMask))
         {
-            if(!selectedObject)
-                selectionIcon.transform.position = hit.transform.position;
+            //Check if either: The game is in the planning phase - select anything; Or, the game is in the night phase - only allow selection of guards
+            if (!GameManager.Instance.nightWatchPhase || hit.transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.guard)
+            {
+                if (!selectedObject)
+                    selectionIcon.transform.position = hit.transform.position;
 
-            if (PlayerInputs.Instance.LeftClickPressed)
-                SelectSecurityMeasure(hit.transform);
+                if (PlayerInputs.Instance.LeftClickPressed)
+                    SelectSecurityMeasure(hit.transform);
+            }
         }
         else if (!selectedObject)
             selectionIcon.transform.position = offScreenPos;

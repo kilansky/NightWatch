@@ -293,7 +293,7 @@ public class GuardPathfinding : MonoBehaviour
         //If there are no other spotted thieves, return to last control mode
         else
         {
-            print("No more Thieves");
+            print("Chase Ended");
             SpeedDecrease();
 
             if(currControlMode != ControlMode.Manual)

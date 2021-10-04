@@ -93,14 +93,19 @@ public class ThiefPathfinding : MonoBehaviour
             if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
             {
                 ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                NightHUDController.Instance.ThiefEscapedEvent();
             }
+            else
+                NightHUDController.Instance.ItemStolenEvent();
+
             ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
 
             //Remove this thief from the guards that are chasing it
             foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
                 guard.ThiefRemoved(gameObject);
 
-            Debug.Log("Thief Escaped");
+            //Debug.Log("Thief Escaped");
+            CheckForLevelEnd();
             Destroy(gameObject);
         }
     }
@@ -119,12 +124,18 @@ public class ThiefPathfinding : MonoBehaviour
             if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
             {
                 ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                NightHUDController.Instance.ThiefEscapedEvent();
             }
+            else
+                NightHUDController.Instance.ItemStolenEvent();
+
             ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+
             //Remove this thief from the guards that are chasing it
             foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
                 guard.ThiefRemoved(gameObject);
-            
+
+            CheckForLevelEnd();
             Destroy(gameObject);
         }
     }
@@ -152,16 +163,24 @@ public class ThiefPathfinding : MonoBehaviour
 
     public void CaughtByGuard()
     {
-        print("Captured");
-
-        if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
-        {
+        //Check to see if the thief managed to steal its last object before adding it back to the target list
+        if (ObjectStolen == false) 
             ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
-        }
-        print("Deleted");
+
+        NightHUDController.Instance.ThiefApprehendedEvent();
+        CheckForLevelEnd();
         Destroy(gameObject);
     }
 
+    //If all thieves have been spawned and this is the only thief remaining, then end the level
+    private void CheckForLevelEnd()
+    {
+        if(ThiefSpawnSystem.Instance.allThievesSpawned)
+        {
+            if (FindObjectsOfType<ThiefPathfinding>().Length == 1)
+                GameManager.Instance.EndLevel();
+        }
+    }
 
     //Steal Action
     private void StealAction()

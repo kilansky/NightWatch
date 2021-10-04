@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 {
-
     public float BaseSpawnTimer; //The minimum amount of time it takes for a thief to spawn
     public float Timer_Mod; //The longest possible time that the BaseSpawnTimer can be increased by
     public Transform[] Entry_Locations; //The transform values for each spawn point
@@ -17,6 +16,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
     public int DifficultySelected; //REPLACE WHEN DIFFICULTY SYSTEM IS IMPLAMENTED
 
     [HideInInspector] public int ItemsLeft; //Number of target items left before game over
+    [HideInInspector] public bool allThievesSpawned = false;
 
     private int Position; //Selected Spawnpoint   
     private int Chance; //Random Number Generated   
@@ -76,10 +76,12 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
         
         Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
         thievesSpawned++;
-        
+
         //If the total number of thieves to spawn has not been reached, restart this coroutine
-        if(thievesSpawned < numThievesToSpawn)
+        if (thievesSpawned < numThievesToSpawn)
             StartCoroutine(SpawnTimer());
+        else
+            allThievesSpawned = true;
     }
 
     private void GenerateStats()
