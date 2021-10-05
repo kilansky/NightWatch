@@ -262,7 +262,7 @@ public class ThiefPathfinding : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    /*private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
         {
@@ -286,7 +286,7 @@ public class ThiefPathfinding : MonoBehaviour
             StartCoroutine(CloseDelayCoroutine());
             print("Thief Closes Door");
         }
-    }
+    }*/
 
     private IEnumerator OpenDelayCoroutine()
     {
@@ -320,7 +320,7 @@ public class ThiefPathfinding : MonoBehaviour
         
         doorOpenDelay = 0;
     }
-    private IEnumerator CloseDelayCoroutine()
+    /*private IEnumerator CloseDelayCoroutine()
     {
         if (currBehavior == BehaviorStates.Evade)
         {
@@ -338,5 +338,5 @@ public class ThiefPathfinding : MonoBehaviour
         Agent.isStopped = false;
 
         doorOpenDelay = 0;
-    }
+    }*/
 }

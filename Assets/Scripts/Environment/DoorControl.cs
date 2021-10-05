@@ -8,8 +8,9 @@ public class DoorControl : MonoBehaviour
     public float closeAnimationDuration;
     public float chaseOpenDuration;
     public float chaseCloseDuration;
+    public float DoorOpenDuration; //Temporary
     public GameObject DoorModel;
-    //public
+    
 
     [HideInInspector]  public bool IsOpened;
     [HideInInspector]  public bool IsClosed;
@@ -49,6 +50,7 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
             IsClosed = false;
+            StartCoroutine(DoorClosing());
             print("Door Opens");
         }
         
@@ -62,6 +64,7 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetTrigger("CloseDoor");
             IsOpened = false;
             IsClosed = true;
+            
             print("Door Closes");
         }
     }
@@ -74,12 +77,13 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
             IsClosed = false;
+            StartCoroutine(DoorClosing());
             print("Door Opens");
         }
 
     }
 
-    public void ChaseCloseDoor()
+    /*public void ChaseCloseDoor()
     {
         if (IsOpened)
         {
@@ -89,6 +93,14 @@ public class DoorControl : MonoBehaviour
             IsClosed = true;
             print("Door Closes");
         }
+    }*/
+
+    private IEnumerator DoorClosing()
+    {
+        print("Closing Door");
+        yield return new WaitForSeconds(DoorOpenDuration);
+
+        CloseDoor();
     }
 
     public Vector3 GetWaitPosition(Vector3 position)

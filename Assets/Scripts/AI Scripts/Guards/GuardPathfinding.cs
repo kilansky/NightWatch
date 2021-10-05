@@ -326,7 +326,7 @@ public class GuardPathfinding : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Door enter while not in manual mode
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual)
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
         {
             DoorInteraction = true;
             doorInteractingwith = other.GetComponent<DoorControl>();
@@ -355,7 +355,7 @@ public class GuardPathfinding : MonoBehaviour
         }        
     }
 
-    private void OnTriggerExit(Collider other)
+    /*private void OnTriggerExit(Collider other)
     {
         //Exit door collider w/o opening it
         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed)
@@ -390,7 +390,7 @@ public class GuardPathfinding : MonoBehaviour
             StartCoroutine(CloseDelayCoroutine());
             print("Guard Closes Door");
         }
-    }
+    }*/
 
     private IEnumerator OpenDelayCoroutine()
     {
@@ -441,7 +441,7 @@ public class GuardPathfinding : MonoBehaviour
         doorOpenDelay = 0;
     }
 
-    private IEnumerator CloseDelayCoroutine()
+    /*private IEnumerator CloseDelayCoroutine()
     {
         if (currControlMode == ControlMode.Chase)
         {
@@ -467,7 +467,7 @@ public class GuardPathfinding : MonoBehaviour
         }      
 
         doorOpenDelay = 0;
-    }
+    }*/
 
     public void SpeedIncrease()
     {
