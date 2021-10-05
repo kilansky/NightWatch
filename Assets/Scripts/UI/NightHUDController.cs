@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class NightHUDController : SingletonPattern<NightHUDController>
@@ -25,12 +26,20 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public TextMeshProUGUI endOfNightPaymentText;
     public TextMeshProUGUI finalMoneyText;
 
+    [Header("Event Audio")]
+    public AudioClip itemStolen;
+    public AudioClip thiefEscaped;
+    public AudioClip thiefApprehended;
+
     private int itemStolenNum = 0;
     private int thievesEscapedNum = 0;
     private int thievesApprehendedNum = 0;
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         //Disable all event text objects
         for (int i = 0; i < eventText.Length; i++)
         {
@@ -69,6 +78,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         itemStolenNum++;
         itemStolenText.text = itemStolenNum.ToString();
         ActivateEventText("Item Stolen: -$500");
+        audioSource.PlayOneShot(itemStolen);
     }
 
     //Increases the number of thieves escaped by 1 and displays text for the event
@@ -77,6 +87,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         thievesEscapedNum++;
         thievesEscapedText.text = thievesEscapedNum.ToString();
         ActivateEventText("Theft Prevented: +$0");
+        audioSource.PlayOneShot(thiefEscaped);
     }
 
     //Increases the number of thieves apprehended by 1 and displays text for the event
@@ -85,6 +96,15 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         thievesApprehendedNum++;
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
         ActivateEventText("Thief Caught: +$150");
+        audioSource.PlayOneShot(thiefApprehended);
+    }
+
+    //Reloads the current scene
+    public void RetryButton()
+    {
+        Time.timeScale = 1;
+        Scene currScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currScene.buildIndex);
     }
 
     //Enables the game end panel and sets the text values for all end game stats

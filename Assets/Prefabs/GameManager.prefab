@@ -759,6 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb6f17966191f54d8319dc967a93c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guardIsInManualMode: 0
 --- !u!1 &944526421
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,6 +2758,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3864c5cc-7589-49fc-8a2b-6c4e276366a7
     m_ActionName: Player/Pause[/Keyboard/escape,/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2886d7fc-8946-4706-b5aa-140298395b0c
+    m_ActionName: Player/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -2861,6 +2866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneViewMask: {fileID: 423338209}
   planningCanvas: {fileID: 0}
+  nightCanvas: {fileID: 0}
   nightWatchPhase: 0
 --- !u!114 &398351466
 MonoBehaviour:
@@ -2874,7 +2880,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4880415c6de69b4f9bcd669c71f22ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMoney: 1500
+  startingMoney: 1200
+  itemStolenPenalty: -500
+  thiefApprehendedAward: 150
+  endOfNightPayment: 300
 --- !u!114 &1130652127497433280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2887,22 +2896,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8acf1d0e591634d95138264789c0e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseSpawnTimer: 3
-  Timer_Mod: 0
-  SpawnWeights: 0500000005000000
+  BaseSpawnTimer: 10
+  Timer_Mod: 10
   Entry_Locations:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  SpawnWeights: 03000000030000000300000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   ThiefPrefab: {fileID: 84103452880852107, guid: f2784a3d838020b47a0abcc09644a4e6, type: 3}
-  numThievesToSpawn: 3
-  ItemsLeft: 0
+  numThievesToSpawn: 10
   TargetObjects:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  BaseSpareAttributePoints: 0
-  DifficultyModifier: 
-  DifficultySelected: 0
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BaseSpareAttributePoints: 2
+  DifficultyModifier: 010000000300000005000000
+  DifficultySelected: 2
+  ItemsLeft: 23
+  allThievesSpawned: 0
 --- !u!114 &162694758291135959
 MonoBehaviour:
   m_ObjectHideFlags: 0
