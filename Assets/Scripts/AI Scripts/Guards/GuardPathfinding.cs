@@ -59,6 +59,7 @@ public class GuardPathfinding : MonoBehaviour
             {
                 //Click to move
                 ClickMovement();
+                OpenDoorFunction();
             }
             else if (currControlMode == ControlMode.Patrol)
             {
@@ -69,6 +70,7 @@ public class GuardPathfinding : MonoBehaviour
                     CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
                     Pathfinding();
                 }
+                OpenDoorFunction();
             }
             else if (currControlMode == ControlMode.Manual)
             {
@@ -140,6 +142,7 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     thievesSpotted.Remove(thief);
                 }
+                OpenDoorFunction();
             }
         }
     }
@@ -329,13 +332,10 @@ public class GuardPathfinding : MonoBehaviour
 
     //DOOR INTERACTIONS
 
-    private void OnTriggerEnter(Collider other)
+    private void OpenDoorFunction()
     {
-        //Door enter while not in manual mode
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
+        if (DoorInteraction && doorInteractingwith.IsClosed)
         {
-            DoorInteraction = true;
-            doorInteractingwith = other.GetComponent<DoorControl>();
             Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position);
 
             Debug.LogWarning("KNOWN ERROR: NullReferenceException");
@@ -343,14 +343,25 @@ public class GuardPathfinding : MonoBehaviour
 
             if (thiefToChase)
             {
-                doorOpenDelay = other.GetComponent<DoorControl>().chaseOpenDuration;
+                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().chaseOpenDuration;
             }
             else
             {
-                doorOpenDelay = other.GetComponent<DoorControl>().openAnimationDuration;
+                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().openAnimationDuration;
             }
 
             StartCoroutine(OpenDelayCoroutine());
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Door enter while not in manual mode
+        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
+        {
+            DoorInteraction = true;
+            doorInteractingwith = other.GetComponent<DoorControl>();
+            
         }
 
         //Door enter while in manual mode
@@ -365,12 +376,17 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<DoorControl>() && currControlMode == ControlMode.Manual)
+        if (other.GetComponent<DoorControl>())
         {
             DoorInteraction = false;
             doorInteractingwith = other.GetComponent<DoorControl>();
-            doorInteractingwith.uiNotification.SetActive(false);
+            if (currControlMode == ControlMode.Manual)
+            {
+                doorInteractingwith.uiNotification.SetActive(false);
+            }
+            
         }
+
         
 
         /* //Exit door collider w/o opening it
@@ -431,7 +447,7 @@ public class GuardPathfinding : MonoBehaviour
         print(doorOpenDelay);
         yield return new WaitForSeconds(doorOpenDelay);
        
-        DoorInteraction = false;
+        //DoorInteraction = false;
         print("Door Interaction = " + DoorInteraction);
         if (currControlMode == ControlMode.Click)
         {

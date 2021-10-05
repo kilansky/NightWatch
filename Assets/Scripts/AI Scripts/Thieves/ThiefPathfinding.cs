@@ -62,6 +62,8 @@ public class ThiefPathfinding : MonoBehaviour
         {
             //Stealing, hacking, lockpicking...
         }
+
+        OpenDoorFunction();
     }
 
     private void SneakBehavior()
@@ -233,38 +235,50 @@ public class ThiefPathfinding : MonoBehaviour
 
     //Door Interactions
 
-    private void OnTriggerEnter(Collider other)
+    private void OpenDoorFunction()
     {
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed) //Checks if thief enters a closed door's collider
+        if (DoorInteraction && doorInteractingwith.IsClosed)
         {
-            DoorInteraction = true; //Marks that the thief is interacting with the door
-
-            doorInteractingwith = other.GetComponent<DoorControl>(); //Creates a reusable reference for the door's script
+            
 
             Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position); //Marks the position the thief is supposed to wait at as the door opens
 
-            if(currBehavior == BehaviorStates.Evade)
+            if (currBehavior == BehaviorStates.Evade)
             {
-                doorOpenDelay = other.GetComponent<DoorControl>().chaseOpenDuration; //Saves a reference to how long the door animation lasts
+                doorOpenDelay = doorInteractingwith.chaseOpenDuration; //Saves a reference to how long the door animation lasts
 
             }
             else
             {
-                doorOpenDelay = other.GetComponent<DoorControl>().openAnimationDuration; //Saves a reference to how long the door animation lasts
+                doorOpenDelay = doorInteractingwith.openAnimationDuration; //Saves a reference to how long the door animation lasts
 
             }
 
             Agent.SetDestination(waitPosition); //Causes thief to go towards the waitPosition
 
-           
+
             StartCoroutine(OpenDelayCoroutine());
             print("Thief Opens Door");
         }
     }
 
-    /*private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
+        if (other.GetComponent<DoorControl>()) //Checks if thief enters a closed door's collider
+        {
+            DoorInteraction = true; //Marks that the thief is interacting with the door
+            doorInteractingwith = other.GetComponent<DoorControl>(); //Creates a reusable reference for the door's script
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<DoorControl>())
+        {
+            DoorInteraction = false;
+        }
+        /*if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
         {
             
             Agent.isStopped = true;
@@ -285,8 +299,8 @@ public class ThiefPathfinding : MonoBehaviour
             
             StartCoroutine(CloseDelayCoroutine());
             print("Thief Closes Door");
-        }
-    }*/
+        }*/
+    }
 
     private IEnumerator OpenDelayCoroutine()
     {
@@ -310,12 +324,12 @@ public class ThiefPathfinding : MonoBehaviour
         if(currBehavior == BehaviorStates.Sneak)
         {
             Agent.SetDestination(Target.transform.position);
-            DoorInteraction = false;
+            
         }
         else
         {
-            Agent.SetDestination(SpawnPoint.position);
-            DoorInteraction = false;
+            Agent.SetDestination(SpawnPoint.position); //Triggered Error once
+            
         }
         
         doorOpenDelay = 0;
