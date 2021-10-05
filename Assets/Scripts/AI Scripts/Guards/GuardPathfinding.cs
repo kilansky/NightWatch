@@ -88,6 +88,7 @@ public class GuardPathfinding : MonoBehaviour
 
                 if (DoorInteraction && doorInteractingwith.GetComponent<DoorControl>().IsClosed)
                 {
+                    doorInteractingwith.uiNotification.SetActive(true);
                     print("In Door Zone");
                     Keyboard kb = InputSystem.GetDevice<Keyboard>();
                     if (kb.eKey.wasPressedThisFrame)
@@ -354,7 +355,7 @@ public class GuardPathfinding : MonoBehaviour
             
             DoorInteraction = true;
             doorInteractingwith = other.GetComponent<DoorControl>();
-            doorInteractingwith.uiNotification.SetActive(true);
+            
         }        
     }
 
@@ -445,6 +446,7 @@ public class GuardPathfinding : MonoBehaviour
         else if (currControlMode == ControlMode.Manual)
         {
             print("Can Move");
+            DoorInteraction = true;
             Agent.isStopped = true;
             canManualMove = true;
         }
