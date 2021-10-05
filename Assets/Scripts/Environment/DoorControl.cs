@@ -9,7 +9,8 @@ public class DoorControl : MonoBehaviour
     public float chaseOpenDuration;
     public float chaseCloseDuration;
     public float DoorOpenDuration; //Temporary
-    public GameObject DoorModel;
+    public GameObject DoorAnimator;
+    public Collider DoorCollider;
     public GameObject uiNotification;
 
     [HideInInspector]  public bool IsOpened;
@@ -24,7 +25,7 @@ public class DoorControl : MonoBehaviour
     {
         IsOpened = false;
         IsClosed = true;
-        myAnimator = DoorModel.GetComponent<Animator>();
+        myAnimator = DoorAnimator.GetComponent<Animator>();
         
     }
 
@@ -51,6 +52,7 @@ public class DoorControl : MonoBehaviour
             IsOpened = true;
             IsClosed = false;
             uiNotification.SetActive(false);
+            DoorCollider.enabled = !DoorCollider.enabled; 
             StartCoroutine(DoorClosing());
             print("Door Opens");
         }
@@ -77,6 +79,7 @@ public class DoorControl : MonoBehaviour
             IsOpened = true;
             IsClosed = false;
             uiNotification.SetActive(false);
+            DoorCollider.enabled = !DoorCollider.enabled;
             StartCoroutine(DoorClosing());
             print("Door Opens");
         }
@@ -105,6 +108,7 @@ public class DoorControl : MonoBehaviour
         yield return new WaitForSeconds(1 / closeAnimationDuration);
         IsOpened = false;
         IsClosed = true;
+        DoorCollider.enabled = !DoorCollider.enabled;
     }
 
     public Vector3 GetWaitPosition(Vector3 position)
