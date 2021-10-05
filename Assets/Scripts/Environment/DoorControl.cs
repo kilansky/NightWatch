@@ -15,6 +15,7 @@ public class DoorControl : MonoBehaviour
     [HideInInspector]  public bool IsOpened;
     [HideInInspector]  public bool IsClosed;
     [HideInInspector] public Transform ExitPosition;
+    [HideInInspector] public GameObject uiNotification;
 
     [SerializeField] private Transform frontDoorPosition;
     [SerializeField] private Transform backDoorPosition;
