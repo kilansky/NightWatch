@@ -84,11 +84,15 @@ public class GuardPathfinding : MonoBehaviour
                 }
 
                 if (thiefToChase)
-                    AttemptToCatchThief();                
-
-                if (DoorInteraction && doorInteractingwith.GetComponent<DoorControl>().IsClosed)
+                    AttemptToCatchThief();
+                //DoorInteraction && 
+                if (doorInteractingwith.GetComponent<DoorControl>().IsClosed)
                 {
-                    doorInteractingwith.uiNotification.SetActive(true);
+                    if (DoorInteraction)
+                    {
+                        doorInteractingwith.uiNotification.SetActive(true);
+                    }
+                    
                     print("In Door Zone");
                     Keyboard kb = InputSystem.GetDevice<Keyboard>();
                     if (kb.eKey.wasPressedThisFrame)
