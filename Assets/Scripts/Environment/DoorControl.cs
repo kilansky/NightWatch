@@ -10,12 +10,11 @@ public class DoorControl : MonoBehaviour
     public float chaseCloseDuration;
     public float DoorOpenDuration; //Temporary
     public GameObject DoorModel;
-    
+    public GameObject uiNotification;
 
     [HideInInspector]  public bool IsOpened;
     [HideInInspector]  public bool IsClosed;
     [HideInInspector] public Transform ExitPosition;
-    [HideInInspector] public GameObject uiNotification;
 
     [SerializeField] private Transform frontDoorPosition;
     [SerializeField] private Transform backDoorPosition;
@@ -51,6 +50,7 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
             IsClosed = false;
+            uiNotification.SetActive(false);
             StartCoroutine(DoorClosing());
             print("Door Opens");
         }
@@ -65,7 +65,6 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetTrigger("CloseDoor");
             IsOpened = false;
             IsClosed = true;
-            
             print("Door Closes");
         }
     }
@@ -78,6 +77,7 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
             IsClosed = false;
+            uiNotification.SetActive(false);
             StartCoroutine(DoorClosing());
             print("Door Opens");
         }

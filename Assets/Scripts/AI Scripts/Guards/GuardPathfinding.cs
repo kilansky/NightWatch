@@ -351,47 +351,57 @@ public class GuardPathfinding : MonoBehaviour
         //Door enter while in manual mode
         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode == ControlMode.Manual)
         {
+            
             DoorInteraction = true;
             doorInteractingwith = other.GetComponent<DoorControl>();
+            doorInteractingwith.uiNotification.SetActive(true);
         }        
     }
 
-    /*private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        //Exit door collider w/o opening it
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed)
-            DoorInteraction = false;
-
-        //Exit door collider after opeing it
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
+        if (other.GetComponent<DoorControl>() && currControlMode == ControlMode.Manual)
         {
-            DoorInteraction = true;
-            if (currControlMode == ControlMode.Manual)
-            {
-                canManualMove = false;
-                Agent.isStopped = false;
-                Vector3 waitPosition = transform.position;
-                Agent.SetDestination(waitPosition);
-            }
-            else
-            {              
-                Agent.isStopped = true;
-                print("Stop Moving");
-            }
-            
-            if (currControlMode == ControlMode.Chase)
-            {
-                doorOpenDelay = other.GetComponent<DoorControl>().chaseCloseDuration;
-            }
-            else
-            {
-                doorOpenDelay = other.GetComponent<DoorControl>().closeAnimationDuration;
-            }
-                
-            StartCoroutine(CloseDelayCoroutine());
-            print("Guard Closes Door");
+            DoorInteraction = false;
+            doorInteractingwith = other.GetComponent<DoorControl>();
+            doorInteractingwith.uiNotification.SetActive(false);
         }
-    }*/
+        
+
+        /* //Exit door collider w/o opening it
+         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed)
+             DoorInteraction = false;
+
+         //Exit door collider after opeing it
+         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
+         {
+             DoorInteraction = true;
+             if (currControlMode == ControlMode.Manual)
+             {
+                 canManualMove = false;
+                 Agent.isStopped = false;
+                 Vector3 waitPosition = transform.position;
+                 Agent.SetDestination(waitPosition);
+             }
+             else
+             {              
+                 Agent.isStopped = true;
+                 print("Stop Moving");
+             }
+
+             if (currControlMode == ControlMode.Chase)
+             {
+                 doorOpenDelay = other.GetComponent<DoorControl>().chaseCloseDuration;
+             }
+             else
+             {
+                 doorOpenDelay = other.GetComponent<DoorControl>().closeAnimationDuration;
+             }
+
+             StartCoroutine(CloseDelayCoroutine());
+             print("Guard Closes Door");
+         }*/
+    }
 
     private IEnumerator OpenDelayCoroutine()
     {
