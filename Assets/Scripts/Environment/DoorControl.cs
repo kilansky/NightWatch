@@ -63,8 +63,7 @@ public class DoorControl : MonoBehaviour
         {
             myAnimator.SetFloat("BaseSpeed", (1 / closeAnimationDuration));
             myAnimator.SetTrigger("CloseDoor");
-            IsOpened = false;
-            IsClosed = true;
+            
             print("Door Closes");
         }
     }
@@ -102,6 +101,10 @@ public class DoorControl : MonoBehaviour
         yield return new WaitForSeconds(DoorOpenDuration);
 
         CloseDoor();
+
+        yield return new WaitForSeconds(1 / closeAnimationDuration);
+        IsOpened = false;
+        IsClosed = true;
     }
 
     public Vector3 GetWaitPosition(Vector3 position)
