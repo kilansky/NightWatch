@@ -29,6 +29,7 @@ public class GuardPathfinding : MonoBehaviour
     private Vector3 ManualPosition;
     private CameraController cameraScript;
     private bool canManualMove;
+    private bool speedIncreased;
     private ControlMode lastControlMode;
     // Start is called before the first frame update
     void Start()
@@ -471,12 +472,20 @@ public class GuardPathfinding : MonoBehaviour
 
     public void SpeedIncrease()
     {
-        print("Speed Increase");
-        Agent.speed = Agent.speed * PursuitSpeedMod;
+        if (!speedIncreased)
+        {
+            print("Speed Increase");
+            Agent.speed = Agent.speed * PursuitSpeedMod;
+            speedIncreased = true;
+        }
     }
     public void SpeedDecrease()
     {
-        print("Speed Decrease");
-        Agent.speed = Agent.speed / PursuitSpeedMod;
+        if (speedIncreased)
+        {
+            print("Speed Decrease");
+            Agent.speed = Agent.speed / PursuitSpeedMod;
+            speedIncreased = false;
+        }
     }
 }
