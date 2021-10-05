@@ -9,6 +9,7 @@ public class DoorControl : MonoBehaviour
     public float chaseOpenDuration;
     public float chaseCloseDuration;
     public GameObject DoorModel;
+    //public
 
     [HideInInspector]  public bool IsOpened;
     [HideInInspector]  public bool IsClosed;
