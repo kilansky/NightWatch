@@ -59,7 +59,10 @@ public class GuardPathfinding : MonoBehaviour
             {
                 //Click to move
                 ClickMovement();
-                OpenDoorFunction();
+                if (doorInteractingwith != null)
+                {
+                    OpenDoorFunction();
+                }
             }
             else if (currControlMode == ControlMode.Patrol)
             {
@@ -70,7 +73,11 @@ public class GuardPathfinding : MonoBehaviour
                     CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
                     Pathfinding();
                 }
-                OpenDoorFunction();
+                if (doorInteractingwith != null)
+                {
+                    OpenDoorFunction();
+                }
+                
             }
             else if (currControlMode == ControlMode.Manual)
             {
@@ -88,34 +95,39 @@ public class GuardPathfinding : MonoBehaviour
                 if (thiefToChase)
                     AttemptToCatchThief();
                 //DoorInteraction && 
-                if (doorInteractingwith.GetComponent<DoorControl>().IsClosed)
+                
+                if (doorInteractingwith != null)
                 {
-                    if (DoorInteraction)
+                    if (doorInteractingwith.GetComponent<DoorControl>().IsClosed)
                     {
-                        doorInteractingwith.uiNotification.SetActive(true);
-                    }
-                    
-                    print("In Door Zone");
-                    Keyboard kb = InputSystem.GetDevice<Keyboard>();
-                    if (kb.eKey.wasPressedThisFrame)
-                    {
-                        print("E Pressed");
-                        canManualMove = false;
-                        Agent.isStopped = false;
-                        Vector3 waitPosition = transform.position;
-                        Agent.SetDestination(waitPosition);
+                        if (DoorInteraction)
+                        {
+                            doorInteractingwith.uiNotification.SetActive(true);
+                        }
 
-                        if (thiefToChase)
+                        print("In Door Zone");
+                        Keyboard kb = InputSystem.GetDevice<Keyboard>();
+                        if (kb.eKey.wasPressedThisFrame)
                         {
-                            doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().chaseOpenDuration;
+                            print("E Pressed");
+                            canManualMove = false;
+                            Agent.isStopped = false;
+                            Vector3 waitPosition = transform.position;
+                            Agent.SetDestination(waitPosition);
+
+                            if (thiefToChase)
+                            {
+                                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().chaseOpenDuration;
+                            }
+                            else
+                            {
+                                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().openAnimationDuration;
+                            }
+                            StartCoroutine(OpenDelayCoroutine());
                         }
-                        else
-                        {
-                            doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().openAnimationDuration;
-                        }
-                        StartCoroutine(OpenDelayCoroutine());
                     }
                 }
+                
             }
             else if (currControlMode == ControlMode.Chase)
             {
@@ -142,7 +154,10 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     thievesSpotted.Remove(thief);
                 }
-                OpenDoorFunction();
+                if (doorInteractingwith != null)
+                {
+                    OpenDoorFunction();
+                }
             }
         }
     }

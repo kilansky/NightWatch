@@ -11,6 +11,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask obstacleMask;
 
     public List<Transform> visibleTargets = new List<Transform>();
+    public List<GameObject> FakeDoors = new List<GameObject>();
 
     public float meshResolution;
     public int edgeResolveIterations;
@@ -47,6 +48,12 @@ public class FieldOfView : MonoBehaviour
     //Find all 'targets' such as thieves or doors within this object's field of view
     private void FindVisibleTargets()
     {
+        for(int i = 0; i < FakeDoors.Count; i++)
+        {
+            FakeDoors[i].GetComponent<FakeDoor>().FakeDoorOn();
+        }
+        FakeDoors.Clear();
+        //Place For loop here
         visibleTargets.Clear(); //clear the current list of existing targets
 
         //Get an array of all targets within a sphere radius
@@ -62,14 +69,26 @@ public class FieldOfView : MonoBehaviour
             if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
+                
 
                 //Perform raycast to make sure target is not behind a wall
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
 
-                    if(GetComponent<GuardPathfinding>())
+                    if (target.gameObject.GetComponent<FakeDoor>())
+                    {
+                        print("Detected Door");
+                        FakeDoors.Add(target.gameObject);
+                        target.GetComponent<FakeDoor>().FakeDoorOff();
+                    }
+
+                    if(GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
+                    {
+                        print("See Thief");
                         GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
+                    }
+                        
                 }
             }
         }
