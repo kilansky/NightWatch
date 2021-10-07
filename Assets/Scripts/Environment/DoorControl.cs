@@ -12,6 +12,7 @@ public class DoorControl : MonoBehaviour
     public GameObject DoorAnimator;
     public Collider DoorCollider;
     public GameObject uiNotification;
+    
 
     [HideInInspector]  public bool IsOpened;
     [HideInInspector]  public bool IsClosed;
@@ -130,4 +131,6 @@ public class DoorControl : MonoBehaviour
             return backDoorPosition.position;
         }
     }
+
+    
 }

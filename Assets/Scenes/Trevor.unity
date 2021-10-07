@@ -12810,6 +12810,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard
       objectReference: {fileID: 0}
+    - target: {fileID: 5590998619104753244, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5864fa1b57f924f4a994def3cda18abe, type: 3}
 --- !u!1001 &6575661075989419027
@@ -12909,11 +12913,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: BaseSpawnTimer
-      value: 12
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: numThievesToSpawn
-      value: 2
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: DifficultySelected
@@ -13378,6 +13382,10 @@ PrefabInstance:
     - target: {fileID: 7934679847457164727, guid: 2d917c621e062894282a374168ad2247, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7934679848080791863, guid: 2d917c621e062894282a374168ad2247, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 98295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d917c621e062894282a374168ad2247, type: 3}

@@ -47,6 +47,7 @@ public class FieldOfView : MonoBehaviour
     //Find all 'targets' such as thieves or doors within this object's field of view
     private void FindVisibleTargets()
     {
+        //Place For loop here
         visibleTargets.Clear(); //clear the current list of existing targets
 
         //Get an array of all targets within a sphere radius
@@ -62,14 +63,25 @@ public class FieldOfView : MonoBehaviour
             if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
+                
 
                 //Perform raycast to make sure target is not behind a wall
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
 
-                    if(GetComponent<GuardPathfinding>())
+                    if (target.gameObject.GetComponent<FakeDoor>())
+                    {
+                        print("Detected Door");
+                        target.GetComponent<FakeDoor>().FakeDoorOff();
+                    }
+
+                    if(GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
+                    {
+                        print("See Thief");
                         GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
+                    }
+                        
                 }
             }
         }
