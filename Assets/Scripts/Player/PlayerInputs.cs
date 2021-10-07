@@ -10,6 +10,7 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
 
     private Vector3 wasdMovement = Vector3.zero;
     [HideInInspector] public Vector3 WASDMovement { get { return wasdMovement; } } //Returns the movement vector of the camera this frame
+    [HideInInspector] public bool canPause;
 
     //Mouse Related Variables
     private bool leftClickPressed;
@@ -124,20 +125,37 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     /// Pause function to pause the game based on the isPause variable and will stop the game time while displaying the pause screen
     public void Pause(InputAction.CallbackContext context)
     {
-        if (context.performed) //prevent pausing when dead
+        if (context.performed && canPause) //prevent pausing when dead
         {
             if (!IsPaused) //If the game is not paused then pause the game
             {
                 isPaused = true;
                 Time.timeScale = 0;
-                HUDController.Instance.ShowPauseScreen();
+
+                if(!GameManager.Instance.nightWatchPhase)
+                    HUDController.Instance.ShowPauseScreen();
+                else
+                    NightHUDController.Instance.ShowPauseScreen();
             }
             else //If the game is paused then unpause the game
             {
                 isPaused = false;
                 Time.timeScale = 1;
-                HUDController.Instance.HidePauseScreen();
+                if (!GameManager.Instance.nightWatchPhase)
+                    HUDController.Instance.HidePauseScreen();
+                else
+                    NightHUDController.Instance.HidePauseScreen();
             }
         }
+    }
+
+    public void ContinueButtonPressed()
+    {
+        isPaused = false;
+        Time.timeScale = 1;
+        if (!GameManager.Instance.nightWatchPhase)
+            HUDController.Instance.HidePauseScreen();
+        else
+            NightHUDController.Instance.HidePauseScreen();
     }
 }

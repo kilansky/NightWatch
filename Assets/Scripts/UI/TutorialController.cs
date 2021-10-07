@@ -25,6 +25,7 @@ public class TutorialController : SingletonPattern<TutorialController>
         laserButton.interactable = false;
         guardButton.interactable = false;
         beginNightWatchButton.interactable = false;
+        PlayerInputs.Instance.canPause = false;
 
         foreach (GameObject panel in tutorialPanels)
             panel.SetActive(false);
@@ -87,5 +88,6 @@ public class TutorialController : SingletonPattern<TutorialController>
         guardButton.interactable = true;
         beginNightWatchButton.interactable = true;
         tutorialPanel.SetActive(false);
+        PlayerInputs.Instance.canPause = true;
     }
 }

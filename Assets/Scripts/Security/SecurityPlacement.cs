@@ -340,6 +340,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         if (objectToMove.GetComponent<NavMeshAgent>())
             objectToMove.GetComponent<NavMeshAgent>().enabled = false;
 
+        //If the object to move is a guard, disable the model mesh
+        if (objectToMove.GetComponent<GuardPathfinding>())
+            objectToMove.transform.GetChild(1).GetComponent<CapsuleCollider>().isTrigger = true;
+
         //Begin moving the object
         movedObjectOriginalPos = objectToMove.transform.position;
         movedObjectOriginalRot = objectToMove.transform.rotation;
@@ -362,6 +366,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         SecuritySelection.Instance.canSelect = true;
         heldObject.transform.position = movedObjectOriginalPos;
         heldObject.transform.rotation = movedObjectOriginalRot;
+
+        //If the object to move is a guard, enable the model mesh
+        if (heldObject.GetComponent<GuardPathfinding>())
+            heldObject.transform.GetChild(1).GetComponent<CapsuleCollider>().isTrigger = false;
     }
 
     //Place a security measure into the level
@@ -376,7 +384,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
             //If the placed object was a guard, do some setup (ie: set patrol route color)
             if (newObject.GetComponent<GuardPatrolPoints>())
+            {
                 newObject.GetComponent<GuardPatrolPoints>().SetGuardPatrolColor();
+                newObject.transform.GetChild(1).GetComponent<CapsuleCollider>().isTrigger = false;
+            }
 
             if(placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate
             {

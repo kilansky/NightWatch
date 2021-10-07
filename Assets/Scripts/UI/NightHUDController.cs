@@ -15,6 +15,9 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public TextMeshProUGUI thievesEscapedText;
     public TextMeshProUGUI thievesApprehendedText;
 
+    [Header("Pause")]
+    public GameObject pausePanel;
+
     [Header("Game End")]
     public GameObject gameEndPanel;
     public TextMeshProUGUI stolenFinalNum;
@@ -99,17 +102,11 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         audioSource.PlayOneShot(thiefApprehended);
     }
 
-    //Reloads the current scene
-    public void RetryButton()
-    {
-        Time.timeScale = 1;
-        Scene currScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currScene.buildIndex);
-    }
-
     //Enables the game end panel and sets the text values for all end game stats
     public void SetGameEndStats()
     {
+        PlayerInputs.Instance.canPause = false;
+
         gameEndPanel.SetActive(true);
         stolenFinalNum.text = itemStolenNum.ToString();
         escapedFinalNum.text = thievesEscapedNum.ToString();
@@ -131,7 +128,17 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     //Waits to disable an activated event text object
     private IEnumerator DeactivateEventText(GameObject eventTextObject)
     {
-        yield return new WaitForSeconds(eventTextTime);
+        yield return new WaitForSecondsRealtime(eventTextTime);
         eventTextObject.SetActive(false);
+    }
+
+    public void ShowPauseScreen()
+    {
+        pausePanel.SetActive(true);
+    }
+
+    public void HidePauseScreen()
+    {
+        pausePanel.SetActive(false);
     }
 }

@@ -13,6 +13,8 @@ public class HUDController : SingletonPattern<HUDController>
 
     public TextMeshProUGUI moneyText;
 
+    public GameObject pausePanel;
+
     private GameObject heldObject;
     private SecurityPlacement securityScript;
 
@@ -89,11 +91,11 @@ public class HUDController : SingletonPattern<HUDController>
 
     public void ShowPauseScreen()
     {
-
+        pausePanel.SetActive(true);
     }
 
     public void HidePauseScreen()
     {
-
+        pausePanel.SetActive(false);
     }
 }

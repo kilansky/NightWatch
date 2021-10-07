@@ -51,7 +51,7 @@ public class GuardPathfinding : MonoBehaviour
         {
             if (currControlMode == ControlMode.Idle)
             {
-                Agent.isStopped = false;
+                Agent.isStopped = true;
                 //Do nothing
                 ClickPoint = transform.position;
             }
@@ -338,7 +338,7 @@ public class GuardPathfinding : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, SecurityPlacement.Instance.floorMask))
         {
-            Vector3 forward = hit.point - transform.position;
+            Vector3 forward = new Vector3(hit.point.x, transform.position.y, hit.point.z) - transform.position;
             transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
         }
 
@@ -353,7 +353,6 @@ public class GuardPathfinding : MonoBehaviour
         {
             Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position);
 
-            Debug.LogWarning("KNOWN ERROR: NullReferenceException");
             Agent.SetDestination(waitPosition);
 
             if (thiefToChase)

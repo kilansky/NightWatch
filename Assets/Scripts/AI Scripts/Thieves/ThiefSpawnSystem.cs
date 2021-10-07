@@ -41,7 +41,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
         ItemsLeft = TargetObjects.Count; //Records how many items there are in the map
 
         //Sets up the first timer
-        Timer = BaseSpawnTimer + Random.Range(0, Timer_Mod);
+        Timer = BaseSpawnTimer;
     }
 
     private void Update()

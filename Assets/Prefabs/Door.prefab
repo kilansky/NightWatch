@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7038268629035329862}
   - component: {fileID: 7671975346152193607}
   - component: {fileID: 8538368123792478210}
-  - component: {fileID: 3196627021653288476}
   - component: {fileID: 8387681457730905397}
   m_Layer: 16
   m_Name: FakeDoor
@@ -98,25 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4985145, y: 2.1833224, z: 0.15794909}
   m_Center: {x: -0.7492563, y: 1.0916612, z: 0.015288651}
---- !u!95 &3196627021653288476
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577257210485901966}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b3413aa03264da043bc12fded872cfb6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8387681457730905397
 MonoBehaviour:
   m_ObjectHideFlags: 0
