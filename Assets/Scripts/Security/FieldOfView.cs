@@ -11,7 +11,6 @@ public class FieldOfView : MonoBehaviour
     public LayerMask obstacleMask;
 
     public List<Transform> visibleTargets = new List<Transform>();
-    public List<GameObject> FakeDoors = new List<GameObject>();
 
     public float meshResolution;
     public int edgeResolveIterations;
@@ -48,11 +47,6 @@ public class FieldOfView : MonoBehaviour
     //Find all 'targets' such as thieves or doors within this object's field of view
     private void FindVisibleTargets()
     {
-        for(int i = 0; i < FakeDoors.Count; i++)
-        {
-            FakeDoors[i].GetComponent<FakeDoor>().FakeDoorOn();
-        }
-        FakeDoors.Clear();
         //Place For loop here
         visibleTargets.Clear(); //clear the current list of existing targets
 
@@ -79,7 +73,6 @@ public class FieldOfView : MonoBehaviour
                     if (target.gameObject.GetComponent<FakeDoor>())
                     {
                         print("Detected Door");
-                        FakeDoors.Add(target.gameObject);
                         target.GetComponent<FakeDoor>().FakeDoorOff();
                     }
 

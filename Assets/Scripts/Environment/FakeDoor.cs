@@ -4,13 +4,40 @@ using UnityEngine;
 
 public class FakeDoor : MonoBehaviour
 {
-    public GameObject FakeDoorModel;
+    public MeshRenderer FakeDoorModel;
+    public MeshRenderer DoorModel;
+    public float VisibleDuration;
+    private float timeLeft = 0;
+    
+
+    
     public void FakeDoorOff()
     {
-        FakeDoorModel.SetActive(false);
+        print("Set Fake Door To Off");
+        FakeDoorModel.enabled = false;
+        DoorModel.enabled = true;
+        if (timeLeft <= 0)
+        {
+            timeLeft = VisibleDuration;
+            StartCoroutine(DoorVisible());
+        }
+        timeLeft = VisibleDuration;
+
     }
     public void FakeDoorOn()
     {
-        FakeDoorModel.SetActive(true);
+        FakeDoorModel.enabled = true;
+        DoorModel.enabled = false;
+    }
+
+    private IEnumerator DoorVisible()
+    {
+        while (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+        
+        FakeDoorOn();
     }
 }

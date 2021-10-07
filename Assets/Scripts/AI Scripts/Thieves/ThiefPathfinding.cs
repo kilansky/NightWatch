@@ -196,7 +196,7 @@ public class ThiefPathfinding : MonoBehaviour
         else
         {
             timeRemainingToSteal = timeToSteal;
-            Destroy(Target);
+            
             ItemsHeld += 1; //Adds one item to itemsheld
             if (TimeBeforeEscape <= 0 || ThiefSpawnSystem.Instance.TargetObjects.Count < 1) //Checks to if the Escape Timer is over and if there are any target objects left. If either are true, the thief begins the escape phase
             {
