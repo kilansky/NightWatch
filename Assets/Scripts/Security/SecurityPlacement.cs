@@ -19,6 +19,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
     [HideInInspector] public bool placementMode = false;
     [HideInInspector] public bool movementMode = false;
+    [HideInInspector] public bool placementSkillGate = false;
+    [HideInInspector] public bool exitPlacementSkillGate = false;
     [HideInInspector] public GameObject heldObject;
     [HideInInspector] public int heldObjectCost;
 
@@ -319,6 +321,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         //Remove held object
         if (heldObject != null)
             Destroy(heldObject);
+
+        if (exitPlacementSkillGate) //If in the tutorial, right click to exit placement mode and activate the selection skill gate
+        {
+            TutorialController.Instance.NextButton();
+            TutorialController.Instance.SelectionSkillGate();
+            exitPlacementSkillGate = false;
+        }
     }
 
     //Called when a security measure is selected and the 'move' button is pressed
@@ -368,6 +377,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             //If the placed object was a guard, do some setup (ie: set patrol route color)
             if (newObject.GetComponent<GuardPatrolPoints>())
                 newObject.GetComponent<GuardPatrolPoints>().SetGuardPatrolColor();
+
+            if(placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate
+            {
+                TutorialController.Instance.NextButton();
+                placementSkillGate = false;
+                exitPlacementSkillGate = true;
+            }
         }
         else if(movementMode)//Place a moved security measure
         {

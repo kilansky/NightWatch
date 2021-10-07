@@ -5,6 +5,7 @@ using UnityEngine;
 public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
     [HideInInspector] public bool guardIsInManualMode = false;
+    [HideInInspector] public bool tutorialMode = false;
 
     //Sells the security measure that is currently selected
     public void SellButton()
@@ -18,6 +19,11 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         //Destroy the selected security measure and deselect it
         Destroy(SecuritySelection.Instance.selectedObject.gameObject);
         SecuritySelection.Instance.CloseSelection();
+
+        if(tutorialMode) //If in the tutorial, selling an object will move to the next panel
+        {
+            TutorialController.Instance.NextButton();
+        }
     }
 
     //Moves the security measure that is currently selected
