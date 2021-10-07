@@ -23,6 +23,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     [HideInInspector] public SecurityMeasure selectedObject;
     [HideInInspector] public Vector3 offScreenPos = new Vector3(0, -10, 0);
     [HideInInspector] public bool canSelect;
+    [HideInInspector] public bool tutorialMode = false;
 
     private Camera mainCamera;
 
@@ -91,6 +92,13 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionButtons.transform.position = selectionIcon.transform.position + selectionButtonsOffset;
         selectedObject = selected.parent.GetComponent<SecurityMeasure>();
         ActivateButtons();
+
+        if(tutorialMode) //If in the tutorial, selecting an object will move to the next panel and activate the Selling skill gate
+        {
+            TutorialController.Instance.NextButton();
+            TutorialController.Instance.SellingSkillGate();
+            tutorialMode = false;
+        }
     }
 
     //De-select the selected object
