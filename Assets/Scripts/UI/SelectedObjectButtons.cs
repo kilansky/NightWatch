@@ -20,9 +20,11 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         Destroy(SecuritySelection.Instance.selectedObject.gameObject);
         SecuritySelection.Instance.CloseSelection();
 
-        if(tutorialMode) //If in the tutorial, selling an object will move to the next panel
+        if(tutorialMode) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
         {
             TutorialController.Instance.NextButton();
+            Time.timeScale = 0;
+            TutorialController.Instance.cctvButton.interactable = true;
         }
     }
 

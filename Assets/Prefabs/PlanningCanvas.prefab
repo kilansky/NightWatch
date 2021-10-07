@@ -6166,7 +6166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 817c9e938c799544e9e12d976bbd67a4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0eabc062824c91d4b8f4040daa4d858e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -7114,6 +7114,9 @@ MonoBehaviour:
   - {fileID: 3030717033691549969}
   - {fileID: 7168605756137342144}
   - {fileID: 8529321970874247010}
+  - {fileID: 5478845423057793197}
+  - {fileID: 48447627740549384}
+  - {fileID: 4364739792658570822}
   cctvButton: {fileID: 2467743334579453453}
   laserButton: {fileID: 2467743332980197926}
   guardButton: {fileID: 2467743334120970099}
@@ -10514,12 +10517,12 @@ GameObject:
   - component: {fileID: 5186494522066176222}
   - component: {fileID: 4672330259952297529}
   m_Layer: 5
-  m_Name: End
+  m_Name: Thief Behaviors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &388605041459388462
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13950,11 +13953,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Thieves are invisible unless within the vision cone of a Guard or Camera.
+  m_text: 'Thieves can enter the building through outside facing doors or windows.
 
 
-    Lasers
-    will send both a visual and auditory alert when a thief walks in front of them.'
+    Once
+    in the building, they will move to computer desks to steal files from.
+
+
+    Place
+    security measures near these locations!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3091c0472a310c74ba8191c3afa09ec8, type: 2}
   m_sharedMaterial: {fileID: 3403145060723838888, guid: 3091c0472a310c74ba8191c3afa09ec8, type: 2}
@@ -14017,7 +14024,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 70.3714, y: 13.817871, z: 574.3966, w: 17.54602}
+  m_margin: {x: 70.3714, y: 2.1600952, z: 574.3966, w: 17.54602}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
