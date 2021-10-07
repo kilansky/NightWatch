@@ -6,7 +6,7 @@ public class GameManager : SingletonPattern<GameManager>
 {
     public GameObject sceneViewMask; //allows viewing of hidden objects (like thieves) in the editor or setup phase
     public GameObject planningCanvas;
-    //public GameObject nightCanvas;
+    public GameObject nightCanvas;
 
     [HideInInspector] public bool nightWatchPhase = false;
 
@@ -21,7 +21,7 @@ public class GameManager : SingletonPattern<GameManager>
     public void BeginPlanningPhase()
     {
         planningCanvas.SetActive(true);
-        //nightCanvas.SetActive(false);
+        nightCanvas.SetActive(false);
     }
 
     //Call when player presses button, hides the placement UI and begins spawning thieves
@@ -29,7 +29,15 @@ public class GameManager : SingletonPattern<GameManager>
     {
         nightWatchPhase = true;
         planningCanvas.SetActive(false);
+        SecuritySelection.Instance.CloseSelection();
         ThiefSpawnSystem.Instance.BeginSpawnCycle();
-        //nightCanvas.SetActive(true);
+        nightCanvas.SetActive(true);
+    }
+
+    //Call once all thieves have been spawned and the last thief is caught or escapes
+    public void EndLevel()
+    {
+        Time.timeScale = 0;
+        NightHUDController.Instance.SetGameEndStats();
     }
 }

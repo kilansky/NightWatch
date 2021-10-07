@@ -41,30 +41,13 @@ public class FieldOfView : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
-
-            if (visibleTargets.Count > 0 && GetComponent<GuardPathfinding>())
-                ThiefSpotted();
-        }
-    }
-
-    private void ThiefSpotted()
-    {
-        if (GetComponent<GuardPathfinding>().ThiefSpotted == false)
-        {
-            //Change Guard Behavior
-            //Note- chases first found thief, not the closest - CHANGE LATER??
-            gameObject.GetComponent<GuardPathfinding>().Thief = visibleTargets[0].gameObject;
-            gameObject.GetComponent<GuardPathfinding>().ThiefSpotted = true;
-            gameObject.GetComponent<GuardPathfinding>().SpeedIncrease();
-
-            //Change Thief Behavior
-            visibleTargets[0].gameObject.GetComponent<ThiefPathfinding>().SeenByGuard();
         }
     }
 
     //Find all 'targets' such as thieves or doors within this object's field of view
     private void FindVisibleTargets()
     {
+        //Place For loop here
         visibleTargets.Clear(); //clear the current list of existing targets
 
         //Get an array of all targets within a sphere radius
@@ -80,11 +63,25 @@ public class FieldOfView : MonoBehaviour
             if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
+                
 
                 //Perform raycast to make sure target is not behind a wall
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
+
+                    if (target.gameObject.GetComponent<FakeDoor>())
+                    {
+                        print("Detected Door");
+                        target.GetComponent<FakeDoor>().FakeDoorOff();
+                    }
+
+                    if(GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
+                    {
+                        print("See Thief");
+                        GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
+                    }
+                        
                 }
             }
         }
