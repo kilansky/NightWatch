@@ -82,6 +82,9 @@ public class TutorialController : SingletonPattern<TutorialController>
     public void EndTutorial()
     {
         Time.timeScale = 1;
+        cctvButton.interactable = true;
+        laserButton.interactable = true;
+        guardButton.interactable = true;
         beginNightWatchButton.interactable = true;
         tutorialPanel.SetActive(false);
     }
