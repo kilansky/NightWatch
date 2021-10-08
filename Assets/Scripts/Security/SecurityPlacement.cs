@@ -387,6 +387,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             {
                 newObject.GetComponent<GuardPatrolPoints>().SetGuardPatrolColor();
                 newObject.transform.GetChild(1).GetComponent<CapsuleCollider>().isTrigger = false;
+                HUDController.Instance.SetNightWatchButtonInteractability();
             }
 
             if(placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate

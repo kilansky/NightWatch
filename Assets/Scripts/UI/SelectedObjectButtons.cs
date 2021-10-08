@@ -12,15 +12,30 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     {
         MoneyManager.Instance.AddMoney(SecuritySelection.Instance.selectedObject.cost);
 
-        //Check if the security measure to sell is a guard, if it is, return its color to the Patrol Colors list
+        bool destroyedGuard = false;
+        //Check if the security measure to sell is a guard, and do some cleanup
         if(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>())
+        {
+            destroyedGuard = true; //Used to check to disable the Night Watch Button
+
+            //Return patrol color to the Patrol Colors list
             PatrolColors.Instance.RemoveGuardRouteColor(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>().patrolMarkerColor);
+
+            //Destroy the patrol routes attached to this guard
+            GameObject[] patrolPoints = SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.ToArray();
+            for (int i = 0; i < patrolPoints.Length; i++)
+                Destroy(patrolPoints[i]);
+        }
 
         //Destroy the selected security measure and deselect it
         Destroy(SecuritySelection.Instance.selectedObject.gameObject);
         SecuritySelection.Instance.CloseSelection();
 
-        if(tutorialMode) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
+        //Check to disable the Night Watch Button if there are now 0 guards
+        if (destroyedGuard)
+            HUDController.Instance.SetNightWatchButtonInteractability();
+
+        if (tutorialMode) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
         {
             TutorialController.Instance.NextButton();
             TutorialController.Instance.cctvButton.interactable = false;

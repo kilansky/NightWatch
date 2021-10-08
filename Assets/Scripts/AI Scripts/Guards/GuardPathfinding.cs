@@ -16,7 +16,6 @@ public class GuardPathfinding : MonoBehaviour
 
     public List<GameObject> thievesSpotted = new List<GameObject>();
     [HideInInspector] public GameObject thiefToChase;
-    [HideInInspector] public bool BeginPatrol;
 
     private int PatrolNumber;
     private Vector3 CurrentPatrolPoint;
@@ -36,7 +35,6 @@ public class GuardPathfinding : MonoBehaviour
     {
         canManualMove = true;
         DoorInteraction = false;
-        BeginPatrol = false;
         mainCamera = Camera.main;
         cameraScript = CameraController.Instance;
         //currControlMode = ControlMode.Idle;

@@ -6,20 +6,27 @@ using TMPro;
 
 public class HUDController : SingletonPattern<HUDController>
 {
+    [Header("Money & Costs Text")]
+    public TextMeshProUGUI moneyText;
     public TextMeshProUGUI cameraCostText;
     public TextMeshProUGUI laserCostText;
     public TextMeshProUGUI guardCostText;
     public TextMeshProUGUI audioCostText;
 
-    public TextMeshProUGUI moneyText;
-
+    [Header("Panels")]
     public GameObject pausePanel;
+    public GameObject noPatrolWarningPanel;
+
+    [Header("Night Watch Button")]
+    public Button nightWatchButton;
 
     private GameObject heldObject;
     private SecurityPlacement securityScript;
 
     private void Start()
     {
+        nightWatchButton.interactable = false;
+
         securityScript = SecurityPlacement.Instance;
         SetSecurityCosts();
     }
@@ -81,12 +88,63 @@ public class HUDController : SingletonPattern<HUDController>
         }
     }
 
+    //Sets the text display for the cost of each security measure
     public void SetSecurityCosts()
     {
         cameraCostText.text = "$" + securityScript.cctvCamera.GetComponent<SecurityMeasure>().cost.ToString();
         laserCostText.text = "$" + securityScript.laserSensor.GetComponent<SecurityMeasure>().cost.ToString();
         guardCostText.text = "$" + securityScript.guard.GetComponent<SecurityMeasure>().cost.ToString();
         audioCostText.text = "$" + securityScript.audioSensor.GetComponent<SecurityMeasure>().cost.ToString();
+    }
+
+    //Called when the Begin Night Watch button is pressed - checks to display any warnings
+    public void BeginNightButton()
+    {
+        bool showWarning = false;
+        //Check if any guards are missing a patrol route. If any are, show the no patrol route warning
+        foreach (GuardPatrolPoints guardPatrolScript in FindObjectsOfType<GuardPatrolPoints>())
+        {
+            if (!guardPatrolScript.patrolRouteSet)
+                showWarning = true;
+        }
+
+        if (showWarning)
+            ShowNoPatrolWarning();
+        else
+            GameManager.Instance.BeginNightPhase();
+    }
+
+    //Activates a warning panel when the player presses the Begin Night Watch button w/o a set patrol route
+    public void ShowNoPatrolWarning()
+    {
+        Debug.Log("Show Warning");
+        noPatrolWarningPanel.SetActive(true);
+        nightWatchButton.interactable = false;
+    }
+
+    //Closes the warning panel, and either begins the night watch or returns to the planning phase
+    public void CloseNoPatrolWarning(bool beginNightWatch)
+    {
+        noPatrolWarningPanel.SetActive(false);
+        nightWatchButton.interactable = true;
+
+        if (beginNightWatch)
+            GameManager.Instance.BeginNightPhase();
+    }
+
+    //Enables or disables the Night Watch Button based on the number of guards
+    public void SetNightWatchButtonInteractability()
+    {
+        //Count the number of guards in the scene
+        int numGuards = 0;
+        for (int i = 0; i < FindObjectsOfType<GuardPathfinding>().Length - 1; i++)
+            numGuards++;
+
+        //Disable the Night Watch button if there are no guards
+        if (numGuards == 0)
+            nightWatchButton.interactable = false;
+        else
+            nightWatchButton.interactable = true;
     }
 
     public void ShowPauseScreen()

@@ -12,7 +12,6 @@ public class TutorialController : SingletonPattern<TutorialController>
     public Button cctvButton;
     public Button laserButton;
     public Button guardButton;
-    public Button beginNightWatchButton;
 
     private int activePanelIndex;
 
@@ -24,7 +23,6 @@ public class TutorialController : SingletonPattern<TutorialController>
         cctvButton.interactable = false;
         laserButton.interactable = false;
         guardButton.interactable = false;
-        beginNightWatchButton.interactable = false;
         PlayerInputs.Instance.canPause = false;
 
         foreach (GameObject panel in tutorialPanels)
@@ -86,7 +84,6 @@ public class TutorialController : SingletonPattern<TutorialController>
         cctvButton.interactable = true;
         laserButton.interactable = true;
         guardButton.interactable = true;
-        beginNightWatchButton.interactable = true;
         tutorialPanel.SetActive(false);
         PlayerInputs.Instance.canPause = true;
     }

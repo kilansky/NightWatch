@@ -15,6 +15,7 @@ public class GuardPatrolPoints : MonoBehaviour
 
     [HideInInspector] public bool patrolPlacementMode;
     [HideInInspector] public bool patrolMovementMode;
+    [HideInInspector] public bool patrolRouteSet; //true if this guard has at least 2 patrol points
     [HideInInspector] public List<GameObject> PatrolPoints = new List<GameObject>(); //List of patrol points
     [HideInInspector] public Color patrolMarkerColor;
 
@@ -103,6 +104,9 @@ public class GuardPatrolPoints : MonoBehaviour
                     currMarkerNum++;
                     heldMarkerScript.markerNum = currMarkerNum;
                     heldMarkerScript.UpdateMarkerNum();
+
+                    if (currMarkerNum > 2)
+                        patrolRouteSet = true;
                 }
             }
         }  
@@ -177,5 +181,8 @@ public class GuardPatrolPoints : MonoBehaviour
             marker.GetComponent<PatrolMarker>().UpdateMarkerNum();
             i++;
         }
+
+        if (currMarkerNum < 3)
+            patrolRouteSet = false;
     }
 }
