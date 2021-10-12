@@ -115,7 +115,7 @@ public class ThiefPathfinding : MonoBehaviour
     //Run from guard out of the building
     private void EvadeBehavior()
     {
-        print("Evading");
+        //print("Evading");
         if (DoorInteraction == false) //If thief is interacting with door, SetDestination does not reset
         {
             Agent.SetDestination(SpawnPoint.position);
@@ -155,7 +155,7 @@ public class ThiefPathfinding : MonoBehaviour
     {
         if (currBehavior != BehaviorStates.Evade)
         {
-            print("Detected");
+            //print("Detected");
 
             currBehavior = BehaviorStates.Evade;
             FindClosestEscapeRoute();
@@ -168,6 +168,10 @@ public class ThiefPathfinding : MonoBehaviour
         //Check to see if the thief managed to steal its last object before adding it back to the target list
         if (ObjectStolen == false) 
             ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+
+        //Remove this thief from the guards that are chasing it
+        foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
+            guard.ThiefRemoved(gameObject);
 
         NightHUDController.Instance.ThiefApprehendedEvent();
         CheckForLevelEnd();
@@ -211,13 +215,9 @@ public class ThiefPathfinding : MonoBehaviour
                 NextTarget = Random.Range(0, ThiefSpawnSystem.Instance.TargetObjects.Count - 1);
                 Target = ThiefSpawnSystem.Instance.TargetObjects[NextTarget];
                 ThiefSpawnSystem.Instance.TargetObjects.Remove(ThiefSpawnSystem.Instance.TargetObjects[NextTarget]);
-            }
-            
-            print("ObjectStolen");
-
-            
-        }
-        
+            }           
+            //print("ObjectStolen");           
+        }      
     }
 
     private void FindClosestEscapeRoute()
@@ -258,7 +258,7 @@ public class ThiefPathfinding : MonoBehaviour
 
 
             StartCoroutine(OpenDelayCoroutine());
-            print("Thief Opens Door");
+            //print("Thief Opens Door");
         }
     }
 
@@ -306,7 +306,7 @@ public class ThiefPathfinding : MonoBehaviour
     {
         while (Vector3.Distance(Agent.destination, transform.position) > Agent.stoppingDistance + 0.5f)
         {
-            print("Do Nothing");
+            //print("Do Nothing");
             yield return null;
         }
 

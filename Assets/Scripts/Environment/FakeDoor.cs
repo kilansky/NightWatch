@@ -8,12 +8,10 @@ public class FakeDoor : MonoBehaviour
     public MeshRenderer DoorModel;
     public float VisibleDuration;
     private float timeLeft = 0;
-    
-
-    
+      
     public void FakeDoorOff()
     {
-        print("Set Fake Door To Off");
+        //print("Set Fake Door To Off");
         FakeDoorModel.enabled = false;
         DoorModel.enabled = true;
         if (timeLeft <= 0)

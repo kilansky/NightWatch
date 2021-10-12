@@ -55,7 +55,7 @@ public class DoorControl : MonoBehaviour
             uiNotification.SetActive(false);
             DoorCollider.enabled = !DoorCollider.enabled; 
             StartCoroutine(DoorClosing());
-            print("Door Opens");
+            //print("Door Opens");
         }
         
     }
@@ -67,7 +67,7 @@ public class DoorControl : MonoBehaviour
             myAnimator.SetFloat("BaseSpeed", (1 / closeAnimationDuration));
             myAnimator.SetTrigger("CloseDoor");
             
-            print("Door Closes");
+            //print("Door Closes");
         }
     }
 
@@ -82,7 +82,7 @@ public class DoorControl : MonoBehaviour
             uiNotification.SetActive(false);
             DoorCollider.enabled = !DoorCollider.enabled;
             StartCoroutine(DoorClosing());
-            print("Door Opens");
+            //print("Door Opens");
         }
 
     }
@@ -101,7 +101,7 @@ public class DoorControl : MonoBehaviour
 
     private IEnumerator DoorClosing()
     {
-        print("Closing Door");
+        //print("Closing Door");
         yield return new WaitForSeconds(DoorOpenDuration);
 
         CloseDoor();
@@ -120,13 +120,13 @@ public class DoorControl : MonoBehaviour
 
         if(Mathf.Abs(directionAngle) > 90f && Mathf.Abs(directionAngle) < 270f)
         {
-            print("Go to front");
+            //print("Go to front");
             ExitPosition = backDoorPosition;
             return frontDoorPosition.position;
         }
         else
         {
-            print("Go to back");
+            //print("Go to back");
             ExitPosition = frontDoorPosition;
             return backDoorPosition.position;
         }
