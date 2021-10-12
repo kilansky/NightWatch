@@ -108,7 +108,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             SetPlacementRotation(hitZ.normal);
 
             //If not overlapping with another object, and is affordable, allow placement on wall
-            if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping && MoneyManager.Instance.Money >= heldObjectCost)
+            if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping 
+                && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
             {
                 SetPlacementMaterial("green");
 
@@ -128,7 +129,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
             //check if held object is not placed on walls (ie: Guards), is not overlapping with other things, and is affordable
             if(!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
-                && MoneyManager.Instance.Money >= heldObjectCost)
+                && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
             {
                 SetPlacementMaterial("green");
 
@@ -434,7 +435,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     private void CheckToShowFundsTooltip()
     {
         //If the player cannot afford another of this security measure, show the insufficent funds tooltip
-        if (!insufficientFundsTooltip && MoneyManager.Instance.Money < heldObjectCost)
+        if (!insufficientFundsTooltip && placementMode && MoneyManager.Instance.Money < heldObjectCost)
         {
             TooltipSystem.Instance.ShowTooltip("", "Insufficient Funds");
             insufficientFundsTooltip = true;
