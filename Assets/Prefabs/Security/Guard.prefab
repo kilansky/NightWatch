@@ -395,6 +395,7 @@ MonoBehaviour:
   startingGuard: 0
   patrolPlacementMode: 0
   patrolMovementMode: 0
+  patrolRouteSet: 0
   PatrolPoints: []
   patrolMarkerColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2006984199
@@ -419,7 +420,6 @@ MonoBehaviour:
   distToCatchThief: 1
   thievesSpotted: []
   thiefToChase: {fileID: 0}
-  BeginPatrol: 0
 --- !u!195 &2006984200
 NavMeshAgent:
   m_ObjectHideFlags: 0
