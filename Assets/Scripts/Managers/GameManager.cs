@@ -30,6 +30,7 @@ public class GameManager : SingletonPattern<GameManager>
         nightWatchPhase = true;
         planningCanvas.SetActive(false);
         SecuritySelection.Instance.CloseSelection();
+        SecurityPlacement.Instance.ExitPlacementMode();
         ThiefSpawnSystem.Instance.BeginSpawnCycle();
         nightCanvas.SetActive(true);
     }
