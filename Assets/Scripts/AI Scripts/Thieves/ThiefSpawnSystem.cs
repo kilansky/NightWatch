@@ -104,7 +104,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
                 }
                 else
                 {
-                    print("Repeat");
+                    //print("Repeat");
                 }
             }
             PointsUsed = 0;

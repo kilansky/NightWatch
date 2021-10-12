@@ -17,6 +17,12 @@ public class HUDController : SingletonPattern<HUDController>
     public GameObject pausePanel;
     public GameObject noPatrolWarningPanel;
 
+    [Header("Security Buttons")]
+    public Button cameraButton;
+    public Button laserButton;
+    public Button guardButton;
+    public Button audioButton;
+
     [Header("Night Watch Button")]
     public Button nightWatchButton;
 
@@ -70,8 +76,9 @@ public class HUDController : SingletonPattern<HUDController>
 
         if (!inPlacementMode || (inPlacementMode && objectToPlace != securityScript.heldObject))
         {
-            securityScript.placementMode = true;
-            SecuritySelection.Instance.canSelect = false;
+            securityScript.placementMode = true; //enter placement mode
+            SecuritySelection.Instance.canSelect = false; //disable the ability to select objects
+            SecuritySelection.Instance.CloseSelection(); //close any current selections
 
             //Remove held object
             if (heldObject != null)
@@ -112,6 +119,15 @@ public class HUDController : SingletonPattern<HUDController>
             ShowNoPatrolWarning();
         else
             GameManager.Instance.BeginNightPhase();
+    }
+
+    //Enables or Disables interaction with the buttons to place security measures
+    public void SetSecurityButtonIntractability(bool intractability)
+    {
+        cameraButton.interactable = intractability;
+        laserButton.interactable = intractability;
+        guardButton.interactable = intractability;
+        audioButton.interactable = intractability;
     }
 
     //Activates a warning panel when the player presses the Begin Night Watch button w/o a set patrol route

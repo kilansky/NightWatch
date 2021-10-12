@@ -21,6 +21,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     [HideInInspector] public bool movementMode = false;
     [HideInInspector] public bool placementSkillGate = false;
     [HideInInspector] public bool exitPlacementSkillGate = false;
+    [HideInInspector] public bool insufficientFundsTooltip = false;
     [HideInInspector] public GameObject heldObject;
     [HideInInspector] public int heldObjectCost;
 
@@ -59,13 +60,19 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         if (PlayerInputs.Instance.RightClickPressed)
         {
             if (placementMode)
+            {
                 ExitPlacementMode();
+                return;
+            }
             else if (movementMode)
             {
                 CancelMoving();
                 return;
             }
         }
+
+        //Check if the player has insufficient funds. If they do, show a tooltip
+        CheckToShowFundsTooltip();
 
         //Check to store the mats of the held object
         if (!originalMatsStored)
@@ -130,10 +137,14 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                     PlaceSecurityMeasure();
             }
             else //Prevent object from being placed on floor
+            {
                 SetPlacementMaterial("red");
+            }
         }
         else //Not over placable area or floor
+        {
             SetPlacementMaterial("red");
+        }
     }
 
     //Rotate an object to snap properly to a wall
@@ -194,6 +205,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             }
         }
         originalMatsStored = true;
+        currMaterial = materialState.Original;
         //Debug.Log("Materials Stored");
     }
 
@@ -322,6 +334,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         if (heldObject != null)
             Destroy(heldObject);
 
+        //Deactivate the insufficent funds tooltip
+        if(insufficientFundsTooltip)
+        {
+            TooltipSystem.Instance.HideTooltip();
+            insufficientFundsTooltip = false;
+        }
+
         if (exitPlacementSkillGate) //If in the tutorial, right click to exit placement mode and activate the selection skill gate
         {
             TutorialController.Instance.NextButton();
@@ -336,6 +355,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         //Get selected object and close the selection
         GameObject objectToMove = SecuritySelection.Instance.selectedObject.gameObject;
         SecuritySelection.Instance.CloseSelection();
+        SecuritySelection.Instance.canSelect = false;
 
         if (objectToMove.GetComponent<NavMeshAgent>())
             objectToMove.GetComponent<NavMeshAgent>().enabled = false;
@@ -349,7 +369,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         movedObjectOriginalRot = objectToMove.transform.rotation;
         heldObject = objectToMove;
         movementMode = true;
-        SecuritySelection.Instance.canSelect = false;
+        HUDController.Instance.SetSecurityButtonIntractability(false); //disable security buttons
 
         //Store original material of the object to move
         StoreOriginalMaterials();
@@ -359,13 +379,15 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     //Cancels the movement of a security measure and places it back where it started
     private void CancelMoving()
     {
+        //Reset material and positions
         SetPlacementMaterial("original");
         currMaterial = materialState.Original;
-
-        movementMode = false;
-        SecuritySelection.Instance.canSelect = true;
         heldObject.transform.position = movedObjectOriginalPos;
         heldObject.transform.rotation = movedObjectOriginalRot;
+        movementMode = false;
+
+        SecuritySelection.Instance.canSelect = true; //enable selections
+        HUDController.Instance.SetSecurityButtonIntractability(true); //enable security buttons
 
         //If the object to move is a guard, enable the model mesh
         if (heldObject.GetComponent<GuardPathfinding>())
@@ -400,10 +422,28 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         else if(movementMode)//Place a moved security measure
         {
             movementMode = false;
-            SecuritySelection.Instance.canSelect = true;
+            SecuritySelection.Instance.canSelect = true; //enable selections
+            HUDController.Instance.SetSecurityButtonIntractability(true); //enable security buttons
 
             if (heldObject.GetComponent<NavMeshAgent>())
                 heldObject.GetComponent<NavMeshAgent>().enabled = true;
+        }
+    }
+
+    //Checks if the player has insufficient funds to place the item that is held. If they do, show a tooltip, otherwise hide it
+    private void CheckToShowFundsTooltip()
+    {
+        //If the player cannot afford another of this security measure, show the insufficent funds tooltip
+        if (!insufficientFundsTooltip && MoneyManager.Instance.Money < heldObjectCost)
+        {
+            TooltipSystem.Instance.ShowTooltip("", "Insufficient Funds");
+            insufficientFundsTooltip = true;
+        }
+        //If the player can afford another of this security measure, hide the insufficent funds tooltip
+        else if (insufficientFundsTooltip && MoneyManager.Instance.Money >= heldObjectCost)
+        {
+            TooltipSystem.Instance.HideTooltip();
+            insufficientFundsTooltip = false;
         }
     }
 }
