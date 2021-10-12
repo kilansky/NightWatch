@@ -72,13 +72,13 @@ public class FieldOfView : MonoBehaviour
 
                     if (target.gameObject.GetComponent<FakeDoor>())
                     {
-                        print("Detected Door");
+                        //print("Detected Door");
                         target.GetComponent<FakeDoor>().FakeDoorOff();
                     }
 
                     if(GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
                     {
-                        print("See Thief");
+                        //print("See Thief");
                         GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
                     }
                         
