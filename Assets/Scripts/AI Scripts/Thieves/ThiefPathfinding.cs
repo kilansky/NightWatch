@@ -58,6 +58,10 @@ public class ThiefPathfinding : MonoBehaviour
                     print("Correct Door");
                     OpenDoorFunction();
                 }
+                else
+                {
+                    DoorInteraction = false;
+                }
             }
         }
         //Escape
@@ -75,6 +79,10 @@ public class ThiefPathfinding : MonoBehaviour
                     print("Correct Door");
                     OpenDoorFunction();
                 }
+                else
+                {
+                    DoorInteraction = false;
+                }
             }
         }
         //Evade
@@ -91,6 +99,10 @@ public class ThiefPathfinding : MonoBehaviour
                 {
                     print("Correct Door");
                     OpenDoorFunction();
+                }
+                else
+                {
+                    DoorInteraction = false;
                 }
             }
         }
