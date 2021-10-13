@@ -26,7 +26,7 @@ public class ThiefPathfinding : MonoBehaviour
     private bool ObjectStolen; //Stolen
     private int ItemsHeld; //Number of target items the thief is holding
     private float doorOpenDelay; //Time the thief must stand still as the door opens
-    private DoorControl doorInteractingwith; //References the DoorControl script that the thief is interacting with
+    private DoorControl doorScript; //References the DoorControl script that the thief is interacting with
     private bool DoorInteraction; //Marks that the thief is interacting with the door
     // Start is called before the first frame update
     void Start()
@@ -47,23 +47,59 @@ public class ThiefPathfinding : MonoBehaviour
         if (currBehavior == BehaviorStates.Sneak)
         {
             SneakBehavior();
+            if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+            {
+                OpenDoorFunction();
+            }
+            else
+            {
+                if (Target.transform.position.x < doorScript.upperXBoundary && Target.transform.position.x > doorScript.lowerXBoundary && Target.transform.position.z > doorScript.lowerZBoundary && Target.transform.position.z < doorScript.upperZBoundary)
+                {
+                    print("Correct Door");
+                    OpenDoorFunction();
+                }
+            }
         }
         //Escape
         else if (currBehavior == BehaviorStates.Escape)
         {
             EscapeBehavior();
+            if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+            {
+                OpenDoorFunction();
+            }
+            else
+            {
+                if (SpawnPoint.position.x < doorScript.upperXBoundary && SpawnPoint.position.x > doorScript.lowerXBoundary && SpawnPoint.position.z > doorScript.lowerZBoundary && SpawnPoint.position.z < doorScript.upperZBoundary)
+                {
+                    print("Correct Door");
+                    OpenDoorFunction();
+                }
+            }
         }
         //Evade
         else if (currBehavior == BehaviorStates.Evade)
         {
             EvadeBehavior();
+            if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+            {
+                OpenDoorFunction();
+            }
+            else
+            {
+                if (SpawnPoint.position.x < doorScript.upperXBoundary && SpawnPoint.position.x > doorScript.lowerXBoundary && SpawnPoint.position.z > doorScript.lowerZBoundary && SpawnPoint.position.z < doorScript.upperZBoundary)
+                {
+                    print("Correct Door");
+                    OpenDoorFunction();
+                }
+            }
         }
         else if(currBehavior == BehaviorStates.SkillCheck)
         {
             //Stealing, hacking, lockpicking...
         }
 
-        OpenDoorFunction();
+       
     }
 
     private void SneakBehavior()
@@ -237,20 +273,20 @@ public class ThiefPathfinding : MonoBehaviour
 
     private void OpenDoorFunction()
     {
-        if (DoorInteraction && doorInteractingwith.IsClosed)
+        if (DoorInteraction && doorScript.IsClosed)
         {
             
 
-            Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position); //Marks the position the thief is supposed to wait at as the door opens
+            Vector3 waitPosition = doorScript.GetWaitPosition(transform.position); //Marks the position the thief is supposed to wait at as the door opens
 
             if (currBehavior == BehaviorStates.Evade)
             {
-                doorOpenDelay = doorInteractingwith.chaseOpenDuration; //Saves a reference to how long the door animation lasts
+                doorOpenDelay = doorScript.chaseOpenDuration; //Saves a reference to how long the door animation lasts
 
             }
             else
             {
-                doorOpenDelay = doorInteractingwith.openAnimationDuration; //Saves a reference to how long the door animation lasts
+                doorOpenDelay = doorScript.openAnimationDuration; //Saves a reference to how long the door animation lasts
 
             }
 
@@ -267,7 +303,7 @@ public class ThiefPathfinding : MonoBehaviour
         if (other.GetComponent<DoorControl>()) //Checks if thief enters a closed door's collider
         {
             DoorInteraction = true; //Marks that the thief is interacting with the door
-            doorInteractingwith = other.GetComponent<DoorControl>(); //Creates a reusable reference for the door's script
+            doorScript = other.GetComponent<DoorControl>(); //Creates a reusable reference for the door's script
 
         }
     }
@@ -312,11 +348,11 @@ public class ThiefPathfinding : MonoBehaviour
 
         if (currBehavior == BehaviorStates.Evade)
         {
-            doorInteractingwith.GetComponent<DoorControl>().ChaseOpenDoor();
+            doorScript.GetComponent<DoorControl>().ChaseOpenDoor();
         }
         else
         {
-            doorInteractingwith.GetComponent<DoorControl>().OpenDoor();
+            doorScript.GetComponent<DoorControl>().OpenDoor();
         }
 
         yield return new WaitForSeconds(doorOpenDelay);

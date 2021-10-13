@@ -70,7 +70,7 @@ public class ThiefFieldofView : MonoBehaviour
                 {
                     visibleTargets.Add(target); //Target is visible!
 
-                    
+                    print("See object");
 
                 }
             }

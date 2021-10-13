@@ -64,8 +64,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1162133178815769389, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_Name
+      value: RoomHitBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 3248641493528952622, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3877488727292907711, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4448287722181452922, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454788439851351128, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
@@ -115,6 +127,22 @@ PrefabInstance:
     - target: {fileID: 6454788439851351129, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986987058725005061, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.611949
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986987058725005061, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5.80368
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986987058725005061, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986987058725005061, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc0b7d096df31f8429faccadb31618ea, type: 3}

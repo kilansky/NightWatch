@@ -16,6 +16,7 @@ public class GuardPathfinding : MonoBehaviour
 
     public List<GameObject> thievesSpotted = new List<GameObject>();
     [HideInInspector] public GameObject thiefToChase;
+    [HideInInspector] public bool facingFrontDoor;
 
     private int PatrolNumber;
     private Vector3 CurrentPatrolPoint;
@@ -23,13 +24,14 @@ public class GuardPathfinding : MonoBehaviour
     private Rigidbody rb;
     private Camera mainCamera;
     private float doorOpenDelay;
-    private DoorControl doorInteractingwith;
+    private DoorControl doorScript;
     private bool DoorInteraction;
     private Vector3 ManualPosition;
     private CameraController cameraScript;
     private bool canManualMove;
     private bool speedIncreased;
     private ControlMode lastControlMode;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -57,9 +59,21 @@ public class GuardPathfinding : MonoBehaviour
             {
                 //Click to move
                 ClickMovement();
-                if (doorInteractingwith != null)
+                if (doorScript != null)
                 {
-                    OpenDoorFunction();
+                    if(transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                    {
+                        OpenDoorFunction();
+                    }
+                    else
+                    {
+                        if (ClickPoint.x < doorScript.upperXBoundary && ClickPoint.x > doorScript.lowerXBoundary && ClickPoint.z > doorScript.lowerZBoundary && ClickPoint.z < doorScript.upperZBoundary)
+                        {
+                            print("Correct Door");
+                            OpenDoorFunction();
+                        }
+                    }
+                    
                 }
             }
             else if (currControlMode == ControlMode.Patrol)
@@ -71,9 +85,20 @@ public class GuardPathfinding : MonoBehaviour
                     CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
                     Pathfinding();
                 }
-                if (doorInteractingwith != null)
+                if (doorScript != null)
                 {
-                    OpenDoorFunction();
+                    if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                    {
+                        OpenDoorFunction();
+                    }
+                    else
+                    {
+                        if (CurrentPatrolPoint.x < doorScript.upperXBoundary && CurrentPatrolPoint.x > doorScript.lowerXBoundary && CurrentPatrolPoint.z > doorScript.lowerZBoundary && CurrentPatrolPoint.z < doorScript.upperZBoundary)
+                        {
+                            print("Correct Door");
+                            OpenDoorFunction();
+                        }
+                    }
                 }
                 
             }
@@ -94,13 +119,13 @@ public class GuardPathfinding : MonoBehaviour
                     AttemptToCatchThief();
                 //DoorInteraction && 
                 
-                if (doorInteractingwith != null)
+                if (doorScript != null)
                 {
-                    if (doorInteractingwith.GetComponent<DoorControl>().IsClosed)
+                    if (doorScript.GetComponent<DoorControl>().IsClosed)
                     {
                         if (DoorInteraction)
                         {
-                            doorInteractingwith.uiNotification.SetActive(true);
+                            doorScript.uiNotification.SetActive(true);
                         }
 
                         //print("In Door Zone");
@@ -115,11 +140,11 @@ public class GuardPathfinding : MonoBehaviour
 
                             if (thiefToChase)
                             {
-                                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().chaseOpenDuration;
+                                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration;
                             }
                             else
                             {
-                                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().openAnimationDuration;
+                                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration;
                             }
                             StartCoroutine(OpenDelayCoroutine());
                         }
@@ -152,9 +177,21 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     thievesSpotted.Remove(thief);
                 }
-                if (doorInteractingwith != null)
+                if (doorScript != null)
                 {
-                    OpenDoorFunction();
+                    if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                    {
+                        OpenDoorFunction();
+                    }
+                    else
+                    {
+                        if (thiefToChase.transform.position.x < doorScript.upperXBoundary && thiefToChase.transform.position.x > doorScript.lowerXBoundary && thiefToChase.transform.position.z > doorScript.lowerZBoundary && thiefToChase.transform.position.z < doorScript.upperZBoundary)
+                        {
+                            print("Correct Door");
+                            OpenDoorFunction();
+                        }
+                    }
+                    
                 }
             }
         }
@@ -341,21 +378,21 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OpenDoorFunction()
     {
-        if (DoorInteraction && doorInteractingwith.IsClosed)
+        if (DoorInteraction && doorScript.IsClosed)
         {
-            Vector3 waitPosition = doorInteractingwith.GetWaitPosition(transform.position);
+            Vector3 waitPosition = doorScript.GetWaitPosition(transform.position);
 
             Agent.SetDestination(waitPosition);
 
             if (thiefToChase)
             {
-                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().chaseOpenDuration;
+                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration;
             }
             else
             {
-                doorOpenDelay = doorInteractingwith.GetComponent<DoorControl>().openAnimationDuration;
+                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration;
             }
-
+            facingFrontDoor = false;
             StartCoroutine(OpenDelayCoroutine());
         }
     }
@@ -366,17 +403,14 @@ public class GuardPathfinding : MonoBehaviour
         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
         {
             DoorInteraction = true;
-            doorInteractingwith = other.GetComponent<DoorControl>();
-            
+            doorScript = other.GetComponent<DoorControl>();
         }
 
         //Door enter while in manual mode
         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode == ControlMode.Manual)
         {
-            
             DoorInteraction = true;
-            doorInteractingwith = other.GetComponent<DoorControl>();
-            
+            doorScript = other.GetComponent<DoorControl>();
         }        
     }
 
@@ -385,10 +419,10 @@ public class GuardPathfinding : MonoBehaviour
         if (other.GetComponent<DoorControl>())
         {
             DoorInteraction = false;
-            doorInteractingwith = other.GetComponent<DoorControl>();
+            doorScript = other.GetComponent<DoorControl>();
             if (currControlMode == ControlMode.Manual)
             {
-                doorInteractingwith.uiNotification.SetActive(false);
+                doorScript.uiNotification.SetActive(false);
             }
             
         }
@@ -443,11 +477,11 @@ public class GuardPathfinding : MonoBehaviour
 
         if(currControlMode == ControlMode.Chase)
         {
-            doorInteractingwith.GetComponent<DoorControl>().ChaseOpenDoor();
+            doorScript.GetComponent<DoorControl>().ChaseOpenDoor();
         }
         else
         {
-            doorInteractingwith.GetComponent<DoorControl>().OpenDoor();
+            doorScript.GetComponent<DoorControl>().OpenDoor();
         }
 
         //print(doorOpenDelay);

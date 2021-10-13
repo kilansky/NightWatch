@@ -64,6 +64,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 305777991735164598, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_Name
+      value: 'RoomHitBox '
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000963688482517473, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3405367569943475772, guid: 80957d851bd6442469157c035337c311, type: 3}
       propertyPath: m_Name
       value: LargeRoomD Variant
@@ -112,9 +120,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4110538202050259637, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4835128032853137367, guid: 80957d851bd6442469157c035337c311, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540960451968234142, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.374841
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540960451968234142, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.55051
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540960451968234142, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540960451968234142, guid: 80957d851bd6442469157c035337c311, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80957d851bd6442469157c035337c311, type: 3}

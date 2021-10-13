@@ -12,11 +12,16 @@ public class DoorControl : MonoBehaviour
     public GameObject DoorAnimator;
     public Collider DoorCollider;
     public GameObject uiNotification;
+    public GameObject RoomSize;
     
 
     [HideInInspector]  public bool IsOpened;
     [HideInInspector]  public bool IsClosed;
     [HideInInspector] public Transform ExitPosition;
+    [HideInInspector] public float lowerXBoundary;
+    [HideInInspector] public float upperXBoundary;
+    [HideInInspector] public float lowerZBoundary;
+    [HideInInspector] public float upperZBoundary;
 
     [SerializeField] private Transform frontDoorPosition;
     [SerializeField] private Transform backDoorPosition;
@@ -27,7 +32,11 @@ public class DoorControl : MonoBehaviour
         IsOpened = false;
         IsClosed = true;
         myAnimator = DoorAnimator.GetComponent<Animator>();
-        
+
+        lowerXBoundary = RoomSize.transform.position.x - (RoomSize.transform.localScale.x / 2);
+        upperXBoundary = RoomSize.transform.position.x + (RoomSize.transform.localScale.x / 2);
+        lowerZBoundary = RoomSize.transform.position.z - (RoomSize.transform.localScale.z / 2);
+        upperZBoundary = RoomSize.transform.position.z + (RoomSize.transform.localScale.z / 2);
     }
 
     private void Start()
@@ -48,6 +57,7 @@ public class DoorControl : MonoBehaviour
     {
         if (IsClosed)
         {
+
             myAnimator.SetFloat("BaseSpeed", (1 / openAnimationDuration));
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
@@ -129,6 +139,31 @@ public class DoorControl : MonoBehaviour
             //print("Go to back");
             ExitPosition = frontDoorPosition;
             return backDoorPosition.position;
+        }
+    }
+
+    public void CheckDoorPosition(GameObject agent)
+    {
+        print("Check Door Position");
+        Vector3 targetDirection = transform.position - agent.transform.position;
+
+        float directionAngle = Vector3.Angle(transform.forward, targetDirection);
+
+        if (Mathf.Abs(directionAngle) > 90f && Mathf.Abs(directionAngle) < 270f)
+        {
+            if (gameObject.GetComponent<GuardPathfinding>())
+            {
+                print("Facing Front");
+                agent.GetComponent<GuardPathfinding>().facingFrontDoor = true;
+            }
+        }
+        else
+        {
+            if (gameObject.GetComponent<GuardPathfinding>())
+            {
+                agent.GetComponent<GuardPathfinding>().facingFrontDoor = false;
+            }
+            
         }
     }
 
