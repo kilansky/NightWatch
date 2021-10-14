@@ -31,10 +31,12 @@ public class GuardPathfinding : MonoBehaviour
     private bool canManualMove;
     private bool speedIncreased;
     private ControlMode lastControlMode;
-    
+    private LineRenderer Line;
+    private NavMeshPath Path;
     // Start is called before the first frame update
     void Start()
     {
+        Line = GetComponent<LineRenderer>();
         canManualMove = true;
         DoorInteraction = false;
         mainCamera = Camera.main;
@@ -89,6 +91,7 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
+
                         OpenDoorFunction();
                     }
                     else
@@ -195,6 +198,8 @@ public class GuardPathfinding : MonoBehaviour
                 }
             }
         }
+
+        DrawPath();
     }
     
 
@@ -374,11 +379,30 @@ public class GuardPathfinding : MonoBehaviour
         transform.position += PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
     }
 
+    private void DrawPath()
+    {
+        Line.positionCount = Agent.path.corners.Length;
+        Line.SetPosition(0, transform.position);
+
+        if (Agent.path.corners.Length < 2)
+        {
+            return;
+        }
+
+        for (int i = 1; i < Agent.path.corners.Length; i++)
+        {
+            Vector3 pointPosition = new Vector3(Agent.path.corners[i].x, Agent.path.corners[i].y, Agent.path.corners[i].z);
+            Line.SetPosition(i, pointPosition);
+        }
+    }
+
     //DOOR INTERACTIONS
 
     private void OpenDoorFunction()
     {
-        if (DoorInteraction && doorScript.IsClosed)
+        
+        print("OpenDoorFunction is being called");
+        if (doorScript.IsClosed)
         {
             Vector3 waitPosition = doorScript.GetWaitPosition(transform.position);
 
@@ -400,8 +424,9 @@ public class GuardPathfinding : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Door enter while not in manual mode
-        if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
+        if (other.GetComponent<DoorControl>() && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
         {
+            print("Enter Door Collider");
             DoorInteraction = true;
             doorScript = other.GetComponent<DoorControl>();
         }
@@ -416,10 +441,10 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<DoorControl>())
+        if (other.gameObject == doorScript.gameObject)
         {
             DoorInteraction = false;
-            doorScript = other.GetComponent<DoorControl>();
+            //doorScript = other.GetComponent<DoorControl>();
             if (currControlMode == ControlMode.Manual)
             {
                 doorScript.uiNotification.SetActive(false);
