@@ -7,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1078114346426604574, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.606345
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078114346426604574, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5.6681747
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078114346426604574, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078114346426604574, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3877488727292907711, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -18,6 +34,10 @@ PrefabInstance:
     - target: {fileID: 5020037037357706672, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.3283064e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5761639158679330657, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454788439851351128, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
       propertyPath: m_Name
@@ -66,6 +86,14 @@ PrefabInstance:
     - target: {fileID: 6454788439851351129, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871213670705628213, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092804016003272758, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
+      propertyPath: m_Name
+      value: RoomHitBox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aec2fff99d4e8bc40b26927c80fd9b35, type: 3}
