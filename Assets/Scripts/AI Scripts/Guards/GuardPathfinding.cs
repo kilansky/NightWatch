@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class GuardPathfinding : MonoBehaviour
 {
@@ -12,18 +13,18 @@ public class GuardPathfinding : MonoBehaviour
     public enum ControlMode { Idle, Patrol, Click, Manual, Chase }
     [Header("Control Options")]
     public ControlMode currControlMode = ControlMode.Idle;
-    [HideInInspector] public ControlMode lastControlMode;
+    public ControlMode lastControlMode;
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
     [Header("References")]
     public LayerMask FloorMask;
     public GameObject alertedIcon;
-    public GameObject guardPanelPrefab;
 
     [Header("Thief Tracking")]
     public List<GameObject> thievesSpotted = new List<GameObject>();
     [HideInInspector] public GameObject thiefToChase;
+
     [HideInInspector] public bool facingFrontDoor;
 
     //Privates
@@ -205,19 +206,16 @@ public class GuardPathfinding : MonoBehaviour
                             OpenDoorFunction();
                         }
                     }
-
                 }
             }
             DrawPath();
         }
-
-
     }
 
 
     private void ClickMovement()
     {
-        if (PlayerInputs.Instance.LeftClickPressed)
+        if (PlayerInputs.Instance.LeftClickPressed && !EventSystem.current.IsPointerOverGameObject())
         {
             Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
             RaycastHit hit;
@@ -339,6 +337,7 @@ public class GuardPathfinding : MonoBehaviour
         {
             lastControlMode = currControlMode;
             currControlMode = ControlMode.Chase;
+            GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
         }
 
         alertedIcon.SetActive(true);
@@ -369,6 +368,7 @@ public class GuardPathfinding : MonoBehaviour
             if(currControlMode != ControlMode.Manual)
             {
                 currControlMode = lastControlMode;
+                GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
                 //print("currControlMode is " + currControlMode);
             }
 

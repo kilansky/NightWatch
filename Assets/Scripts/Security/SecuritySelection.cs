@@ -116,7 +116,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         DeactivateAllButtons();
     }
 
-    private void ActivateButtons()
+    public void ActivateButtons()
     {
         DeactivateAllButtons();
 
