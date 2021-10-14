@@ -934,8 +934,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60.524483}
-  m_SizeDelta: {x: -20, y: -139.6315}
+  m_AnchoredPosition: {x: 0, y: -50.93414}
+  m_SizeDelta: {x: -20, y: -120.4508}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &611073333
 CanvasRenderer:
@@ -992,7 +992,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.4
+  m_fontSize: 43
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2129,6 +2129,7 @@ GameObject:
   - component: {fileID: 1095025355}
   - component: {fileID: 1095025354}
   - component: {fileID: 1095025353}
+  - component: {fileID: 469216258}
   m_Layer: 5
   m_Name: BeginNightButton
   m_TagString: Untagged
@@ -2250,6 +2251,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &469216258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095025351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff095a22b3abc34c8e74726179cd749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: 
+  content: Must place at least 1 guard before beginning the Night Watch
 --- !u!1 &1165031373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,8 +2777,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60.524483}
-  m_SizeDelta: {x: -20, y: -139.6315}
+  m_AnchoredPosition: {x: 0, y: -50.93414}
+  m_SizeDelta: {x: -20, y: -120.4508}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1331664814
 CanvasRenderer:
@@ -2820,7 +2835,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.4
+  m_fontSize: 43
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3444,8 +3459,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60.524483}
-  m_SizeDelta: {x: -20, y: -139.6315}
+  m_AnchoredPosition: {x: 0, y: -50.93414}
+  m_SizeDelta: {x: -20, y: -120.4508}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1700884467
 CanvasRenderer:
@@ -3502,7 +3517,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.4
+  m_fontSize: 43
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3657,8 +3672,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60.524483}
-  m_SizeDelta: {x: -20, y: -139.6315}
+  m_AnchoredPosition: {x: 0, y: -50.93414}
+  m_SizeDelta: {x: -20, y: -120.4508}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1874017537
 CanvasRenderer:
@@ -3715,7 +3730,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.4
+  m_fontSize: 43
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4091,7 +4106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29700002, y: 0.12951852}
   m_AnchorMax: {x: 0.7007917, y: 0.652}
-  m_AnchoredPosition: {x: 1, y: 0.7251587}
+  m_AnchoredPosition: {x: 1, y: 0.72509766}
   m_SizeDelta: {x: -5.2980957, y: -2.1201782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2103711678
@@ -7931,7 +7946,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.05
+  m_fontSize: 38.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8065,7 +8080,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.15
+  m_fontSize: 38.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8233,6 +8248,10 @@ MonoBehaviour:
   audioCostText: {fileID: 1700884466}
   pausePanel: {fileID: 931076837}
   noPatrolWarningPanel: {fileID: 3502157889832556959}
+  cameraButton: {fileID: 2467743334579453453}
+  laserButton: {fileID: 2467743332980197926}
+  guardButton: {fileID: 2467743334120970099}
+  audioButton: {fileID: 2467743333082293927}
   nightWatchButton: {fileID: 1095025353}
 --- !u!114 &464272048
 MonoBehaviour:
@@ -8262,7 +8281,7 @@ MonoBehaviour:
   cctvButton: {fileID: 2467743334579453453}
   laserButton: {fileID: 2467743332980197926}
   guardButton: {fileID: 2467743334120970099}
-  beginNightWatchButton: {fileID: 1095025353}
+  audioButton: {fileID: 2467743333082293927}
 --- !u!1 &2467743332892908057
 GameObject:
   m_ObjectHideFlags: 0
@@ -8301,9 +8320,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.39800003, y: 0.149}
-  m_AnchoredPosition: {x: -125.49585, y: -8.458252}
-  m_SizeDelta: {x: -69.429, y: 43.165}
+  m_AnchorMax: {x: 0.29747918, y: 0.13714816}
+  m_AnchoredPosition: {x: -3.165039, y: -12.3518}
+  m_SizeDelta: {x: 191.7865, y: 28.7825}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2467743332892908005
 CanvasRenderer:
@@ -8381,6 +8400,7 @@ GameObject:
   - component: {fileID: 2467743332980197920}
   - component: {fileID: 2467743332980197927}
   - component: {fileID: 2467743332980197926}
+  - component: {fileID: 2084750974}
   m_Layer: 5
   m_Name: Laser Button (1)
   m_TagString: Untagged
@@ -8503,6 +8523,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2084750974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467743332980197924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6e6681931a3c44b8d5d3f38b4eba20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Laser Sensor
+  content: Sounds an alarm when thieves walk in front of it
 --- !u!1 &2467743333082293925
 GameObject:
   m_ObjectHideFlags: 0
@@ -8515,13 +8549,14 @@ GameObject:
   - component: {fileID: 2467743333082293921}
   - component: {fileID: 2467743333082293920}
   - component: {fileID: 2467743333082293927}
+  - component: {fileID: 1485596715}
   m_Layer: 5
   m_Name: Audio Button (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2467743333082293926
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8538,10 +8573,10 @@ RectTransform:
   m_Father: {fileID: 2467743332892908058}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 825.3347, y: -102.042496}
-  m_SizeDelta: {x: 230.09564, y: 194.08499}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2467743333082293921
 CanvasRenderer:
@@ -8637,6 +8672,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1485596715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467743333082293925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6e6681931a3c44b8d5d3f38b4eba20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Audio Sensor
+  content: Sounds an alarm when thieves walk near it
 --- !u!1 &2467743333305601613
 GameObject:
   m_ObjectHideFlags: 0
@@ -8729,7 +8778,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.15
+  m_fontSize: 38.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8783,6 +8832,7 @@ GameObject:
   - component: {fileID: 2467743334120970109}
   - component: {fileID: 2467743334120970108}
   - component: {fileID: 2467743334120970099}
+  - component: {fileID: 243916204}
   m_Layer: 5
   m_Name: Guard Button (2)
   m_TagString: Untagged
@@ -8905,6 +8955,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &243916204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467743334120970097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6e6681931a3c44b8d5d3f38b4eba20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Guard
+  content: Patrols the building, reveals thieves, chases and catches them on sight
 --- !u!1 &2467743334134487591
 GameObject:
   m_ObjectHideFlags: 0
@@ -8999,7 +9063,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.85
+  m_fontSize: 46.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9053,6 +9117,7 @@ GameObject:
   - component: {fileID: 2467743334579453455}
   - component: {fileID: 2467743334579453454}
   - component: {fileID: 2467743334579453453}
+  - component: {fileID: 481195882}
   m_Layer: 5
   m_Name: CCTV Button
   m_TagString: Untagged
@@ -9175,6 +9240,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &481195882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467743334579453443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6e6681931a3c44b8d5d3f38b4eba20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: CCTV Camera
+  content: Reveals the location of all thieves within a vision cone
 --- !u!1 &2510861857099560430
 GameObject:
   m_ObjectHideFlags: 0

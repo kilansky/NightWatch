@@ -405,12 +405,14 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             GameObject newObject = Instantiate(heldObject, heldObject.transform.position, heldObject.transform.rotation);
             MoneyManager.Instance.SubtractMoney(heldObjectCost);
 
-            //If the placed object was a guard, do some setup (ie: set patrol route color)
+            //If the placed object was a guard, do some setup (ex: set patrol route color)
             if (newObject.GetComponent<GuardPatrolPoints>())
             {
-                newObject.GetComponent<GuardPatrolPoints>().SetGuardPatrolColor();
-                newObject.transform.GetChild(1).GetComponent<CapsuleCollider>().isTrigger = false;
-                HUDController.Instance.SetNightWatchButtonInteractability();
+                newObject.transform.GetChild(1).GetComponent<CapsuleCollider>().isTrigger = false; //enable collider
+                newObject.GetComponent<GuardPatrolPoints>().SetGuardPatrolColor(); //set guard color
+                Color guardColor = newObject.GetComponent<GuardPatrolPoints>().patrolMarkerColor; //get guard color
+                GuardController.Instance.ActivateGuardPanel(guardColor, newObject.GetComponent<GuardPathfinding>()); //activate HUD UI on night canvas
+                HUDController.Instance.SetNightWatchButtonInteractability(); //Enable the Begin Night Watch Button
             }
 
             if(placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate

@@ -165,7 +165,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                 }
 
                 //Prevent other guards from being in manual mode if already in manual mode
-                if(SelectedObjectButtons.Instance.guardIsInManualMode)
+                if(GuardController.Instance.guardIsInManualMode)
                     guardManualButton.SetActive(false);
             }
         }

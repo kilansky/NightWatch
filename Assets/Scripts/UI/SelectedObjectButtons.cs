@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
-    [HideInInspector] public bool guardIsInManualMode = false;
     [HideInInspector] public bool tutorialMode = false;
 
     //Sells the security measure that is currently selected
@@ -17,14 +16,18 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         if(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>())
         {
             destroyedGuard = true; //Used to check to disable the Night Watch Button
+            GameObject selectedGuard = SecuritySelection.Instance.selectedObject.gameObject;
 
             //Return patrol color to the Patrol Colors list
-            PatrolColors.Instance.RemoveGuardRouteColor(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>().patrolMarkerColor);
+            PatrolColors.Instance.RemoveGuardRouteColor(selectedGuard.GetComponent<GuardPatrolPoints>().patrolMarkerColor);
 
             //Destroy the patrol routes attached to this guard
-            GameObject[] patrolPoints = SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.ToArray();
+            GameObject[] patrolPoints = selectedGuard.GetComponent<GuardPatrolPoints>().PatrolPoints.ToArray();
             for (int i = 0; i < patrolPoints.Length; i++)
                 Destroy(patrolPoints[i]);
+
+            //Remove guard panel UI from the night canvas
+            GuardController.Instance.DeactivateGuardPanel(selectedGuard.GetComponent<GuardPathfinding>());
         }
 
         //Destroy the selected security measure and deselect it
@@ -78,48 +81,5 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         GuardPatrolPoints guardPatrol = patrolPoint.GetComponent<PatrolMarker>().connectedGuard;
         guardPatrol.RemovePatrolPoint(patrolPoint);
         SecuritySelection.Instance.CloseSelection();
-    }
-
-    //Sets guard control mode to idle state
-    public void GuardIdleButton()
-    {
-        ResetManualGuard();
-        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Idle;
-        SecuritySelection.Instance.CloseSelection();
-    }
-
-    //Sets guard control mode to patrol state
-    public void GuardPatrolButton()
-    {
-        ResetManualGuard();
-        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Patrol;
-        SecuritySelection.Instance.CloseSelection();
-    }
-
-    //Sets guard control mode to click state
-    public void GuardClickMoveButton()
-    {
-        ResetManualGuard();
-        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Click;
-        SecuritySelection.Instance.CloseSelection();
-    }
-
-    //Sets guard control mode to manual state
-    public void GuardManualButton()
-    {
-        SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Manual;
-        SecuritySelection.Instance.CloseSelection();
-        guardIsInManualMode = true;
-    }
-
-    private void ResetManualGuard()
-    {
-        //If this guard was in manual mode, disable it
-        if (guardIsInManualMode && SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode == GuardPathfinding.ControlMode.Manual)
-        {
-            CameraController.Instance.followGuard = false;
-            CameraController.Instance.CameraFollow(null);
-            guardIsInManualMode = false;
-        }
     }
 }

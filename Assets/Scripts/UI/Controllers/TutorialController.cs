@@ -12,6 +12,7 @@ public class TutorialController : SingletonPattern<TutorialController>
     public Button cctvButton;
     public Button laserButton;
     public Button guardButton;
+    public Button audioButton;
 
     private int activePanelIndex;
 
@@ -23,6 +24,7 @@ public class TutorialController : SingletonPattern<TutorialController>
         cctvButton.interactable = false;
         laserButton.interactable = false;
         guardButton.interactable = false;
+        audioButton.interactable = false;
         PlayerInputs.Instance.canPause = false;
 
         foreach (GameObject panel in tutorialPanels)
@@ -84,6 +86,7 @@ public class TutorialController : SingletonPattern<TutorialController>
         cctvButton.interactable = true;
         laserButton.interactable = true;
         guardButton.interactable = true;
+        audioButton.interactable = true;
         tutorialPanel.SetActive(false);
         PlayerInputs.Instance.canPause = true;
     }

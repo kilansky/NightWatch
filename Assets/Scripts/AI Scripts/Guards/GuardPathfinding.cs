@@ -2,34 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.InputSystem;
 
 public class GuardPathfinding : MonoBehaviour
 {
+    //Publics
     public enum ControlMode { Idle, Patrol, Click, Manual, Chase }
+    [Header("Control Options")]
     public ControlMode currControlMode = ControlMode.Idle;
-    public LayerMask FloorMask;
-    public NavMeshAgent Agent;
-    public GameObject alertedIcon;
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
+    [Header("References")]
+    public LayerMask FloorMask;
+    public GameObject alertedIcon;
+    public GameObject guardPanelPrefab;
+
+    [Header("Thief Tracking")]
     public List<GameObject> thievesSpotted = new List<GameObject>();
     [HideInInspector] public GameObject thiefToChase;
 
-    private int PatrolNumber;
+
+    //Privates
+    private ControlMode lastControlMode;
+
     private Vector3 CurrentPatrolPoint;
     private Vector3 ClickPoint;
-    private Rigidbody rb;
-    private Camera mainCamera;
-    private float doorOpenDelay;
-    private DoorControl doorInteractingwith;
-    private bool DoorInteraction;
     private Vector3 ManualPosition;
+
+    private Rigidbody rb;
+    private NavMeshAgent Agent;
+    private Camera mainCamera;
     private CameraController cameraScript;
+    private DoorControl doorInteractingwith;
+
+    private float doorOpenDelay;
+    private int PatrolNumber;
+    private bool DoorInteraction;
     private bool canManualMove;
     private bool speedIncreased;
-    private ControlMode lastControlMode;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +51,7 @@ public class GuardPathfinding : MonoBehaviour
         DoorInteraction = false;
         mainCamera = Camera.main;
         cameraScript = CameraController.Instance;
-        //currControlMode = ControlMode.Idle;
+        Agent = GetComponent<NavMeshAgent>();
         lastControlMode = currControlMode;
         PatrolNumber = 0;
     }
