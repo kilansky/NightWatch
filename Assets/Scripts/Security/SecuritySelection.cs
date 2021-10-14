@@ -169,8 +169,8 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                 }
 
                 //Prevent other guards from being in manual mode if already in manual mode
-                if(GuardController.Instance.guardInManualMode)
-                    guardManualButton.GetComponent<Button>().interactable = false;
+                //if(GuardController.Instance.guardInManualMode)
+                    //guardManualButton.GetComponent<Button>().interactable = false;
             }
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)

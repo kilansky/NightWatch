@@ -26,7 +26,6 @@ public class GuardPathfinding : MonoBehaviour
     [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool facingFrontDoor;
 
-
     //Privates
     private Vector3 CurrentPatrolPoint;
     private Vector3 ClickPoint;
@@ -36,7 +35,8 @@ public class GuardPathfinding : MonoBehaviour
     private NavMeshAgent Agent;
     private Camera mainCamera;
     private CameraController cameraScript;
-    private DoorControl doorInteractingwith;
+    private DoorControl doorScript;
+    private LineRenderer Line;
 
     private float doorOpenDelay;
     private int PatrolNumber;
@@ -453,7 +453,7 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == doorScript.gameObject)
+        if (GameManager.Instance.nightWatchPhase && other.gameObject == doorScript.gameObject)
         {
             DoorInteraction = false;
             //doorScript = other.GetComponent<DoorControl>();
