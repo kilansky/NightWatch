@@ -12,6 +12,7 @@ public class GuardPathfinding : MonoBehaviour
     public enum ControlMode { Idle, Patrol, Click, Manual, Chase }
     [Header("Control Options")]
     public ControlMode currControlMode = ControlMode.Idle;
+    [HideInInspector] public ControlMode lastControlMode;
     public float PursuitSpeedMod;
     public float distToCatchThief;
 
@@ -26,8 +27,6 @@ public class GuardPathfinding : MonoBehaviour
 
 
     //Privates
-    private ControlMode lastControlMode;
-
     private Vector3 CurrentPatrolPoint;
     private Vector3 ClickPoint;
     private Vector3 ManualPosition;

@@ -18,7 +18,7 @@ public class GuardController : SingletonPattern<GuardController>
 {
     public GuardPanel[] guardPanels;
 
-    [HideInInspector] public bool guardIsInManualMode = false;
+    [HideInInspector] public GuardPathfinding guardInManualMode;
 
     //Enables a guard panel on the night canvas when a guard is placed into the scene
     public void ActivateGuardPanel(Color guardColor, GuardPathfinding guardScript)
@@ -72,7 +72,7 @@ public class GuardController : SingletonPattern<GuardController>
         ResetManualGuard();
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Idle;
         GetSelectedGuardText().text = "Idling";
-        SecuritySelection.Instance.CloseSelection();
+        //SecuritySelection.Instance.CloseSelection();
     }
 
     //Sets guard control mode to patrol state
@@ -81,7 +81,7 @@ public class GuardController : SingletonPattern<GuardController>
         ResetManualGuard();
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Patrol;
         GetSelectedGuardText().text = "Patrolling";
-        SecuritySelection.Instance.CloseSelection();
+        //SecuritySelection.Instance.CloseSelection();
     }
 
     //Sets guard control mode to click state
@@ -90,26 +90,29 @@ public class GuardController : SingletonPattern<GuardController>
         ResetManualGuard();
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Click;
         GetSelectedGuardText().text = "Moving to Point";
-        SecuritySelection.Instance.CloseSelection();
+        //SecuritySelection.Instance.CloseSelection();
     }
 
     //Sets guard control mode to manual state
     public void ManualButton()
     {
+        if (guardInManualMode)
+            guardInManualMode.currControlMode = guardInManualMode.lastControlMode;
+
         SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode = GuardPathfinding.ControlMode.Manual;
         GetSelectedGuardText().text = "Controlling";
-        SecuritySelection.Instance.CloseSelection();
-        guardIsInManualMode = true;
+        //SecuritySelection.Instance.CloseSelection();
+        guardInManualMode = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
     }
 
     private void ResetManualGuard()
     {
         //If this guard was in manual mode, disable it
-        if (guardIsInManualMode && SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode == GuardPathfinding.ControlMode.Manual)
+        if (guardInManualMode && SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode == GuardPathfinding.ControlMode.Manual)
         {
             CameraController.Instance.followGuard = false;
             CameraController.Instance.CameraFollow(null);
-            guardIsInManualMode = false;
+            guardInManualMode = null;
         }
     }
 }

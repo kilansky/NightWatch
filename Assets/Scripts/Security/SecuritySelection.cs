@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SecuritySelection : SingletonPattern<SecuritySelection>
 {
@@ -111,6 +112,8 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionIcon.transform.localScale /= selectionScaleMod;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
+
+        DeactivateAllButtons();
     }
 
     private void ActivateButtons()
@@ -140,33 +143,34 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
             }
             else//Night Phase Buttons
             {
-                guardIdleButton.SetActive(true);
-                guardPatrolButton.SetActive(true);
-                guardPointClickButton.SetActive(true);
-                guardManualButton.SetActive(true);
+                ActivateGuardButtons();
+                guardIdleButton.GetComponent<Button>().interactable = true;
+                guardPatrolButton.GetComponent<Button>().interactable = true;
+                guardPointClickButton.GetComponent<Button>().interactable = true;
+                guardManualButton.GetComponent<Button>().interactable = true;
 
                 //Turn off button for mode the guard is currently in already
                 switch (selectedObject.GetComponent<GuardPathfinding>().currControlMode)
                 {
                     case GuardPathfinding.ControlMode.Idle:
-                        guardIdleButton.SetActive(false);
+                        guardIdleButton.GetComponent<Button>().interactable = false;
                         break;
                     case GuardPathfinding.ControlMode.Patrol:
-                        guardPatrolButton.SetActive(false);
+                        guardPatrolButton.GetComponent<Button>().interactable = false;
                         break;
                     case GuardPathfinding.ControlMode.Click:
-                        guardPointClickButton.SetActive(false);
+                        guardPointClickButton.GetComponent<Button>().interactable = false;
                         break;
                     case GuardPathfinding.ControlMode.Manual:
-                        guardManualButton.SetActive(false);
+                        guardManualButton.GetComponent<Button>().interactable = false;
                         break;
                     default:
                         break;
                 }
 
                 //Prevent other guards from being in manual mode if already in manual mode
-                if(GuardController.Instance.guardIsInManualMode)
-                    guardManualButton.SetActive(false);
+                if(GuardController.Instance.guardInManualMode)
+                    guardManualButton.GetComponent<Button>().interactable = false;
             }
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)
@@ -181,6 +185,15 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
             movePatrolPointButton.SetActive(true);
             removePatrolPointButton.SetActive(true);
         }
+    }
+
+    //Turn on all buttons to control the guards
+    private void ActivateGuardButtons()
+    {
+        guardIdleButton.SetActive(true);
+        guardPatrolButton.SetActive(true);
+        guardPointClickButton.SetActive(true);
+        guardManualButton.SetActive(true);
     }
 
     private void DeactivateAllButtons()
