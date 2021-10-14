@@ -197,9 +197,10 @@ public class GuardPathfinding : MonoBehaviour
                     
                 }
             }
+            DrawPath();
         }
 
-        DrawPath();
+        
     }
     
 
