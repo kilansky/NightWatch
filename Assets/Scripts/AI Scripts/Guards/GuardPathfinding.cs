@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 public class GuardPathfinding : MonoBehaviour
@@ -124,8 +121,7 @@ public class GuardPathfinding : MonoBehaviour
                     //Full WASD and mouse control
                     ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
                     GuardLookAtMouse();
-                    cameraScript.followGuard = true;
-                    cameraScript.CameraFollow(transform);
+                    cameraScript.BeginCameraFollow(transform, true);
                     cameraScript.selectedGuard = transform;
                     Agent.isStopped = true;
                 }
@@ -144,8 +140,7 @@ public class GuardPathfinding : MonoBehaviour
                         }
 
                         //print("In Door Zone");
-                        Keyboard kb = InputSystem.GetDevice<Keyboard>();
-                        if (kb.eKey.wasPressedThisFrame)
+                        if (PlayerInputs.Instance.Interact)
                         {
                             //print("E Pressed");
                             canManualMove = false;

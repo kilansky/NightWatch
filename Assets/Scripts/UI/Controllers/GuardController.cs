@@ -20,6 +20,59 @@ public class GuardController : SingletonPattern<GuardController>
 
     [HideInInspector] public GuardPathfinding guardInManualMode;
 
+    private void Update()
+    {
+        //If a guard is currently selected, check for hotkey inputs to activate buttons
+        if (SecuritySelection.Instance.selectedObject && SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>())
+        {
+            if (PlayerInputs.Instance.Hotkey1)
+            {
+                IdleButton();
+                SecuritySelection.Instance.ActivateButtons();
+            }
+            else if (PlayerInputs.Instance.Hotkey2)
+            {
+                PatrolButton();
+                SecuritySelection.Instance.ActivateButtons();
+            }
+            else if (PlayerInputs.Instance.Hotkey3)
+            {
+                ClickMoveButton();
+                SecuritySelection.Instance.ActivateButtons();
+            }
+            else if (PlayerInputs.Instance.Hotkey4)
+            {
+                ManualButton();
+                SecuritySelection.Instance.ActivateButtons();
+            }
+        }
+    }
+
+    //Activate the selection icon of the currently selected guard
+    public void ActivateHUDSelectionIcon(GuardPathfinding guard)
+    {
+        for (int i = 0; i < guardPanels.Length; i++)
+        {
+            if (guardPanels[i].guard == guard)
+            {
+                guardPanels[i].selectedIcon.SetActive(true);
+            }
+            else
+            {
+                guardPanels[i].selectedIcon.SetActive(false);
+            }
+        }
+    }
+
+    //Disable all guard selection icons
+    public void DeactivateHUDSelectionIcon()
+    {
+        for (int i = 0; i < guardPanels.Length; i++)
+        {
+            guardPanels[i].selectedIcon.SetActive(false);
+        }
+    }
+
     //Enables a guard panel on the night canvas when a guard is placed into the scene
     public void ActivateGuardPanel(Color guardColor, GuardPathfinding guardScript)
     {
@@ -107,7 +160,6 @@ public class GuardController : SingletonPattern<GuardController>
 
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Manual;
-        selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Manual;
         SecuritySelection.Instance.ActivateButtons();
         SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode);
 
@@ -144,8 +196,7 @@ public class GuardController : SingletonPattern<GuardController>
         //If this guard was in manual mode, disable it
         if (guardInManualMode && SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>().currControlMode == GuardPathfinding.ControlMode.Manual)
         {
-            CameraController.Instance.followGuard = false;
-            CameraController.Instance.CameraFollow(null);
+            CameraController.Instance.EndCameraFollow();
             guardInManualMode = null;
         }
     }

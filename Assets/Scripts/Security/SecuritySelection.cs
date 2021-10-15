@@ -83,7 +83,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     }
 
     //Enter the selected state and show a button panel for the selected object
-    private void SelectSecurityMeasure(Transform selected)
+    public void SelectSecurityMeasure(Transform selected)
     {
         if (selectedObject)
             CloseSelection();
@@ -94,7 +94,14 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectedObject = selected.parent.GetComponent<SecurityMeasure>();
         ActivateButtons();
 
-        if(tutorialMode) //If in the tutorial, selecting an object will move to the next panel and activate the Selling skill gate
+        //If a guard was selected during the night watch, activate the HUD selection icon and set the camera to follow the guard loosely
+        if (selectedObject.GetComponent<GuardPathfinding>() && GameManager.Instance.nightWatchPhase)
+        {
+            GuardController.Instance.ActivateHUDSelectionIcon(selectedObject.GetComponent<GuardPathfinding>());
+            CameraController.Instance.BeginCameraFollow(selectedObject.transform, false);
+        }
+
+        if (tutorialMode) //If in the tutorial, selecting an object will move to the next panel and activate the Selling skill gate
         {
             TutorialController.Instance.NextButton();
             TutorialController.Instance.SellingSkillGate();
@@ -114,6 +121,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionButtons.transform.position = offScreenPos;
 
         DeactivateAllButtons();
+        GuardController.Instance.DeactivateHUDSelectionIcon();
     }
 
     public void ActivateButtons()
@@ -167,10 +175,6 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                     default:
                         break;
                 }
-
-                //Prevent other guards from being in manual mode if already in manual mode
-                //if(GuardController.Instance.guardInManualMode)
-                    //guardManualButton.GetComponent<Button>().interactable = false;
             }
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)
@@ -196,6 +200,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         guardManualButton.SetActive(true);
     }
 
+    //Turn off all active buttons
     private void DeactivateAllButtons()
     {
         sellButton.SetActive(false);
