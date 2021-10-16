@@ -13,7 +13,7 @@ public class CameraController : SingletonPattern<CameraController>
     public float maxFollowDist = 50f;
 
     [HideInInspector] public Transform selectedGuard;
-    [HideInInspector] public bool followGuard;
+    [HideInInspector] public bool looseFollow; //While true, allow WASD input to break away from the current follow target
 
     private Vector3 newCamFollowPos;
     private float newFollowDist;
@@ -29,7 +29,7 @@ public class CameraController : SingletonPattern<CameraController>
     void Update()
     {
         //If there was WASD input on the last frame and the camera is loosely following a target, end the follow
-        if (PlayerInputs.Instance.WASDMovement != Vector3.zero && vcam.Follow)
+        if (looseFollow && PlayerInputs.Instance.WASDMovement != Vector3.zero)
             EndCameraFollow();
 
         //Get edges of bounding box
@@ -56,10 +56,10 @@ public class CameraController : SingletonPattern<CameraController>
     }
 
     //Begin following a set target, lockFollow will prevent camera controls with WASD if true
-    public void BeginCameraFollow(Transform target, bool lockFollow)
+    public void BeginCameraFollow(Transform target, bool loose)
     {
         vcam.Follow = target;
-        followGuard = lockFollow;
+        looseFollow = loose;
     }
 
     //End following a target and return to normal camera controls
@@ -67,18 +67,6 @@ public class CameraController : SingletonPattern<CameraController>
     {
         camFollowPoint.position = new Vector3(vcam.Follow.position.x, 0, vcam.Follow.position.z);
         vcam.Follow = camFollowPoint;
-        followGuard = false;
+        looseFollow = false;
     }
-
-    /*
-    private void LateUpdate()
-    {
-        if (followGuard)
-        {
-            Vector3 desiredPosition = selectedGuard.position + distanceFromGuard;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-            transform.position = smoothedPosition;
-        }       
-    }
-    */
 }

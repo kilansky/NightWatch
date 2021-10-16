@@ -45,7 +45,7 @@ public class FieldOfView : MonoBehaviour
     }
 
     //Find all 'targets' such as thieves or doors within this object's field of view
-    private void FindVisibleTargets()
+    public virtual void FindVisibleTargets()
     {
         //Place For loop here
         visibleTargets.Clear(); //clear the current list of existing targets
@@ -76,10 +76,10 @@ public class FieldOfView : MonoBehaviour
                         target.GetComponent<FakeDoor>().FakeDoorOff();
                     }
 
-                    if(GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
+                    if(transform.parent.GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
                     {
                         //print("See Thief");
-                        GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
+                        transform.parent.GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
                     }
                         
                 }

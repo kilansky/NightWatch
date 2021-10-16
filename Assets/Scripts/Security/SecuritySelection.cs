@@ -98,7 +98,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         if (selectedObject.GetComponent<GuardPathfinding>() && GameManager.Instance.nightWatchPhase)
         {
             GuardController.Instance.ActivateHUDSelectionIcon(selectedObject.GetComponent<GuardPathfinding>());
-            CameraController.Instance.BeginCameraFollow(selectedObject.transform, false);
+            CameraController.Instance.BeginCameraFollow(selectedObject.transform, true);
         }
 
         if (tutorialMode) //If in the tutorial, selecting an object will move to the next panel and activate the Selling skill gate
