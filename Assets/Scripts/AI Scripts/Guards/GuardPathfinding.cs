@@ -121,7 +121,7 @@ public class GuardPathfinding : MonoBehaviour
                     //Full WASD and mouse control
                     ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
                     GuardLookAtMouse();
-                    cameraScript.BeginCameraFollow(transform, true);
+                    cameraScript.BeginCameraFollow(transform, false);
                     cameraScript.selectedGuard = transform;
                     Agent.isStopped = true;
                 }
