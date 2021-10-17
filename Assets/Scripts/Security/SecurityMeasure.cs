@@ -10,7 +10,7 @@ public class SecurityMeasure : MonoBehaviour
     public SecurityType securityType;
     public bool placedOnWalls = true; //false = place on floors - ie: guards
     public int cost;
-
+    public int camoRating;
     // Start is called before the first frame update
     void Start()
     {
