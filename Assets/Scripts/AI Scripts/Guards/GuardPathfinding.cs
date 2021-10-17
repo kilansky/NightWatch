@@ -20,9 +20,14 @@ public class GuardPathfinding : MonoBehaviour
 
     [Header("Thief Tracking")]
     public List<GameObject> thievesSpotted = new List<GameObject>();
-    [HideInInspector] public GameObject thiefToChase;
 
+    [Header("Testing UI")]
+    public bool displayPathfinding;
+
+    [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool facingFrontDoor;
+
+
 
     //Privates
     private Vector3 CurrentPatrolPoint;
@@ -208,7 +213,9 @@ public class GuardPathfinding : MonoBehaviour
                     }
                 }
             }
-            DrawPath();
+
+            if(displayPathfinding)
+                DrawPath();
         }
     }
 
