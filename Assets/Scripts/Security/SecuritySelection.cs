@@ -44,6 +44,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         mainCamera = Camera.main;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
+        cameraUpgradePanel.transform.position = offScreenPos;
+        laserUpgradePanel.transform.position = offScreenPos;
+        guardUpgradePanel.transform.position = offScreenPos;
+        audioUpgradePanel.transform.position = offScreenPos;
         canSelect = true;
     }
 
@@ -130,6 +134,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionIcon.transform.localScale /= selectionScaleMod;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
+        cameraUpgradePanel.transform.position = offScreenPos;
+        laserUpgradePanel.transform.position = offScreenPos;
+        guardUpgradePanel.transform.position = offScreenPos;
+        audioUpgradePanel.transform.position = offScreenPos;
 
         DeactivateAllButtons();
         GuardController.Instance.DeactivateHUDSelectionIcon();
