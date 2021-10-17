@@ -32,7 +32,7 @@ public class Laser : MonoBehaviour
             lineRenderer.SetPosition(1, new Vector3(0, 0, hit.distance));
 
             //Check for thieves
-            if (Physics.Raycast(ray, out hit, 50f, thiefMask))
+            if (Physics.Raycast(ray, out hit, hit.distance + 0.5f, thiefMask))
             {
                 LaserTriggered();
             }
