@@ -52,7 +52,7 @@ public class ThiefPathfinding : MonoBehaviour
         if (currBehavior == BehaviorStates.Sneak)
         {
             SneakBehavior();
-            if (DoorInteraction)
+            if (doorScript != null)
             {
                 if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
@@ -78,43 +78,51 @@ public class ThiefPathfinding : MonoBehaviour
         else if (currBehavior == BehaviorStates.Escape)
         {
             EscapeBehavior();
-            if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+            if(doorScript != null)
             {
-                OpenDoorFunction();
-            }
-            else
-            {
-                if (SpawnPoint.position.x < doorScript.upperXBoundary && SpawnPoint.position.x > doorScript.lowerXBoundary && SpawnPoint.position.z > doorScript.lowerZBoundary && SpawnPoint.position.z < doorScript.upperZBoundary)
+                if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
-                    print("Correct Door");
                     OpenDoorFunction();
                 }
                 else
                 {
-                    DoorInteraction = false;
+                    if (SpawnPoint.position.x < doorScript.upperXBoundary && SpawnPoint.position.x > doorScript.lowerXBoundary && SpawnPoint.position.z > doorScript.lowerZBoundary && SpawnPoint.position.z < doorScript.upperZBoundary)
+                    {
+                        print("Correct Door");
+                        OpenDoorFunction();
+                    }
+                    else
+                    {
+                        DoorInteraction = false;
+                    }
                 }
             }
+            
         }
         //Evade
         else if (currBehavior == BehaviorStates.Evade)
         {
             EvadeBehavior();
-            if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+            if (doorScript != null)
             {
-                OpenDoorFunction();
-            }
-            else
-            {
-                if (SpawnPoint.position.x < doorScript.upperXBoundary && SpawnPoint.position.x > doorScript.lowerXBoundary && SpawnPoint.position.z > doorScript.lowerZBoundary && SpawnPoint.position.z < doorScript.upperZBoundary)
+                if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
-                    print("Correct Door");
                     OpenDoorFunction();
                 }
                 else
                 {
-                    DoorInteraction = false;
+                    if (SpawnPoint.position.x < doorScript.upperXBoundary && SpawnPoint.position.x > doorScript.lowerXBoundary && SpawnPoint.position.z > doorScript.lowerZBoundary && SpawnPoint.position.z < doorScript.upperZBoundary)
+                    {
+                        print("Correct Door");
+                        OpenDoorFunction();
+                    }
+                    else
+                    {
+                        DoorInteraction = false;
+                    }
                 }
             }
+            
         }
         else if(currBehavior == BehaviorStates.SkillCheck)
         {
