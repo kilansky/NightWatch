@@ -6,17 +6,24 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
     [HideInInspector] public bool tutorialMode = false;
 
+    private SecuritySelection selectionScript;
+
+    private void Start()
+    {
+        selectionScript = SecuritySelection.Instance;
+    }
+
     //Sells the security measure that is currently selected
     public void SellButton()
     {
-        MoneyManager.Instance.AddMoney(SecuritySelection.Instance.selectedObject.cost);
+        MoneyManager.Instance.AddMoney(selectionScript.selectedObject.cost);
 
         bool destroyedGuard = false;
         //Check if the security measure to sell is a guard, and do some cleanup
-        if(SecuritySelection.Instance.selectedObject.gameObject.GetComponent<GuardPatrolPoints>())
+        if(selectionScript.selectedObject.gameObject.GetComponent<GuardPatrolPoints>())
         {
             destroyedGuard = true; //Used to check to disable the Night Watch Button
-            GameObject selectedGuard = SecuritySelection.Instance.selectedObject.gameObject;
+            GameObject selectedGuard = selectionScript.selectedObject.gameObject;
 
             //Return patrol color to the Patrol Colors list
             PatrolColors.Instance.RemoveGuardRouteColor(selectedGuard.GetComponent<GuardPatrolPoints>().patrolMarkerColor);
@@ -31,8 +38,8 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         }
 
         //Destroy the selected security measure and deselect it
-        Destroy(SecuritySelection.Instance.selectedObject.gameObject);
-        SecuritySelection.Instance.CloseSelection();
+        Destroy(selectionScript.selectedObject.gameObject);
+        selectionScript.CloseSelection();
 
         //Check to disable the Night Watch Button if there are now 0 guards
         if (destroyedGuard)
@@ -60,15 +67,16 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Allows setting up patrol points for the selected guard
     public void PatrolPointsButton()
     {
-        SecuritySelection.Instance.selectedObject.GetComponent<GuardPatrolPoints>().patrolPlacementMode = true;
-        SecuritySelection.Instance.selectionButtons.transform.position = SecuritySelection.Instance.offScreenPos;
-        SecuritySelection.Instance.canSelect = false;
+        selectionScript.selectedObject.GetComponent<GuardPatrolPoints>().patrolPlacementMode = true;
+        selectionScript.selectionButtons.transform.position = selectionScript.offScreenPos;
+        selectionScript.HideUpgradePanels();
+        selectionScript.canSelect = false;
     }
 
     //Moves a patrol point from the GuardPatrolPoints script
     public void MovePatrolPointButton()
     {
-        GameObject patrolPoint = SecuritySelection.Instance.selectedObject.gameObject;
+        GameObject patrolPoint = selectionScript.selectedObject.gameObject;
         GuardPatrolPoints guardPatrol = patrolPoint.GetComponent<PatrolMarker>().connectedGuard;
         guardPatrol.BeginMovingPatrolPoint(patrolPoint);
     }
@@ -77,9 +85,9 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Removes a patrol point from the GuardPatrolPoints script
     public void RemovePatrolPointButton()
     {
-        GameObject patrolPoint = SecuritySelection.Instance.selectedObject.gameObject;
+        GameObject patrolPoint = selectionScript.selectedObject.gameObject;
         GuardPatrolPoints guardPatrol = patrolPoint.GetComponent<PatrolMarker>().connectedGuard;
         guardPatrol.RemovePatrolPoint(patrolPoint);
-        SecuritySelection.Instance.CloseSelection();
+        selectionScript.CloseSelection();
     }
 }

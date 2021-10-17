@@ -18,7 +18,13 @@ public class AudioSensor : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         //Set scale of object to size of the detection range
-        transform.localScale = new Vector3(detectionRange, transform.localScale.y, detectionRange);
+        SetSensorRange(detectionRange);
+    }
+
+    public void SetSensorRange(float range)
+    {
+        transform.localScale = new Vector3(range, transform.localScale.y, range);
+        detectionRange = range;
     }
 
     //Check for any thieves that enter the sphere collider of this audio sensor

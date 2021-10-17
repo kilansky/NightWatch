@@ -6,10 +6,15 @@ using TMPro;
 
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public int upgradeCost;
-    public string upgradeDescription;
+    [HideInInspector] public int upgradeCost = 0;
+    [HideInInspector] public string upgradeDescription;
     public TextMeshProUGUI upgradeCostText;
     public TextMeshProUGUI upgradeDescriptionText;
+
+    public virtual void Start()
+    {
+        upgradeCostText.text = "$" + upgradeCost.ToString();
+    }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
@@ -23,7 +28,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public virtual void ButtonClicked()
     {
-        Debug.Log("Upgrade Added");
         MoneyManager.Instance.SubtractMoney(upgradeCost);
     }
 }

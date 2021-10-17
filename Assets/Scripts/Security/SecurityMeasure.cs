@@ -7,19 +7,12 @@ public class SecurityMeasure : MonoBehaviour
 {
     public enum SecurityType { camera, laser, guard, audio, patrolMarker};
 
+    [Header("Security Measure Info")]
     public SecurityType securityType;
     public bool placedOnWalls = true; //false = place on floors - ie: guards
     public int cost;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("References")]
+    public FieldOfView visionCone;
+    public AudioSensor audioDetection;
 }

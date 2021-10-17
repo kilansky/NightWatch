@@ -44,10 +44,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         mainCamera = Camera.main;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
-        cameraUpgradePanel.transform.position = offScreenPos;
-        laserUpgradePanel.transform.position = offScreenPos;
-        guardUpgradePanel.transform.position = offScreenPos;
-        audioUpgradePanel.transform.position = offScreenPos;
+        HideUpgradePanels();
         canSelect = true;
     }
 
@@ -107,7 +104,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionButtons.transform.position = selectionIcon.transform.position + selectionButtonsOffset;
         selectedObject = selected.parent.GetComponent<SecurityMeasure>();
         ActivateButtons();
-        ActivateUpgradePanel();
+
+        //Activate the upgrade panel for the selected object if NOT in the night phase
+        if(!GameManager.Instance.nightWatchPhase)
+            ActivateUpgradePanel();
 
         //If a guard was selected during the night watch, activate the HUD selection icon and set the camera to follow the guard loosely
         if (selectedObject.GetComponent<GuardPathfinding>() && GameManager.Instance.nightWatchPhase)
@@ -134,11 +134,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionIcon.transform.localScale /= selectionScaleMod;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
-        cameraUpgradePanel.transform.position = offScreenPos;
-        laserUpgradePanel.transform.position = offScreenPos;
-        guardUpgradePanel.transform.position = offScreenPos;
-        audioUpgradePanel.transform.position = offScreenPos;
-
+        HideUpgradePanels();
         DeactivateAllButtons();
         GuardController.Instance.DeactivateHUDSelectionIcon();
     }
@@ -258,5 +254,13 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         guardPatrolButton.SetActive(false);
         guardPointClickButton.SetActive(false);
         guardManualButton.SetActive(false);
+    }
+
+    public void HideUpgradePanels()
+    {
+        cameraUpgradePanel.transform.position = offScreenPos;
+        laserUpgradePanel.transform.position = offScreenPos;
+        guardUpgradePanel.transform.position = offScreenPos;
+        audioUpgradePanel.transform.position = offScreenPos;
     }
 }
