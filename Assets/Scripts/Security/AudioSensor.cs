@@ -10,10 +10,11 @@ public class AudioSensor : MonoBehaviour
     public Vector3 alertOffset = new Vector3(0, 0.5f, 0);
     public float alarmSoundInterval = 1f;
     public int detectionRating;
+    
 
     private GameObject spawnedAlert;
     private AudioSource audioSource;
-
+   
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -62,4 +63,6 @@ public class AudioSensor : MonoBehaviour
     {
         Destroy(spawnedAlert, 3f);
     }
+
+    
 }
