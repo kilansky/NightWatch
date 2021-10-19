@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CameraRangeUpgrade : UpgradeButton, IPointerEnterHandler, IPointerExitHandler
+public class GuardRangeUpgrade : UpgradeButton, IPointerEnterHandler, IPointerExitHandler
 {
     private UpgradeManager upgradeInfo;
 
     public override void Start()
     {
         upgradeInfo = UpgradeManager.Instance;
-        upgradeCost = upgradeInfo.cameraRangeCost;
-        upgradeDescription = upgradeInfo.cameraRangeDescription;
+        upgradeCost = upgradeInfo.guardRangeCost;
+        upgradeDescription = upgradeInfo.guardRangeDescription;
         base.Start(); //Set cost text value
     }
 
@@ -19,23 +19,23 @@ public class CameraRangeUpgrade : UpgradeButton, IPointerEnterHandler, IPointerE
     {
         base.OnPointerEnter(eventData); //Set description box text
 
-        //Show camera range increase
-        SecuritySelection.Instance.selectedObject.visionCone.viewRadius += upgradeInfo.cameraRangeIncreaseAmt;
+        //Show guard range increase
+        SecuritySelection.Instance.selectedObject.visionCone.viewRadius += upgradeInfo.guardRangeIncreaseAmt;
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
         base.OnPointerExit(eventData);
 
-        //Hide camera range increase
-        SecuritySelection.Instance.selectedObject.visionCone.viewRadius -= upgradeInfo.cameraRangeIncreaseAmt;
+        //Hide guard range increase
+        SecuritySelection.Instance.selectedObject.visionCone.viewRadius -= upgradeInfo.guardRangeIncreaseAmt;
     }
 
     public override void ButtonClicked()
     {
         base.ButtonClicked();
 
-        //Increase camera range
-        SecuritySelection.Instance.selectedObject.visionCone.viewRadius += upgradeInfo.cameraRangeIncreaseAmt;
+        //Increase guard range
+        SecuritySelection.Instance.selectedObject.visionCone.viewRadius += upgradeInfo.guardRangeIncreaseAmt;
     }
 }

@@ -5,7 +5,10 @@ using TMPro;
 
 public class MoneyManager : SingletonPattern<MoneyManager>
 {
+    [Header("Starting Money")]
     public int startingMoney = 1500;
+
+    [Header("Penalties & Awards")]
     public int itemStolenPenalty = -500;
     public int thiefApprehendedAward = 150;
     public int endOfNightPayment = 300;
