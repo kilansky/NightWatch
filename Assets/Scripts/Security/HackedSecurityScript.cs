@@ -6,9 +6,10 @@ public class HackedSecurityScript : MonoBehaviour
 {
     public float hackBaseDuration;
     public float hackDurationMod;
-    public int hackResistance;
+    [Range(0, 3)]public int hackResistance;
     public GameObject objectBeingDisabled;
     public bool Hacked;
+
     private float hackDuration;
     
 

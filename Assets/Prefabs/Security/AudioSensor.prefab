@@ -73,6 +73,7 @@ MonoBehaviour:
   audioAlert: {fileID: 8054458416476088817, guid: f15054d5729f6a142833170fd5a02c49, type: 3}
   alertOffset: {x: 0, y: 0.5, z: 0}
   alarmSoundInterval: 1
+  detectionRating: 0
 --- !u!82 &6446543600182684229
 AudioSource:
   m_ObjectHideFlags: 0
@@ -179,6 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2384727483730892227}
   - component: {fileID: 594237932311488546}
+  - component: {fileID: 592969844706888812}
   m_Layer: 0
   m_Name: AudioSensor
   m_TagString: Untagged
@@ -221,6 +223,23 @@ MonoBehaviour:
   camoRating: 1
   visionCone: {fileID: 0}
   audioDetection: {fileID: 6268817540599950263}
+--- !u!114 &592969844706888812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319275592278295342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6228fd8eb71c5e4780b2fa55da4ca6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hackBaseDuration: 10
+  hackDurationMod: 5
+  hackResistance: 1
+  objectBeingDisabled: {fileID: 100274442009751145}
+  Hacked: 0
 --- !u!1 &1880520096297266786
 GameObject:
   m_ObjectHideFlags: 0
