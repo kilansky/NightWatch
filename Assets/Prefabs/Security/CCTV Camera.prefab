@@ -477,6 +477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7763860823242492309}
   - component: {fileID: -2398383211129310945}
+  - component: {fileID: 6477868460611746997}
   m_Layer: 0
   m_Name: CCTV Camera
   m_TagString: Untagged
@@ -517,7 +518,24 @@ MonoBehaviour:
   securityType: 0
   placedOnWalls: 1
   cost: 100
-  visionCone: {fileID: 3555495825320403156}
+  camoRating: 1
+--- !u!114 &6477868460611746997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5636425712614561198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6228fd8eb71c5e4780b2fa55da4ca6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hackBaseDuration: 15
+  hackDurationMod: 0
+  hackResistance: 1
+  objectBeingDisabled: {fileID: 2161661472519669074}
+  Hacked: 0
 --- !u!1 &5647515724287488083
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,6 +33,7 @@ public class ThiefFieldofView : MonoBehaviour
 
     private void LateUpdate()
     {
+        print("Working");
         DrawFieldOfView();
     }
 
@@ -66,8 +67,10 @@ public class ThiefFieldofView : MonoBehaviour
                 //Perform raycast to make sure target is not behind a wall
                 if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
+                    print("Noticed Something");
                     if (!target.parent.gameObject.GetComponent<PatrolMarker>() && gameObject.GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
                     {
+                        print("It wasn't a patrol marker");
                         if (visibleTargets.Count == 0)
                         {
                             print("See object at " + target.position);
@@ -82,6 +85,16 @@ public class ThiefFieldofView : MonoBehaviour
                                 {
                                     newTarget = false;
 
+                                }
+                                if (Vector3.Distance(transform.position, visibleTargets[i].position) < GetComponent<ThiefPathfinding>().hackingRange && GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade)
+                                {
+                                    //transform.position, GetComponent<ThiefFieldofView>().visibleTargets[i].position
+                                    //GetComponent<ThiefFieldofView>().visibleTargets[i].position, transform.position
+                                    print("In Hacking Range");
+                                    if (!visibleTargets[i].parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && visibleTargets[i].parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
+                                    {
+                                        GetComponent<ThiefPathfinding>().CheckForHackableObjects(i);
+                                    }
                                 }
                             }
                         }
