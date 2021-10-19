@@ -11,6 +11,7 @@ public class SecurityMeasure : MonoBehaviour
     public SecurityType securityType;
     public bool placedOnWalls = true; //false = place on floors - ie: guards
     public int cost;
+    [Range(0, 3)] public int camoRating;
 
     [Header("References")]
     public FieldOfView visionCone;
