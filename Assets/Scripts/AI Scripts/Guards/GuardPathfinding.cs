@@ -20,9 +20,14 @@ public class GuardPathfinding : MonoBehaviour
 
     [Header("Thief Tracking")]
     public List<GameObject> thievesSpotted = new List<GameObject>();
-    [HideInInspector] public GameObject thiefToChase;
 
+    [Header("Testing UI")]
+    public bool displayPathfinding;
+
+    [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool facingFrontDoor;
+
+
 
     //Privates
     private Vector3 CurrentPatrolPoint;
@@ -63,6 +68,7 @@ public class GuardPathfinding : MonoBehaviour
             if (currControlMode == ControlMode.Idle)
             {
                 Agent.isStopped = true;
+                print("Agent Can Not Move");
                 //Do nothing
                 ClickPoint = transform.position;
             }
@@ -70,21 +76,21 @@ public class GuardPathfinding : MonoBehaviour
             {
                 //Click to move
                 ClickMovement();
-                if (doorScript != null)
+                if (doorScript != null && doorScript.IsClosed)
                 {
-                    if(transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                    if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
+                        DoorInteraction = true;
                         OpenDoorFunction();
                     }
                     else
                     {
                         if (ClickPoint.x < doorScript.upperXBoundary && ClickPoint.x > doorScript.lowerXBoundary && ClickPoint.z > doorScript.lowerZBoundary && ClickPoint.z < doorScript.upperZBoundary)
                         {
-                            print("Correct Door");
+                            DoorInteraction = true;
                             OpenDoorFunction();
                         }
                     }
-
                 }
             }
             else if (currControlMode == ControlMode.Patrol)
@@ -96,18 +102,18 @@ public class GuardPathfinding : MonoBehaviour
                     CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
                     Pathfinding();
                 }
-                if (doorScript != null)
+                if (doorScript != null && doorScript.IsClosed)
                 {
                     if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
-
+                        DoorInteraction = true;
                         OpenDoorFunction();
                     }
                     else
                     {
                         if (CurrentPatrolPoint.x < doorScript.upperXBoundary && CurrentPatrolPoint.x > doorScript.lowerXBoundary && CurrentPatrolPoint.z > doorScript.lowerZBoundary && CurrentPatrolPoint.z < doorScript.upperZBoundary)
                         {
-                            print("Correct Door");
+                            DoorInteraction = true;
                             OpenDoorFunction();
                         }
                     }
@@ -124,6 +130,7 @@ public class GuardPathfinding : MonoBehaviour
                     cameraScript.BeginCameraFollow(transform, false);
                     cameraScript.selectedGuard = transform;
                     Agent.isStopped = true;
+                    print("Agent Can Not Move");
                 }
 
                 if (thiefToChase)
@@ -145,6 +152,7 @@ public class GuardPathfinding : MonoBehaviour
                             //print("E Pressed");
                             canManualMove = false;
                             Agent.isStopped = false;
+                            print("Agent Can Move");
                             Vector3 waitPosition = transform.position;
                             Agent.SetDestination(waitPosition);
 
@@ -173,6 +181,7 @@ public class GuardPathfinding : MonoBehaviour
                     {
                         //Auto-Chase thieves
                         Agent.isStopped = false;
+                        print("Agent Can Move");
                         Agent.SetDestination(thiefToChase.transform.position);
                     }
                 }
@@ -187,23 +196,26 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     thievesSpotted.Remove(thief);
                 }
-                if (doorScript != null)
+                if (doorScript != null && doorScript.IsClosed)
                 {
                     if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
+                        DoorInteraction = true;
                         OpenDoorFunction();
                     }
                     else
                     {
                         if (thiefToChase.transform.position.x < doorScript.upperXBoundary && thiefToChase.transform.position.x > doorScript.lowerXBoundary && thiefToChase.transform.position.z > doorScript.lowerZBoundary && thiefToChase.transform.position.z < doorScript.upperZBoundary)
                         {
-                            print("Correct Door");
+                            DoorInteraction = true;
                             OpenDoorFunction();
                         }
                     }
                 }
             }
-            DrawPath();
+
+            if(displayPathfinding)
+                DrawPath();
         }
     }
 
@@ -212,6 +224,7 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (PlayerInputs.Instance.LeftClickPressed && !EventSystem.current.IsPointerOverGameObject())
         {
+            print("Clicked");
             Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
@@ -221,14 +234,20 @@ public class GuardPathfinding : MonoBehaviour
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     ClickPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-                    if (DoorInteraction == false)
-                    {
-                        Agent.isStopped = false;
-                        Agent.SetDestination(ClickPoint);
-                        //print("Set Destination is " + Agent.destination);
-                    }
+                    print("Placed New Click Point"); 
                 }
             }
+        }
+        if (DoorInteraction == false)
+        {
+            Agent.isStopped = false;
+            print("Agent Can Move");
+            Agent.SetDestination(ClickPoint);
+            //print("Set Destination is " + Agent.destination);
+        }
+        else
+        {
+            print("Door Interaction is true");
         }
     }
 
@@ -256,6 +275,7 @@ public class GuardPathfinding : MonoBehaviour
             if (DoorInteraction == false)
             {
                 Agent.isStopped = false;
+                print("Agent Can Move");
                 Agent.SetDestination(CurrentPatrolPoint);
             }
         }
@@ -433,9 +453,8 @@ public class GuardPathfinding : MonoBehaviour
         //Door enter while not in manual mode
         if (other.GetComponent<DoorControl>() && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
         {
-            print("Enter Door Collider");
-            DoorInteraction = true;
             doorScript = other.GetComponent<DoorControl>();
+            print("Enter Door Collider");
         }
 
         //Door enter while in manual mode
@@ -540,6 +559,7 @@ public class GuardPathfinding : MonoBehaviour
             //print("Can Move");
             DoorInteraction = true;
             Agent.isStopped = true;
+            print("Agent Can Not Move");
             canManualMove = true;
         }
 

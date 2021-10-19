@@ -78,7 +78,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 84103452880852107}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Speed: 3
   m_Acceleration: 10
   avoidancePriority: 50
@@ -109,13 +109,15 @@ MonoBehaviour:
   EvadeSpeedMod: 1.5
   Target: {fileID: 0}
   TimeBeforeEscape: 30
+  ShowPath: 1
+  hackingRange: 3
+  hackingBaseDuration: 3.5
   SpawnPoint: {fileID: 0}
   SpeedStat: 0
   StealthStat: 0
   PerceptionStat: 0
   HackingStat: 0
   LockpickingStat: 0
-  doorScript: {fileID: 0}
 --- !u!114 &103639998497068950
 MonoBehaviour:
   m_ObjectHideFlags: 0
