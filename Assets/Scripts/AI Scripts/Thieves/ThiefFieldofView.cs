@@ -17,12 +17,13 @@ public class ThiefFieldofView : MonoBehaviour
     public float edgeDistanceThreshold;
 
     public MeshFilter viewMeshFilter;
-    private Mesh viewMesh;
-
     public float maskCutawayDist = 0.25f;
+    private Mesh viewMesh;
+    private bool newTarget;
 
     private void Start()
     {
+        newTarget = false;
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
@@ -47,9 +48,6 @@ public class ThiefFieldofView : MonoBehaviour
     //Find all 'targets' such as thieves or doors within this object's field of view
     private void FindVisibleTargets()
     {
-        //Place For loop here
-        visibleTargets.Clear(); //clear the current list of existing targets
-
         //Get an array of all targets within a sphere radius
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
@@ -68,10 +66,32 @@ public class ThiefFieldofView : MonoBehaviour
                 //Perform raycast to make sure target is not behind a wall
                 if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
-                    visibleTargets.Add(target); //Target is visible!
+                    if (!target.parent.gameObject.GetComponent<PatrolMarker>() && gameObject.GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
+                    {
+                        if (visibleTargets.Count == 0)
+                        {
+                            print("See object at " + target.position);
+                            visibleTargets.Add(target); //Target is visible!
+                        }
+                        else
+                        {
+                            newTarget = true;
+                            for (i = 0; i < visibleTargets.Count; i++)
+                            {
+                                if (visibleTargets[i] == target)
+                                {
+                                    newTarget = false;
 
-                    print("See object");
-
+                                }
+                            }
+                        }
+                        if (newTarget == true)
+                        {
+                            print("add new target");
+                            visibleTargets.Add(target); //Target is visible!
+                            newTarget = false;
+                        }
+                    }
                 }
             }
         }

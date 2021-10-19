@@ -5,8 +5,21 @@ using UnityEngine.UI;
 
 public class SecuritySelection : SingletonPattern<SecuritySelection>
 {
+    [Header("Selection Objects")]
     public GameObject selectionIcon;
     public GameObject selectionButtons;
+    public GameObject cameraUpgradePanel;
+    public GameObject laserUpgradePanel;
+    public GameObject guardUpgradePanel;
+    public GameObject audioUpgradePanel;
+
+    [Header("Selection Modifiers")]
+    public Vector3 selectionButtonsOffset = new Vector3(0, 0, -1.6f);
+    public Vector3 upgradePanelOffset = new Vector3(0, 0, 1.6f);
+    public float selectionScaleMod = 1.25f;
+    public LayerMask securityMeasureMask;
+
+    [Header("Buttons")]
     public GameObject sellButton;
     public GameObject moveButton;
     public GameObject rotateButton;
@@ -17,9 +30,6 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     public GameObject guardPatrolButton;
     public GameObject guardPointClickButton;
     public GameObject guardManualButton;
-    public Vector3 selectionButtonsOffset = new Vector3(0, 0, -1.6f);
-    public float selectionScaleMod = 1.25f;
-    public LayerMask securityMeasureMask;
 
     [HideInInspector] public SecurityMeasure selectedObject;
     [HideInInspector] public Vector3 offScreenPos = new Vector3(0, -10, 0);
@@ -34,6 +44,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         mainCamera = Camera.main;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
+        cameraUpgradePanel.transform.position = offScreenPos;
+        laserUpgradePanel.transform.position = offScreenPos;
+        guardUpgradePanel.transform.position = offScreenPos;
+        audioUpgradePanel.transform.position = offScreenPos;
         canSelect = true;
     }
 
@@ -83,7 +97,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     }
 
     //Enter the selected state and show a button panel for the selected object
-    private void SelectSecurityMeasure(Transform selected)
+    public void SelectSecurityMeasure(Transform selected)
     {
         if (selectedObject)
             CloseSelection();
@@ -93,8 +107,16 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionButtons.transform.position = selectionIcon.transform.position + selectionButtonsOffset;
         selectedObject = selected.parent.GetComponent<SecurityMeasure>();
         ActivateButtons();
+        ActivateUpgradePanel();
 
-        if(tutorialMode) //If in the tutorial, selecting an object will move to the next panel and activate the Selling skill gate
+        //If a guard was selected during the night watch, activate the HUD selection icon and set the camera to follow the guard loosely
+        if (selectedObject.GetComponent<GuardPathfinding>() && GameManager.Instance.nightWatchPhase)
+        {
+            GuardController.Instance.ActivateHUDSelectionIcon(selectedObject.GetComponent<GuardPathfinding>());
+            CameraController.Instance.BeginCameraFollow(selectedObject.transform, true);
+        }
+
+        if (tutorialMode) //If in the tutorial, selecting an object will move to the next panel and activate the Selling skill gate
         {
             TutorialController.Instance.NextButton();
             TutorialController.Instance.SellingSkillGate();
@@ -112,11 +134,16 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectionIcon.transform.localScale /= selectionScaleMod;
         selectionIcon.transform.position = offScreenPos;
         selectionButtons.transform.position = offScreenPos;
+        cameraUpgradePanel.transform.position = offScreenPos;
+        laserUpgradePanel.transform.position = offScreenPos;
+        guardUpgradePanel.transform.position = offScreenPos;
+        audioUpgradePanel.transform.position = offScreenPos;
 
         DeactivateAllButtons();
+        GuardController.Instance.DeactivateHUDSelectionIcon();
     }
 
-    private void ActivateButtons()
+    public void ActivateButtons()
     {
         DeactivateAllButtons();
 
@@ -167,10 +194,6 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                     default:
                         break;
                 }
-
-                //Prevent other guards from being in manual mode if already in manual mode
-                if(GuardController.Instance.guardInManualMode)
-                    guardManualButton.GetComponent<Button>().interactable = false;
             }
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.audio)
@@ -187,6 +210,32 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         }
     }
 
+    private void ActivateUpgradePanel()
+    {
+        GameObject selectedUpgradePanel;
+        switch(selectedObject.securityType)
+        {
+            case (SecurityMeasure.SecurityType.camera):
+                selectedUpgradePanel = cameraUpgradePanel;
+                break;
+            case (SecurityMeasure.SecurityType.laser):
+                selectedUpgradePanel = laserUpgradePanel;
+                break;
+            case (SecurityMeasure.SecurityType.guard):
+                selectedUpgradePanel = guardUpgradePanel;
+                break;
+            case (SecurityMeasure.SecurityType.audio):
+                selectedUpgradePanel = audioUpgradePanel;
+                break;
+            default:
+                selectedUpgradePanel = null;
+                break;
+        }
+
+        if(selectedUpgradePanel)
+            selectedUpgradePanel.transform.position = selectionIcon.transform.position + upgradePanelOffset;
+    }
+
     //Turn on all buttons to control the guards
     private void ActivateGuardButtons()
     {
@@ -196,6 +245,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         guardManualButton.SetActive(true);
     }
 
+    //Turn off all active buttons
     private void DeactivateAllButtons()
     {
         sellButton.SetActive(false);

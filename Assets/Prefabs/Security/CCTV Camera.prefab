@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 7091124080943939212}
   - component: {fileID: 3555495825320403156}
   m_Layer: 0
-  m_Name: View Visualisation
+  m_Name: FOV Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2161661472519669074}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.51475817, y: -0.0015097857, z: 0}
+  m_LocalPosition: {x: 0.45, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4941832107864904626}
@@ -477,6 +477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7763860823242492309}
   - component: {fileID: -2398383211129310945}
+  - component: {fileID: 6477868460611746997}
   m_Layer: 0
   m_Name: CCTV Camera
   m_TagString: Untagged
@@ -517,6 +518,22 @@ MonoBehaviour:
   securityType: 0
   placedOnWalls: 1
   cost: 100
+  camoRating: 1
+--- !u!114 &6477868460611746997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5636425712614561198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6228fd8eb71c5e4780b2fa55da4ca6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hackBaseDuration: 5
+  hackDurationMod: 0
+  objectBeingDisabled: {fileID: 2161661472519669074}
 --- !u!1 &5647515724287488083
 GameObject:
   m_ObjectHideFlags: 0
