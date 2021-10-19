@@ -12,7 +12,10 @@ public class ThiefPathfinding : MonoBehaviour
     public float EvadeSpeedMod;
     public GameObject Target;    //Object the Thief is currently trying to steal
     public float TimeBeforeEscape; //Time before Thief will make its escape after it's stolen its last object
-    public bool ShowPath;
+    public bool ShowPath; //Displays path
+    public float hackingRange; //Determines how far a thief can hack
+    public float hackingBaseDuration; //Determines the base duration of thief hacks
+    public float hackingMod; //Determines how much each hacking tier changes the duration of hacking
     
 
     [HideInInspector]  public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
@@ -32,6 +35,8 @@ public class ThiefPathfinding : MonoBehaviour
     private bool DoorInteraction; //Marks that the thief is interacting with the door
     private LineRenderer Line;
     private NavMeshPath Path;
+    private GameObject hackedObject; //Object thief is hacking into
+    private bool performAction; //Checks if thief is performing an action
     // Start is called before the first frame update
     void Start()
     {
@@ -46,11 +51,21 @@ public class ThiefPathfinding : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        //print("Thief speed is " + Agent.speed);
+        if (!performAction)
+        {
+            ThiefMovementBehavior(); //Performs regular movement behavior
+        }
+        if (ShowPath) //Draws a line showing the thief's pathfinding
+        {
+            DrawPath();
+        }
+    }
 
-        //Sneak
+    private void ThiefMovementBehavior()
+    {
         if (currBehavior == BehaviorStates.Sneak)
         {
+            
             SneakBehavior();
             if (doorScript != null)
             {
@@ -74,13 +89,13 @@ public class ThiefPathfinding : MonoBehaviour
                     }
                 }
             }
-            
+
         }
         //Escape
         else if (currBehavior == BehaviorStates.Escape)
         {
             EscapeBehavior();
-            if(doorScript != null)
+            if (doorScript != null)
             {
                 if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
@@ -101,7 +116,7 @@ public class ThiefPathfinding : MonoBehaviour
                     }
                 }
             }
-            
+
         }
         //Evade
         else if (currBehavior == BehaviorStates.Evade)
@@ -128,18 +143,7 @@ public class ThiefPathfinding : MonoBehaviour
                     }
                 }
             }
-            
         }
-        else if(currBehavior == BehaviorStates.SkillCheck)
-        {
-            //Stealing, hacking, lockpicking...
-        }
-
-        if (ShowPath) //Draws a line showing the thief's pathfinding
-        {
-            DrawPath();
-        }
-        
     }
 
     private void SneakBehavior()
@@ -232,7 +236,11 @@ public class ThiefPathfinding : MonoBehaviour
         if (currBehavior != BehaviorStates.Evade)
         {
             //print("Detected");
-
+            if (!hackedObject && !performAction)
+            {
+                hackedObject.GetComponent<HackedSecurityScript>().Hacked = false;
+            }
+            performAction = false;
             currBehavior = BehaviorStates.Evade;
             FindClosestEscapeRoute();
             Agent.speed *= EvadeSpeedMod;
@@ -325,7 +333,28 @@ public class ThiefPathfinding : MonoBehaviour
             Line.SetPosition(i, pointPosition);
         }
     }
+
+    public void CheckForHackableObjects(int objectNumber)
+    {
+        hackedObject = GetComponent<ThiefFieldofView>().visibleTargets[objectNumber].parent.gameObject;
+        hackedObject.GetComponent<HackedSecurityScript>().Hacked = true;
+        StartCoroutine(HackingAction());
+    }
     
+    private IEnumerator HackingAction() //Causes thief to stop and wait until their hacking is complete
+    {
+        print("Begin Hacking");
+        Agent.isStopped = true;
+        performAction = true;
+        yield return new WaitForSeconds((hackingBaseDuration - (HackingStat * hackingMod)));
+        if (currBehavior != BehaviorStates.Evade)
+        {
+            hackedObject.GetComponent<HackedSecurityScript>().HackedFunction(HackingStat);
+        }
+        Agent.isStopped = false;
+        performAction = false;
+        print("Finished Hacking");
+    }
 
     //Door Interactions
 

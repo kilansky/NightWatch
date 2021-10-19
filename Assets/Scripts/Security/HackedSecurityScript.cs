@@ -6,6 +6,7 @@ public class HackedSecurityScript : MonoBehaviour
 {
     public float hackBaseDuration;
     public float hackDurationMod;
+    public int hackResistance;
     public GameObject objectBeingDisabled;
     public bool Hacked;
     private float hackDuration;
@@ -13,18 +14,17 @@ public class HackedSecurityScript : MonoBehaviour
 
     private void Update()
     {
-        if (Hacked)
+        /*if (Hacked)
         {
             hackDuration = hackBaseDuration;
             Hacked = false;
             StartCoroutine(Disabled());
-        }
+        }*/
     }
 
     public void HackedFunction(int hackLevel)
     {
         hackDuration = hackBaseDuration + (hackDurationMod * hackLevel);
-        
         StartCoroutine(Disabled());
     }
 
@@ -33,5 +33,6 @@ public class HackedSecurityScript : MonoBehaviour
         objectBeingDisabled.SetActive(false);
         yield return new WaitForSeconds(hackDuration);
         objectBeingDisabled.SetActive(true);
+        Hacked = false;
     }
 }
