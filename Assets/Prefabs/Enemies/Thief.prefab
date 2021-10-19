@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: -1333949412310162328}
   - component: {fileID: 8129368462150632085}
   - component: {fileID: 3785428787163199539}
+  - component: {fileID: 5469267776048700805}
   - component: {fileID: -4777207016061883877}
-  - component: {fileID: 103639998497068950}
   - component: {fileID: 3533720020004153489}
   m_Layer: 13
   m_Name: Thief
@@ -91,34 +91,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &-4777207016061883877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 84103452880852107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7959cdc39ce08d74b9f1820b9f7040a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currBehavior: 0
-  timeToSteal: 5
-  StealRange: 1
-  EvadeSpeedMod: 1.5
-  Target: {fileID: 0}
-  TimeBeforeEscape: 30
-  ShowPath: 1
-  hackingRange: 3
-  hackingBaseDuration: 3.5
-  SpawnPoint: {fileID: 0}
-  SpeedStat: 0
-  StealthStat: 0
-  PerceptionStat: 0
-  HackingStat: 0
-  LockpickingStat: 0
---- !u!114 &103639998497068950
+--- !u!114 &5469267776048700805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,6 +117,34 @@ MonoBehaviour:
   edgeDistanceThreshold: 0.25
   viewMeshFilter: {fileID: 2976189610822552795}
   maskCutawayDist: 0.25
+--- !u!114 &-4777207016061883877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84103452880852107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7959cdc39ce08d74b9f1820b9f7040a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currBehavior: 0
+  timeToSteal: 5
+  StealRange: 1
+  EvadeSpeedMod: 1.5
+  Target: {fileID: 0}
+  TimeBeforeEscape: 30
+  ShowPath: 1
+  hackingRange: 3
+  hackingBaseDuration: 3.5
+  hackingMod: 0
+  SpawnPoint: {fileID: 0}
+  SpeedStat: 0
+  StealthStat: 0
+  PerceptionStat: 0
+  HackingStat: 0
+  LockpickingStat: 0
 --- !u!120 &3533720020004153489
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -503,7 +503,6 @@ MonoBehaviour:
     m_Bits: 128
   alertedIcon: {fileID: 5274703086129824056}
   thievesSpotted: []
-  displayPathfinding: 0
   thiefToChase: {fileID: 0}
   facingFrontDoor: 0
 --- !u!195 &2006984200
@@ -544,6 +543,8 @@ MonoBehaviour:
   placedOnWalls: 0
   cost: 500
   camoRating: 1
+  visionCone: {fileID: 360340787465773472}
+  audioDetection: {fileID: 0}
 --- !u!136 &1692076973
 CapsuleCollider:
   m_ObjectHideFlags: 0
