@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class ThiefPathfinding : MonoBehaviour
 {
-    public enum BehaviorStates {Sneak, Escape, Evade, SkillCheck }
+    public enum BehaviorStates {Sneak, Escape, Evade}
+    public enum ActionStates {Hacking, Lockpicking, Neutral}
     public BehaviorStates currBehavior = BehaviorStates.Sneak;
+    public ActionStates currAction = ActionStates.Neutral;
     public float timeToSteal;    //Time it takes to steal objects
     public float StealRange;     //Distance from the target object that the thief will begin its steal action
     public float EvadeSpeedMod;
@@ -51,13 +53,17 @@ public class ThiefPathfinding : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!performAction)
+        //Disables movement scripts if thief is performing an action
+        if (currAction==ActionStates.Neutral)
         {
             ThiefMovementBehavior(); //Performs regular movement behavior
         }
         if (ShowPath) //Draws a line showing the thief's pathfinding
         {
-            DrawPath();
+            if (gameObject != null)
+            {
+                DrawPath();
+            }
         }
     }
 
@@ -235,10 +241,15 @@ public class ThiefPathfinding : MonoBehaviour
     {
         if (currBehavior != BehaviorStates.Evade)
         {
-            //print("Detected");
-            if (!hackedObject && !performAction)
+            //Checks if hackedObject isn't null and if the currAction is Hacking
+            if (hackedObject && currAction == ActionStates.Hacking)
             {
+                //Allows thief to move again
+                Agent.isStopped = false;
+                //Sets hackedObject Hacked state to false
                 hackedObject.GetComponent<HackedSecurityScript>().Hacked = false;
+                //Sets currAction to Neutral
+                currAction = ActionStates.Neutral;
             }
             performAction = false;
             currBehavior = BehaviorStates.Evade;
@@ -333,27 +344,30 @@ public class ThiefPathfinding : MonoBehaviour
             Line.SetPosition(i, pointPosition);
         }
     }
-
-    public void CheckForHackableObjects(int objectNumber)
+    //Saves reference to hackedObject and begins the hacking action
+    public void CheckForHackableObjects(GameObject target)
     {
-        hackedObject = GetComponent<ThiefFieldofView>().visibleTargets[objectNumber].parent.gameObject;
+        hackedObject = target;
         hackedObject.GetComponent<HackedSecurityScript>().Hacked = true;
         StartCoroutine(HackingAction());
     }
     
+    //Causes the thief to stop for a set amount of time, at the end of which will trigger the hackedObject to shut off
     private IEnumerator HackingAction() //Causes thief to stop and wait until their hacking is complete
     {
         print("Begin Hacking");
         Agent.isStopped = true;
-        performAction = true;
+        currAction = ActionStates.Hacking;
+        //Thief waits for a few seconds until the hacking duration is over
         yield return new WaitForSeconds((hackingBaseDuration - (HackingStat * hackingMod)));
+        //Doesn't disable the object if the thief enters evade mode
         if (currBehavior != BehaviorStates.Evade)
         {
+            print("Finished Hacking");
             hackedObject.GetComponent<HackedSecurityScript>().HackedFunction(HackingStat);
         }
         Agent.isStopped = false;
-        performAction = false;
-        print("Finished Hacking");
+        currAction = ActionStates.Neutral;
     }
 
     //Door Interactions
@@ -399,28 +413,6 @@ public class ThiefPathfinding : MonoBehaviour
         {
             DoorInteraction = false;
         }
-        /*if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
-        {
-            
-            Agent.isStopped = true;
-
-            doorInteractingwith = other.GetComponent<DoorControl>();
-
-            if (currBehavior == BehaviorStates.Evade)
-            {
-                doorOpenDelay = other.GetComponent<DoorControl>().chaseCloseDuration; //Saves a reference to how long the door animation lasts
-
-            }
-            else
-            {
-                doorOpenDelay = other.GetComponent<DoorControl>().closeAnimationDuration; //Saves a reference to how long the door animation lasts
-
-            }
-            
-            
-            StartCoroutine(CloseDelayCoroutine());
-            print("Thief Closes Door");
-        }*/
     }
 
     private IEnumerator OpenDelayCoroutine()
@@ -455,23 +447,4 @@ public class ThiefPathfinding : MonoBehaviour
         
         doorOpenDelay = 0;
     }
-    /*private IEnumerator CloseDelayCoroutine()
-    {
-        if (currBehavior == BehaviorStates.Evade)
-        {
-            doorInteractingwith.GetComponent<DoorControl>().ChaseCloseDoor();
-        }
-        else
-        {
-            doorInteractingwith.GetComponent<DoorControl>().CloseDoor();
-        }
-       
-    
-        yield return new WaitForSeconds(doorOpenDelay);
-
-
-        Agent.isStopped = false;
-
-        doorOpenDelay = 0;
-    }*/
 }
