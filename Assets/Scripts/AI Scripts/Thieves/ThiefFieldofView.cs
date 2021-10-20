@@ -52,7 +52,10 @@ public class ThiefFieldofView : MonoBehaviour
         //Get an array of all targets within a sphere radius
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
+        newTarget = true; //Sets script up to be prepared to add a new target to the list.
+        
         //Check each target found to see if they are within view
+        //For loop is for targets within view radius
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform; //Get target transform
@@ -63,46 +66,48 @@ public class ThiefFieldofView : MonoBehaviour
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
-
                 //Perform raycast to make sure target is not behind a wall
                 if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     print("Noticed Something");
-                    if (!target.parent.gameObject.GetComponent<PatrolMarker>() && gameObject.GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
+
+                    //Checks if target does not have the PatrolMarker script and its camoRating is less than the thief's PerceptionStat
+                    if (!target.parent.gameObject.GetComponent<PatrolMarker>() && GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
                     {
                         print("It wasn't a patrol marker");
-                        if (visibleTargets.Count == 0)
+                        
+                        //Checks if there's at least one target in the visible target list
+                        if (visibleTargets.Count > 0)
                         {
-                            print("See object at " + target.position);
-                            visibleTargets.Add(target); //Target is visible!
-                        }
-                        else
-                        {
-                            newTarget = true;
-                            for (i = 0; i < visibleTargets.Count; i++)
+                            //For loop checking all objects in visibleTargets list
+                            for(int n = 0; n < visibleTargets.Count; n++)
                             {
-                                if (visibleTargets[i] == target)
+                                //Checks if target is already in the visibleTargets list
+                                if (visibleTargets[n] == target)
                                 {
                                     newTarget = false;
-
-                                }
-                                if (Vector3.Distance(transform.position, visibleTargets[i].position) < GetComponent<ThiefPathfinding>().hackingRange && GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade)
-                                {
-                                    //transform.position, GetComponent<ThiefFieldofView>().visibleTargets[i].position
-                                    //GetComponent<ThiefFieldofView>().visibleTargets[i].position, transform.position
-                                    print("In Hacking Range");
-                                    if (!visibleTargets[i].parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && visibleTargets[i].parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
-                                    {
-                                        GetComponent<ThiefPathfinding>().CheckForHackableObjects(i);
-                                    }
+                                    break;
                                 }
                             }
+                            
                         }
+                        //Adds target to the list if its new
                         if (newTarget == true)
                         {
                             print("add new target");
                             visibleTargets.Add(target); //Target is visible!
                             newTarget = false;
+                        }
+                        //Checks if target is within the thief's hacking range and the thief is currently not evading or performing a action
+                        if (Vector3.Distance(transform.position, target.position) < GetComponent<ThiefPathfinding>().hackingRange && GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade && GetComponent<ThiefPathfinding>().currAction == ThiefPathfinding.ActionStates.Neutral)
+                        {
+                            print("In Hacking Range");
+                            //Checks if the target is not already hacked and the thief is skilled enough to hack it
+                            if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
+                            {
+                                //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
+                                GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
+                            }
                         }
                     }
                 }

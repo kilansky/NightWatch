@@ -13,15 +13,7 @@ public class HackedSecurityScript : MonoBehaviour
     private float hackDuration;
     
 
-    private void Update()
-    {
-        /*if (Hacked)
-        {
-            hackDuration = hackBaseDuration;
-            Hacked = false;
-            StartCoroutine(Disabled());
-        }*/
-    }
+    
 
     public void HackedFunction(int hackLevel)
     {
