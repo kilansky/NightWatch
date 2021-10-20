@@ -29,5 +29,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public virtual void ButtonClicked()
     {
         MoneyManager.Instance.SubtractMoney(upgradeCost);
+        SecuritySelection.Instance.selectedObject.cost += upgradeCost;
     }
 }
