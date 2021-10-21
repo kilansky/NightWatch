@@ -18,9 +18,11 @@ public class ThiefPathfinding : MonoBehaviour
     public float hackingRange; //Determines how far a thief can hack
     public float hackingBaseDuration; //Determines the base duration of thief hacks
     public float hackingMod; //Determines how much each hacking tier changes the duration of hacking
-    
+    public float ExitBaseDuration;
+    public float ExitDurationMod;
 
     [HideInInspector]  public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
+    [Header("Thief Stats")]
     public int SpeedStat; //Int 0
     public int StealthStat; //Int 1
     public int PerceptionStat; //Int 2
@@ -39,6 +41,7 @@ public class ThiefPathfinding : MonoBehaviour
     private NavMeshPath Path;
     private GameObject hackedObject; //Object thief is hacking into
     private bool performAction; //Checks if thief is performing an action
+    private bool Leaving;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,9 +80,17 @@ public class ThiefPathfinding : MonoBehaviour
             {
                 if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
-                    print("Open From Inside");
-                    DoorInteraction = true; //Marks that the thief is interacting with the door
-                    OpenDoorFunction();
+                    print("Inside Room");
+                    if (Target.transform.position.x > doorScript.upperXBoundary || Target.transform.position.x < doorScript.lowerXBoundary || Target.transform.position.z < doorScript.lowerZBoundary || Target.transform.position.z > doorScript.upperZBoundary)
+                    {
+                        DoorInteraction = true; //Marks that the thief is interacting with the door
+                        OpenDoorFunction();
+                    }
+                    else
+                    {
+
+                    }
+
                 }
                 else
                 {
@@ -105,8 +116,11 @@ public class ThiefPathfinding : MonoBehaviour
             {
                 if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
-                    DoorInteraction = true; //Marks that the thief is interacting with the door
-                    OpenDoorFunction();
+                    if (SpawnPoint.position.x > doorScript.upperXBoundary || SpawnPoint.position.x < doorScript.lowerXBoundary || SpawnPoint.position.z < doorScript.lowerZBoundary || SpawnPoint.position.z > doorScript.upperZBoundary)
+                    {
+                        DoorInteraction = true; //Marks that the thief is interacting with the door
+                        OpenDoorFunction();
+                    }
                 }
                 else
                 {
@@ -132,8 +146,11 @@ public class ThiefPathfinding : MonoBehaviour
             {
                 if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                 {
-                    DoorInteraction = true; //Marks that the thief is interacting with the door
-                    OpenDoorFunction();
+                    if (SpawnPoint.position.x > doorScript.upperXBoundary || SpawnPoint.position.x < doorScript.lowerXBoundary || SpawnPoint.position.z < doorScript.lowerZBoundary || SpawnPoint.position.z > doorScript.upperZBoundary)
+                    {
+                        DoorInteraction = true; //Marks that the thief is interacting with the door
+                        OpenDoorFunction();
+                    }
                 }
                 else
                 {
@@ -176,25 +193,9 @@ public class ThiefPathfinding : MonoBehaviour
         {
             Agent.SetDestination(SpawnPoint.position);
         }
-        if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
+        if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f && !Leaving)
         {
-            if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
-            {
-                ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
-                NightHUDController.Instance.ThiefEscapedEvent();
-            }
-            else
-                NightHUDController.Instance.ItemStolenEvent();
-
-            ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
-
-            //Remove this thief from the guards that are chasing it
-            foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
-                guard.ThiefRemoved(gameObject);
-
-            //Debug.Log("Thief Escaped");
-            CheckForLevelEnd();
-            Destroy(gameObject);
+            StartCoroutine(ExitTimer());
         }
     }
 
@@ -207,24 +208,9 @@ public class ThiefPathfinding : MonoBehaviour
             Agent.SetDestination(SpawnPoint.position);
         }
         //print("Distance = " + Vector3.Distance(transform.position, SpawnPoint.position));
-        if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f)
+        if (Vector3.Distance(transform.position, SpawnPoint.position) < 0.5f && !Leaving)
         {
-            if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
-            {
-                ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
-                NightHUDController.Instance.ThiefEscapedEvent();
-            }
-            else
-                NightHUDController.Instance.ItemStolenEvent();
-
-            ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
-
-            //Remove this thief from the guards that are chasing it
-            foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
-                guard.ThiefRemoved(gameObject);
-
-            CheckForLevelEnd();
-            Destroy(gameObject);
+            StartCoroutine(ExitTimer());
         }
     }
 
@@ -235,6 +221,29 @@ public class ThiefPathfinding : MonoBehaviour
             TimeBeforeEscape -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    private IEnumerator ExitTimer()
+    {
+        print("Exiting in " + (ExitBaseDuration - (ExitDurationMod * SpeedStat)));
+        yield return new WaitForSeconds(ExitBaseDuration - (ExitDurationMod * SpeedStat));
+        if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
+        {
+            ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+            NightHUDController.Instance.ThiefEscapedEvent();
+        }
+        else
+            NightHUDController.Instance.ItemStolenEvent();
+
+        ThiefSpawnSystem.Instance.ItemsLeft -= ItemsHeld; //Adjusts how many items are left after the thief stole some.
+
+        //Remove this thief from the guards that are chasing it
+        foreach (GuardPathfinding guard in FindObjectsOfType<GuardPathfinding>())
+            guard.ThiefRemoved(gameObject);
+
+        ShowPath = false;
+        CheckForLevelEnd();
+        Destroy(gameObject);
     }
 
     public void SeenByGuard()
@@ -269,6 +278,7 @@ public class ThiefPathfinding : MonoBehaviour
             guard.ThiefRemoved(gameObject);
 
         NightHUDController.Instance.ThiefApprehendedEvent();
+        ShowPath = false;
         CheckForLevelEnd();
         Destroy(gameObject);
     }
@@ -401,9 +411,7 @@ public class ThiefPathfinding : MonoBehaviour
     {
         if (other.GetComponent<DoorControl>()) //Checks if thief enters a closed door's collider
         {
-            
             doorScript = other.GetComponent<DoorControl>(); //Creates a reusable reference for the door's script
-
         }
     }
 
