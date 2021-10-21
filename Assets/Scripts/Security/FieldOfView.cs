@@ -21,6 +21,8 @@ public class FieldOfView : MonoBehaviour
 
     public float maskCutawayDist = 0.25f;
 
+    public bool facialRecognition = false;
+
     private void Start()
     {
         viewMesh = new Mesh();
@@ -64,11 +66,13 @@ public class FieldOfView : MonoBehaviour
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
                 
-
                 //Perform raycast to make sure target is not behind a wall
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
+
+                    if(facialRecognition) //Send an alert if this is a camera with the facial recognition upgrade
+                        GetComponent<Alert>().SensorTriggered();
 
                     if (target.gameObject.GetComponent<FakeDoor>())
                     {
@@ -80,8 +84,7 @@ public class FieldOfView : MonoBehaviour
                     {
                         //print("See Thief");
                         transform.parent.GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
-                    }
-                        
+                    }                        
                 }
             }
         }
@@ -167,7 +170,6 @@ public class FieldOfView : MonoBehaviour
         {
             float angle = (minAngle + maxAngle) / 2;
             ViewCastInfo newViewCast = ViewCast(angle);
-
 
             bool edgeDistThresholdExceeded = Mathf.Abs(minViewCast.dist - newViewCast.dist) > edgeDistanceThreshold;
             if (newViewCast.hit == minViewCast.hit && !edgeDistThresholdExceeded)

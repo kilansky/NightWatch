@@ -400,17 +400,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4647424382229484531, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
   m_PrefabInstance: {fileID: 35270162}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &52611811 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200863504303855, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &78441504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1278,31 +1267,6 @@ Transform:
   m_Father: {fileID: 1884768582}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &270074582 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 66200864952143854, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &270074583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270074582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1bbac85ee658fd4381e399b5fab9f11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeButtons:
-  - button: {fileID: 282029250}
-    cost: 75
-    costText: {fileID: 1497332222}
-    description: Increases the vision range of the guard
-    increaseAmt: 2.5
-    maxUpgrades: 3
-  descriptionText: {fileID: 1343090654}
 --- !u!1001 &270816162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1485,43 +1449,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &282029247 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 66200863846146208, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &282029249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282029247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 986970064ad54764c962f240fc1811a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradePanel: {fileID: 270074583}
-  upgradeButtonInfo:
-    button: {fileID: 0}
-    cost: 25
-    costText: {fileID: 0}
-    description: 
-    increaseAmt: 2.5
-    maxUpgrades: 3
-  upgradeIndex: 0
---- !u!114 &282029250 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200863846146214, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282029247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &285118264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2450,39 +2377,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3441432603842295691, guid: 365a97b56bbcef24e98ad983f82e460c, type: 3}
   m_PrefabInstance: {fileID: 392845021}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &394211050 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2629169188381194448, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5288e03aac89df441a8092abdd5b8d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &394211051 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1312455280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &394819262 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 614514647537121564, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &398874256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2996,17 +2890,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2467743332891806723, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
   m_PrefabInstance: {fileID: 2467743332695793636}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &466590882 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200862961757970, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &466634530
 GameObject:
   m_ObjectHideFlags: 0
@@ -3942,17 +3825,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8210296765355581444, guid: f5ab05a1179d18e419068a860536294c, type: 3}
   m_PrefabInstance: {fileID: 578645166}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &605372835 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1260257529, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &608740103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4265,43 +4137,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2472659973040601506, guid: 666eac8b926d6ff449481725e788d57b, type: 3}
   m_PrefabInstance: {fileID: 667068846}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &676196771 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 66200864474327622, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &676196773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676196771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5288e03aac89df441a8092abdd5b8d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradePanel: {fileID: 1043743335}
-  upgradeButtonInfo:
-    button: {fileID: 0}
-    cost: 25
-    costText: {fileID: 0}
-    description: 
-    increaseAmt: 2.5
-    maxUpgrades: 3
-  upgradeIndex: 0
---- !u!114 &676196774 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200864474327616, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676196771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &685904201
 GameObject:
   m_ObjectHideFlags: 0
@@ -4784,17 +4619,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 242420778641335294, guid: 8ef2321d1d96d024ab1a661cfa71a6bd, type: 3}
   m_PrefabInstance: {fileID: 718951283}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &722544880 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 320042818, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &736341270
 GameObject:
   m_ObjectHideFlags: 0
@@ -6329,31 +6153,6 @@ Transform:
   m_Father: {fileID: 1884768582}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1043743334 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 66200863366219016, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1043743335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043743334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1bbac85ee658fd4381e399b5fab9f11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeButtons:
-  - button: {fileID: 676196774}
-    cost: 25
-    costText: {fileID: 52611811}
-    description: Prevents unskilled thieves from hacking and disabling this laser
-    increaseAmt: 1
-    maxUpgrades: 2
-  descriptionText: {fileID: 1581713346}
 --- !u!1 &1044320547
 GameObject:
   m_ObjectHideFlags: 0
@@ -6582,17 +6381,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2472659973040601506, guid: 666eac8b926d6ff449481725e788d57b, type: 3}
   m_PrefabInstance: {fileID: 1076755038}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1092018441 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200863295917194, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1118423599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6976,37 +6764,6 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7934679848080791863, guid: 2d917c621e062894282a374168ad2247, type: 3}
   m_PrefabInstance: {fileID: 7934679849287756746}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1228188712 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 455636133, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1228188713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228188712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1bbac85ee658fd4381e399b5fab9f11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeButtons:
-  - button: {fileID: 1377484533}
-    cost: 25
-    costText: {fileID: 722544880}
-    description: Increases the vision range of the camera
-    increaseAmt: 2.5
-    maxUpgrades: 5
-  - button: {fileID: 394211051}
-    cost: 25
-    costText: {fileID: 605372835}
-    description: Prevents unskilled thieves from hacking and disabling the camera
-    increaseAmt: 1
-    maxUpgrades: 2
-  descriptionText: {fileID: 394819262}
 --- !u!1001 &1233231711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7427,28 +7184,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7413645096791484960, guid: 6d712caa82f90ef41b13e3a223e40f8e, type: 3}
   m_PrefabInstance: {fileID: 1336697236}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1343090654 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 606860621284819543, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1348707234 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200864271671333, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1356838035
 GameObject:
   m_ObjectHideFlags: 0
@@ -7661,17 +7396,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3933200673167271142, guid: f0f0a0281ca5dbd42a3ab1c0e3b39971, type: 3}
   m_PrefabInstance: {fileID: 1364290644}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1377484533 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1497111533, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1377726499
 GameObject:
   m_ObjectHideFlags: 0
@@ -8354,17 +8078,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4647424382229484531, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
   m_PrefabInstance: {fileID: 1483674270}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1497332222 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200864820349961, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1506046276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8475,17 +8188,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4647424382229484531, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
   m_PrefabInstance: {fileID: 1506046276}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1512425017 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 606860622700331732, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1517653393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8850,38 +8552,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1563759209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 66200863163076461, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1563759210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563759209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1bbac85ee658fd4381e399b5fab9f11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeButtons:
-  - button: {fileID: 1348707234}
-    cost: 25
-    costText: {fileID: 1092018441}
-    description: Increases the detection range of the audio sensor
-    increaseAmt: 1.5
-    maxUpgrades: 5
-  - button: {fileID: 1650718806}
-    cost: 25
-    costText: {fileID: 466590882}
-    description: Prevents unskilled thieves from hacking and disabling this audio
-      sensor
-    increaseAmt: 1
-    maxUpgrades: 2
-  descriptionText: {fileID: 1512425017}
 --- !u!1 &1570637822
 GameObject:
   m_ObjectHideFlags: 0
@@ -9026,17 +8696,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1581713346 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 606860622366607537, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1597761280
 GameObject:
   m_ObjectHideFlags: 0
@@ -9293,43 +8952,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4647424382229484531, guid: fe49b5f36d8ab404c8c358f8c074cd22, type: 3}
   m_PrefabInstance: {fileID: 1641729878}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1650718803 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 66200863919227302, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1650718805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650718803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5288e03aac89df441a8092abdd5b8d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradePanel: {fileID: 1563759210}
-  upgradeButtonInfo:
-    button: {fileID: 0}
-    cost: 25
-    costText: {fileID: 0}
-    description: 
-    increaseAmt: 2.5
-    maxUpgrades: 3
-  upgradeIndex: 0
---- !u!114 &1650718806 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 66200863919227320, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-  m_PrefabInstance: {fileID: 6575661075989419027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650718803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1679292927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11910,278 +11532,62 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+    - target: {fileID: 270074583, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[0].description
+      value: 'Range Up: Increases the vision range of the guard'
       objectReference: {fileID: 0}
-    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 88831647, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400863756, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: audioHackDefDescription
-      value: Prevents unskilled thieves from hacking and disabling this audio sensor
-      objectReference: {fileID: 0}
-    - target: {fileID: 400863756, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: guardHackDefDescription
-      value: Prevents unskilled thieves from hacking this security measure
-      objectReference: {fileID: 0}
-    - target: {fileID: 400863756, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: laserHackDefDescription
-      value: Prevents unskilled thieves from hacking and disabling this laser
-      objectReference: {fileID: 0}
-    - target: {fileID: 400863756, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: cameraHackDefDescription
-      value: Prevents unskilled thieves from hacking and disabling the camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 700587221, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002216532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455278, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_Name
-      value: HackDefButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455279, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455279, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455279, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455279, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 455636138, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 394211050}
-    - target: {fileID: 1312455280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ButtonClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 1312455280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CameraHackUpgrade, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1497111531, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_Name
-      value: RangeUpButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 1497111532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1497111532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1497111532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1497111532, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1497111536, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: upgradePanel
+      objectReference: {fileID: 1215394557}
+    - target: {fileID: 782967832, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 1228188713}
-    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+      objectReference: {fileID: 1215394557}
+    - target: {fileID: 1043743335, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[0].description
+      value: 'Hack Defense: Prevents unskilled thieves from hacking and disabling
+        this laser'
       objectReference: {fileID: 0}
-    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
+    - target: {fileID: 1228188713, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[0].description
+      value: 'Range Up: Increases the vision range of the camera'
       objectReference: {fileID: 0}
-    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
+    - target: {fileID: 1228188713, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[1].description
+      value: 'Hack Defense: Prevents unskilled thieves from hacking and disabling
+        the camera'
       objectReference: {fileID: 0}
-    - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
+    - target: {fileID: 1228188713, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[2].description
+      value: 'Facial Detection: Send an alert when a thief walks in front of this
+        camera'
       objectReference: {fileID: 0}
-    - target: {fileID: 66200862961757970, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_text
-      value: Hack Def
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200862961757970, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_fontSize
-      value: 49.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863504272943, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_text
-      value: Hack Def
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863504272943, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_fontSize
-      value: 49.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146208, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_Name
-      value: RangeUpgradeButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146214, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 1508960666, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 282029249}
-    - target: {fileID: 66200863846146214, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ButtonClicked
+      objectReference: {fileID: 1215394557}
+    - target: {fileID: 1563759210, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[0].description
+      value: 'Range Up: Increases the detection range of the audio sensor'
       objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146214, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FOVRangeUpgrade, Assembly-CSharp
+    - target: {fileID: 1563759210, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[1].description
+      value: 'Hack Defense: Prevents unskilled thieves from hacking and disabling
+        this audio sensor'
       objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146215, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146215, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146215, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863846146215, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227302, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_Name
-      value: HackDefButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227302, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227303, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227303, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227303, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227303, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227320, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 66200863163076450, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 1650718805}
-    - target: {fileID: 66200863919227320, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ButtonClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200863919227320, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HackDefenseUpgrade, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864271671331, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_Name
-      value: RangeUpButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864271671332, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864271671332, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864271671332, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864271671332, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327616, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      objectReference: {fileID: 1215394557}
+    - target: {fileID: 66200863366219015, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 676196773}
-    - target: {fileID: 66200864474327616, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ButtonClicked
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327616, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HackDefenseUpgrade, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327617, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327617, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327617, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327617, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 66200864474327622, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_Name
-      value: HackDefButton
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1215394557}
+    - target: {fileID: 66200864952143841, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1215394557}
     - target: {fileID: 162694758291135959, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: guardIdleButton
       value: 
@@ -12198,14 +11604,6 @@ PrefabInstance:
       propertyPath: guardPointClickButton
       value: 
       objectReference: {fileID: 2996893604134627630}
-    - target: {fileID: 444631863581363756, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: upgradePanel
-      value: 
-      objectReference: {fileID: 1563759210}
-    - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: DifficultySelected
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: TargetObjects.Array.data[0]
       value: 
@@ -12370,42 +11768,6 @@ PrefabInstance:
       propertyPath: planningCanvas
       value: 
       objectReference: {fileID: 464272047}
-    - target: {fileID: 2629169188381194448, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: upgradePanel
-      value: 
-      objectReference: {fileID: 1228188713}
-    - target: {fileID: 3737976846842419087, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737976846842419087, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737976846842419087, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737976846842419087, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5519906749482679155, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5519906749482679155, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5519906749482679155, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5519906749482679155, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6575661075733118961, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -12458,11 +11820,7 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1215394557}
-    m_RemovedComponents:
-    - {fileID: 6367909676847351951, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-    - {fileID: 5660438656275626053, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-    - {fileID: 400863756, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-    - {fileID: 1201504378209710206, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
 --- !u!1 &7013498042110297731 stripped
 GameObject:
