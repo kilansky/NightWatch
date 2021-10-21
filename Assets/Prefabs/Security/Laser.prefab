@@ -249,7 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8229309991146964661}
   - component: {fileID: 2503923718258255901}
-  - component: {fileID: 2057362996602138746}
+  - component: {fileID: 8734684364719570941}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
@@ -290,7 +290,9 @@ MonoBehaviour:
   placedOnWalls: 1
   cost: 100
   camoRating: 1
---- !u!114 &2057362996602138746
+  visionCone: {fileID: 0}
+  audioDetection: {fileID: 0}
+--- !u!114 &8734684364719570941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,8 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6228fd8eb71c5e4780b2fa55da4ca6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hackBaseDuration: 15
-  hackDurationMod: 0
+  hackBaseDuration: 10
+  hackDurationMod: 5
   hackResistance: 1
   objectBeingDisabled: {fileID: 6911904774472701980}
   Hacked: 0
