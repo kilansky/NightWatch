@@ -229,7 +229,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         }
 
         if(selectedUpgradePanel)
+        {
             selectedUpgradePanel.transform.position = selectionIcon.transform.position + upgradePanelOffset;
+            selectedUpgradePanel.GetComponent<UpgradePanel>().SetActiveButtons();
+        }
     }
 
     //Turn on all buttons to control the guards

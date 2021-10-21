@@ -9,7 +9,7 @@ public class AudioSensor : MonoBehaviour
     public GameObject audioAlert;
     public Vector3 alertOffset = new Vector3(0, 0.5f, 0);
     public float alarmSoundInterval = 1f;
-    public int detectionRating;
+    public int detectionRating = 1;
     
 
     private GameObject spawnedAlert;
