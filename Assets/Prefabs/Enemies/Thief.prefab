@@ -89,7 +89,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &5469267776048700805
 MonoBehaviour:
@@ -139,7 +139,9 @@ MonoBehaviour:
   ShowPath: 1
   hackingRange: 3
   hackingBaseDuration: 3.5
-  hackingMod: 0
+  hackingMod: 0.5
+  ExitBaseDuration: 4
+  ExitDurationMod: 1
   SpawnPoint: {fileID: 0}
   SpeedStat: 0
   StealthStat: 0
