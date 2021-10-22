@@ -4,41 +4,86 @@ using UnityEngine;
 
 public class TestDijkstraPath : MonoBehaviour
 {
-    public List<Vector3> unexploredPaths = new List<Vector3>();
+    public List<Transform> unexploredPaths = new List<Transform>();
+    public List<int> previousPath = new List<int>();
+    public List<Transform> ShortestPath = new List<Transform>();
+    public float[] pointDistance;
     public Transform[] waypoints;
-    public float[] distance;
     public Transform startPoint;
     public Transform endPoint;
+
+    private float currentPathValue;
+    private int currentPathNum;
+    private int resetNum;
     // Start is called before the first frame update
     void Start()
     {
-
-        print("Fastest Path goes ");
+        FindShortestPath();
+        if (unexploredPaths.Count == 0)
+        {
+            for(int i = 0; i < ShortestPath.Count; i++)
+            {
+                ShortestPath[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
     }
 
     private void FindShortestPath()
     {
-        IDictionary<Vector3, int> distances = new Dictionary<Vector3, int>();
+        //IDictionary<Vector3, int> distances = new Dictionary<Vector3, int>();
 
         for(int i = 0; i < waypoints.Length; i++)
         {
-            distances.Add(new KeyValuePair<Vector3, int>(waypoints[i].position, int.MaxValue));
-            unexploredPaths.Add(waypoints[i].position);
-            if (waypoints[i] == startPoint)
+            //distances.Add(new KeyValuePair<Vector3, int>(waypoints[i].position, int.MaxValue));
+            pointDistance[i] = float.MaxValue;
+            unexploredPaths.Add(waypoints[i]);
+            previousPath.Add(0);
+            if(waypoints[i].position == startPoint.position)
             {
-                
+                pointDistance[i] = 0;
             }
-            else
-            {
-                
-            }
-
         }
 
-        while(unexploredPaths.Count > 0)
+        //distances[startPoint.position] = 0;
+        
+
+        while (unexploredPaths.Count > 0)
         {
+            int curr = 0;
+            currentPathValue = float.MaxValue;
+            for (int i = 0; i < unexploredPaths.Count; i++)
+            {
+                if(currentPathValue > pointDistance[unexploredPaths[i].GetComponent<Waypoints>().NumberReference])
+                {
+                    currentPathValue = pointDistance[unexploredPaths[i].GetComponent<Waypoints>().NumberReference];
+                    currentPathNum = unexploredPaths[i].GetComponent<Waypoints>().NumberReference;
+                    curr = i;
+                }
+            }
+            unexploredPaths.Remove(unexploredPaths[curr]);
             
+
+            for (int n = 0; n < waypoints[currentPathNum].GetComponent<Waypoints>().ConnectedPoints.Length; n++)
+            {
+                
+                int neighbor = waypoints[currentPathNum].GetComponent<Waypoints>().ConnectedPoints[n].GetComponent<Waypoints>().NumberReference;
+                
+                if(pointDistance[neighbor] > (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position)))
+                {
+                    pointDistance[neighbor] = (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position));
+                    previousPath[neighbor] = currentPathNum;
+                }
+            }
         }
+
+        resetNum = endPoint.GetComponent<Waypoints>().NumberReference;
+
+        while (resetNum != startPoint.GetComponent<Waypoints>().NumberReference)
+        {
+            ShortestPath.Add(waypoints[resetNum]);
+            resetNum = previousPath[resetNum];
+        }
+        ShortestPath.Add(waypoints[resetNum]);
     }
     
 }

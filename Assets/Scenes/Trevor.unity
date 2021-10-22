@@ -550,6 +550,7 @@ MonoBehaviour:
   - {fileID: 713337288}
   - {fileID: 286415845}
   - {fileID: 373483642}
+  NumberReference: 11
 --- !u!1 &58750856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,6 +1457,7 @@ Transform:
   - {fileID: 787241330}
   - {fileID: 373483642}
   - {fileID: 803812146}
+  - {fileID: 1922825395}
   m_Father: {fileID: 626529093}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1472,6 +1474,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unexploredPaths: []
+  exploredPaths: 
+  pointDistance:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  ShortestPath: 
   waypoints:
   - {fileID: 1148774419}
   - {fileID: 1030876372}
@@ -1491,9 +1515,10 @@ MonoBehaviour:
   - {fileID: 787241330}
   - {fileID: 373483642}
   - {fileID: 803812146}
+  - {fileID: 1922825395}
   distance: []
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
+  startPoint: {fileID: 1148774419}
+  endPoint: {fileID: 1713215051}
 --- !u!1001 &211703430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1912,6 +1937,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 1713215051}
   - {fileID: 713337288}
+  NumberReference: 9
 --- !u!1001 &284202729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2082,6 +2108,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 42110231}
   - {fileID: 299432559}
+  NumberReference: 12
 --- !u!1 &290124234
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,6 +2227,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 286415845}
   - {fileID: 1099563415}
+  NumberReference: 13
 --- !u!1001 &308508824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2559,6 +2587,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 863847194}
   - {fileID: 1713215051}
+  NumberReference: 7
 --- !u!1 &373483641
 GameObject:
   m_ObjectHideFlags: 0
@@ -2603,9 +2632,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConnectedPoints:
-  - {fileID: 787241330}
+  - {fileID: 1922825395}
   - {fileID: 42110231}
   - {fileID: 863847194}
+  NumberReference: 16
 --- !u!1001 &379391354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4096,6 +4126,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 272157124}
   - {fileID: 42110231}
+  NumberReference: 10
 --- !u!1 &715614188
 GameObject:
   m_ObjectHideFlags: 0
@@ -4588,7 +4619,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787241329}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.52, y: 0, z: -3.92}
+  m_LocalPosition: {x: -3.1, y: 0, z: -3.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 206191500}
@@ -4608,9 +4639,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConnectedPoints:
   - {fileID: 1626778140}
-  - {fileID: 373483642}
-  - {fileID: 1099563415}
+  - {fileID: 1922825395}
   - {fileID: 803812146}
+  NumberReference: 15
 --- !u!1 &803812145
 GameObject:
   m_ObjectHideFlags: 0
@@ -4658,6 +4689,7 @@ MonoBehaviour:
   - {fileID: 1148774419}
   - {fileID: 1209619025}
   - {fileID: 787241330}
+  NumberReference: 17
 --- !u!1 &814773841
 GameObject:
   m_ObjectHideFlags: 0
@@ -5093,6 +5125,7 @@ MonoBehaviour:
   - {fileID: 1626778140}
   - {fileID: 373483642}
   - {fileID: 372121253}
+  NumberReference: 6
 --- !u!1001 &870414025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5854,6 +5887,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 1148774419}
   - {fileID: 1987534674}
+  NumberReference: 1
 --- !u!1 &1047972975 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7013498042110297731, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
@@ -6491,6 +6525,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 1209619025}
   - {fileID: 1626778140}
+  NumberReference: 4
 --- !u!1 &1099563414
 GameObject:
   m_ObjectHideFlags: 0
@@ -6536,7 +6571,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConnectedPoints:
   - {fileID: 299432559}
-  - {fileID: 787241330}
+  - {fileID: 1922825395}
+  NumberReference: 14
 --- !u!1001 &1127854930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6859,6 +6895,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 803812146}
   - {fileID: 1030876372}
+  NumberReference: 0
 --- !u!1001 &1168334596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7148,6 +7185,7 @@ MonoBehaviour:
   - {fileID: 1987534674}
   - {fileID: 803812146}
   - {fileID: 1099379684}
+  NumberReference: 3
 --- !u!1001 &1210580173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9581,6 +9619,7 @@ MonoBehaviour:
   - {fileID: 787241330}
   - {fileID: 863847194}
   - {fileID: 1099379684}
+  NumberReference: 5
 --- !u!1 &1636663838
 GameObject:
   m_ObjectHideFlags: 0
@@ -9729,6 +9768,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 372121253}
   - {fileID: 272157124}
+  NumberReference: 8
 --- !u!1 &1718639071
 GameObject:
   m_ObjectHideFlags: 0
@@ -10926,6 +10966,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8210296765355581444, guid: f5ab05a1179d18e419068a860536294c, type: 3}
   m_PrefabInstance: {fileID: 1889134418}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1922825394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1922825395}
+  - component: {fileID: 1922825396}
+  m_Layer: 0
+  m_Name: Waypoint (18)
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1922825395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922825394}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.02, y: 0, z: -3.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 206191500}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1922825396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922825394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5499dbdea482eb4294324b6ade596ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConnectedPoints:
+  - {fileID: 373483642}
+  - {fileID: 1099563415}
+  - {fileID: 787241330}
+  NumberReference: 18
 --- !u!1 &1937874631
 GameObject:
   m_ObjectHideFlags: 0
@@ -11283,6 +11371,7 @@ MonoBehaviour:
   ConnectedPoints:
   - {fileID: 1030876372}
   - {fileID: 1209619025}
+  NumberReference: 2
 --- !u!1 &1992854288
 GameObject:
   m_ObjectHideFlags: 0
