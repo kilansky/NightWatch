@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TestDijkstraPath : MonoBehaviour
 {
-    public List<Transform> unexploredPaths = new List<Transform>();
-    public List<int> previousPath = new List<int>();
-    public List<Transform> ShortestPath = new List<Transform>();
+    public List<Transform> unexploredPaths = new List<Transform>(); //List of waypoints that haven't been explored yet
+    public List<int> previousPath = new List<int>(); //List of waypoints that lead into the current one
+    public List<Transform> ShortestPath = new List<Transform>(); //The shortest path of waypoints between the startpoint and the endpoint
     public float[] pointDistance;
     public Transform[] waypoints;
     public Transform startPoint;
