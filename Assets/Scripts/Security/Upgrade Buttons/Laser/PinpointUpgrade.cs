@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class FacialRecognitionButton : UpgradeButton, IPointerEnterHandler, IPointerExitHandler
+public class PinpointUpgrade : UpgradeButton, IPointerEnterHandler, IPointerExitHandler
 {
     public override void Start()
     {
@@ -24,7 +24,7 @@ public class FacialRecognitionButton : UpgradeButton, IPointerEnterHandler, IPoi
     {
         base.ButtonClicked();
 
-        //Flip bool to send alerts when a thief walks in the vision cone of the camera
-        SecuritySelection.Instance.selectedObject.visionCone.facialRecognition = true;
+        //Flip bool of laser script to send alerts at the position of the triggered thief
+        SecuritySelection.Instance.selectedObject.laser.pinpointAlert = true;
     }
 }

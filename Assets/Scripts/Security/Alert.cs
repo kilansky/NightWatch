@@ -9,12 +9,15 @@ public class Alert : MonoBehaviour
     public Vector3 alertOffset = new Vector3(0, 0.5f, 0);
     public float alarmSoundInterval = 1f;
 
-    private GameObject spawnedAlert;
+    [HideInInspector] public Vector3 spawnPosition;
+    [HideInInspector] public GameObject spawnedAlert;
+
     private AudioSource audioSource;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        spawnPosition = transform.position;
     }
 
     //Activate when a thief walks in the detection area of the sensor
@@ -23,7 +26,7 @@ public class Alert : MonoBehaviour
         if (spawnedAlert)
             return;
 
-        spawnedAlert = Instantiate(audioAlert, transform.position + alertOffset, Quaternion.identity);
+        spawnedAlert = Instantiate(audioAlert, spawnPosition + alertOffset, Quaternion.identity);
         StartCoroutine(SoundAlarm());
     }
 

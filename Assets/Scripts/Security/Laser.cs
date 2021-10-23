@@ -7,6 +7,7 @@ public class Laser : MonoBehaviour
 {
     public LayerMask laserHitMask;
     public LayerMask thiefMask;
+    public bool pinpointAlert = false;
 
     private LineRenderer lineRenderer;
 
@@ -28,6 +29,16 @@ public class Laser : MonoBehaviour
             //Check for thieves
             if (Physics.Raycast(ray, out hit, hit.distance + 0.5f, thiefMask))
             {
+                //If pinpoint upgrade has been purchased: Sets the alert spawn position to the 
+                //position of the triggered thief, and updates the alert position as the thief moves
+                if (pinpointAlert)
+                {
+                    GetComponent<Alert>().spawnPosition = hit.point;
+
+                    if(GetComponent<Alert>().spawnedAlert)//Update position of spawned alert
+                        GetComponent<Alert>().spawnedAlert.transform.position = hit.point;
+                }
+
                 GetComponent<Alert>().SensorTriggered();
             }
         }
