@@ -61,7 +61,8 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Rotates the security measure that is currently selected
     public void RotateButton()
     {
-        Debug.Log("Rotate Button Pressed");
+        selectionScript.selectedObject.GetComponent<CameraRotation>().rotationUI.SetActive(true);
+        selectionScript.CloseSelection();
     }
 
     //Allows setting up patrol points for the selected guard

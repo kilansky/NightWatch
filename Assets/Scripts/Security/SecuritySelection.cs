@@ -148,6 +148,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
             //Activate camera buttons: Sell, Move, Rotate
             sellButton.SetActive(true);
             moveButton.SetActive(true);
+            rotateButton.SetActive(true);
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.laser)
         {
