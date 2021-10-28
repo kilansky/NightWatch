@@ -12,6 +12,46 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: badge1
     second: {fileID: 2100000, guid: 6130c482ca6b2d1489002c5fd0c81881, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: belt
+    second: {fileID: 2100000, guid: 96925f8983c535f409056f1c85f2954a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hairshoes
+    second: {fileID: 2100000, guid: 3c48db268b88e754fa2b6b5b1a674317, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pants
+    second: {fileID: 2100000, guid: 53bd410bc559f6949982669bf281862b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: patrol_hat1
+    second: {fileID: 2100000, guid: 6130c482ca6b2d1489002c5fd0c81881, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: patrolsuit
+    second: {fileID: 2100000, guid: 1873c5daf80c7684ab60970a893a3448, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: skins
+    second: {fileID: 2100000, guid: 7e4c4b007c60847418a038de20f93bd6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: suitTrim
+    second: {fileID: 2100000, guid: 618cb43b8091f664bb57a3d373bb37ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tie
+    second: {fileID: 2100000, guid: 0cc7c688d09b633459d2f58305ba990b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -31,7 +71,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -96,13 +136,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
