@@ -9,12 +9,19 @@ public class CameraRotation : MonoBehaviour
     public Transform uiMarker;
     public LayerMask uiLayerMask;
 
-    public float minRotation = 0f;
-    public float maxRotation = 180f;
+    [Range(0, 360)] public float minRotation = 0f;
+    [Range(0, 360)] public float maxRotation = 180f;
+
+    public float autoRotateSpeed = 1f;
+    public float autoRotateHoldTime = 1.5f;
+
+    [HideInInspector] public bool autoRotateUpgrade = false; //True if this camera has the auto-rotation upgrade
+    [HideInInspector] public bool canRotate = true; //True if this camera is not disabled through hacking
 
     private Camera mainCamera;
     private Vector3 rotateDir;
     private Quaternion lookDir;
+
 
     private void Start()
     {
@@ -52,8 +59,6 @@ public class CameraRotation : MonoBehaviour
             rotateDir = new Vector3(rotateDir.x, 0, rotateDir.z);
             lookDir = Quaternion.LookRotation(rotateDir, Vector3.up);
             lookDir *= Quaternion.Euler(0, -90f, 0);
-
-            //SetMinMaxAngles();
         }
     }
 
@@ -70,47 +75,22 @@ public class CameraRotation : MonoBehaviour
     private void SetCameraRotation()
     {
         rotationPoint.rotation = lookDir;
+        SetMinMaxAngles();
     }
 
+    //Prevent camera from facing backwards toward the wall
     private void SetMinMaxAngles()
     {
-        //Prevent camera from facing backwards toward the wall
-        Vector3 lookAngle = lookDir.eulerAngles - transform.root.rotation.eulerAngles;
-        if (lookAngle.y < 0)
-            lookAngle += new Vector3(0, 360f, 0);
+        //Get the invalid midpoint between the min and max
+        float invalidMidpoint = ((maxRotation + minRotation) / 2f) + 180f;
+        float currCamRotation = rotationPoint.localRotation.eulerAngles.y;
 
-        float rootAngle = transform.root.rotation.eulerAngles.y;
-
-        //Debug.Log("lookDir.eulerAngles: " + lookDir.eulerAngles);
-        //Debug.Log("rootAngle: " + rootAngle);
-        //Debug.Log("\n");
-
-        float midRangeValue = (maxRotation + minRotation) / 2f; //90 degrees in standard case, halfway between min and max values
-
-        float adjustedMinAngle = minRotation + rootAngle;
-        if (adjustedMinAngle > 360)
-            adjustedMinAngle -= 360f;
-
-        float adjustedMidRangeValue = midRangeValue + rootAngle;
-        if (adjustedMidRangeValue > 360)
-            adjustedMidRangeValue -= 360f;
-
-        float adjustedMaxAngle = maxRotation + rootAngle;
-        if (adjustedMaxAngle > 360)
-            adjustedMaxAngle -= 360f;
-
-        Debug.Log("adjustedMinAngle: " + adjustedMinAngle);
-        Debug.Log("adjustedMidRangeValue: " + adjustedMidRangeValue);
-        Debug.Log("adjustedMaxAngle: " + adjustedMaxAngle);
-        Debug.Log("lookAngle: " + lookAngle);
-        Debug.Log("\n");
-
-        if (lookAngle.y < minRotation)
+        if (currCamRotation < minRotation || currCamRotation > maxRotation)
         {
-            if (lookAngle.y >= maxRotation + ((minRotation + maxRotation) / 2) - rootAngle) //Snap to min rotation
-                lookDir = Quaternion.Euler(0, minRotation - rootAngle, 0);
-            else //snap to max rotation
-                lookDir = Quaternion.Euler(0, maxRotation - rootAngle, 0);
+            if(minRotation > 0 && currCamRotation < minRotation || currCamRotation >= invalidMidpoint)
+                rotationPoint.localRotation = Quaternion.Euler(0, minRotation, 0);//Snap to min rotation
+            else if (currCamRotation < invalidMidpoint)
+                rotationPoint.localRotation = Quaternion.Euler(0, maxRotation, 0);//snap to max rotation
         }
     }
 
@@ -118,5 +98,43 @@ public class CameraRotation : MonoBehaviour
     public void DisableUI()
     {
         rotationUI.SetActive(false);
+    }
+
+    //Begins the coroutines to start rotating back and forth on a loop
+    public void BeginAutoRotating()
+    {
+        autoRotateUpgrade = true;
+        canRotate = true;
+
+        minRotation = 45f;
+        maxRotation = 135f;
+
+        StartCoroutine(AutoRotateCameraToMax());
+    }
+
+    //Rotate to the maxRotation value
+    public IEnumerator AutoRotateCameraToMax()
+    {
+        while(canRotate && rotationPoint.localRotation.eulerAngles.y < maxRotation - 0.1f)
+        {
+            rotationPoint.Rotate(0, 0.1f * autoRotateSpeed, 0, Space.Self);
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(autoRotateHoldTime);
+        StartCoroutine(AutoRotateCameraToMin());
+    }
+
+    //Rotate to the minRotation value
+    public IEnumerator AutoRotateCameraToMin()
+    {
+        while (canRotate && rotationPoint.localRotation.eulerAngles.y > minRotation + 0.1f)
+        {
+            rotationPoint.Rotate(0, -0.1f * autoRotateSpeed, 0, Space.Self);
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(autoRotateHoldTime);
+        StartCoroutine(AutoRotateCameraToMax());
     }
 }
