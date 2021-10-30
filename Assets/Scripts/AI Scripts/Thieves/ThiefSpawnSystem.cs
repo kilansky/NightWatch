@@ -14,6 +14,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
     public int BaseSpareAttributePoints;
     public int[] DifficultyModifier;
     public int DifficultySelected; //REPLACE WHEN DIFFICULTY SYSTEM IS IMPLAMENTED
+    
 
     [HideInInspector] public int ItemsLeft; //Number of target items left before game over
     [HideInInspector] public bool allThievesSpawned = false;

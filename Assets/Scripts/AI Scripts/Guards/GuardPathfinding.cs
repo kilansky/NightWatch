@@ -130,7 +130,6 @@ public class GuardPathfinding : MonoBehaviour
                     cameraScript.BeginCameraFollow(transform, false);
                     cameraScript.selectedGuard = transform;
                     Agent.isStopped = true;
-                    print("Agent Can Not Move");
                 }
 
                 if (thiefToChase)
