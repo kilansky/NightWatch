@@ -127,9 +127,6 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         {
             heldObject.transform.position = hit.point;
 
-            if (heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping)
-                print("Is Overlapping");
-
             //check if held object is not placed on walls (ie: Guards), is not overlapping with other things, and is affordable
             if (!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
                 && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))

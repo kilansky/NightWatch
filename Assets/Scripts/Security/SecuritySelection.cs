@@ -148,6 +148,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
             //Activate camera buttons: Sell, Move, Rotate
             sellButton.SetActive(true);
             moveButton.SetActive(true);
+            rotateButton.SetActive(true);
         }
         else if (selectedObject.securityType == SecurityMeasure.SecurityType.laser)
         {
@@ -229,7 +230,10 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         }
 
         if(selectedUpgradePanel)
+        {
             selectedUpgradePanel.transform.position = selectionIcon.transform.position + upgradePanelOffset;
+            selectedUpgradePanel.GetComponent<UpgradePanel>().SetActiveButtons();
+        }
     }
 
     //Turn on all buttons to control the guards

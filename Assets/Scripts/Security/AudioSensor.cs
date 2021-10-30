@@ -2,23 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Alert))]
 public class AudioSensor : MonoBehaviour
 {
     public float detectionRange = 5f;
-
-    public GameObject audioAlert;
-    public Vector3 alertOffset = new Vector3(0, 0.5f, 0);
-    public float alarmSoundInterval = 1f;
-    public int detectionRating;
-    
-
-    private GameObject spawnedAlert;
-    private AudioSource audioSource;
+    public int detectionRating = 1;
    
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-
         //Set scale of object to size of the detection range
         SetSensorRange(detectionRange);
     }
@@ -36,7 +27,7 @@ public class AudioSensor : MonoBehaviour
         {
             if (other.GetComponent<ThiefPathfinding>().StealthStat <= detectionRating)
             {
-                AudioSensorTriggered();
+                GetComponent<Alert>().SensorTriggered();
             }
             else
             {
@@ -44,31 +35,4 @@ public class AudioSensor : MonoBehaviour
             }
         }
     }
-
-    //Activate when a thief walks in front of the laser
-    private void AudioSensorTriggered()
-    {
-        if (spawnedAlert)
-            return;
-
-        spawnedAlert = Instantiate(audioAlert, transform.position + alertOffset, Quaternion.identity);
-        StartCoroutine(SoundAlarm());
-    }
-
-    private IEnumerator SoundAlarm()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            audioSource.Play();
-            yield return new WaitForSeconds(alarmSoundInterval);
-        }
-        DeactivateAlert();
-    }
-
-    public void DeactivateAlert()
-    {
-        Destroy(spawnedAlert, 3f);
-    }
-
-    
 }

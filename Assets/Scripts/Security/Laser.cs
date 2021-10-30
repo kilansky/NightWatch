@@ -2,23 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Alert))]
 public class Laser : MonoBehaviour
 {
     public LayerMask laserHitMask;
     public LayerMask thiefMask;
-
-    public GameObject laserAlert;
-    public Vector3 alertOffset = new Vector3(0, 0.5f, 0);
-    public float alarmSoundInterval = 1f;
+    public bool pinpointAlert = false;
 
     private LineRenderer lineRenderer;
-    private GameObject spawnedAlert;
-    private AudioSource audioSource;
 
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -34,33 +29,18 @@ public class Laser : MonoBehaviour
             //Check for thieves
             if (Physics.Raycast(ray, out hit, hit.distance + 0.5f, thiefMask))
             {
-                LaserTriggered();
+                //If pinpoint upgrade has been purchased: Sets the alert spawn position to the 
+                //position of the triggered thief, and updates the alert position as the thief moves
+                if (pinpointAlert)
+                {
+                    GetComponent<Alert>().spawnPosition = hit.point;
+
+                    if(GetComponent<Alert>().spawnedAlert)//Update position of spawned alert
+                        GetComponent<Alert>().spawnedAlert.transform.position = hit.point;
+                }
+
+                GetComponent<Alert>().SensorTriggered();
             }
         }
-    }
-
-    //Activate when a thief walks in front of the laser
-    private void LaserTriggered()
-    {
-        if (spawnedAlert)
-            return;
-
-        spawnedAlert = Instantiate(laserAlert, transform.position + alertOffset, Quaternion.identity);
-        StartCoroutine(SoundAlarm());
-    }
-
-    private IEnumerator SoundAlarm()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            audioSource.Play();
-            yield return new WaitForSeconds(alarmSoundInterval);
-        }
-        DeactivateAlert();
-    }
-
-    public void DeactivateAlert()
-    {
-        Destroy(spawnedAlert, 3f);
     }
 }

@@ -1,24 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [HideInInspector] public int upgradeCost = 0;
-    [HideInInspector] public string upgradeDescription;
-    public TextMeshProUGUI upgradeCostText;
-    public TextMeshProUGUI upgradeDescriptionText;
+    public UpgradePanel upgradePanel;
+
+    [HideInInspector] public UpgradeButtonInfo upgradeButtonInfo;
+    [HideInInspector] public int upgradeIndex = 0;
 
     public virtual void Start()
     {
-        upgradeCostText.text = "$" + upgradeCost.ToString();
+        Button thisButton = GetComponent<Button>();
+
+        int i = 0;
+        foreach (UpgradeButtonInfo upgradeButton in upgradePanel.upgradeButtons)
+        {
+            if(upgradeButton.button == thisButton)
+            {
+                upgradeButtonInfo = upgradeButton;
+                upgradeButtonInfo.costText.text = "$" + upgradeButtonInfo.cost.ToString();
+                upgradeIndex = i;
+                return;
+            }
+            i++;
+        }
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        upgradeDescriptionText.text = upgradeDescription;
+        upgradePanel.descriptionText.text = upgradeButtonInfo.description;
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
@@ -28,6 +42,16 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public virtual void ButtonClicked()
     {
-        MoneyManager.Instance.SubtractMoney(upgradeCost);
+        MoneyManager.Instance.SubtractMoney(upgradeButtonInfo.cost);
+        SecuritySelection.Instance.selectedObject.cost += upgradeButtonInfo.cost;
+        SecuritySelection.Instance.selectedObject.timesUpgraded[upgradeIndex] += 1;
+
+        //Check all buttons and disable them if max upgrades reached or money is too low
+        upgradePanel.SetActiveButtons();
+    }
+
+    public bool MaxUpgradeReached()
+    {
+        return SecuritySelection.Instance.selectedObject.timesUpgraded[upgradeIndex] >= upgradeButtonInfo.maxUpgrades;
     }
 }
