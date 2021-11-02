@@ -298,6 +298,7 @@ public class GuardPathfinding : MonoBehaviour
         if (!knownThief)
         {
             thievesSpotted.Add(target);
+            target.gameObject.GetComponent<ThiefPathfinding>().alertedGuard.Add(gameObject);
             target.GetComponent<ThiefPathfinding>().SeenByGuard();
 
             if (!thiefToChase)

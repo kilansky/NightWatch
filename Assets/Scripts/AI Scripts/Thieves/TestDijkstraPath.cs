@@ -37,7 +37,6 @@ public class TestDijkstraPath : MonoBehaviour
             pointDistance[i] = float.MaxValue;
             unexploredPaths.Add(waypoints[i]);
             previousPath.Add(0);
-            print("Start position is " + startPoint);
             if(waypoints[i].position == startPoint.position)
             {
                 pointDistance[i] = 0;
@@ -62,7 +61,7 @@ public class TestDijkstraPath : MonoBehaviour
                 int neighbor = waypoints[currentPathNum].GetComponent<Waypoints>().ConnectedPoints[n].GetComponent<Waypoints>().NumberReference;
                 if(pointDistance[neighbor] > (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position)))
                 {
-                    pointDistance[neighbor] = (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position));
+                    pointDistance[neighbor] = (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position)) + thief.GetComponent<ThiefPathfinding>().waypointWeights[currentPathNum];
                     previousPath[neighbor] = currentPathNum;
                 }
             }

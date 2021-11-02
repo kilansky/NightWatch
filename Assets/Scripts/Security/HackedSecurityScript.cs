@@ -23,9 +23,11 @@ public class HackedSecurityScript : MonoBehaviour
 
     private IEnumerator Disabled()
     {
+        objectBeingDisabled.GetComponent<FieldOfView>().RemoveWaypoints();
         objectBeingDisabled.SetActive(false);
         yield return new WaitForSeconds(hackDuration);
         objectBeingDisabled.SetActive(true);
+        objectBeingDisabled.GetComponent<FieldOfView>().StartCoroutine("FindTargetsWithDelay", 0.25f);
         Hacked = false;
     }
 }

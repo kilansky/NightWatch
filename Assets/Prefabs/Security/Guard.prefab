@@ -104,11 +104,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   visibleTargets: []
+  waypoints: []
   meshResolution: 1
   edgeResolveIterations: 4
   edgeDistanceThreshold: 0.5
   viewMeshFilter: {fileID: 5505265901864639214}
   maskCutawayDist: 0.25
+  facialRecognition: 0
 --- !u!1 &1951295829811199747
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +440,7 @@ Transform:
   - {fileID: 3940650394513748564}
   - {fileID: 2850863115167419426}
   - {fileID: 7366008067998575738}
+  - {fileID: 2603189861742037709}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -503,6 +506,7 @@ MonoBehaviour:
     m_Bits: 128
   alertedIcon: {fileID: 5274703086129824056}
   thievesSpotted: []
+  displayPathfinding: 0
   thiefToChase: {fileID: 0}
   facingFrontDoor: 0
 --- !u!195 &2006984200
@@ -542,7 +546,11 @@ MonoBehaviour:
   securityType: 2
   placedOnWalls: 0
   cost: 500
+  camoRating: 0
+  timesUpgraded: 0000000000000000000000000000000000000000
   visionCone: {fileID: 360340787465773472}
+  audioDetection: {fileID: 0}
+  laser: {fileID: 0}
 --- !u!136 &1692076973
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -850,16 +858,18 @@ MonoBehaviour:
   viewAngle: 100
   targetMask:
     serializedVersion: 2
-    m_Bits: 73728
+    m_Bits: 335872
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
   visibleTargets: []
+  waypoints: []
   meshResolution: 1
   edgeResolveIterations: 4
   edgeDistanceThreshold: 0.5
   viewMeshFilter: {fileID: 658036644130931116}
   maskCutawayDist: 0.25
+  facialRecognition: 0
 --- !u!1 &6153153909479313306
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,6 +945,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7556686447379470912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2603189861742037709}
+  - component: {fileID: 8327936998424301630}
+  m_Layer: 0
+  m_Name: ThiefDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2603189861742037709
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556686447379470912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2291301462990201698}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8327936998424301630
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556686447379470912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7712647546217044523
 GameObject:
   m_ObjectHideFlags: 0

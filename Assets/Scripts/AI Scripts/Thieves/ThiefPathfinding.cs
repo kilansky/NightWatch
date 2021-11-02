@@ -20,8 +20,11 @@ public class ThiefPathfinding : MonoBehaviour
     public float hackingMod; //Determines how much each hacking tier changes the duration of hacking
     public float ExitBaseDuration;
     public float ExitDurationMod;
+    public float weightModifier;
+    public List<float> waypointWeights = new List<float>();
 
-    [HideInInspector]  public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
+    [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
+    [HideInInspector] public List<GameObject> alertedGuard = new List<GameObject>();
     [Header("Thief Stats")]
     public int SpeedStat; //Int 0
     public int StealthStat; //Int 1
@@ -47,10 +50,15 @@ public class ThiefPathfinding : MonoBehaviour
     private int currentWaypoint; //The current waypoint the thief is traveling to
     private TestDijkstraPath wayPointManager; //The gameobject assigning the thief's paths
     private Transform lastTarget; //Previous target object
+    private bool validWayPoint;
     // Start is called before the first frame update
     void Start()
     {
         wayPointManager = FindObjectOfType<TestDijkstraPath>();
+        for(int w = 0; w < wayPointManager.GetComponent<TestDijkstraPath>().waypoints.Length; w++)
+        {
+            waypointWeights.Add(0);
+        }
         wayPointManager.startPoint = SpawnPoint.GetComponent<TargetPoint>().nearestWaypoint[0];
         //Check which connected waypoint to the thief's spawn is closest to the target object
         for (int n = 0; n < SpawnPoint.GetComponent<TargetPoint>().nearestWaypoint.Length; n++)
@@ -93,7 +101,6 @@ public class ThiefPathfinding : MonoBehaviour
     //When this is called while in hall, check closest point to player
     private void GetPath(GameObject targetPoint)
     {
-        print("targetPoint is " + targetPoint);
         ShortestPath.Clear();
         wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[0];
         for (int i = 0; i < targetPoint.GetComponent<TargetPoint>().nearestWaypoint.Length; i++)
@@ -115,8 +122,49 @@ public class ThiefPathfinding : MonoBehaviour
         {
             currentWaypoint -= 1;
         }
-        
     }
+
+    public void addWeight(int waypoint)
+    {
+        print("add weight");
+        waypointWeights[waypoint] = weightModifier;
+    }
+    public void removeWeight(int waypoint)
+    {
+        print("Remove weight");
+        waypointWeights[waypoint] = 0;
+    }
+
+    public void pathIsBlocked(GameObject BlockedPoint)
+    {
+        for (int n = 0; n < wayPointManager.waypoints.Length; n++)
+        {
+            if (Vector3.Distance(transform.position, wayPointManager.startPoint.position) > Vector3.Distance(transform.position, wayPointManager.waypoints[n].position))
+            {
+                wayPointManager.startPoint = wayPointManager.waypoints[n];
+            }
+        }
+        if(currBehavior == BehaviorStates.Sneak)
+        {
+            GetPath(Target);
+        }
+        else
+        {
+            if (currBehavior == BehaviorStates.Escape)
+            {
+                GetPath(SpawnPoint.gameObject);
+            }
+            else
+            {
+                if (currBehavior == BehaviorStates.Evade)
+                {
+                    FindClosestEscapeRoute();
+                    GetPath(SpawnPoint.gameObject);
+                }
+            }
+        }
+        
+    } 
 
     private void ThiefMovementBehavior()
     {
@@ -327,7 +375,24 @@ public class ThiefPathfinding : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, wayPointManager.startPoint.position) > Vector3.Distance(transform.position, wayPointManager.waypoints[n].position))
                 {
-                    wayPointManager.startPoint = wayPointManager.waypoints[n];
+                    validWayPoint = true;
+                    for(int w = 0; w < wayPointManager.waypoints[n].GetComponent<Waypoints>().security.Count; w++)
+                    {
+                        for(int g = 0; g < alertedGuard.Count; g++)
+                        {
+                            //Check if waypoint is being spotted by guard
+                            if (wayPointManager.waypoints[n].GetComponent<Waypoints>().security[w] != alertedGuard[g])
+                            {
+                                validWayPoint = false;
+                                print(gameObject + " should not go to " + wayPointManager.waypoints[n]);
+                                break;
+                            }
+                        }   
+                    }
+                    if (validWayPoint == true)
+                    {
+                        wayPointManager.startPoint = wayPointManager.waypoints[n];
+                    }
                 }
             }
             GetPath(SpawnPoint.gameObject);
@@ -380,7 +445,6 @@ public class ThiefPathfinding : MonoBehaviour
             {
                 ObjectStolen = true;
                 //NEED TO CHECK IF IN BUILDING LONG ENOUGH FIRST
-                print("Heading to " + SpawnPoint);
                 wayPointManager.startPoint = Target.GetComponent<TargetPoint>().nearestWaypoint[0];
                 for (int n = 0; n < Target.GetComponent<TargetPoint>().nearestWaypoint.Length; n++)
                 {
@@ -423,7 +487,6 @@ public class ThiefPathfinding : MonoBehaviour
                 SpawnPoint = spawnSystem.Entry_Locations[i];
             }
         }
-        print("Found Escape Route");
     }
 
     private void DrawPath()

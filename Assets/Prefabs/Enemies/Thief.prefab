@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84103452880852107}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.83, y: 0, z: -8.06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 8474855104265102605}
@@ -107,11 +107,12 @@ MonoBehaviour:
   viewAngle: 100
   targetMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 263168
   obstacleMask:
     serializedVersion: 2
     m_Bits: 65792
   visibleTargets: []
+  knownSecurity: []
   meshResolution: 1
   edgeResolveIterations: 4
   edgeDistanceThreshold: 0.25
@@ -142,6 +143,8 @@ MonoBehaviour:
   hackingMod: 0.5
   ExitBaseDuration: 4
   ExitDurationMod: 1
+  weightModifier: 100
+  waypointWeights: []
   SpawnPoint: {fileID: 0}
   SpeedStat: 0
   StealthStat: 0
@@ -168,7 +171,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa5796a4f090e744db2dce7039a9bae2, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
