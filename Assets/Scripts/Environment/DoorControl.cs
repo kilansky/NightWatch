@@ -55,15 +55,16 @@ public class DoorControl : MonoBehaviour
     
     public void OpenDoor()
     {
+        print("Open Door being called");
         if (IsClosed)
         {
-
+            print("Door Opens");
             myAnimator.SetFloat("BaseSpeed", (1 / openAnimationDuration));
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
             IsClosed = false;
             uiNotification.SetActive(false);
-            DoorCollider.enabled = !DoorCollider.enabled; 
+            DoorCollider.enabled = !DoorCollider.enabled;
             StartCoroutine(DoorClosing());
             //print("Door Opens");
         }
@@ -83,8 +84,10 @@ public class DoorControl : MonoBehaviour
 
     public void ChaseOpenDoor()
     {
+        print("Open Door being called");
         if (IsClosed)
         {
+            print("Door Opens");
             myAnimator.SetFloat("BaseSpeed", (1 / chaseOpenDuration));
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
@@ -92,7 +95,7 @@ public class DoorControl : MonoBehaviour
             uiNotification.SetActive(false);
             DoorCollider.enabled = !DoorCollider.enabled;
             StartCoroutine(DoorClosing());
-            //print("Door Opens");
+            // 
         }
 
     }
@@ -113,13 +116,13 @@ public class DoorControl : MonoBehaviour
     {
         //print("Closing Door");
         yield return new WaitForSeconds(DoorOpenDuration);
-
+        DoorCollider.enabled = !DoorCollider.enabled;
         CloseDoor();
 
         yield return new WaitForSeconds(1 / closeAnimationDuration);
         IsOpened = false;
         IsClosed = true;
-        DoorCollider.enabled = !DoorCollider.enabled;
+        
     }
 
     public Vector3 GetWaitPosition(Vector3 position)

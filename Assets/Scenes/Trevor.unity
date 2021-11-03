@@ -6756,6 +6756,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2472659973040601506, guid: 666eac8b926d6ff449481725e788d57b, type: 3}
   m_PrefabInstance: {fileID: 1210580173}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1212974442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6575661075733118961, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+  m_PrefabInstance: {fileID: 6575661075989419027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1212974454
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212974442}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2ea406b62eed959468f01d82fce1b3ee, type: 3}
+  m_Controller: {fileID: 9100000, guid: 4f73aef5452dcf944b14bd2b548f2901, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!20 &1215394557 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7934679848080791863, guid: 2d917c621e062894282a374168ad2247, type: 3}
@@ -12422,7 +12446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: BaseSpawnTimer
-      value: 5
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: numThievesToSpawn
