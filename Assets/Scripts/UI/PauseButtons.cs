@@ -22,7 +22,7 @@ public class PauseButtons : MonoBehaviour
             MoneyManager.Instance.money = 500;
         }
         PlayerPrefs.SetInt("Money", MoneyManager.Instance.money);
-        print("Money saved in playerPrefs " + PlayerPrefs.GetInt("Money"));
+        //print("Money saved in playerPrefs " + PlayerPrefs.GetInt("Money"));
         SceneManager.LoadScene(currLevelIndex + 1);
     }
 

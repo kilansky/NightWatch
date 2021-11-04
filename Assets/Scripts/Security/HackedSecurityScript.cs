@@ -11,13 +11,11 @@ public class HackedSecurityScript : MonoBehaviour
     public bool Hacked;
 
     private float hackDuration;
-    
-
-    
 
     public void HackedFunction(int hackLevel)
     {
         hackDuration = hackBaseDuration + (hackDurationMod * hackLevel);
+        objectBeingDisabled.GetComponent<Alert>().DeactivateAlert();
         StartCoroutine(Disabled());
     }
 

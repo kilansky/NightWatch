@@ -249,7 +249,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     }
 
     //Turn off all active buttons
-    private void DeactivateAllButtons()
+    public void DeactivateAllButtons()
     {
         sellButton.SetActive(false);
         moveButton.SetActive(false);

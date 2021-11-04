@@ -256,7 +256,7 @@ MonoBehaviour:
     increaseAmt: 2
     maxUpgrades: 1
   - button: {fileID: 646309784}
-    cost: 75
+    cost: 50
     costText: {fileID: 678026697}
     description: 'Facial Detection: Send an alert when a thief walks in front of
       this camera'
@@ -2298,8 +2298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMoney: 5000
-  itemStolenPenalty: -500
-  thiefApprehendedAward: 150
+  itemStolenPenalty: -250
+  thiefApprehendedAward: 100
   endOfNightPayment: 300
   money: 0
 --- !u!114 &1130652127497433280

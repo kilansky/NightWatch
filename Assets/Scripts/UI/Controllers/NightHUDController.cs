@@ -109,6 +109,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public void SetGameEndStats()
     {
         PlayerInputs.Instance.canPause = false;
+        SecuritySelection.Instance.DeactivateAllButtons();
 
         gameEndPanel.SetActive(true);
         stolenFinalNum.text = itemStolenNum.ToString();

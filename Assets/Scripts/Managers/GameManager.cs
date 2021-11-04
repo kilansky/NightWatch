@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonPattern<GameManager>
 {
@@ -18,6 +19,7 @@ public class GameManager : SingletonPattern<GameManager>
         Time.timeScale = 1;
         sceneViewMask.SetActive(false);
 
+        currentLevel = SceneManager.GetActiveScene().buildIndex + 1;
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);
         BeginPlanningPhase();
     }

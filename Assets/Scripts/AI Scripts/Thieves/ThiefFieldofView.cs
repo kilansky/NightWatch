@@ -75,7 +75,7 @@ public class ThiefFieldofView : MonoBehaviour
                     {
                         if(target.parent.gameObject.GetComponent<HackedSecurityScript>())
                         {
-                            print("See Security measure as " + target.parent.gameObject);
+                            //print("See Security measure as " + target.parent.gameObject);
                             if(GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
                             {
                                 if(GetComponent<ThiefPathfinding>().HackingStat > target.parent.GetComponent<HackedSecurityScript>().hackResistance)
@@ -111,7 +111,7 @@ public class ThiefFieldofView : MonoBehaviour
                                                     //Checks if target is within the thief's hacking range and the thief is currently not evading or performing a action
                                                     if (GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade && GetComponent<ThiefPathfinding>().currAction == ThiefPathfinding.ActionStates.Neutral)
                                                     {
-                                                        print("In Hacking Range");
+                                                        //print("In Hacking Range");
                                                         //Checks if the target is not already hacked and the thief is skilled enough to hack it
                                                         if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
                                                         {

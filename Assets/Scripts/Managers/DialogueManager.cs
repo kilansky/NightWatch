@@ -109,13 +109,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
             return;
         }
 
-        dialogueBox.SetActive(false);
-        inConversation = false;
-
-        //HUDController.Instance.SetNightWatchButtonInteractability();
-        HUDController.Instance.nightWatchButton.interactable = true;
-        HUDController.Instance.EnableButtons(true, true, true, true);
-        SkipButton.SetActive(false);
+        SkipAllDialogue();
     }
 
     public void SkipAllDialogue()
@@ -125,13 +119,14 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
         SkillCheckManager.Instance.cameraControlsPanel.SetActive(false);
         SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
+        SkillCheckManager.Instance.CancelAllSkillGates();
         SkipButton.SetActive(false);
 
         HUDController.Instance.SetNightWatchButtonInteractability();
         HUDController.Instance.SetPlanningUIActive(true, true, true);
         HUDController.Instance.EnableButtons(true, true, true, true);
 
-        if(GameManager.Instance.currentLevel == 1)
+        if (GameManager.Instance.currentLevel == 1)
             HUDController.Instance.SetButtonsActive(true, true, false, false);
 
         if (GameManager.Instance.currentLevel == 2)

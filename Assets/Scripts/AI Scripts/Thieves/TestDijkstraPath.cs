@@ -64,7 +64,7 @@ public class TestDijkstraPath : MonoBehaviour
                 }
             }
         }
-        print(endPoint.gameObject);
+        //print(endPoint.gameObject);
         resetNum = endPoint.GetComponent<Waypoints>().NumberReference;
         while (resetNum != startPoint.GetComponent<Waypoints>().NumberReference)
         {

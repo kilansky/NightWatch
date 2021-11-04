@@ -44,7 +44,7 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 
         //Check to disable the Night Watch Button if there are now 0 guards
         if (destroyedGuard)
-            HUDController.Instance.SetNightWatchButtonInteractability();
+            StartCoroutine(KillGuard());
 
         if (sellingSkillGate) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
         {
@@ -54,6 +54,12 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
             sellingSkillGate = false;
             DialogueManager.Instance.StartNextDialogue();
         }
+    }
+
+    private IEnumerator KillGuard()
+    {
+        yield return new WaitForSeconds(.05f);
+        HUDController.Instance.SetNightWatchButtonInteractability();
     }
 
     //Moves the security measure that is currently selected
@@ -77,7 +83,7 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         selectionScript.HideUpgradePanels();
         selectionScript.canSelect = false;
 
-        if (patrolRouteSkillGate) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
+        if (patrolRouteSkillGate)
         {
             patrolRouteSkillGate = false;
             DialogueManager.Instance.StartNextDialogue();

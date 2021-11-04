@@ -17,7 +17,6 @@ public class Alert : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        spawnPosition = transform.position;
     }
 
     //Activate when a thief walks in the detection area of the sensor
@@ -26,6 +25,7 @@ public class Alert : MonoBehaviour
         if (spawnedAlert)
             return;
 
+        spawnPosition = transform.position;
         spawnedAlert = Instantiate(audioAlert, spawnPosition + alertOffset, Quaternion.identity);
         StartCoroutine(SoundAlarm());
     }
@@ -42,6 +42,7 @@ public class Alert : MonoBehaviour
 
     public void DeactivateAlert()
     {
-        Destroy(spawnedAlert, 3f);
+        if(spawnedAlert)
+            Destroy(spawnedAlert, 3f);
     }
 }

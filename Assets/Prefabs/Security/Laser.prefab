@@ -457,7 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserHitMask:
     serializedVersion: 2
-    m_Bits: 73985
+    m_Bits: 73984
   thiefMask:
     serializedVersion: 2
     m_Bits: 8192
@@ -478,6 +478,7 @@ MonoBehaviour:
   alertOffset: {x: 0, y: 0.5, z: 0}
   alarmSoundInterval: 1.5
   spawnPosition: {x: 0, y: 0, z: 0}
+  spawnedAlert: {fileID: 0}
 --- !u!82 &2821268011246196792
 AudioSource:
   m_ObjectHideFlags: 0

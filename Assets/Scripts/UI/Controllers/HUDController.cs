@@ -189,7 +189,7 @@ public class HUDController : SingletonPattern<HUDController>
     {
         //Count the number of guards in the scene
         int numGuards = 0;
-        for (int i = 0; i < FindObjectsOfType<GuardPathfinding>().Length - 1; i++)
+        for (int i = 0; i < FindObjectsOfType<GuardPathfinding>().Length; i++)
             numGuards++;
 
         //Disable the Night Watch button if there are no guards

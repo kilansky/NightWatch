@@ -6,7 +6,7 @@ using UnityEngine;
 public class AudioSensor : MonoBehaviour
 {
     public float detectionRange = 5f;
-    public int detectionRating = 1;
+    public int detectionRating = 3;
     private TestDijkstraPath wayPointManager;
     private bool waypointsChecked;
    
@@ -22,12 +22,12 @@ public class AudioSensor : MonoBehaviour
     {
         if(GameManager.Instance.nightWatchPhase && !waypointsChecked)
         {
-            print("Audio sensor on");
+            //print("Audio sensor on");
             for (int w = 0; w < wayPointManager.waypoints.Length; w++)
             {
                 if (Vector3.Distance(transform.position, wayPointManager.waypoints[w].position) < ((detectionRange/2) + 1))
                 {
-                    print(Vector3.Distance(transform.position, wayPointManager.waypoints[w].position) + " < " + detectionRange);
+                    //print(Vector3.Distance(transform.position, wayPointManager.waypoints[w].position) + " < " + detectionRange);
                     wayPointManager.waypoints[w].GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
                 }
             }

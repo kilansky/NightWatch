@@ -482,7 +482,7 @@ public class GuardPathfinding : MonoBehaviour
         if (other.GetComponent<DoorControl>() && currControlMode != ControlMode.Manual)
         {
             doorScript = other.GetComponent<DoorControl>();
-            print("Enter Door Collider");
+            //print("Enter Door Collider");
         }
 
         //Door enter while in manual mode
@@ -545,32 +545,32 @@ public class GuardPathfinding : MonoBehaviour
 
     private IEnumerator OpenDelayCoroutine()
     {
-        print("Open Door Coroutine starting");
+        //print("Open Door Coroutine starting");
         IdleAnimation();
         if (currControlMode != ControlMode.Manual)
         {
             while (Vector3.Distance(Agent.destination, transform.position) > Agent.stoppingDistance)
             {
-                print("Distance is " + Vector3.Distance(Agent.destination, transform.position));
+                //print("Distance is " + Vector3.Distance(Agent.destination, transform.position));
                 //print("Do Nothing");
                 yield return null;
             }
         }
-        print("Nothing wrong with if statement");
+        //print("Nothing wrong with if statement");
         if (currControlMode == ControlMode.Chase)
         {
             OpenDoorAnimation();
 
-            print("Nothing wrong with animation");
+            //print("Nothing wrong with animation");
             doorScript.GetComponent<DoorControl>().ChaseOpenDoor();
         }
         else
         {
             OpenDoorAnimation();
-            print("Nothing wrong with animation");
+            //print("Nothing wrong with animation");
             doorScript.GetComponent<DoorControl>().OpenDoor();
         }
-        print("Open door function should have started");
+        //print("Open door function should have started");
         //print(doorOpenDelay);
         yield return new WaitForSeconds(doorOpenDelay);
 
@@ -602,7 +602,7 @@ public class GuardPathfinding : MonoBehaviour
             //print("Can Move");
             DoorInteraction = true;
             Agent.isStopped = true;
-            print("Agent Can Not Move");
+            //print("Agent Can Not Move");
             canManualMove = true;
         }
 

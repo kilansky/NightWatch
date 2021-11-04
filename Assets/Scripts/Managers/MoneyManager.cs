@@ -7,7 +7,7 @@ using TMPro;
 public class MoneyManager : SingletonPattern<MoneyManager>
 {
     [Header("Starting Money")]
-    public int startingMoney = 1500;
+    public int startingMoney = 800;
 
     [Header("Penalties & Awards")]
     public int itemStolenPenalty = -500;
@@ -20,14 +20,13 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     // Start is called before the first frame update
     private void Start()
     {
-
         if(SceneManager.GetActiveScene().buildIndex == 0)
         {
             money = startingMoney;
         }
         else
         {
-            money = PlayerPrefs.GetInt("Money");
+            money = PlayerPrefs.GetInt("Money", money);
         }
         
         HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
@@ -42,7 +41,12 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     public void AddMoney(int amount)
     {
         money += amount;
-        print("Money is now at " + money);
+        HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
+    }
+
+    public void ResetMoney()
+    {
+        money = startingMoney;
         HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 }

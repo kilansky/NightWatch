@@ -57,7 +57,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
                 CCTVPlacementSkillGate();
                 break;
             case SkillCheck.GuardPatrolRoute:
-                PatrolRouteSkillGate();
+                PatrolRouteButtonSkillGate();
                 break;
             case SkillCheck.PatrolPoints:
                 PatrolPointsSkillGate();
@@ -144,8 +144,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
         SelectedObjectButtons.Instance.sellingSkillGate = true;
     }
 
-    //Check for player to sell the selected CCTV camera
-    public void PatrolRouteSkillGate()
+    public void PatrolRouteButtonSkillGate()
     {
         SelectedObjectButtons.Instance.patrolRouteSkillGate = true;
     }
@@ -184,5 +183,17 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
             DialogueManager.Instance.StartNextDialogue();
             upgradePurchasedSkillGate = false;
         }
+    }
+
+    public void CancelAllSkillGates()
+    {
+        SecurityPlacement.Instance.placementSkillGate = false;
+        SecuritySelection.Instance.selectionSkillGate = false;
+        SecurityPlacement.Instance.cancelPlacementSkillGate = false;
+        SelectedObjectButtons.Instance.patrolRouteSkillGate = false;
+        SelectedObjectButtons.Instance.sellingSkillGate = false;
+        cameraMoveSkillGate = false;
+        patrolPointsSkillGate = false;
+        upgradePurchasedSkillGate = false;
     }
 }

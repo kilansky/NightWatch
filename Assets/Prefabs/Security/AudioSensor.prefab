@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRange: 12
-  detectionRating: 1
+  detectionRating: 3
 --- !u!114 &3176165800496177507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +87,8 @@ MonoBehaviour:
   audioAlert: {fileID: 8054458416476088817, guid: f15054d5729f6a142833170fd5a02c49, type: 3}
   alertOffset: {x: 0, y: 0.5, z: 0}
   alarmSoundInterval: 1.5
+  spawnPosition: {x: 0, y: 0, z: 0}
+  spawnedAlert: {fileID: 0}
 --- !u!82 &6446543600182684229
 AudioSource:
   m_ObjectHideFlags: 0
@@ -237,6 +239,7 @@ MonoBehaviour:
   timesUpgraded: 0000000000000000000000000000000000000000
   visionCone: {fileID: 0}
   audioDetection: {fileID: 6268817540599950263}
+  laser: {fileID: 0}
 --- !u!114 &592969844706888812
 MonoBehaviour:
   m_ObjectHideFlags: 0

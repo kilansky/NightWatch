@@ -70,7 +70,9 @@ public class FieldOfView : MonoBehaviour
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
-                    if(facialRecognition) //Send an alert if this is a camera with the facial recognition upgrade
+
+                    //Send an alert if this is a camera with the facial recognition upgrade
+                    if (facialRecognition && target.gameObject.GetComponent<ThiefPathfinding>())
                         GetComponent<Alert>().SensorTriggered();
 
                     if (target.gameObject.GetComponent<FakeDoor>())
@@ -81,7 +83,6 @@ public class FieldOfView : MonoBehaviour
                     if(transform.parent.GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
                     {
                         //print("See Thief");
-                        
                         transform.parent.GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
                     }
                     if (target.gameObject.GetComponent<Waypoints>())
