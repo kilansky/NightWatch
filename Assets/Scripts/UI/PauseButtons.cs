@@ -11,6 +11,13 @@ public class PauseButtons : MonoBehaviour
         PlayerInputs.Instance.ContinueButtonPressed();
     }
 
+    //Loads the next level in the build index
+    public void LoadNextLevel()
+    {
+        int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currLevelIndex + 1);
+    }
+
     //Reloads the current scene
     public void RestartButton()
     {
