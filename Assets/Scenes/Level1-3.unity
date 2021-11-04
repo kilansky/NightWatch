@@ -685,6 +685,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[0].name
+      value: Mr. Rial
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[0].startSkillCheck
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[0].sentences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[0].sentences.Array.data[0]
+      value: ...
+      objectReference: {fileID: 0}
     - target: {fileID: 4189559597532049298, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -14.743042
@@ -887,6 +907,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1677318429}
+    - target: {fileID: 162694758291135959, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: allowUpgrades
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 162694758291135959, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: guardIdleButton
       value: 
