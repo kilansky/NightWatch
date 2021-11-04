@@ -78,6 +78,12 @@ public class DialogueManager : SingletonPattern<DialogueManager>
             EndDialogue();
             return;
         }
+        //Check to begin the camera controls skill check
+        else if (sentencesQueue.Count == 1 && currDialogue.startSkillCheck == SkillCheck.CameraControls)
+        {
+            SkillCheckManager.Instance.StartSkillCheck(currDialogue.startSkillCheck);
+            skillCheckStarted = true;
+        }
 
         string sentence = sentencesQueue.Dequeue();
         sentenceText.text = sentence;
@@ -92,18 +98,18 @@ public class DialogueManager : SingletonPattern<DialogueManager>
             HUDController.Instance.SetPlanningUIActive(true, true, true);
             HUDController.Instance.SetButtonsActive(true, true, false, false);
         }
+        //Check to begin a skill check if one is set up on this dialogue
+        else if (currDialogue.startSkillCheck != SkillCheck.None && currDialogue.startSkillCheck != SkillCheck.CameraControls)
+        {
+            SkillCheckManager.Instance.StartSkillCheck(currDialogue.startSkillCheck);
+            skillCheckStarted = true;
+        }
 
         //Begin the next dialogue automatically if there is no skill check and the last dialogue has not been seen
         if (currDialogue.startSkillCheck == SkillCheck.None && currDialogueIndex < dialogues.Length - 1)
         {
             StartNextDialogue();
             return;
-        }
-        //Begin a skill check if one is set up on this dialogue
-        else if (currDialogue.startSkillCheck != SkillCheck.None)
-        {
-            SkillCheckManager.Instance.StartSkillCheck(currDialogue.startSkillCheck);
-            skillCheckStarted = true;
         }
 
         dialogueBox.SetActive(false);

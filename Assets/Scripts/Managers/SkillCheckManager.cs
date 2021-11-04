@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SkillCheckManager : SingletonPattern<SkillCheckManager>
 {
+    public GameObject cameraControlsPanel;
+
     private bool cameraMoveSkillGate = false;
     private bool cameraMoved = false;
     private bool cameraZoomed = false;
@@ -13,8 +15,6 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     {
         if (cameraMoveSkillGate)
         {
-
-
             if (!cameraMoved && PlayerInputs.Instance.WASDMovement.x != 0)
                 cameraMoved = true;
 
@@ -25,6 +25,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
             {
                 DialogueManager.Instance.StartNextDialogue();
                 cameraMoveSkillGate = false;
+                cameraControlsPanel.SetActive(false);
             }
         }
     }
@@ -75,6 +76,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     public void CameraControlsSkillGate()
     {
         cameraMoveSkillGate = true;
+        cameraControlsPanel.SetActive(true);
         //Time.timeScale = 1;
     }
 
