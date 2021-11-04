@@ -606,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[0].name
@@ -626,6 +626,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[3].startSkillCheck
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].startSkillCheck
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
@@ -635,6 +639,14 @@ PrefabInstance:
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[1].sentences.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[3].sentences.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[0].sentences.Array.data[0]
@@ -671,7 +683,57 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[3].sentences.Array.data[0]
-      value: Early End...
+      value: If you decide to sell this security measure, all money spent on upgrades
+        will be returned to your bank.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[3].sentences.Array.data[1]
+      value: 'We also have a new security measure for you, a Laser Sensor!
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[3].sentences.Array.data[2]
+      value: It detects when thieves walk in front of it and sends an immediate alert.
+        Go ahead and place one now.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[1]
+      value: Great! You may be asking, won't my guards also trigger the laser? No,
+        no they won't.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[2]
+      value: Why not? Because science.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[3]
+      value: Take note that we've opened up the barricades a bit, so you've got more
+        ground to cover tonight.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[4]
+      value: A well placed laser may help to cover the two doors on the northern
+        end of the building, hint, hint.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[5]
+      value: One last thing, some thieves are crafty and will hack your security
+        measures. Keep a close eye to see if any security measures suddenly turn
+        off.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[6]
+      value: If a Camera or Laser does get disabled, the thief is sure to be nearby.
+        The hacked security measure will then reboot after about 15 seconds.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[4].sentences.Array.data[7]
+      value: That's all I've got for you, keep up the good work!
       objectReference: {fileID: 0}
     - target: {fileID: 4189559597532049298, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_AnchoredPosition.x

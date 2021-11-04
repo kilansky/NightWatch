@@ -3824,8 +3824,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1497111536}
     - target: {fileID: 6605164085434750887, guid: 89fdcb808f53253429c79f43d938b8c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605164085434750887, guid: 89fdcb808f53253429c79f43d938b8c2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CameraRangeUpgrade, Assembly-CSharp
+      value: FOVRangeUpgrade, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7386601663960026997, guid: 89fdcb808f53253429c79f43d938b8c2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
