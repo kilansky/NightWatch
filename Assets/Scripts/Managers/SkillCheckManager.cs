@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public enum SkillCheck
 {
-    None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls,
-    GuardPlacement, GuardPatrolRoute, LaserPlacement, BuyUpgrade, AudioPlacement, PatrolPoints
+    None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls, UpgradePurchased,
+    GuardPlacement, GuardPatrolRoute, LaserPlacement, AudioPlacement, PatrolPoints
 }
 
 public class SkillCheckManager : SingletonPattern<SkillCheckManager>
@@ -19,6 +19,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     private bool cameraZoomed = false;
 
     private bool patrolPointsSkillGate = false;
+    private bool upgradePurchasedSkillGate = false;
 
     private void Update()
     {
@@ -44,10 +45,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
         switch(skillCheck)
         {
             case SkillCheck.AudioPlacement:
-                //PlacementSkillGate();
-                break;
-            case SkillCheck.BuyUpgrade:
-                //PlacementSkillGate();
+                AudioPlacementSkillGate();
                 break;
             case SkillCheck.CameraControls:
                 CameraControlsSkillGate();
@@ -68,13 +66,16 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
                 GuardPlacementSkillGate();
                 break;
             case SkillCheck.LaserPlacement:
-                //PlacementSkillGate();
+                LaserPlacementSkillGate();
                 break;
             case SkillCheck.SelectCCTV:
                 SelectionSkillGate();
                 break;
             case SkillCheck.SellCCTV:
                 SellingSkillGate();
+                break;
+            case SkillCheck.UpgradePurchased:
+                UpgradePurchasedSkillGate();
                 break;
             default:
                 Debug.LogError("Skill Check Not Found");
@@ -114,7 +115,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
         HUDController.Instance.SetPlanningUIActive(true, true, false);
         HUDController.Instance.SetButtonsActive(true, true, true, false);
         HUDController.Instance.EnableButtons(false, false, true, false);
-        //SecurityPlacement.Instance.placementSkillGate = true;
+        SecurityPlacement.Instance.placementSkillGate = true;
     }
 
     //Enables Audio button, and check for player to place a Audio
@@ -123,7 +124,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
         HUDController.Instance.SetPlanningUIActive(true, true, false);
         HUDController.Instance.SetButtonsActive(true, true, true, true);
         HUDController.Instance.EnableButtons(false, false, false, true);
-        //SecurityPlacement.Instance.placementSkillGate = true;
+        SecurityPlacement.Instance.placementSkillGate = true;
     }
 
     public void CancelPlacementSkillGate()
@@ -169,5 +170,19 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
 
         HUDController.Instance.SetPlanningUIActive(true, true, true);
         HUDController.Instance.nightWatchButton.interactable = false;
+    }
+
+    private void UpgradePurchasedSkillGate()
+    {
+        upgradePurchasedSkillGate = true;
+    }
+
+    public void UpgradePurchased()
+    {
+        if(upgradePurchasedSkillGate)
+        {
+            DialogueManager.Instance.StartNextDialogue();
+            upgradePurchasedSkillGate = false;
+        }
     }
 }
