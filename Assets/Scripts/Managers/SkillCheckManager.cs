@@ -17,7 +17,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
         if (cameraMoveSkillGate && !cameraZoomed && PlayerInputs.Instance.ScrollingInput != 0)
             cameraZoomed = true;
 
-        if (cameraMoved && cameraZoomed)
+        if (cameraMoveSkillGate && cameraMoved && cameraZoomed)
         {
             DialogueManager.Instance.StartNextDialogue();
             cameraMoveSkillGate = false;
@@ -35,7 +35,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
                 //PlacementSkillGate();
                 break;
             case SkillCheck.CameraControls:
-                //PlacementSkillGate();
+                CameraControlsSkillGate();
                 break;
             case SkillCheck.CancelPlacement:
                 CancelPlacementSkillGate();

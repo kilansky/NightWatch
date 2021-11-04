@@ -66,6 +66,9 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     public void StartNextDialogue()
     {
         currDialogueIndex++;
+        Debug.Log("currDialogueIndex: " + currDialogueIndex);
+        Debug.Log("dialogues length: " + dialogues.Length);
+        skillCheckStarted = false;
         StartDialogue(dialogues[currDialogueIndex]);
     }
 
@@ -86,6 +89,9 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     //Checks to close the dialogue box and end the conversation, or start a skill check or new dialogue
     private void EndDialogue()
     {
+        if(currDialogueIndex == dialogues.Length - 1)
+            HUDController.Instance.SetPlanningUIActive(true, true, true);
+
         //Begin the next dialogue automatically if there is no skill check and the last dialogue has not been seen
         if (currDialogue.startSkillCheck == SkillCheck.None && currDialogueIndex < dialogues.Length - 1)
         {
