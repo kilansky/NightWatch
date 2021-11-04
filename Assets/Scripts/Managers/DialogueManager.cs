@@ -112,7 +112,8 @@ public class DialogueManager : SingletonPattern<DialogueManager>
         dialogueBox.SetActive(false);
         inConversation = false;
 
-        HUDController.Instance.SetNightWatchButtonInteractability();
+        //HUDController.Instance.SetNightWatchButtonInteractability();
+        HUDController.Instance.nightWatchButton.interactable = true;
         HUDController.Instance.EnableButtons(true, true, true, true);
         SkipButton.SetActive(false);
     }
