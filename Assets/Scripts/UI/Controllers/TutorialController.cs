@@ -9,11 +9,6 @@ public class TutorialController : SingletonPattern<TutorialController>
     public GameObject tutorialPanel;
     public GameObject[] tutorialPanels;
 
-    public Button cctvButton;
-    public Button laserButton;
-    public Button guardButton;
-    public Button audioButton;
-
     private int activePanelIndex;
 
     // Start is called before the first frame update
@@ -21,10 +16,6 @@ public class TutorialController : SingletonPattern<TutorialController>
     {
         Time.timeScale = 0;
         tutorialPanel.SetActive(true);
-        cctvButton.interactable = false;
-        laserButton.interactable = false;
-        guardButton.interactable = false;
-        audioButton.interactable = false;
         PlayerInputs.Instance.canPause = false;
 
         foreach (GameObject panel in tutorialPanels)
@@ -59,34 +50,10 @@ public class TutorialController : SingletonPattern<TutorialController>
         tutorialPanels[activePanelIndex].SetActive(true);
     }
 
-    //Enables camera controls and CCTV Camera button, and check for player to place a camera
-    public void PlacementSkillGate()
-    {
-        Time.timeScale = 1;
-        cctvButton.interactable = true;
-        SecurityPlacement.Instance.placementSkillGate = true;
-    }
-
-    //Check for player to click and select the placed CCTV camera
-    public void SelectionSkillGate()
-    {
-        SecuritySelection.Instance.tutorialMode = true;
-    }
-
-    //Check for player to sell the selected CCTV camera
-    public void SellingSkillGate()
-    {
-        SelectedObjectButtons.Instance.tutorialMode = true;
-    }
-
     //Close the tutorial UI and allow the player to play the game
     public void EndTutorial()
     {
         Time.timeScale = 1;
-        cctvButton.interactable = true;
-        laserButton.interactable = true;
-        guardButton.interactable = true;
-        audioButton.interactable = true;
         tutorialPanel.SetActive(false);
         PlayerInputs.Instance.canPause = true;
     }

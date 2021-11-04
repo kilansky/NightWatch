@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7171711928983006282}
   - component: {fileID: 5248368172512227768}
   - component: {fileID: 7386601663960026997}
-  - component: {fileID: 5770188307926290371}
   m_Layer: 15
   m_Name: Upgrade Button (4)
   m_TagString: Untagged
@@ -124,9 +123,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5770188307926290371}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UpgradeButton, Assembly-CSharp
-        m_MethodName: ButtonClicked
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -136,22 +135,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5770188307926290371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916271816863948420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787d43cced5901e4ab3727558bc25ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCost: 50
-  upgradeDescription: Description 4
-  upgradeCostText: {fileID: 5927388462457452533}
-  upgradeDescriptionText: {fileID: 5993570295792072022}
 --- !u!1 &1581440284394838411
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +549,7 @@ GameObject:
   - component: {fileID: 4580627279745686377}
   - component: {fileID: 3964099676349723408}
   m_Layer: 15
-  m_Name: Sell_Icon
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -775,7 +758,6 @@ GameObject:
   - component: {fileID: 6605164083701902288}
   - component: {fileID: 6605164083701902291}
   - component: {fileID: 6605164083701902290}
-  - component: {fileID: 7170989127251175923}
   m_Layer: 15
   m_Name: Upgrade Button (3)
   m_TagString: Untagged
@@ -887,9 +869,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7170989127251175923}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UpgradeButton, Assembly-CSharp
-        m_MethodName: ButtonClicked
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -899,22 +881,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7170989127251175923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6605164083701902300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787d43cced5901e4ab3727558bc25ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCost: 50
-  upgradeDescription: Description 3
-  upgradeCostText: {fileID: 6605164083544347011}
-  upgradeDescriptionText: {fileID: 5993570295792072022}
 --- !u!1 &6605164083988720386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,7 +1027,7 @@ GameObject:
   - component: {fileID: 6605164084241398046}
   - component: {fileID: 6605164084241398041}
   m_Layer: 15
-  m_Name: Sell_Icon
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1956,7 +1922,7 @@ GameObject:
   - component: {fileID: 6605164084742536202}
   - component: {fileID: 6605164084742536309}
   m_Layer: 15
-  m_Name: Sell_Icon
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2165,7 +2131,6 @@ GameObject:
   - component: {fileID: 6605164085183510072}
   - component: {fileID: 6605164085183510075}
   - component: {fileID: 6605164085183510074}
-  - component: {fileID: 1570799828266356679}
   m_Layer: 15
   m_Name: Upgrade Button (2)
   m_TagString: Untagged
@@ -2277,9 +2242,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1570799828266356679}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UpgradeButton, Assembly-CSharp
-        m_MethodName: ButtonClicked
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2289,22 +2254,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1570799828266356679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6605164085183510052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787d43cced5901e4ab3727558bc25ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCost: 50
-  upgradeDescription: Description 2
-  upgradeCostText: {fileID: 6605164085134986419}
-  upgradeDescriptionText: {fileID: 5993570295792072022}
 --- !u!1 &6605164085287934008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2317,7 +2266,7 @@ GameObject:
   - component: {fileID: 6605164085287934015}
   - component: {fileID: 6605164085287934014}
   m_Layer: 15
-  m_Name: Sell_Icon
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2392,7 +2341,6 @@ GameObject:
   - component: {fileID: 6605164085434750885}
   - component: {fileID: 6605164085434750884}
   - component: {fileID: 6605164085434750887}
-  - component: {fileID: 224666459426731368}
   m_Layer: 15
   m_Name: Upgrade Button (1)
   m_TagString: Untagged
@@ -2504,9 +2452,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 224666459426731368}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UpgradeButton, Assembly-CSharp
-        m_MethodName: ButtonClicked
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2516,19 +2464,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &224666459426731368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6605164085434750881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787d43cced5901e4ab3727558bc25ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeCost: 50
-  upgradeDescription: Description 1
-  upgradeCostText: {fileID: 6605164084464646920}
-  upgradeDescriptionText: {fileID: 5993570295792072022}

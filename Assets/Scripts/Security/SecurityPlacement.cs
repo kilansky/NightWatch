@@ -20,7 +20,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     [HideInInspector] public bool placementMode = false;
     [HideInInspector] public bool movementMode = false;
     [HideInInspector] public bool placementSkillGate = false;
-    [HideInInspector] public bool exitPlacementSkillGate = false;
+    [HideInInspector] public bool cancelPlacementSkillGate = false;
     [HideInInspector] public bool insufficientFundsTooltip = false;
     [HideInInspector] public GameObject heldObject;
     [HideInInspector] public int heldObjectCost;
@@ -342,11 +342,12 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             insufficientFundsTooltip = false;
         }
 
-        if (exitPlacementSkillGate) //If in the tutorial, right click to exit placement mode and activate the selection skill gate
+        if (cancelPlacementSkillGate) //If in the tutorial, right click to exit placement mode and activate the selection skill gate
         {
-            TutorialController.Instance.NextButton();
-            TutorialController.Instance.SelectionSkillGate();
-            exitPlacementSkillGate = false;
+            //TutorialController.Instance.NextButton();
+            //TutorialController.Instance.SelectionSkillGate();
+            cancelPlacementSkillGate = false;
+            DialogueManager.Instance.StartNextDialogue();
         }
     }
 
@@ -370,7 +371,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         movedObjectOriginalRot = objectToMove.transform.rotation;
         heldObject = objectToMove;
         movementMode = true;
-        HUDController.Instance.SetSecurityButtonIntractability(false); //disable security buttons
+        HUDController.Instance.EnableButtons(false, false, false, false); //disable security buttons
 
         //Store original material of the object to move
         StoreOriginalMaterials();
@@ -388,7 +389,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         movementMode = false;
 
         SecuritySelection.Instance.canSelect = true; //enable selections
-        HUDController.Instance.SetSecurityButtonIntractability(true); //enable security buttons
+        HUDController.Instance.EnableButtons(true, true, true, true); //enable security buttons
 
         //If the object to move is a guard, enable the model mesh
         if (heldObject.GetComponent<GuardPathfinding>())
@@ -417,16 +418,16 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
             if(placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate
             {
-                TutorialController.Instance.NextButton();
+                //TutorialController.Instance.NextButton();
                 placementSkillGate = false;
-                exitPlacementSkillGate = true;
+                DialogueManager.Instance.StartNextDialogue();
             }
         }
         else if(movementMode)//Place a moved security measure
         {
             movementMode = false;
             SecuritySelection.Instance.canSelect = true; //enable selections
-            HUDController.Instance.SetSecurityButtonIntractability(true); //enable security buttons
+            HUDController.Instance.EnableButtons(true, true, true, true); //enable security buttons
 
             if (heldObject.GetComponent<NavMeshAgent>())
                 heldObject.GetComponent<NavMeshAgent>().enabled = true;

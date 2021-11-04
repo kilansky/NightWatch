@@ -16,21 +16,32 @@ public class HUDController : SingletonPattern<HUDController>
     [Header("Panels")]
     public GameObject pausePanel;
     public GameObject noPatrolWarningPanel;
-
-    [Header("Security Buttons")]
-    public Button cameraButton;
-    public Button laserButton;
-    public Button guardButton;
-    public Button audioButton;
+    public GameObject securityButtonsPanel;
 
     [Header("Night Watch Button")]
     public Button nightWatchButton;
+
+    [Header("Security Buttons")]
+    public GameObject cctvButton;
+    public GameObject guardButton;
+    public GameObject laserButton;
+    public GameObject audioButton;
+
+    private Button cctv;
+    private Button guard;
+    private Button laser;
+    private Button audioSensor;
 
     private GameObject heldObject;
     private SecurityPlacement securityScript;
 
     private void Start()
     {
+        cctv = cctvButton.GetComponent<Button>();
+        guard = guardButton.GetComponent<Button>();
+        laser = laserButton.GetComponent<Button>();
+        audioSensor = audioButton.GetComponent<Button>();
+
         nightWatchButton.interactable = false;
 
         securityScript = SecurityPlacement.Instance;
@@ -121,13 +132,38 @@ public class HUDController : SingletonPattern<HUDController>
             GameManager.Instance.BeginNightPhase();
     }
 
-    //Enables or Disables interaction with the buttons to place security measures
-    public void SetSecurityButtonIntractability(bool intractability)
+    //Sets the active security measure buttons based on the current level
+    public void SetAvailableStartingButtons(int currLevel)
     {
-        cameraButton.interactable = intractability;
-        laserButton.interactable = intractability;
-        guardButton.interactable = intractability;
-        audioButton.interactable = intractability;
+        if (currLevel >= 2)
+        {
+            cctvButton.SetActive(true);
+            guardButton.SetActive(true);
+        }
+
+        if (currLevel >= 3)
+            laserButton.SetActive(true);
+
+        if (currLevel >= 4)
+            audioButton.SetActive(true);
+    }
+
+    //Activates or Deactivates security measure buttons
+    public void SetButtonsActive(bool cctvEnabled, bool guardEnabled, bool laserEnabled, bool audioEnabled)
+    {
+        cctvButton.SetActive(cctvEnabled);
+        guardButton.SetActive(guardEnabled);
+        laserButton.SetActive(laserEnabled);
+        audioButton.SetActive(audioEnabled);
+    }
+
+    //Enables or Disables interaction with security measure buttons
+    public void EnableButtons(bool cctvEnabled, bool guardEnabled, bool laserEnabled, bool audioEnabled)
+    {
+        cctv.interactable = cctvEnabled;
+        guard.interactable = guardEnabled;
+        laser.interactable = laserEnabled;
+        audioSensor.interactable = audioEnabled;
     }
 
     //Activates a warning panel when the player presses the Begin Night Watch button w/o a set patrol route
@@ -171,5 +207,13 @@ public class HUDController : SingletonPattern<HUDController>
     public void HidePauseScreen()
     {
         pausePanel.SetActive(false);
+    }
+
+    //Set the states of the money text, security buttons panel, and night watch button
+    public void SetPlanningUIActive(bool moneyActive, bool securityButtonsActive, bool nightWatchButtonActive)
+    {
+        moneyText.gameObject.SetActive(moneyActive);
+        securityButtonsPanel.SetActive(securityButtonsActive);
+        nightWatchButton.gameObject.SetActive(nightWatchButtonActive);
     }
 }

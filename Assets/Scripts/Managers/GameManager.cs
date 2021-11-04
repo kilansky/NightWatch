@@ -8,12 +8,15 @@ public class GameManager : SingletonPattern<GameManager>
     public GameObject planningCanvas;
     public GameObject nightCanvas;
 
+    [HideInInspector] public int currentLevel = 1;
     [HideInInspector] public bool nightWatchPhase = false;
 
     // Start is called before the first frame update
     void Start()
     {
         sceneViewMask.SetActive(false);
+
+        HUDController.Instance.SetAvailableStartingButtons(currentLevel);
         BeginPlanningPhase();
     }
 

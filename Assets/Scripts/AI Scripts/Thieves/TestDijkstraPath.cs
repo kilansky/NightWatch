@@ -16,25 +16,22 @@ public class TestDijkstraPath : MonoBehaviour
     private int currentPathNum;
     private int resetNum;
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-        FindShortestPath();
-        if (unexploredPaths.Count == 0)
+        if (GameManager.Instance.nightWatchPhase && waypoints[(waypoints.Length - 1)].GetComponent<BoxCollider>().enabled == false)
         {
-            for(int i = 0; i < ShortestPath.Count; i++)
+            for(int w = 0; w < waypoints.Length; w++)
             {
-                ShortestPath[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
+                waypoints[w].GetComponent<BoxCollider>().enabled = true;
             }
         }
     }
-
-    private void FindShortestPath()
+    public void FindShortestPath(GameObject thief)
     {
-        //IDictionary<Vector3, int> distances = new Dictionary<Vector3, int>();
 
+        previousPath.Clear();
         for(int i = 0; i < waypoints.Length; i++)
         {
-            //distances.Add(new KeyValuePair<Vector3, int>(waypoints[i].position, int.MaxValue));
             pointDistance[i] = float.MaxValue;
             unexploredPaths.Add(waypoints[i]);
             previousPath.Add(0);
@@ -43,10 +40,6 @@ public class TestDijkstraPath : MonoBehaviour
                 pointDistance[i] = 0;
             }
         }
-
-        //distances[startPoint.position] = 0;
-        
-
         while (unexploredPaths.Count > 0)
         {
             int curr = 0;
@@ -61,29 +54,25 @@ public class TestDijkstraPath : MonoBehaviour
                 }
             }
             unexploredPaths.Remove(unexploredPaths[curr]);
-            
-
             for (int n = 0; n < waypoints[currentPathNum].GetComponent<Waypoints>().ConnectedPoints.Length; n++)
             {
-                
                 int neighbor = waypoints[currentPathNum].GetComponent<Waypoints>().ConnectedPoints[n].GetComponent<Waypoints>().NumberReference;
-                
                 if(pointDistance[neighbor] > (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position)))
                 {
-                    pointDistance[neighbor] = (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position));
+                    pointDistance[neighbor] = (currentPathValue + Vector3.Distance(waypoints[currentPathNum].position, waypoints[neighbor].position)) + thief.GetComponent<ThiefPathfinding>().waypointWeights[currentPathNum];
                     previousPath[neighbor] = currentPathNum;
                 }
             }
         }
-
+        print(endPoint.gameObject);
         resetNum = endPoint.GetComponent<Waypoints>().NumberReference;
-
         while (resetNum != startPoint.GetComponent<Waypoints>().NumberReference)
         {
-            ShortestPath.Add(waypoints[resetNum]);
+            thief.GetComponent<ThiefPathfinding>().ShortestPath.Add(waypoints[resetNum]);
             resetNum = previousPath[resetNum];
         }
-        ShortestPath.Add(waypoints[resetNum]);
+        thief.GetComponent<ThiefPathfinding>().ShortestPath.Add(waypoints[resetNum]);
+        unexploredPaths.Clear();
     }
     
 }

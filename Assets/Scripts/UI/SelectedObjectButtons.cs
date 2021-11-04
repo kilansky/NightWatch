@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
-    [HideInInspector] public bool tutorialMode = false;
+    [HideInInspector] public bool sellingSkillGate = false;
 
     private SecuritySelection selectionScript;
 
@@ -45,10 +45,13 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         if (destroyedGuard)
             HUDController.Instance.SetNightWatchButtonInteractability();
 
-        if (tutorialMode) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
+        if (sellingSkillGate) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
         {
-            TutorialController.Instance.NextButton();
-            TutorialController.Instance.cctvButton.interactable = false;
+            //TutorialController.Instance.NextButton();
+            //TutorialController.Instance.cctvButton.interactable = false;
+
+            sellingSkillGate = false;
+            DialogueManager.Instance.StartNextDialogue();
         }
     }
 
@@ -61,7 +64,8 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
     //Rotates the security measure that is currently selected
     public void RotateButton()
     {
-        Debug.Log("Rotate Button Pressed");
+        selectionScript.selectedObject.GetComponent<CameraRotation>().rotationUI.SetActive(true);
+        selectionScript.CloseSelection();
     }
 
     //Allows setting up patrol points for the selected guard

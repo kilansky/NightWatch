@@ -57,13 +57,12 @@ public class DoorControl : MonoBehaviour
     {
         if (IsClosed)
         {
-
             myAnimator.SetFloat("BaseSpeed", (1 / openAnimationDuration));
             myAnimator.SetTrigger("OpenDoor");
             IsOpened = true;
             IsClosed = false;
             uiNotification.SetActive(false);
-            DoorCollider.enabled = !DoorCollider.enabled; 
+            DoorCollider.enabled = !DoorCollider.enabled;
             StartCoroutine(DoorClosing());
             //print("Door Opens");
         }
@@ -92,7 +91,7 @@ public class DoorControl : MonoBehaviour
             uiNotification.SetActive(false);
             DoorCollider.enabled = !DoorCollider.enabled;
             StartCoroutine(DoorClosing());
-            //print("Door Opens");
+            // 
         }
 
     }
@@ -113,13 +112,13 @@ public class DoorControl : MonoBehaviour
     {
         //print("Closing Door");
         yield return new WaitForSeconds(DoorOpenDuration);
-
+        DoorCollider.enabled = !DoorCollider.enabled;
         CloseDoor();
 
         yield return new WaitForSeconds(1 / closeAnimationDuration);
         IsOpened = false;
         IsClosed = true;
-        DoorCollider.enabled = !DoorCollider.enabled;
+        
     }
 
     public Vector3 GetWaitPosition(Vector3 position)
@@ -144,7 +143,6 @@ public class DoorControl : MonoBehaviour
 
     public void CheckDoorPosition(GameObject agent)
     {
-        print("Check Door Position");
         Vector3 targetDirection = transform.position - agent.transform.position;
 
         float directionAngle = Vector3.Angle(transform.forward, targetDirection);
@@ -153,7 +151,6 @@ public class DoorControl : MonoBehaviour
         {
             if (gameObject.GetComponent<GuardPathfinding>())
             {
-                print("Facing Front");
                 agent.GetComponent<GuardPathfinding>().facingFrontDoor = true;
             }
         }

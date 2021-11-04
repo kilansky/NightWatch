@@ -11,6 +11,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask obstacleMask;
 
     public List<Transform> visibleTargets = new List<Transform>();
+    public List<GameObject> waypoints = new List<GameObject>();
 
     public float meshResolution;
     public int edgeResolveIterations;
@@ -20,6 +21,8 @@ public class FieldOfView : MonoBehaviour
     private Mesh viewMesh;
 
     public float maskCutawayDist = 0.25f;
+
+    public bool facialRecognition = false;
 
     private void Start()
     {
@@ -35,7 +38,7 @@ public class FieldOfView : MonoBehaviour
         DrawFieldOfView();
     }
 
-    private IEnumerator FindTargetsWithDelay(float delay)
+    public IEnumerator FindTargetsWithDelay(float delay)
     {
         while(true)
         {
@@ -47,7 +50,8 @@ public class FieldOfView : MonoBehaviour
     //Find all 'targets' such as thieves or doors within this object's field of view
     public virtual void FindVisibleTargets()
     {
-        //Place For loop here
+        
+        RemoveWaypoints();
         visibleTargets.Clear(); //clear the current list of existing targets
 
         //Get an array of all targets within a sphere radius
@@ -58,33 +62,65 @@ public class FieldOfView : MonoBehaviour
         {
             Transform target = targetsInViewRadius[i].transform; //Get target transform
             Vector3 dirToTarget = (target.position - transform.position).normalized; //Get vector towards target
-
             //Check if target is within the 'viewAngle'
             if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
-                
-
                 //Perform raycast to make sure target is not behind a wall
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
+                    if(facialRecognition) //Send an alert if this is a camera with the facial recognition upgrade
+                        GetComponent<Alert>().SensorTriggered();
 
                     if (target.gameObject.GetComponent<FakeDoor>())
                     {
                         //print("Detected Door");
                         target.GetComponent<FakeDoor>().FakeDoorOff();
                     }
-
                     if(transform.parent.GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
                     {
                         //print("See Thief");
+                        
                         transform.parent.GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
                     }
-                        
+                    if (target.gameObject.GetComponent<Waypoints>())
+                    {
+                        waypoints.Add(target.gameObject);
+                        if (!transform.parent.GetComponent<GuardPathfinding>())
+                        {
+                            if (transform.parent.parent.GetComponent<CameraRotation>())
+                            {
+                                target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.parent.gameObject);
+                            }
+                        }
+                        else
+                        {
+                            target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
+                        }
+                    }
                 }
             }
         }
+    }
+
+    public void RemoveWaypoints()
+    {
+        for (int w = 0; w < waypoints.Count; w++)
+        {
+            if (!transform.parent.GetComponent<GuardPathfinding>())
+            {
+                if (transform.parent.parent.GetComponent<CameraRotation>())
+                {
+                    waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.parent.gameObject);
+                }
+            }
+            else
+            {
+                waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
+            }
+        }
+        waypoints.Clear();
     }
 
     //Returns a vector3 pointing in the direction of the given angle
@@ -167,7 +203,6 @@ public class FieldOfView : MonoBehaviour
         {
             float angle = (minAngle + maxAngle) / 2;
             ViewCastInfo newViewCast = ViewCast(angle);
-
 
             bool edgeDistThresholdExceeded = Mathf.Abs(minViewCast.dist - newViewCast.dist) > edgeDistanceThreshold;
             if (newViewCast.hit == minViewCast.hit && !edgeDistThresholdExceeded)
