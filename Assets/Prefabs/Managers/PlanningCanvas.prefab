@@ -8793,12 +8793,15 @@ MonoBehaviour:
   - name: Mr. Rial
     sentences:
     - Next, click on the camera that you've placed to select it. From there you can
-      move, sell, or rotate it. Sell it to con
+      move, rotate, or sell it. Sell it when you're ready to continue.
     startSkillCheck: 4
   - name: Mr. Rial
     sentences:
-    - END
-    startSkillCheck: 0
+    - Cameras alone won't be enough to deter the thieves, you'll need a Guard in
+      order to chase and catch them.
+    - Guards are expensive to hire but extremely valuable, go ahead and hire one
+      now.
+    startSkillCheck: 6
 --- !u!114 &464272048
 MonoBehaviour:
   m_ObjectHideFlags: 0
