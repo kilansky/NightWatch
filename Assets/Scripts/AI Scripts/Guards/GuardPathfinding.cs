@@ -303,7 +303,7 @@ public class GuardPathfinding : MonoBehaviour
             if (DoorInteraction == false)
             {
                 Agent.isStopped = false;
-                print("Agent Can Move");
+                //print("Agent Can Move");
                 WalkAnimation();
                 Agent.SetDestination(CurrentPatrolPoint);
             }
