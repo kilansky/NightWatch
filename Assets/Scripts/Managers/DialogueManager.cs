@@ -130,6 +130,14 @@ public class DialogueManager : SingletonPattern<DialogueManager>
         HUDController.Instance.SetNightWatchButtonInteractability();
         HUDController.Instance.SetPlanningUIActive(true, true, true);
         HUDController.Instance.EnableButtons(true, true, true, true);
-        HUDController.Instance.SetButtonsActive(true, true, false, false);
+
+        if(GameManager.Instance.currentLevel == 1)
+            HUDController.Instance.SetButtonsActive(true, true, false, false);
+
+        if (GameManager.Instance.currentLevel == 2)
+            HUDController.Instance.SetButtonsActive(true, true, true, false);
+
+        if (GameManager.Instance.currentLevel == 3)
+            HUDController.Instance.SetButtonsActive(true, true, true, true);
     }
 }
