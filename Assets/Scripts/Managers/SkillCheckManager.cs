@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum SkillCheck
+{
+    None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls,
+    GuardPlacement, GuardPatrolRoute, LaserPlacement, BuyUpgrade, AudioPlacement
+}
+
 public class SkillCheckManager : SingletonPattern<SkillCheckManager>
 {
     public GameObject cameraControlsPanel;
@@ -51,13 +57,10 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
                 CCTVPlacementSkillGate();
                 break;
             case SkillCheck.GuardPatrolRoute:
-                //PlacementSkillGate();
+                PatrolRouteSkillGate();
                 break;
             case SkillCheck.GuardPlacement:
                 GuardPlacementSkillGate();
-                break;
-            case SkillCheck.GuardSelection:
-                //PlacementSkillGate();
                 break;
             case SkillCheck.LaserPlacement:
                 //PlacementSkillGate();
@@ -97,7 +100,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
         HUDController.Instance.SetPlanningUIActive(true, true, false);
         HUDController.Instance.SetButtonsActive(true, true, false, false);
         HUDController.Instance.EnableButtons(false, true, false, false);
-        //SecurityPlacement.Instance.placementSkillGate = true;
+        SecurityPlacement.Instance.placementSkillGate = true;
     }
 
     //Enables Laser button, and check for player to place a Laser
@@ -133,5 +136,11 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     public void SellingSkillGate()
     {
         SelectedObjectButtons.Instance.sellingSkillGate = true;
+    }
+
+    //Check for player to sell the selected CCTV camera
+    public void PatrolRouteSkillGate()
+    {
+        SelectedObjectButtons.Instance.patrolRouteSkillGate = true;
     }
 }

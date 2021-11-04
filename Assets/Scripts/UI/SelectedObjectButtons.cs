@@ -5,6 +5,7 @@ using UnityEngine;
 public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
     [HideInInspector] public bool sellingSkillGate = false;
+    [HideInInspector] public bool patrolRouteSkillGate = false;
 
     private SecuritySelection selectionScript;
 
@@ -75,6 +76,12 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         selectionScript.selectionButtons.transform.position = selectionScript.offScreenPos;
         selectionScript.HideUpgradePanels();
         selectionScript.canSelect = false;
+
+        if (patrolRouteSkillGate) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
+        {
+            patrolRouteSkillGate = false;
+            DialogueManager.Instance.StartNextDialogue();
+        }
     }
 
     //Moves a patrol point from the GuardPatrolPoints script
