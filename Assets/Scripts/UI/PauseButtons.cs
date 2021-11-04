@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseButtons : MonoBehaviour
 {
+    public GameObject manager;
     //Closes the pause screen
     public void Continue()
     {
@@ -15,6 +16,7 @@ public class PauseButtons : MonoBehaviour
     public void LoadNextLevel()
     {
         int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("Money", manager.GetComponent<MoneyManager>().Money);
         SceneManager.LoadScene(currLevelIndex + 1);
     }
 

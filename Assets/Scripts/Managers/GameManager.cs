@@ -19,9 +19,6 @@ public class GameManager : SingletonPattern<GameManager>
 
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);
         BeginPlanningPhase();
-        currLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
-        currentLevel += 1;
-        PlayerPrefs.SetInt("CurrentLevel", currentLevel);
     }
 
     //Call on Level Start, allow placement of security measures
