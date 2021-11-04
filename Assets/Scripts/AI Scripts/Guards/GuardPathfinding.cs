@@ -457,11 +457,8 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OpenDoorFunction()
     {
-
-        print("OpenDoorFunction is being called");
         if (doorScript.IsClosed)
         {
-            print("Acknowledge that door is closed");
             Vector3 waitPosition = doorScript.GetWaitPosition(transform.position);
 
             Agent.SetDestination(waitPosition);
@@ -482,7 +479,7 @@ public class GuardPathfinding : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Door enter while not in manual mode
-        if (other.GetComponent<DoorControl>() && currControlMode != ControlMode.Manual && GameManager.Instance.nightWatchPhase)
+        if (other.GetComponent<DoorControl>() && currControlMode != ControlMode.Manual)
         {
             doorScript = other.GetComponent<DoorControl>();
             print("Enter Door Collider");
@@ -637,7 +634,6 @@ public class GuardPathfinding : MonoBehaviour
         animator.SetBool("Idle", false);
         animator.SetBool("Open Door", false);
         animator.SetBool("Walking", true);
-        print("Walking Animation");
     }
 
     private void RunAnimation()
@@ -646,7 +642,6 @@ public class GuardPathfinding : MonoBehaviour
         animator.SetBool("Open Door", false);
         animator.SetBool("Walking", false);
         animator.SetBool("Running", true);
-        print("Running Animation");
     }
 
     private void OpenDoorAnimation()
@@ -655,14 +650,12 @@ public class GuardPathfinding : MonoBehaviour
         animator.SetBool("Idle", false);
         animator.SetBool("Walking", false);
         animator.SetBool("Open Door", true);
-        print("Open Door Animation");
     }
 
     private void CelebrateAnimation()
     {
         animator.SetBool("Idle", false);
         animator.SetBool("Celebrate", true);
-        print("Celebration Animation");
     }
 
     private void IdleAnimation()
@@ -672,6 +665,5 @@ public class GuardPathfinding : MonoBehaviour
         animator.SetBool("Walking", false);
         animator.SetBool("Celebrate", false);
         animator.SetBool("Idle", true);
-        print("Idle Animation");
     }
 }

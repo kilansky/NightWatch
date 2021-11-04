@@ -16,22 +16,20 @@ public class TestDijkstraPath : MonoBehaviour
     private int currentPathNum;
     private int resetNum;
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-        /*FindShortestPath();
-        if (unexploredPaths.Count == 0)
+        if (GameManager.Instance.nightWatchPhase && waypoints[(waypoints.Length - 1)].GetComponent<BoxCollider>().enabled == false)
         {
-            for(int i = 0; i < ShortestPath.Count; i++)
+            for(int w = 0; w < waypoints.Length; w++)
             {
-                ShortestPath[i].gameObject.GetComponent<MeshRenderer>().enabled = true;
+                waypoints[w].GetComponent<BoxCollider>().enabled = true;
             }
-        }*/
+        }
     }
     public void FindShortestPath(GameObject thief)
     {
 
         previousPath.Clear();
-        print("Start Finding ShortestPath");
         for(int i = 0; i < waypoints.Length; i++)
         {
             pointDistance[i] = float.MaxValue;
@@ -66,6 +64,7 @@ public class TestDijkstraPath : MonoBehaviour
                 }
             }
         }
+        print(endPoint.gameObject);
         resetNum = endPoint.GetComponent<Waypoints>().NumberReference;
         while (resetNum != startPoint.GetComponent<Waypoints>().NumberReference)
         {
@@ -74,7 +73,6 @@ public class TestDijkstraPath : MonoBehaviour
         }
         thief.GetComponent<ThiefPathfinding>().ShortestPath.Add(waypoints[resetNum]);
         unexploredPaths.Clear();
-        print("Finish Finding ShortestPath");
     }
     
 }

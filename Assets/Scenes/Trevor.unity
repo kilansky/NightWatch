@@ -2094,6 +2094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWaypoint:
   - {fileID: 1666031936}
+  - {fileID: 1597081386}
 --- !u!1001 &308508824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3125,6 +3126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWaypoint:
   - {fileID: 2014169949}
+  - {fileID: 1597081386}
 --- !u!1001 &447628978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7646,6 +7648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWaypoint:
   - {fileID: 1597081386}
+  - {fileID: 1666031936}
 --- !u!1001 &1341421691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9075,6 +9078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWaypoint:
   - {fileID: 12989583}
+  - {fileID: 1357546292}
 --- !u!4 &1522978174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7881627754625101433, guid: ba124f6b8caeebe489287820af597cac, type: 3}
@@ -12695,6 +12699,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2467743332892908058, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.1651
+      objectReference: {fileID: 0}
+    - target: {fileID: 2467743332892908058, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -12.351746
       objectReference: {fileID: 0}
@@ -13038,11 +13046,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: BaseSpawnTimer
-      value: 10000
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: numThievesToSpawn
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: DifficultySelected
