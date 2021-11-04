@@ -6664,6 +6664,109 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &999867378509681580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4189559597532049298}
+  - component: {fileID: 3793576898017363037}
+  - component: {fileID: 8230901252708904382}
+  - component: {fileID: 1892258170573557566}
+  m_Layer: 5
+  m_Name: CameraPlacementArrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &4189559597532049298
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999867378509681580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4131072059521584077}
+  m_Father: {fileID: 2467743332891806735}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.078, y: 0.35270372}
+  m_AnchoredPosition: {x: -14.742981, y: 77.5}
+  m_SizeDelta: {x: -29.4862, y: -157.0904}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3793576898017363037
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999867378509681580}
+  m_CullTransparentMesh: 1
+--- !u!114 &8230901252708904382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999867378509681580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1892258170573557566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999867378509681580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
+  m_ReverseArrangement: 0
 --- !u!1 &1019523492268925100
 GameObject:
   m_ObjectHideFlags: 0
@@ -8553,6 +8656,7 @@ RectTransform:
   - {fileID: 5284132485437775826}
   - {fileID: 2690244982185171640}
   - {fileID: 3914385697253411236}
+  - {fileID: 4189559597532049298}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8662,28 +8766,38 @@ MonoBehaviour:
   dialogueBox: {fileID: 7565231801781232401}
   nameText: {fileID: 2610668180789457701}
   sentenceText: {fileID: 1944150608742279577}
+  clickToContinueText: {fileID: 5836391108242503756}
   dialogues:
   - name: Mr. Rial
     sentences:
     - Welcome to my office, thank you for coming! My name is Mr. Rial, but you can
       call me Tuto, Tuto Rial.
     - Over the last few days, we've been having thieves break in and steal sensitive
-      data from our file cabinets and computers.
+      data from our computers.
     - With your help, I'm sure we can put these glaring security flaws to rest.
     - Go ahead and have a look around the office with the WASD keys, and use the
       Scroll Wheel to zoom in and out.
     startSkillCheck: 5
   - name: Mr. Rial
     sentences:
-    - Great! I should let you know that the entire right side of the building is
-      currently being fumigated, so you won't need to worry about that area for now.
-    - To spot the thieves that come in during the night, you'll need some cameras.
-      Let's place one now.
+    - Great! Don't worry about any areas behind the tape on the right side of the
+      building, it's already been taken care of... for now.
+    - To spot the thieves that come in during the night, you'll need some CCTV Cameras.
+    - I've provided you $800 to buy security measures, go ahead and place a CCTV
+      Camera wherever you see fit.
     startSkillCheck: 1
   - name: Mr. Rial
     sentences:
-    - 1
-    - 2
+    - Nicely done, now Right Click to cancel placement.
+    startSkillCheck: 2
+  - name: Mr. Rial
+    sentences:
+    - Next, click on the camera that you've placed to select it. From there you can
+      move, sell, or rotate it. Sell it to con
+    startSkillCheck: 4
+  - name: Mr. Rial
+    sentences:
+    - END
     startSkillCheck: 0
 --- !u!114 &464272048
 MonoBehaviour:
@@ -8698,6 +8812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraControlsPanel: {fileID: 660245678042381449}
+  cctvPlacementArrow: {fileID: 999867378509681580}
 --- !u!1 &2467743332892908057
 GameObject:
   m_ObjectHideFlags: 0
@@ -16851,7 +16966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 175}
+  m_AnchoredPosition: {x: 0, y: 305}
   m_SizeDelta: {x: -214.5869, y: 290.1758}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5278321338916392792
@@ -17309,6 +17424,81 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &8218733454426073258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4131072059521584077}
+  - component: {fileID: 2138555481781337542}
+  - component: {fileID: 5576219766142308631}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4131072059521584077
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218733454426073258}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4189559597532049298}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 60.136906, y: -111.91481}
+  m_SizeDelta: {x: 120.27381, y: 223.82962}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2138555481781337542
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218733454426073258}
+  m_CullTransparentMesh: 1
+--- !u!114 &5576219766142308631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8218733454426073258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 83571588dd3a03b4ab48e53a03750183, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8277329426898047962
 GameObject:
   m_ObjectHideFlags: 0
