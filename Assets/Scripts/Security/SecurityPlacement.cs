@@ -386,6 +386,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         currMaterial = materialState.Original;
         heldObject.transform.position = movedObjectOriginalPos;
         heldObject.transform.rotation = movedObjectOriginalRot;
+        heldObject = null;
         movementMode = false;
 
         SecuritySelection.Instance.canSelect = true; //enable selections
@@ -436,6 +437,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
             if (heldObject.GetComponent<NavMeshAgent>())
                 heldObject.GetComponent<NavMeshAgent>().enabled = true;
+
+            heldObject = null;
         }
     }
 

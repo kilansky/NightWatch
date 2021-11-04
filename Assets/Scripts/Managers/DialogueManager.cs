@@ -40,7 +40,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
     private void Update()
     {
-        if(inConversation && !skillCheckStarted && PlayerInputs.Instance.LeftClickPressed)
+        if(inConversation && !skillCheckStarted && PlayerInputs.Instance.LeftClickPressed && !PlayerInputs.Instance.IsPaused)
         {
             DisplayNextSentence();
         }

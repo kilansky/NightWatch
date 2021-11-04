@@ -14,9 +14,9 @@ public class TutorialController : SingletonPattern<TutorialController>
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 0;
-        tutorialPanel.SetActive(true);
-        PlayerInputs.Instance.canPause = false;
+        //Time.timeScale = 0;
+        //tutorialPanel.SetActive(true);
+        //PlayerInputs.Instance.canPause = false;
 
         foreach (GameObject panel in tutorialPanels)
             panel.SetActive(false);

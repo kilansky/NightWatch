@@ -127,12 +127,12 @@ public class ThiefPathfinding : MonoBehaviour
 
     public void addWeight(int waypoint)
     {
-        print("add weight");
+        //print("add weight");
         waypointWeights[waypoint] = weightModifier;
     }
     public void removeWeight(int waypoint)
     {
-        print("Remove weight");
+        //print("Remove weight");
         waypointWeights[waypoint] = 0;
     }
 
@@ -334,7 +334,7 @@ public class ThiefPathfinding : MonoBehaviour
 
     private IEnumerator ExitTimer()
     {
-        print("Exiting in " + (ExitBaseDuration - (ExitDurationMod * SpeedStat)));
+        //print("Exiting in " + (ExitBaseDuration - (ExitDurationMod * SpeedStat)));
         yield return new WaitForSeconds(ExitBaseDuration - (ExitDurationMod * SpeedStat));
         if (ObjectStolen == false) //Checks to see if the thief managed to steal its last object before readding it back to the target list
         {
@@ -385,7 +385,7 @@ public class ThiefPathfinding : MonoBehaviour
                             if (wayPointManager.waypoints[n].GetComponent<Waypoints>().security[w] != alertedGuard[g])
                             {
                                 validWayPoint = false;
-                                print(gameObject + " should not go to " + wayPointManager.waypoints[n]);
+                                //print(gameObject + " should not go to " + wayPointManager.waypoints[n]);
                                 break;
                             }
                         }   
@@ -518,7 +518,7 @@ public class ThiefPathfinding : MonoBehaviour
     //Causes the thief to stop for a set amount of time, at the end of which will trigger the hackedObject to shut off
     private IEnumerator HackingAction() //Causes thief to stop and wait until their hacking is complete
     {
-        print("Begin Hacking");
+        //print("Begin Hacking");
         Agent.isStopped = true;
         currAction = ActionStates.Hacking;
         //Thief waits for a few seconds until the hacking duration is over
@@ -526,7 +526,7 @@ public class ThiefPathfinding : MonoBehaviour
         //Doesn't disable the object if the thief enters evade mode
         if (currBehavior != BehaviorStates.Evade)
         {
-            print("Finished Hacking");
+            //print("Finished Hacking");
             hackedObject.GetComponent<HackedSecurityScript>().HackedFunction(HackingStat);
         }
         Agent.isStopped = false;

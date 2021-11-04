@@ -196,7 +196,7 @@ public class GuardPathfinding : MonoBehaviour
                     {
                         //Auto-Chase thieves
                         Agent.isStopped = false;
-                        print("Agent Can Move");
+                        //print("Agent Can Move");
                         RunAnimation();
                         Agent.SetDestination(thiefToChase.transform.position);
                     }
@@ -243,7 +243,7 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (PlayerInputs.Instance.LeftClickPressed && !EventSystem.current.IsPointerOverGameObject())
         {
-            print("Clicked");
+            //print("Clicked");
             Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
@@ -253,14 +253,14 @@ public class GuardPathfinding : MonoBehaviour
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     ClickPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-                    print("Placed New Click Point"); 
+                    //print("Placed New Click Point"); 
                 }
             }
         }
         if (DoorInteraction == false)
         {
             Agent.isStopped = false;
-            print("Agent Can Move");
+            //print("Agent Can Move");
             if(Vector3.Distance(transform.position, ClickPoint) > 1)
             {
                 WalkAnimation();
@@ -275,7 +275,7 @@ public class GuardPathfinding : MonoBehaviour
         }
         else
         {
-            print("Door Interaction is true");
+            //print("Door Interaction is true");
         }
     }
 

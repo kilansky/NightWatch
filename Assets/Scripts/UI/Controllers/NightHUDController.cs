@@ -81,7 +81,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         itemStolenNum++;
         itemStolenText.text = itemStolenNum.ToString();
         MoneyManager.Instance.SubtractMoney(500);
-        ActivateEventText("Item Stolen: -$500");
+        ActivateEventText("Item Stolen: -$" + MoneyManager.Instance.itemStolenPenalty);
         audioSource.PlayOneShot(itemStolen);
     }
 
@@ -101,7 +101,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         thievesApprehendedNum++;
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
         MoneyManager.Instance.AddMoney(150);
-        ActivateEventText("Thief Caught: +$150");
+        ActivateEventText("Thief Caught: +$" + MoneyManager.Instance.thiefApprehendedAward);
         audioSource.PlayOneShot(thiefApprehended);
     }
 

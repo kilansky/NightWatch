@@ -169,7 +169,7 @@ public class HUDController : SingletonPattern<HUDController>
     //Activates a warning panel when the player presses the Begin Night Watch button w/o a set patrol route
     public void ShowNoPatrolWarning()
     {
-        Debug.Log("Show Warning");
+        //Debug.Log("Show Warning");
         noPatrolWarningPanel.SetActive(true);
         nightWatchButton.interactable = false;
     }

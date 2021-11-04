@@ -17,6 +17,7 @@ public class GameManager : SingletonPattern<GameManager>
     void Start()
     {
         Time.timeScale = 1;
+        PlayerInputs.Instance.canPause = true;
         sceneViewMask.SetActive(false);
 
         currentLevel = SceneManager.GetActiveScene().buildIndex + 1;

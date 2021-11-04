@@ -40,7 +40,7 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     //Pause Variables
     private bool isPaused = false;
     public bool IsPaused { get { return isPaused; } } //True while the game is paused
-    [HideInInspector] public bool canPause;
+    public bool canPause = true;
 
     //Aim Mouse Input
     public void PointMouse(InputAction.CallbackContext context)

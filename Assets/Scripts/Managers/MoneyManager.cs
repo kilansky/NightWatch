@@ -10,8 +10,8 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     public int startingMoney = 800;
 
     [Header("Penalties & Awards")]
-    public int itemStolenPenalty = -500;
-    public int thiefApprehendedAward = 150;
+    public int itemStolenPenalty = -250;
+    public int thiefApprehendedAward = 100;
     public int endOfNightPayment = 300;
 
     [HideInInspector] public int money;
