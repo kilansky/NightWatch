@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public enum SkillCheck
 {
     None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls,
-    GuardPlacement, GuardPatrolRoute, LaserPlacement, BuyUpgrade, AudioPlacement
+    GuardPlacement, GuardPatrolRoute, LaserPlacement, BuyUpgrade, AudioPlacement, PatrolPoints
 }
 
 public class SkillCheckManager : SingletonPattern<SkillCheckManager>
@@ -17,6 +17,8 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     private bool cameraMoveSkillGate = false;
     private bool cameraMoved = false;
     private bool cameraZoomed = false;
+
+    private bool patrolPointsSkillGate = false;
 
     private void Update()
     {
@@ -58,6 +60,9 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
                 break;
             case SkillCheck.GuardPatrolRoute:
                 PatrolRouteSkillGate();
+                break;
+            case SkillCheck.PatrolPoints:
+                PatrolPointsSkillGate();
                 break;
             case SkillCheck.GuardPlacement:
                 GuardPlacementSkillGate();
@@ -142,5 +147,27 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     public void PatrolRouteSkillGate()
     {
         SelectedObjectButtons.Instance.patrolRouteSkillGate = true;
+    }
+
+    public void PatrolPointsSkillGate()
+    {
+        patrolPointsSkillGate = true;
+        StartCoroutine(CheckForPatrolPoints());
+    }
+
+    private IEnumerator CheckForPatrolPoints()
+    {
+        while(patrolPointsSkillGate)
+        {
+            if (FindObjectsOfType<PatrolMarker>().Length >= 4)
+            {
+                DialogueManager.Instance.StartNextDialogue();
+                patrolPointsSkillGate = false;
+            }
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        HUDController.Instance.SetPlanningUIActive(true, true, true);
+        HUDController.Instance.nightWatchButton.interactable = false;
     }
 }

@@ -20,6 +20,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI sentenceText;
     public GameObject clickToContinueText;
+    public GameObject SkipButton;
 
     [Header("Dialogue")]
     public Dialogue[] dialogues;
@@ -34,6 +35,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     {
         sentencesQueue = new Queue<string>();
         StartDialogue(dialogues[0]);
+        HUDController.Instance.SetPlanningUIActive(false, false, false);
     }
 
     private void Update()
@@ -47,7 +49,6 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     //Activates a specified dialogue, sets up a queue of sentences, and displays them 
     public void StartDialogue(Dialogue dialogue)
     {
-        HUDController.Instance.SetPlanningUIActive(false, false, false);
         dialogueBox.SetActive(true);
         inConversation = true;
 
@@ -110,5 +111,24 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
         dialogueBox.SetActive(false);
         inConversation = false;
+
+        HUDController.Instance.SetNightWatchButtonInteractability();
+        HUDController.Instance.EnableButtons(true, true, true, true);
+        SkipButton.SetActive(false);
+    }
+
+    public void SkipAllDialogue()
+    {
+        dialogueBox.SetActive(false);
+        inConversation = false;
+
+        SkillCheckManager.Instance.cameraControlsPanel.SetActive(false);
+        SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
+        SkipButton.SetActive(false);
+
+        HUDController.Instance.SetNightWatchButtonInteractability();
+        HUDController.Instance.SetPlanningUIActive(true, true, true);
+        HUDController.Instance.EnableButtons(true, true, true, true);
+        HUDController.Instance.SetButtonsActive(true, true, false, false);
     }
 }
