@@ -10,6 +10,7 @@ public class GameManager : SingletonPattern<GameManager>
 
     [HideInInspector] public int currentLevel = 1;
     [HideInInspector] public bool nightWatchPhase = false;
+    private int currLevel;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,9 @@ public class GameManager : SingletonPattern<GameManager>
 
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);
         BeginPlanningPhase();
+        currLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
+        currentLevel += 1;
+        PlayerPrefs.SetInt("CurrentLevel", currentLevel);
     }
 
     //Call on Level Start, allow placement of security measures
