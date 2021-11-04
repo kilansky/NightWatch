@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum SkillCheck { None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls,
-    GuardPlacement, GuardSelection, GuardPatrolRoute, LaserPlacement, BuyUpgrade, AudioPlacement}
-
 [System.Serializable]
 public class Dialogue
 {
