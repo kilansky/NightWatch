@@ -8808,7 +8808,19 @@ MonoBehaviour:
     startSkillCheck: 7
   - name: Mr. Rial
     sentences:
-    - Nice!
+    - Now you can Left Click to place patrol points along the ground, and the guard
+      will follow them in numbered order during the night.
+    startSkillCheck: 11
+  - name: Mr. Rial
+    sentences:
+    - Excellent! You can also select placed patrol points to move or remove them
+      if you want.
+    - Remember that during the night you can select the Guard to modify how they
+      behave, such as patrolling or moving them manually.
+    - I'll leave you to set things up on your own now, whenever you are ready just
+      click the "Begin Night Watch" button.
+    - You won't be able to add or adjust any security measures after that point,
+      so plan carefully. Good luck!
     startSkillCheck: 0
 --- !u!114 &464272048
 MonoBehaviour:

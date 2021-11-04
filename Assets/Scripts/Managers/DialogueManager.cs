@@ -34,6 +34,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     {
         sentencesQueue = new Queue<string>();
         StartDialogue(dialogues[0]);
+        HUDController.Instance.SetPlanningUIActive(false, false, false);
     }
 
     private void Update()
@@ -47,7 +48,6 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     //Activates a specified dialogue, sets up a queue of sentences, and displays them 
     public void StartDialogue(Dialogue dialogue)
     {
-        HUDController.Instance.SetPlanningUIActive(false, false, false);
         dialogueBox.SetActive(true);
         inConversation = true;
 
@@ -110,5 +110,8 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
         dialogueBox.SetActive(false);
         inConversation = false;
+
+        HUDController.Instance.SetNightWatchButtonInteractability();
+        HUDController.Instance.EnableButtons(true, true, true, true);
     }
 }

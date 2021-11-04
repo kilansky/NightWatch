@@ -420,6 +420,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             {
                 //TutorialController.Instance.NextButton();
                 placementSkillGate = false;
+
+                if(newObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.camera)
+                    HUDController.Instance.SetPlanningUIActive(false, false, false);
+
                 SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
                 DialogueManager.Instance.StartNextDialogue();
             }
