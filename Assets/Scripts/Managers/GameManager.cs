@@ -10,6 +10,7 @@ public class GameManager : SingletonPattern<GameManager>
 
     [HideInInspector] public int currentLevel = 1;
     [HideInInspector] public bool nightWatchPhase = false;
+    private int currLevel;
 
     // Start is called before the first frame update
     void Start()

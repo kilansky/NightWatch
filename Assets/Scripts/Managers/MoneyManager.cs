@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MoneyManager : SingletonPattern<MoneyManager>
@@ -13,13 +14,22 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     public int thiefApprehendedAward = 150;
     public int endOfNightPayment = 300;
 
-    private int money;
+    [HideInInspector] public int money;
     public int Money { get { return money; } }
 
     // Start is called before the first frame update
     private void Start()
     {
-        money = startingMoney;
+
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            money = startingMoney;
+        }
+        else
+        {
+            money = PlayerPrefs.GetInt("Money");
+        }
+        
         HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 
@@ -32,6 +42,7 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     public void AddMoney(int amount)
     {
         money += amount;
+        print("Money is now at " + money);
         HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 }
