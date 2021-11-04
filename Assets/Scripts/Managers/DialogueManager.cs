@@ -20,6 +20,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI sentenceText;
     public GameObject clickToContinueText;
+    public GameObject SkipButton;
 
     [Header("Dialogue")]
     public Dialogue[] dialogues;
@@ -113,5 +114,21 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
         HUDController.Instance.SetNightWatchButtonInteractability();
         HUDController.Instance.EnableButtons(true, true, true, true);
+        SkipButton.SetActive(false);
+    }
+
+    public void SkipAllDialogue()
+    {
+        dialogueBox.SetActive(false);
+        inConversation = false;
+
+        SkillCheckManager.Instance.cameraControlsPanel.SetActive(false);
+        SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
+        SkipButton.SetActive(false);
+
+        HUDController.Instance.SetNightWatchButtonInteractability();
+        HUDController.Instance.SetPlanningUIActive(true, true, true);
+        HUDController.Instance.EnableButtons(true, true, true, true);
+        HUDController.Instance.SetButtonsActive(true, true, false, false);
     }
 }
