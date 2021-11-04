@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
 {
-    [HideInInspector] public bool tutorialMode = false;
+    [HideInInspector] public bool sellingSkillGate = false;
 
     private SecuritySelection selectionScript;
 
@@ -45,10 +45,13 @@ public class SelectedObjectButtons : SingletonPattern<SelectedObjectButtons>
         if (destroyedGuard)
             HUDController.Instance.SetNightWatchButtonInteractability();
 
-        if (tutorialMode) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
+        if (sellingSkillGate) //If in the tutorial, selling an object will move to the next panel and freeze camera movement
         {
-            TutorialController.Instance.NextButton();
-            TutorialController.Instance.cctvButton.interactable = false;
+            //TutorialController.Instance.NextButton();
+            //TutorialController.Instance.cctvButton.interactable = false;
+
+            sellingSkillGate = false;
+            DialogueManager.Instance.StartNextDialogue();
         }
     }
 
