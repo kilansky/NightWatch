@@ -16,7 +16,9 @@ public class PauseButtons : MonoBehaviour
     public void LoadNextLevel()
     {
         int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("Money", manager.GetComponent<MoneyManager>().Money);
+        manager.GetComponent<MoneyManager>().AddMoney(300);
+        PlayerPrefs.SetInt("Money", manager.GetComponent<MoneyManager>().money);
+        print("Money saved in playerPrefs " + PlayerPrefs.GetInt("Money"));
         SceneManager.LoadScene(currLevelIndex + 1);
     }
 

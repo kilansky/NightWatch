@@ -33,6 +33,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public AudioClip itemStolen;
     public AudioClip thiefEscaped;
     public AudioClip thiefApprehended;
+    public MoneyManager manager;
 
     private int itemStolenNum = 0;
     private int thievesEscapedNum = 0;
@@ -80,6 +81,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         itemStolenNum++;
         itemStolenText.text = itemStolenNum.ToString();
+        manager.SubtractMoney(500);
         ActivateEventText("Item Stolen: -$500");
         audioSource.PlayOneShot(itemStolen);
     }
@@ -89,6 +91,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         thievesEscapedNum++;
         thievesEscapedText.text = thievesEscapedNum.ToString();
+        
         ActivateEventText("Theft Prevented: +$0");
         audioSource.PlayOneShot(thiefEscaped);
     }
@@ -98,6 +101,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         thievesApprehendedNum++;
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
+        manager.AddMoney(150);
         ActivateEventText("Thief Caught: +$150");
         audioSource.PlayOneShot(thiefApprehended);
     }
