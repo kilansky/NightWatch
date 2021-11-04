@@ -606,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[0].name
@@ -622,7 +622,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[2].startSkillCheck
-      value: 3
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[3].startSkillCheck
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[0].sentences.Array.size
@@ -663,7 +667,11 @@ PrefabInstance:
     - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: dialogues.Array.data[2].sentences.Array.data[0]
       value: You can hover over an upgrade button to see what it does, and click
-        to purchase it. Some upgrades can be puchased multiple times.
+        to purchase it. Purchase any upgrade to continue.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253078873082034024, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+      propertyPath: dialogues.Array.data[3].sentences.Array.data[0]
+      value: Early End...
       objectReference: {fileID: 0}
     - target: {fileID: 4189559597532049298, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1360,7 +1368,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1138525232}
     m_Modifications:
     - target: {fileID: 3409463566396050348, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_Name
@@ -1368,7 +1376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4816580136752064398, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4816580136752064398, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_LocalScale.x
@@ -1384,7 +1392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4816580136752064398, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -102.8
+      value: 19.199997
       objectReference: {fileID: 0}
     - target: {fileID: 4816580136752064398, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1392,7 +1400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4816580136752064398, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.4
+      value: -3.3999996
       objectReference: {fileID: 0}
     - target: {fileID: 4816580136752064398, guid: 5a9e4aa35006b7247901147ce973e8ba, type: 3}
       propertyPath: m_LocalRotation.w

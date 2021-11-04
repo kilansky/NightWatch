@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum SkillCheck
 {
-    None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls,
+    None, CCTVPlacement, CancelPlacement, SelectCCTV, SellCCTV, CameraControls, UpgradePurchased,
     GuardPlacement, GuardPatrolRoute, LaserPlacement, BuyUpgrade, AudioPlacement, PatrolPoints
 }
 
@@ -19,6 +19,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     private bool cameraZoomed = false;
 
     private bool patrolPointsSkillGate = false;
+    private bool upgradePurchasedSkillGate = false;
 
     private void Update()
     {
@@ -169,5 +170,19 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
 
         HUDController.Instance.SetPlanningUIActive(true, true, true);
         HUDController.Instance.nightWatchButton.interactable = false;
+    }
+
+    private void UpgradePurchasedSkillGate()
+    {
+        upgradePurchasedSkillGate = true;
+    }
+
+    public void UpgradePurchased()
+    {
+        if(upgradePurchasedSkillGate)
+        {
+            DialogueManager.Instance.StartNextDialogue();
+            upgradePurchasedSkillGate = false;
+        }
     }
 }
