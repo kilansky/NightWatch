@@ -11,16 +11,21 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
 
     private void Update()
     {
-        if (cameraMoveSkillGate && !cameraMoved && PlayerInputs.Instance.WASDMovement.x != 0)
-            cameraMoved = true;
-
-        if (cameraMoveSkillGate && !cameraZoomed && PlayerInputs.Instance.ScrollingInput != 0)
-            cameraZoomed = true;
-
-        if (cameraMoveSkillGate && cameraMoved && cameraZoomed)
+        if (cameraMoveSkillGate)
         {
-            DialogueManager.Instance.StartNextDialogue();
-            cameraMoveSkillGate = false;
+
+
+            if (!cameraMoved && PlayerInputs.Instance.WASDMovement.x != 0)
+                cameraMoved = true;
+
+            if (!cameraZoomed && PlayerInputs.Instance.ScrollingInput != 0)
+                cameraZoomed = true;
+
+            if (cameraMoved && cameraZoomed)
+            {
+                DialogueManager.Instance.StartNextDialogue();
+                cameraMoveSkillGate = false;
+            }
         }
     }
 
