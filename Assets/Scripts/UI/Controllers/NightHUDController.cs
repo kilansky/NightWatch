@@ -33,7 +33,6 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public AudioClip itemStolen;
     public AudioClip thiefEscaped;
     public AudioClip thiefApprehended;
-    public MoneyManager manager;
 
     private int itemStolenNum = 0;
     private int thievesEscapedNum = 0;
@@ -81,7 +80,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         itemStolenNum++;
         itemStolenText.text = itemStolenNum.ToString();
-        manager.SubtractMoney(500);
+        MoneyManager.Instance.SubtractMoney(500);
         ActivateEventText("Item Stolen: -$500");
         audioSource.PlayOneShot(itemStolen);
     }
@@ -101,7 +100,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         thievesApprehendedNum++;
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
-        manager.AddMoney(150);
+        MoneyManager.Instance.AddMoney(150);
         ActivateEventText("Thief Caught: +$150");
         audioSource.PlayOneShot(thiefApprehended);
     }
@@ -127,6 +126,15 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         awardedMoneyText.text = "+$" + awardedMoney.ToString();
         endOfNightPaymentText.text = "+$" + endOfNightPayment.ToString();
         finalMoneyText.text = "$" + finalMoney.ToString();
+    }
+
+    public void AddMoneyForCurrentSecurity()
+    {
+        foreach (GuardController guard in FindObjectsOfType<GuardController>())
+            MoneyManager.Instance.AddMoney(500);
+
+        foreach (HackedSecurityScript security in FindObjectsOfType<HackedSecurityScript>())
+            MoneyManager.Instance.AddMoney(security.GetComponent<SecurityMeasure>().cost);
     }
 
     //Waits to disable an activated event text object

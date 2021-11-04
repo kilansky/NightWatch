@@ -15,6 +15,7 @@ public class GameManager : SingletonPattern<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         sceneViewMask.SetActive(false);
 
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);

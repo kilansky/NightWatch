@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseButtons : MonoBehaviour
 {
-    public GameObject manager;
     //Closes the pause screen
     public void Continue()
     {
@@ -16,12 +15,9 @@ public class PauseButtons : MonoBehaviour
     public void LoadNextLevel()
     {
         int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        manager.GetComponent<MoneyManager>().AddMoney(300);
-        if (MoneyManager.Instance.money < 500)
-        {
-            MoneyManager.Instance.money = 500;
-        }
-        PlayerPrefs.SetInt("Money", manager.GetComponent<MoneyManager>().money);
+        MoneyManager.Instance.AddMoney(300);
+        NightHUDController.Instance.AddMoneyForCurrentSecurity();
+        PlayerPrefs.SetInt("Money", MoneyManager.Instance.money);
         print("Money saved in playerPrefs " + PlayerPrefs.GetInt("Money"));
         SceneManager.LoadScene(currLevelIndex + 1);
     }
