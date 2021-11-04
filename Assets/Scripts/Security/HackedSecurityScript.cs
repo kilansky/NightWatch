@@ -23,7 +23,10 @@ public class HackedSecurityScript : MonoBehaviour
 
     private IEnumerator Disabled()
     {
-        objectBeingDisabled.GetComponent<FieldOfView>().RemoveWaypoints();
+        if (objectBeingDisabled.GetComponent<FieldOfView>())
+        {
+            objectBeingDisabled.GetComponent<FieldOfView>().RemoveWaypoints();
+        }
         objectBeingDisabled.SetActive(false);
         yield return new WaitForSeconds(hackDuration);
         objectBeingDisabled.SetActive(true);

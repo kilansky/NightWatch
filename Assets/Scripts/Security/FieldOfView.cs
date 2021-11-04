@@ -70,7 +70,6 @@ public class FieldOfView : MonoBehaviour
                 if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
-                    print("Add visible target");
                     if(facialRecognition) //Send an alert if this is a camera with the facial recognition upgrade
                         GetComponent<Alert>().SensorTriggered();
 
@@ -87,13 +86,11 @@ public class FieldOfView : MonoBehaviour
                     }
                     if (target.gameObject.GetComponent<Waypoints>())
                     {
-                        print("See waypoint");
                         waypoints.Add(target.gameObject);
                         if (!transform.parent.GetComponent<GuardPathfinding>())
                         {
                             if (transform.parent.parent.GetComponent<CameraRotation>())
                             {
-                                print("Add target");
                                 target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.parent.gameObject);
                             }
                         }

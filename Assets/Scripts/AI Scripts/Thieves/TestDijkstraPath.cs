@@ -20,7 +20,6 @@ public class TestDijkstraPath : MonoBehaviour
     {
         if (GameManager.Instance.nightWatchPhase && waypoints[(waypoints.Length - 1)].GetComponent<BoxCollider>().enabled == false)
         {
-            print("Waypoint colliders one");
             for(int w = 0; w < waypoints.Length; w++)
             {
                 waypoints[w].GetComponent<BoxCollider>().enabled = true;
@@ -31,7 +30,6 @@ public class TestDijkstraPath : MonoBehaviour
     {
 
         previousPath.Clear();
-        print("Start Finding ShortestPath");
         for(int i = 0; i < waypoints.Length; i++)
         {
             pointDistance[i] = float.MaxValue;
@@ -66,6 +64,7 @@ public class TestDijkstraPath : MonoBehaviour
                 }
             }
         }
+        print(endPoint.gameObject);
         resetNum = endPoint.GetComponent<Waypoints>().NumberReference;
         while (resetNum != startPoint.GetComponent<Waypoints>().NumberReference)
         {
@@ -74,7 +73,6 @@ public class TestDijkstraPath : MonoBehaviour
         }
         thief.GetComponent<ThiefPathfinding>().ShortestPath.Add(waypoints[resetNum]);
         unexploredPaths.Clear();
-        print("Finish Finding ShortestPath");
     }
     
 }

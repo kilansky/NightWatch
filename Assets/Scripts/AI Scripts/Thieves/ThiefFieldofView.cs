@@ -73,8 +73,9 @@ public class ThiefFieldofView : MonoBehaviour
                     //Checks if target does not have the PatrolMarker script and its camoRating is less than the thief's PerceptionStat
                     if (!target.parent.gameObject.GetComponent<PatrolMarker>())
                     {
-                        if(target.parent.gameObject.GetComponent<SecurityMeasure>())
+                        if(target.parent.gameObject.GetComponent<HackedSecurityScript>())
                         {
+                            print("See Security measure as " + target.parent.gameObject);
                             if(GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
                             {
                                 if(GetComponent<ThiefPathfinding>().HackingStat > target.parent.GetComponent<HackedSecurityScript>().hackResistance)
@@ -184,7 +185,6 @@ public class ThiefFieldofView : MonoBehaviour
                                         //Checks all thief's knownsecurity
                                         for (int s = 0; s < visibleTargets.Count; s++)
                                         {
-                                            print(target.GetComponent<Waypoints>().security[n] + " vs " + visibleTargets[s].gameObject);
                                              //Checks if the thief and waypoint security objects are the same
                                             if (target.GetComponent<Waypoints>().security[n] == visibleTargets[s].gameObject)
                                             {

@@ -108,6 +108,7 @@ public class ThiefPathfinding : MonoBehaviour
             //Check which connected waypoint to the thief's target point is closest to the thief
             if (Vector3.Distance(transform.position, wayPointManager.endPoint.position) > Vector3.Distance(transform.position, targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i].position))
             {
+
                 wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i];
             }
         }

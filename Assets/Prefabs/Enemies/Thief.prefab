@@ -112,7 +112,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 65792
   visibleTargets: []
-  knownSecurity: []
+  hackableTargets: []
   meshResolution: 1
   edgeResolveIterations: 4
   edgeDistanceThreshold: 0.25
@@ -143,9 +143,10 @@ MonoBehaviour:
   hackingMod: 0.5
   ExitBaseDuration: 4
   ExitDurationMod: 1
-  weightModifier: 100
+  weightModifier: 1000
   waypointWeights: []
   SpawnPoint: {fileID: 0}
+  alertedGuard: []
   SpeedStat: 0
   StealthStat: 0
   PerceptionStat: 0
