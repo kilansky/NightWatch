@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SkillCheckManager : SingletonPattern<SkillCheckManager>
 {
     public GameObject cameraControlsPanel;
+    public GameObject cctvPlacementArrow;
 
     private bool cameraMoveSkillGate = false;
     private bool cameraMoved = false;
@@ -83,6 +84,7 @@ public class SkillCheckManager : SingletonPattern<SkillCheckManager>
     //Enables CCTV Camera button, and check for player to place a Camera
     public void CCTVPlacementSkillGate()
     {
+        cctvPlacementArrow.SetActive(true);
         HUDController.Instance.SetPlanningUIActive(true, true, false);
         HUDController.Instance.SetButtonsActive(true, false, false, false);
         HUDController.Instance.EnableButtons(true, false, false, false);

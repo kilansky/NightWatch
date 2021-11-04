@@ -31,6 +31,8 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
     public GameObject guardPointClickButton;
     public GameObject guardManualButton;
 
+    public bool allowUpgrades = true;
+
     [HideInInspector] public SecurityMeasure selectedObject;
     [HideInInspector] public Vector3 offScreenPos = new Vector3(0, -10, 0);
     [HideInInspector] public bool canSelect;
@@ -106,7 +108,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         ActivateButtons();
 
         //Activate the upgrade panel for the selected object if NOT in the night phase
-        if(!GameManager.Instance.nightWatchPhase)
+        if(!GameManager.Instance.nightWatchPhase && allowUpgrades)
             ActivateUpgradePanel();
 
         //If a guard was selected during the night watch, activate the HUD selection icon and set the camera to follow the guard loosely

@@ -420,6 +420,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             {
                 //TutorialController.Instance.NextButton();
                 placementSkillGate = false;
+                SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
                 DialogueManager.Instance.StartNextDialogue();
             }
         }
