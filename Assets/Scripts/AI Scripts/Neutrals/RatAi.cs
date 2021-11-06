@@ -21,20 +21,8 @@ public class RatAi : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, currentTarget.position) <= 1)
         {
-            if (staying)
-            {
-                print("Rat given destination");
-                currentTarget = spawner.spawnPoints[Random.Range(0, spawner.spawnPoints.Length - 1)];
-                agent.SetDestination(currentTarget.position);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-        else
-        {
-            staying = false;
+            currentTarget = spawner.spawnPoints[Random.Range(0, spawner.spawnPoints.Length - 1)];
+            agent.SetDestination(currentTarget.position);
         }
     }
 }
