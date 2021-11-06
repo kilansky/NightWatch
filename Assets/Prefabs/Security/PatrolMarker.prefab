@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.96862745, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -103,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 5164396924013787424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 4983542083489928222}
   - {fileID: 2399125327860947708}
@@ -141,6 +141,11 @@ MonoBehaviour:
   securityType: 4
   placedOnWalls: 1
   cost: 0
+  camoRating: 0
+  timesUpgraded: 0000000000000000000000000000000000000000
+  visionCone: {fileID: 0}
+  audioDetection: {fileID: 0}
+  laser: {fileID: 0}
 --- !u!1 &5580600297951177576
 GameObject:
   m_ObjectHideFlags: 0

@@ -417,7 +417,11 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                 HUDController.Instance.SetNightWatchButtonInteractability(); //Enable the Begin Night Watch Button
             }
 
-            if(placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate
+            //If placing a hackable security measure in the first level, adjust it to be unhackable
+            if (GameManager.Instance.currentLevel == 1 && newObject.GetComponent<HackedSecurityScript>())
+                newObject.GetComponent<HackedSecurityScript>().hackResistance = 3;
+
+            if (placementSkillGate) //If in the tutorial, placing an object will move to the next panel and activate the exit placement skill gate
             {
                 //TutorialController.Instance.NextButton();
                 placementSkillGate = false;

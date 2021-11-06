@@ -14,7 +14,7 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     public int thiefApprehendedAward = 100;
     public int endOfNightPayment = 300;
 
-    [HideInInspector] public int money;
+    private int money;
     public int Money { get { return money; } }
 
     // Start is called before the first frame update

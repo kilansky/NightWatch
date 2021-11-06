@@ -18,6 +18,8 @@ public class GuardPathfinding : MonoBehaviour
     [Header("References")]
     public LayerMask FloorMask;
     public GameObject alertedIcon;
+    public GameObject clickMoveUI;
+    public GameObject clickMoveDestinationUI;
 
     [Header("Thief Tracking")]
     public List<GameObject> thievesSpotted = new List<GameObject>();
@@ -34,6 +36,7 @@ public class GuardPathfinding : MonoBehaviour
     private Vector3 CurrentPatrolPoint;
     private Vector3 ClickPoint;
     private Vector3 ManualPosition;
+    private Vector3 offScreenPos = new Vector3(0, -10, 0);
 
     private Rigidbody rb;
     private NavMeshAgent Agent;
@@ -60,6 +63,11 @@ public class GuardPathfinding : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         lastControlMode = currControlMode;
         PatrolNumber = 0;
+
+        clickMoveUI.transform.parent = null;
+        clickMoveDestinationUI.transform.parent = null;
+        clickMoveUI.transform.position = offScreenPos;
+        clickMoveDestinationUI.transform.position = offScreenPos;
     }
 
     // Update is called once per frame
@@ -70,10 +78,11 @@ public class GuardPathfinding : MonoBehaviour
             if (currControlMode == ControlMode.Idle)
             {
                 Agent.isStopped = true;
-                print("Agent Can Not Move");
+                //print("Agent Can Not Move");
                 //Do nothing
                 IdleAnimation();
                 ClickPoint = transform.position;
+                clickMoveDestinationUI.transform.position = ClickPoint;
             }
             else if (currControlMode == ControlMode.Click)
             {
@@ -167,7 +176,7 @@ public class GuardPathfinding : MonoBehaviour
                         {
                             canManualMove = false;
                             Agent.isStopped = false;
-                            print("Agent Can Move");
+                            //print("Agent Can Move");
                             Vector3 waitPosition = transform.position;
                             Agent.SetDestination(waitPosition);
 
@@ -232,31 +241,43 @@ public class GuardPathfinding : MonoBehaviour
 
             if(displayPathfinding)
                 DrawPath();
-
-
-            
         }
     }
 
+    //Called whenever a button is pressed to change guard behaviors, or chase mode is entered
+    public void ResetClickMoveUI()
+    {
+        clickMoveUI.transform.position = offScreenPos;
+        clickMoveDestinationUI.transform.position = offScreenPos;
+
+        if(currControlMode == ControlMode.Click)
+        {
+            ClickPoint = transform.position;
+            clickMoveDestinationUI.transform.position = new Vector3(ClickPoint.x, 0.05f, ClickPoint.z);
+        }
+    }
 
     private void ClickMovement()
     {
-        if (PlayerInputs.Instance.LeftClickPressed && !EventSystem.current.IsPointerOverGameObject())
+        Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
         {
-            //print("Clicked");
-            Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
+            clickMoveUI.transform.position = new Vector3(hit.point.x, 0.05f, hit.point.z);
+
+            if (PlayerInputs.Instance.LeftClickPressed && !EventSystem.current.IsPointerOverGameObject())
             {
                 NavMeshHit NavIsHit;
                 int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     ClickPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                    clickMoveDestinationUI.transform.position = new Vector3(hit.point.x, 0.05f, hit.point.z);
                     //print("Placed New Click Point"); 
                 }
             }
         }
+
         if (DoorInteraction == false)
         {
             Agent.isStopped = false;
@@ -388,6 +409,7 @@ public class GuardPathfinding : MonoBehaviour
         alertedIcon.SetActive(true);
         GetComponent<AudioSource>().Play();
         SpeedIncrease();
+        ResetClickMoveUI();
     }
 
     //Automatically chase thief
@@ -414,6 +436,7 @@ public class GuardPathfinding : MonoBehaviour
             {
                 currControlMode = lastControlMode;
                 GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
+                ResetClickMoveUI();
                 //print("currControlMode is " + currControlMode);
             }
 

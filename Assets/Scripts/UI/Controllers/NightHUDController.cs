@@ -80,8 +80,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         itemStolenNum++;
         itemStolenText.text = itemStolenNum.ToString();
-        MoneyManager.Instance.SubtractMoney(500);
-        ActivateEventText("Item Stolen: -$" + MoneyManager.Instance.itemStolenPenalty);
+        ActivateEventText("Item Stolen: -$" + Mathf.Abs(MoneyManager.Instance.itemStolenPenalty).ToString());
         audioSource.PlayOneShot(itemStolen);
     }
 
@@ -100,7 +99,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     {
         thievesApprehendedNum++;
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
-        MoneyManager.Instance.AddMoney(150);
+
         ActivateEventText("Thief Caught: +$" + MoneyManager.Instance.thiefApprehendedAward);
         audioSource.PlayOneShot(thiefApprehended);
     }
@@ -120,10 +119,13 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         int penaltyMoney = MoneyManager.Instance.itemStolenPenalty * itemStolenNum;
         int awardedMoney = MoneyManager.Instance.thiefApprehendedAward * thievesApprehendedNum;
         int endOfNightPayment = MoneyManager.Instance.endOfNightPayment;
-        int finalMoney = unspentMoney + penaltyMoney + awardedMoney + endOfNightPayment;
+        int totalAddedMoney = penaltyMoney + awardedMoney + endOfNightPayment;
+        int finalMoney = unspentMoney + totalAddedMoney;
+
+        MoneyManager.Instance.AddMoney(totalAddedMoney);
 
         startingMoneyText.text = "+$" + unspentMoney.ToString();
-        penaltyMoneyText.text = "-$" + penaltyMoney.ToString();
+        penaltyMoneyText.text = "-$" + Mathf.Abs(penaltyMoney).ToString();
         awardedMoneyText.text = "+$" + awardedMoney.ToString();
         endOfNightPaymentText.text = "+$" + endOfNightPayment.ToString();
         finalMoneyText.text = "$" + finalMoney.ToString();

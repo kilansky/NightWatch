@@ -126,8 +126,7 @@ public class GuardController : SingletonPattern<GuardController>
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Idle;
         selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Idle;
-        SecuritySelection.Instance.ActivateButtons();
-        SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode);
+        GuardBehaviorChanged(selectedGuard);
     }
 
     //Sets guard control mode to patrol state
@@ -137,8 +136,7 @@ public class GuardController : SingletonPattern<GuardController>
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Patrol;
         selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Patrol;
-        SecuritySelection.Instance.ActivateButtons();
-        SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode);
+        GuardBehaviorChanged(selectedGuard);
     }
 
     //Sets guard control mode to click state
@@ -148,8 +146,7 @@ public class GuardController : SingletonPattern<GuardController>
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Click;
         selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Click;
-        SecuritySelection.Instance.ActivateButtons();
-        SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode);
+        GuardBehaviorChanged(selectedGuard);
     }
 
     //Sets guard control mode to manual state
@@ -160,10 +157,16 @@ public class GuardController : SingletonPattern<GuardController>
 
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Manual;
-        SecuritySelection.Instance.ActivateButtons();
-        SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode);
+        guardInManualMode = selectedGuard;
+        GuardBehaviorChanged(selectedGuard);
+    }
 
-        guardInManualMode = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
+    //Do these things when ANY guard behavior button is pressed
+    public void GuardBehaviorChanged(GuardPathfinding selectedGuard)
+    {
+        selectedGuard.ResetClickMoveUI(); //Sets the location of UI for click movement
+        SecuritySelection.Instance.ActivateButtons(); //Changes the active guard behavior buttons
+        SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode); //Sets the behavior text of the selected guard
     }
 
     //Set the behavior text of the guard

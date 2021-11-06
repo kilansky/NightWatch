@@ -15,13 +15,12 @@ public class PauseButtons : MonoBehaviour
     public void LoadNextLevel()
     {
         int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        MoneyManager.Instance.AddMoney(300);
         NightHUDController.Instance.AddMoneyForCurrentSecurity();
-        if (MoneyManager.Instance.money < 500)
-        {
-            MoneyManager.Instance.money = 500;
-        }
-        PlayerPrefs.SetInt("Money", MoneyManager.Instance.money);
+
+        if (MoneyManager.Instance.Money < 500)
+            MoneyManager.Instance.ResetMoney();
+
+        PlayerPrefs.SetInt("Money", MoneyManager.Instance.Money);
         //print("Money saved in playerPrefs " + PlayerPrefs.GetInt("Money"));
         SceneManager.LoadScene(currLevelIndex + 1);
     }
@@ -30,6 +29,10 @@ public class PauseButtons : MonoBehaviour
     public void RestartButton()
     {
         Time.timeScale = 1;
+
+        NightHUDController.Instance.AddMoneyForCurrentSecurity();
+        PlayerPrefs.SetInt("Money", MoneyManager.Instance.Money);
+
         Scene currScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currScene.buildIndex);
     }

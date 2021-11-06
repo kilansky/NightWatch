@@ -142,6 +142,7 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         GuardController.Instance.DeactivateHUDSelectionIcon();
     }
 
+    //Activates security measure related buttons based on the selected object and the current game phase
     public void ActivateButtons()
     {
         DeactivateAllButtons();
