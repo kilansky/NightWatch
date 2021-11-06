@@ -126,7 +126,9 @@ public class GuardController : SingletonPattern<GuardController>
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Idle;
         selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Idle;
+
         GuardBehaviorChanged(selectedGuard);
+        CheckToChaseThief(selectedGuard);
     }
 
     //Sets guard control mode to patrol state
@@ -136,7 +138,9 @@ public class GuardController : SingletonPattern<GuardController>
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Patrol;
         selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Patrol;
+
         GuardBehaviorChanged(selectedGuard);
+        CheckToChaseThief(selectedGuard);
     }
 
     //Sets guard control mode to click state
@@ -146,7 +150,9 @@ public class GuardController : SingletonPattern<GuardController>
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Click;
         selectedGuard.lastControlMode = GuardPathfinding.ControlMode.Click;
+
         GuardBehaviorChanged(selectedGuard);
+        CheckToChaseThief(selectedGuard);
     }
 
     //Sets guard control mode to manual state
@@ -159,6 +165,16 @@ public class GuardController : SingletonPattern<GuardController>
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Manual;
         guardInManualMode = selectedGuard;
         GuardBehaviorChanged(selectedGuard);
+    }
+
+    //Switches guard to chase mode if there is a current thief to chase
+    public void CheckToChaseThief(GuardPathfinding selectedGuard)
+    {
+        if(selectedGuard.thiefToChase)
+        {
+            selectedGuard.currControlMode = GuardPathfinding.ControlMode.Chase;
+            SetGuardBehaviorText(selectedGuard, selectedGuard.currControlMode); //Sets the behavior text of the selected guard
+        }
     }
 
     //Do these things when ANY guard behavior button is pressed
