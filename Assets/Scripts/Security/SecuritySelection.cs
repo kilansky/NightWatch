@@ -107,8 +107,12 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         selectedObject = selected.parent.GetComponent<SecurityMeasure>();
         ActivateButtons();
 
+        //Deactivate placement mode
+        if (SecurityPlacement.Instance.placementMode)
+            SecurityPlacement.Instance.ExitPlacementMode();
+
         //Activate the upgrade panel for the selected object if NOT in the night phase
-        if(!GameManager.Instance.nightWatchPhase && allowUpgrades)
+        if (!GameManager.Instance.nightWatchPhase && allowUpgrades)
             ActivateUpgradePanel();
 
         //If a guard was selected during the night watch, activate the HUD selection icon and set the camera to follow the guard loosely
@@ -127,11 +131,16 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
         }
     }
 
-    //De-select the selected object
+    //De-select the selected object and any camera rotation UI
     public void CloseSelection()
     {
         if (!selectedObject)
+        {
+            foreach (CameraRotation camera in FindObjectsOfType<CameraRotation>())
+                camera.DisableUI();
+
             return;
+        }
 
         selectedObject = null;
         selectionIcon.transform.localScale /= selectionScaleMod;
@@ -176,6 +185,9 @@ public class SecuritySelection : SingletonPattern<SecuritySelection>
                 guardPatrolButton.GetComponent<Button>().interactable = true;
                 guardPointClickButton.GetComponent<Button>().interactable = true;
                 guardManualButton.GetComponent<Button>().interactable = true;
+
+                if(GameManager.Instance.currentLevel == 1)
+                    NightHUDController.Instance.guardSelectionTipText.SetActive(false);
 
                 //Turn off button for mode the guard is currently in already
                 switch (selectedObject.GetComponent<GuardPathfinding>().currControlMode)

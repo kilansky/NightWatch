@@ -2261,6 +2261,9 @@ MonoBehaviour:
   placeableMask:
     serializedVersion: 2
     m_Bits: 512
+  placementBlockedMask:
+    serializedVersion: 2
+    m_Bits: 4096
   greenHighlight: {fileID: 2100000, guid: ed5e6e3ece88f5e4e9963f4198541cfa, type: 2}
   redHighlight: {fileID: 2100000, guid: f999c1416b06f2245952aee480f5c6c0, type: 2}
   placementMode: 0
@@ -2422,9 +2425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolMarkerColors:
-  - {r: 1, g: 0.96862745, b: 0, a: 1}
   - {r: 0.4862745, g: 0.50980395, b: 1, a: 1}
   - {r: 0.990566, g: 0.30277678, b: 0.3387396, a: 1}
+  - {r: 1, g: 0.96862745, b: 0, a: 1}
   - {r: 0.92941177, g: 0.4509804, b: 1, a: 1}
   - {r: 0.30588236, g: 0.68235296, b: 0.34509805, a: 1}
   - {r: 0.9843137, g: 0.6, b: 0.24705882, a: 1}

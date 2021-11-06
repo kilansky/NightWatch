@@ -64,8 +64,8 @@ public class GuardPathfinding : MonoBehaviour
         lastControlMode = currControlMode;
         PatrolNumber = 0;
 
-        clickMoveUI.transform.parent = null;
-        clickMoveDestinationUI.transform.parent = null;
+        clickMoveUI.transform.SetParent(null);
+        clickMoveDestinationUI.transform.SetParent(null);
         clickMoveUI.transform.position = offScreenPos;
         clickMoveDestinationUI.transform.position = offScreenPos;
     }
