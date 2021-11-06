@@ -23,6 +23,7 @@ public class RatAi : MonoBehaviour
         {
             if (staying)
             {
+                print("Rat given destination");
                 currentTarget = spawner.spawnPoints[Random.Range(0, spawner.spawnPoints.Length - 1)];
                 agent.SetDestination(currentTarget.position);
             }
