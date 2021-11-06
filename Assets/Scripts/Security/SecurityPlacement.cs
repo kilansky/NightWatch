@@ -131,11 +131,21 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
                 && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
             {
-                SetPlacementMaterial("green");
+                //Check if held object is over a nav mesh area
+                NavMeshHit NavIsHit;
+                int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+                if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
+                {
+                    SetPlacementMaterial("green");
 
-                //Click to place on floor
-                if (PlayerInputs.Instance.LeftClickPressed)
-                    PlaceSecurityMeasure();
+                    //Click to place on floor
+                    if (PlayerInputs.Instance.LeftClickPressed)
+                        PlaceSecurityMeasure();
+                }
+                else
+                {
+                    SetPlacementMaterial("red");
+                }
             }
             else //Prevent object from being placed on floor
             {
