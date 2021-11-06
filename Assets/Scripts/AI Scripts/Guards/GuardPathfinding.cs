@@ -77,6 +77,10 @@ public class GuardPathfinding : MonoBehaviour
         {
             if (currControlMode == ControlMode.Idle)
             {
+                if (thievesSpotted.Count > 0)
+                {
+                    currControlMode = ControlMode.Chase;
+                }
                 Agent.isStopped = true;
                 //print("Agent Can Not Move");
                 //Do nothing
@@ -86,6 +90,10 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Click)
             {
+                if (thievesSpotted.Count > 0)
+                {
+                    currControlMode = ControlMode.Chase;
+                }
                 //Click to move
                 ClickMovement();
                 if (doorScript != null && doorScript.IsClosed)
@@ -107,6 +115,10 @@ public class GuardPathfinding : MonoBehaviour
             }
             else if (currControlMode == ControlMode.Patrol)
             {
+                if (thievesSpotted.Count > 0)
+                {
+                    currControlMode = ControlMode.Chase;
+                }
                 //print("Patrol is Active");
                 if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                 {
