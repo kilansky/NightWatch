@@ -100,15 +100,26 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
-                        DoorInteraction = true;
-                        OpenDoorFunction();
+                        print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + transform.position.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + transform.position.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
+                        if (ClickPoint.x > doorScript.upperXBoundary || ClickPoint.x < doorScript.lowerXBoundary || ClickPoint.z < doorScript.lowerZBoundary || ClickPoint.z > doorScript.upperZBoundary)
+                        {
+                            print("Open Door");
+                            DoorInteraction = true;
+                            OpenDoorFunction();
+                        }
                     }
                     else
                     {
+                        print("Outside Room");
                         if (ClickPoint.x < doorScript.upperXBoundary && ClickPoint.x > doorScript.lowerXBoundary && ClickPoint.z > doorScript.lowerZBoundary && ClickPoint.z < doorScript.upperZBoundary)
                         {
+                            print("Click Point in Room");
                             DoorInteraction = true;
                             OpenDoorFunction();
+                        }
+                        else
+                        {
+                            print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + ClickPoint.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + ClickPoint.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
                         }
                     }
                 }
@@ -271,6 +282,7 @@ public class GuardPathfinding : MonoBehaviour
 
     private void ClickMovement()
     {
+        print("Click Movement being called");
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
@@ -292,9 +304,10 @@ public class GuardPathfinding : MonoBehaviour
 
         if (DoorInteraction == false)
         {
+            
             Agent.isStopped = false;
-            //print("Agent Can Move");
-            if(Vector3.Distance(transform.position, ClickPoint) > 1)
+            print("Movement allowed");
+            if (Vector3.Distance(transform.position, ClickPoint) > 1)
             {
                 WalkAnimation();
             }
@@ -302,13 +315,12 @@ public class GuardPathfinding : MonoBehaviour
             {
                 IdleAnimation();
             }
-            
+            print("Set to click");
             Agent.SetDestination(ClickPoint);
-            //print("Set Destination is " + Agent.destination);
         }
         else
         {
-            //print("Door Interaction is true");
+            print("Door Interaction is true");
         }
     }
 
@@ -492,10 +504,11 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OpenDoorFunction()
     {
+        print("Call Door Open Function");
         if (doorScript.IsClosed)
         {
             Vector3 waitPosition = doorScript.GetWaitPosition(transform.position);
-
+            print("Set to wait position");
             Agent.SetDestination(waitPosition);
 
             if (thiefToChase)
@@ -614,6 +627,8 @@ public class GuardPathfinding : MonoBehaviour
         if (currControlMode == ControlMode.Click)
         {
             WalkAnimation();
+            print("Set Destination back to click");
+            DoorInteraction = false;
             Agent.SetDestination(ClickPoint);
         }
         else if (currControlMode == ControlMode.Patrol)
