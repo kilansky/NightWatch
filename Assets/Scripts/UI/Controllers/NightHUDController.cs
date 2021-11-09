@@ -15,6 +15,9 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public TextMeshProUGUI thievesEscapedText;
     public TextMeshProUGUI thievesApprehendedText;
 
+    [Header("Tutorial Tip")]
+    public GameObject guardSelectionTipText;
+
     [Header("Pause")]
     public GameObject pausePanel;
 
@@ -53,6 +56,9 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         itemStolenText.text = itemStolenNum.ToString();
         thievesEscapedText.text = thievesEscapedNum.ToString();
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
+
+        if (GameManager.Instance.currentLevel == 1)
+            guardSelectionTipText.SetActive(true);
     }
 
     //Activates and sets the text of the first inactive text object in the eventText array

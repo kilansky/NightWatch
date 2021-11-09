@@ -52,7 +52,7 @@ public class HUDController : SingletonPattern<HUDController>
     public void CameraButton()
     {
         GameObject objectToPlace = securityScript.cctvCamera;
-        securityScript.heldObjectCost = securityScript.cctvCamera.GetComponent<SecurityMeasure>().cost;
+        securityScript.heldObjectCost = objectToPlace.GetComponent<SecurityMeasure>().cost;
         TogglePlacementMode(objectToPlace);
     }
 
@@ -60,7 +60,7 @@ public class HUDController : SingletonPattern<HUDController>
     public void LaserSensorButton()
     {
         GameObject objectToPlace = securityScript.laserSensor;
-        securityScript.heldObjectCost = securityScript.laserSensor.GetComponent<SecurityMeasure>().cost;
+        securityScript.heldObjectCost = objectToPlace.GetComponent<SecurityMeasure>().cost;
         TogglePlacementMode(objectToPlace);
     }
 
@@ -68,7 +68,7 @@ public class HUDController : SingletonPattern<HUDController>
     public void GuardButton()
     {
         GameObject objectToPlace = securityScript.guard;
-        securityScript.heldObjectCost = securityScript.guard.GetComponent<SecurityMeasure>().cost;
+        securityScript.heldObjectCost = objectToPlace.GetComponent<SecurityMeasure>().cost;
         TogglePlacementMode(objectToPlace);
     }
 
@@ -76,7 +76,7 @@ public class HUDController : SingletonPattern<HUDController>
     public void AudioSensorButton()
     {
         GameObject objectToPlace = securityScript.audioSensor;
-        securityScript.heldObjectCost = securityScript.audioSensor.GetComponent<SecurityMeasure>().cost;
+        securityScript.heldObjectCost = objectToPlace.GetComponent<SecurityMeasure>().cost;
         TogglePlacementMode(objectToPlace);
     }
 
@@ -84,6 +84,10 @@ public class HUDController : SingletonPattern<HUDController>
     private void TogglePlacementMode(GameObject objectToPlace)
     {
         bool inPlacementMode = securityScript.placementMode;
+
+        //Cancel the placement of any patrol points
+        foreach (GuardPatrolPoints guardPatrol in FindObjectsOfType<GuardPatrolPoints>())
+            guardPatrol.CancelPlacingPatrolPoint();
 
         if (!inPlacementMode || (inPlacementMode && objectToPlace != securityScript.heldObject))
         {

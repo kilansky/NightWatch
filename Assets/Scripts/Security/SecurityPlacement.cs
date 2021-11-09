@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
 
 public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 {
@@ -14,6 +13,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     public LayerMask floorMask;
     public LayerMask wallMask;
     public LayerMask placeableMask;
+    public LayerMask placementBlockedMask;
     public Material greenHighlight;
     public Material redHighlight;
 
@@ -43,7 +43,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     void Update()
     {
         //Check if an object has been selected to place, and the mouse is not over UI       
-        if ((placementMode || movementMode) && !EventSystem.current.IsPointerOverGameObject())
+        if ((placementMode || movementMode) && !MouseInputUIBlocker.Instance.blockedByUI)
             SetAimTargetPosition();
     }
 
@@ -107,19 +107,21 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             heldObject.transform.position = hitZ.point;
             SetPlacementRotation(hitZ.normal);
 
-            //If not overlapping with another object, and is affordable, allow placement on wall
-            if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping 
-                && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
+            //check if mouse is NOT over a non-placable area and the Cancel Placement Skill Gate is not active
+            if (!Physics.Raycast(ray, out hit, Mathf.Infinity, placementBlockedMask) && !cancelPlacementSkillGate)
             {
-                SetPlacementMaterial("green");
+                //If not overlapping with another object, and is affordable, allow placement on wall
+                if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
+                    && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
+                {
+                    SetPlacementMaterial("green");
 
-                //Click to place on wall
-                if (PlayerInputs.Instance.LeftClickPressed)
-                    PlaceSecurityMeasure();
-            }
-            else //Prevent placement on wall
-            {
-                SetPlacementMaterial("red");
+                    //Click to place on wall
+                    if (PlayerInputs.Instance.LeftClickPressed)
+                        PlaceSecurityMeasure();
+
+                    return;
+                }
             }
         }
         //check if mouse is over the floor
@@ -131,21 +133,23 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             if (!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
                 && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
             {
-                SetPlacementMaterial("green");
+                //Check if held object is over a nav mesh area
+                NavMeshHit NavIsHit;
+                int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+                if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
+                {
+                    SetPlacementMaterial("green");
 
-                //Click to place on floor
-                if (PlayerInputs.Instance.LeftClickPressed)
-                    PlaceSecurityMeasure();
-            }
-            else //Prevent object from being placed on floor
-            {
-                SetPlacementMaterial("red");
+                    //Click to place on floor
+                    if (PlayerInputs.Instance.LeftClickPressed)
+                        PlaceSecurityMeasure();
+
+                    return;
+                }
             }
         }
-        else //Not over placable area or floor
-        {
-            SetPlacementMaterial("red");
-        }
+
+        SetPlacementMaterial("red");
     }
 
     //Rotate an object to snap properly to a wall
@@ -426,7 +430,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
                 //TutorialController.Instance.NextButton();
                 placementSkillGate = false;
 
-                if(newObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.camera)
+                //If a camera is being placed on the first level, disable the camera buy button
+                if(newObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.camera && GameManager.Instance.currentLevel == 1)
                     HUDController.Instance.SetPlanningUIActive(false, false, false);
 
                 SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
