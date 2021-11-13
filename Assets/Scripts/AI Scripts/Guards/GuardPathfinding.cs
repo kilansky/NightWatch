@@ -14,6 +14,7 @@ public class GuardPathfinding : MonoBehaviour
     public ControlMode lastControlMode;
     public float PursuitSpeedMod;
     public float distToCatchThief;
+    public float doorOpenSpeedMod = 1f;
 
     [Header("References")]
     public LayerMask FloorMask;
@@ -194,11 +195,11 @@ public class GuardPathfinding : MonoBehaviour
 
                             if (thiefToChase)
                             {
-                                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration;
+                                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration / doorOpenSpeedMod;
                             }
                             else
                             {
-                                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration;
+                                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration / doorOpenSpeedMod;
                             }
                             StartCoroutine(OpenDelayCoroutine());
                         }
@@ -500,11 +501,11 @@ public class GuardPathfinding : MonoBehaviour
 
             if (thiefToChase)
             {
-                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration;
+                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration / doorOpenSpeedMod;
             }
             else
             {
-                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration;
+                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration / doorOpenSpeedMod;
             }
             facingFrontDoor = false;
             StartCoroutine(OpenDelayCoroutine());
