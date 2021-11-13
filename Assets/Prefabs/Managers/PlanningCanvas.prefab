@@ -7499,6 +7499,8 @@ GameObject:
   - component: {fileID: 2467743332891806728}
   - component: {fileID: 3253078873082034024}
   - component: {fileID: 464272048}
+  - component: {fileID: 5105090859695609850}
+  - component: {fileID: 5691641926682316440}
   m_Layer: 5
   m_Name: PlanningCanvas
   m_TagString: Untagged
@@ -7707,6 +7709,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraControlsPanel: {fileID: 660245678042381449}
   cctvPlacementArrow: {fileID: 999867378509681580}
+--- !u!114 &5105090859695609850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467743332891806723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+--- !u!114 &5691641926682316440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467743332891806723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6be0854fa521741a61e3d0d56b5bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockedByUI: 0
 --- !u!1 &2467743332892908057
 GameObject:
   m_ObjectHideFlags: 0
@@ -15883,7 +15911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.96862745}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

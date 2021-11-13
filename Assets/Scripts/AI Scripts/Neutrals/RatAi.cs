@@ -6,13 +6,13 @@ using UnityEngine.AI;
 public class RatAi : MonoBehaviour
 {
     public RatSpawner spawner;
-    private bool staying;
+    //private bool staying;
     private Transform currentTarget;
     private NavMeshAgent agent;
     // Start is called before the first frame update
     void Start()
     {
-        staying = true;
+        //staying = true;
         agent = GetComponent<NavMeshAgent>();
         currentTarget = transform;
     }
