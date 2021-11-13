@@ -80,6 +80,7 @@ public class GuardPathfinding : MonoBehaviour
             {
                 if (thievesSpotted.Count > 0)
                 {
+                    print("Set to chase mode");
                     currControlMode = ControlMode.Chase;
                 }
                 Agent.isStopped = true;
@@ -93,6 +94,7 @@ public class GuardPathfinding : MonoBehaviour
             {
                 if (thievesSpotted.Count > 0)
                 {
+                    print("Set to Chase mode");
                     currControlMode = ControlMode.Chase;
                 }
                 //Click to move
@@ -101,8 +103,12 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
-                        DoorInteraction = true;
-                        OpenDoorFunction();
+                        //print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + transform.position.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + transform.position.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
+                        if (ClickPoint.x > doorScript.upperXBoundary || ClickPoint.x < doorScript.lowerXBoundary || ClickPoint.z < doorScript.lowerZBoundary || ClickPoint.z > doorScript.upperZBoundary)
+                        {
+                            DoorInteraction = true;
+                            OpenDoorFunction();
+                        }
                     }
                     else
                     {
@@ -111,6 +117,10 @@ public class GuardPathfinding : MonoBehaviour
                             DoorInteraction = true;
                             OpenDoorFunction();
                         }
+                        else
+                        {
+                            //print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + ClickPoint.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + ClickPoint.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
+                        }
                     }
                 }
             }
@@ -118,6 +128,7 @@ public class GuardPathfinding : MonoBehaviour
             {
                 if (thievesSpotted.Count > 0)
                 {
+                    print("Set to chase mode");
                     currControlMode = ControlMode.Chase;
                 }
                 //print("Patrol is Active");
@@ -131,8 +142,11 @@ public class GuardPathfinding : MonoBehaviour
                 {
                     if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                     {
-                        DoorInteraction = true;
-                        OpenDoorFunction();
+                        if (CurrentPatrolPoint.x > doorScript.upperXBoundary || CurrentPatrolPoint.x < doorScript.lowerXBoundary || CurrentPatrolPoint.z < doorScript.lowerZBoundary || CurrentPatrolPoint.z > doorScript.upperZBoundary)
+                        {
+                            DoorInteraction = true;
+                            OpenDoorFunction();
+                        }
                     }
                     else
                     {
@@ -243,16 +257,27 @@ public class GuardPathfinding : MonoBehaviour
                     }
                     else
                     {
-                        if (thiefToChase.transform.position.x < doorScript.upperXBoundary && thiefToChase.transform.position.x > doorScript.lowerXBoundary && thiefToChase.transform.position.z > doorScript.lowerZBoundary && thiefToChase.transform.position.z < doorScript.upperZBoundary)
+                        if (thievesSpotted.Count > 0)
                         {
-                            DoorInteraction = true;
-                            OpenDoorFunction();
+                            if (thiefToChase.transform.position.x < doorScript.upperXBoundary && thiefToChase.transform.position.x > doorScript.lowerXBoundary && thiefToChase.transform.position.z > doorScript.lowerZBoundary && thiefToChase.transform.position.z < doorScript.upperZBoundary)
+                            {
+                                DoorInteraction = true;
+                                OpenDoorFunction();
+                            }
                         }
                     }
                 }
+
+                if (thievesSpotted.Count <= 0)
+                {
+                    print("Set to Last Control Mode(" + lastControlMode + ")");
+                    currControlMode = lastControlMode;
+                }
             }
 
-            if(displayPathfinding)
+            
+
+            if (displayPathfinding)
                 DrawPath();
         }
     }
@@ -272,6 +297,7 @@ public class GuardPathfinding : MonoBehaviour
 
     private void ClickMovement()
     {
+        print("Click Movement being called");
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
@@ -293,9 +319,10 @@ public class GuardPathfinding : MonoBehaviour
 
         if (DoorInteraction == false)
         {
+            
             Agent.isStopped = false;
-            //print("Agent Can Move");
-            if(Vector3.Distance(transform.position, ClickPoint) > 1)
+            print("Movement allowed");
+            if (Vector3.Distance(transform.position, ClickPoint) > 1)
             {
                 WalkAnimation();
             }
@@ -303,13 +330,12 @@ public class GuardPathfinding : MonoBehaviour
             {
                 IdleAnimation();
             }
-            
+            print("Set to click");
             Agent.SetDestination(ClickPoint);
-            //print("Set Destination is " + Agent.destination);
         }
         else
         {
-            //print("Door Interaction is true");
+            print("Door Interaction is true");
         }
     }
 
@@ -414,7 +440,9 @@ public class GuardPathfinding : MonoBehaviour
     {
         if(currControlMode != ControlMode.Manual)
         {
+            print("Set Last Control to " + currControlMode);
             lastControlMode = currControlMode;
+            print("Set to Chase mode");
             currControlMode = ControlMode.Chase;
             GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
         }
@@ -447,6 +475,7 @@ public class GuardPathfinding : MonoBehaviour
 
             if(currControlMode != ControlMode.Manual)
             {
+                print("Set to last control mode(" + lastControlMode + ")");
                 currControlMode = lastControlMode;
                 GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
                 ResetClickMoveUI();
@@ -493,10 +522,11 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OpenDoorFunction()
     {
+        print("Call Door Open Function");
         if (doorScript.IsClosed)
         {
             Vector3 waitPosition = doorScript.GetWaitPosition(transform.position);
-
+            print("Set to wait position");
             Agent.SetDestination(waitPosition);
 
             if (thiefToChase)
@@ -531,13 +561,17 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (GameManager.Instance.nightWatchPhase && other.gameObject == doorScript.gameObject)
+        if (GameManager.Instance.nightWatchPhase && other.GetComponent<DoorControl>())
         {
-            DoorInteraction = false;
-            //doorScript = other.GetComponent<DoorControl>();
-            if (currControlMode == ControlMode.Manual)
+            if(other.gameObject == doorScript.gameObject)
             {
-                doorScript.uiNotification.SetActive(false);
+                DoorInteraction = false;
+                //doorScript = other.GetComponent<DoorControl>();
+                if (currControlMode == ControlMode.Manual)
+                {
+                    doorScript.uiNotification.SetActive(false);
+                }
+
             }
 
         }
@@ -615,11 +649,14 @@ public class GuardPathfinding : MonoBehaviour
         if (currControlMode == ControlMode.Click)
         {
             WalkAnimation();
+            print("Set Destination back to click");
+            DoorInteraction = false;
             Agent.SetDestination(ClickPoint);
         }
         else if (currControlMode == ControlMode.Patrol)
         {
             WalkAnimation();
+            DoorInteraction = false;
             Agent.SetDestination(CurrentPatrolPoint);
             //print("Patrol Destination = " + CurrentPatrolPoint);
         }

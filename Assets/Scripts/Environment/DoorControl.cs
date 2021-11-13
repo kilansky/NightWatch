@@ -33,10 +33,10 @@ public class DoorControl : MonoBehaviour
         IsClosed = true;
         myAnimator = DoorAnimator.GetComponent<Animator>();
 
-        lowerXBoundary = RoomSize.transform.position.x - (RoomSize.transform.localScale.x / 2);
-        upperXBoundary = RoomSize.transform.position.x + (RoomSize.transform.localScale.x / 2);
-        lowerZBoundary = RoomSize.transform.position.z - (RoomSize.transform.localScale.z / 2);
-        upperZBoundary = RoomSize.transform.position.z + (RoomSize.transform.localScale.z / 2);
+        lowerXBoundary = RoomSize.transform.position.x - (RoomSize.transform.localScale.x / 2) - 0.5f;
+        upperXBoundary = RoomSize.transform.position.x + (RoomSize.transform.localScale.x / 2) + 0.5f;
+        lowerZBoundary = RoomSize.transform.position.z - (RoomSize.transform.localScale.z / 2) - 0.5f;
+        upperZBoundary = RoomSize.transform.position.z + (RoomSize.transform.localScale.z / 2) + 0.5f;
     }
 
     private void Start()
