@@ -8,6 +8,8 @@ public class Alert : MonoBehaviour
     public GameObject audioAlert;
     public Vector3 alertOffset = new Vector3(0, 0.5f, 0);
     public float alarmSoundInterval = 1f;
+    public bool timedDeactivation = true;
+    public float timeToDeactivate = 3f;
 
     [HideInInspector] public Vector3 spawnPosition;
     [HideInInspector] public GameObject spawnedAlert;
@@ -37,12 +39,19 @@ public class Alert : MonoBehaviour
             audioSource.Play();
             yield return new WaitForSeconds(alarmSoundInterval);
         }
-        DeactivateAlert();
+
+        if(timedDeactivation)
+            TimedDeactivation();
+    }
+
+    public void TimedDeactivation()
+    {
+        if (spawnedAlert)
+            Destroy(spawnedAlert, timeToDeactivate);
     }
 
     public void DeactivateAlert()
     {
-        if(spawnedAlert)
-            Destroy(spawnedAlert, 3f);
+        Destroy(spawnedAlert);
     }
 }

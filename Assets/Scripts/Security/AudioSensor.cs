@@ -13,7 +13,8 @@ public class AudioSensor : MonoBehaviour
     private TestDijkstraPath wayPointManager;
     private bool waypointsChecked;
     private Camera mainCamera;
-    private ThiefPathfinding nearbyThief;
+    private List<ThiefPathfinding> nearbyThieves = new List<ThiefPathfinding>();
+    private Alert alert;
    
     void Start()
     {
@@ -21,7 +22,7 @@ public class AudioSensor : MonoBehaviour
         SetSensorRange(detectionRange);
         wayPointManager = FindObjectOfType<TestDijkstraPath>();
         waypointsChecked = false;
-        mainCamera = Camera.main;
+        alert = GetComponent<Alert>();
     }
 
     private void Update()
@@ -40,12 +41,23 @@ public class AudioSensor : MonoBehaviour
             waypointsChecked = true;
         }
 
-        //Check if the directional signal upgrade has been purchased and an alert is active
-        if (directionalSignalUpgrade && GetComponent<Alert>().spawnedAlert)
+        //Check if the directional signal upgrade has been purchased and there are nearby thieves
+        if (directionalSignalUpgrade && nearbyThieves.Count > 0)
+        {
+            directionalSignal.SetActive(true);
             SetRotationDirection();
-        //Check if the directional signal upgrade has been purchased, an alert is NOT active, and the directional signal is active
+        }
+        //Check if the directional signal upgrade has been purchased, there are 0 thieves, and the directional signal is active
         else if (directionalSignalUpgrade && directionalSignal.activeSelf)
             directionalSignal.SetActive(false);
+
+        //If one of the nearby thieves no longer exists, remove it from the list
+        if (nearbyThieves.Count > 0 && !nearbyThieves[0])
+            nearbyThieves.Remove(nearbyThieves[0]);
+
+        //Deactivate a spawned alert if there are no nearby thieves
+        if (alert.spawnedAlert && nearbyThieves.Count == 0)
+            alert.DeactivateAlert();
     }
 
     public void SetSensorRange(float range)
@@ -54,30 +66,44 @@ public class AudioSensor : MonoBehaviour
         detectionRange = range;
     }
 
+
     //Check for any thieves that enter the sphere collider of this audio sensor
     private void OnTriggerEnter(Collider other)
     {
         if(other.GetComponent<ThiefPathfinding>())
         {
-            nearbyThief = other.GetComponent<ThiefPathfinding>();
-            GetComponent<Alert>().SensorTriggered();
+            nearbyThieves.Add(other.GetComponent<ThiefPathfinding>());
+            alert.SensorTriggered();
 
             if (directionalSignalUpgrade)
                 directionalSignal.SetActive(true);
         }
     }
 
+    //Remove any thieves from the nearbyThieves list when they leave the trigger area
+    public void OnTriggerExit(Collider other)
+    {
+        if(other.GetComponent<ThiefPathfinding>())
+        {
+            nearbyThieves.Remove(other.GetComponent<ThiefPathfinding>());
+        }
+    }
+
     //Set the direction for the directional signal to rotate towards based on the thief position
     private void SetRotationDirection()
     {
-        Vector3 rotateDir = (nearbyThief.transform.position - directionalSignal.transform.position).normalized;
-        rotateDir = new Vector3(rotateDir.x, 0, rotateDir.z);
-        Quaternion lookDir = Quaternion.LookRotation(rotateDir, Vector3.up);
-        lookDir *= Quaternion.Euler(0, -90f, 0);
+        if (nearbyThieves[0])
+        {
+            Vector3 rotateDir = (directionalSignal.transform.position - nearbyThieves[0].transform.position).normalized;
+            rotateDir = new Vector3(-rotateDir.x, 0, rotateDir.z);
 
-        float yRotValue = lookDir.eulerAngles.y;
-        float rootAngle = transform.root.rotation.eulerAngles.y;
+            Quaternion lookDir = Quaternion.LookRotation(rotateDir, Vector3.up);
+            lookDir *= Quaternion.Euler(0, -90f, 0);
 
-        directionalSignal.transform.localRotation = Quaternion.Euler(0, 0, yRotValue - rootAngle);
+            float yRotValue = lookDir.eulerAngles.y;
+            float rootAngle = transform.root.rotation.eulerAngles.y;
+
+            directionalSignal.transform.localRotation = Quaternion.Euler(0, 0, yRotValue + rootAngle);
+        }
     }
 }

@@ -30,7 +30,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine("FindTargetsWithDelay", 0.25f);
+        StartCoroutine(FindTargetsWithDelay(0.25f));
     }
 
     private void LateUpdate()
