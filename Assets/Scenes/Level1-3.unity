@@ -1949,6 +1949,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 2, z: 0.15}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1364158761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 66200863486076417, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+  m_PrefabInstance: {fileID: 1410366338}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1386878140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2297,6 +2308,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1677318429}
+    - target: {fileID: 1563759210, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: upgradeButtons.Array.data[2].costText
+      value: 
+      objectReference: {fileID: 1364158761}
     - target: {fileID: 1841656273, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
