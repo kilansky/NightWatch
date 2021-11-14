@@ -6,9 +6,14 @@ using UnityEngine;
 public class AudioSensor : MonoBehaviour
 {
     public float detectionRange = 5f;
-    public int detectionRating = 3;
+    public GameObject directionalSignal;
+
+    [HideInInspector] public bool directionalSignalUpgrade = false;
+
     private TestDijkstraPath wayPointManager;
     private bool waypointsChecked;
+    private Camera mainCamera;
+    private ThiefPathfinding nearbyThief;
    
     void Start()
     {
@@ -16,6 +21,7 @@ public class AudioSensor : MonoBehaviour
         SetSensorRange(detectionRange);
         wayPointManager = FindObjectOfType<TestDijkstraPath>();
         waypointsChecked = false;
+        mainCamera = Camera.main;
     }
 
     private void Update()
@@ -33,6 +39,13 @@ public class AudioSensor : MonoBehaviour
             }
             waypointsChecked = true;
         }
+
+        //Check if the directional signal upgrade has been purchased and an alert is active
+        if (directionalSignalUpgrade && GetComponent<Alert>().spawnedAlert)
+            SetRotationDirection();
+        //Check if the directional signal upgrade has been purchased, an alert is NOT active, and the directional signal is active
+        else if (directionalSignalUpgrade && directionalSignal.activeSelf)
+            directionalSignal.SetActive(false);
     }
 
     public void SetSensorRange(float range)
@@ -46,14 +59,25 @@ public class AudioSensor : MonoBehaviour
     {
         if(other.GetComponent<ThiefPathfinding>())
         {
-            if (other.GetComponent<ThiefPathfinding>().StealthStat <= detectionRating)
-            {
-                GetComponent<Alert>().SensorTriggered();
-            }
-            else
-            {
-                print("Thief is too stealthy");
-            }
+            nearbyThief = other.GetComponent<ThiefPathfinding>();
+            GetComponent<Alert>().SensorTriggered();
+
+            if (directionalSignalUpgrade)
+                directionalSignal.SetActive(true);
         }
+    }
+
+    //Set the direction for the directional signal to rotate towards based on the thief position
+    private void SetRotationDirection()
+    {
+        Vector3 rotateDir = (nearbyThief.transform.position - directionalSignal.transform.position).normalized;
+        rotateDir = new Vector3(rotateDir.x, 0, rotateDir.z);
+        Quaternion lookDir = Quaternion.LookRotation(rotateDir, Vector3.up);
+        lookDir *= Quaternion.Euler(0, -90f, 0);
+
+        float yRotValue = lookDir.eulerAngles.y;
+        float rootAngle = transform.root.rotation.eulerAngles.y;
+
+        directionalSignal.transform.localRotation = Quaternion.Euler(0, 0, yRotValue - rootAngle);
     }
 }

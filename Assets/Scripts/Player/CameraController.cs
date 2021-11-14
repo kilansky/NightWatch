@@ -11,6 +11,7 @@ public class CameraController : SingletonPattern<CameraController>
     public Transform camFollowPoint;
     public float minFollowDist = 10f;
     public float maxFollowDist = 50f;
+    [Range(0, 0.1f)] public float percOfScreenEdgeToPan = 0.05f;
 
     [HideInInspector] public Transform selectedGuard;
     [HideInInspector] public bool looseFollow; //While true, allow WASD input to break away from the current follow target
@@ -26,8 +27,8 @@ public class CameraController : SingletonPattern<CameraController>
         vcam = GetComponent<CinemachineVirtualCamera>();
         vcam.Follow = camFollowPoint;
 
-        distToPanWidth = Screen.width * 0.05f;
-        distToPanHeight = Screen.height * 0.05f;
+        distToPanWidth = Screen.width * percOfScreenEdgeToPan;
+        distToPanHeight = Screen.height * percOfScreenEdgeToPan;
     }
 
     // Update is called once per frame
@@ -49,7 +50,7 @@ public class CameraController : SingletonPattern<CameraController>
         //Set newCamPos to the current camera position, + input if not following a guard
         if (PlayerInputs.Instance.WASDMovement != Vector3.zero) //Prioritize WASD movement
             newCamFollowPos = camFollowPoint.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
-        else //Allow Mouse Panning if not pressing WASD
+        else if(!MouseInputUIBlocker.Instance.blockedByUI) //Allow Mouse Panning if not pressing WASD and not over HUD UI
             newCamFollowPos = camFollowPoint.position + mouseEdgeInput * camMoveSpeed * Time.deltaTime;
 
         //Clamp newCamPos within the bounding box edges
@@ -71,15 +72,15 @@ public class CameraController : SingletonPattern<CameraController>
         Vector3 mouseEdgeInput = Vector3.zero;
 
         //Horizontal Mouse Input
-        if (PlayerInputs.Instance.MousePosition.x < Screen.width && PlayerInputs.Instance.MousePosition.x > Screen.width - distToPanWidth)
+        if (PlayerInputs.Instance.MousePosition.x <= Screen.width && PlayerInputs.Instance.MousePosition.x >= Screen.width - distToPanWidth)
             mouseEdgeInput += new Vector3(1, 0, 0); //Move Right
-        else if (PlayerInputs.Instance.MousePosition.x > 0 && PlayerInputs.Instance.MousePosition.x < distToPanWidth)
+        else if (PlayerInputs.Instance.MousePosition.x >= 0 && PlayerInputs.Instance.MousePosition.x <= distToPanWidth)
             mouseEdgeInput += new Vector3(-1, 0, 0); //Move Left
 
         //Vertical Mouse Input
-        if (PlayerInputs.Instance.MousePosition.y < Screen.height && PlayerInputs.Instance.MousePosition.y > Screen.height - distToPanHeight)
+        if (PlayerInputs.Instance.MousePosition.y <= Screen.height && PlayerInputs.Instance.MousePosition.y >= Screen.height - distToPanHeight)
             mouseEdgeInput += new Vector3(0, 0, 1); //Move Up
-        else if (PlayerInputs.Instance.MousePosition.y > 0 && PlayerInputs.Instance.MousePosition.y < distToPanHeight)
+        else if (PlayerInputs.Instance.MousePosition.y >= 0 && PlayerInputs.Instance.MousePosition.y <= distToPanHeight)
             mouseEdgeInput += new Vector3(0, 0, -1); //Move Down
 
         return mouseEdgeInput;
