@@ -158,8 +158,12 @@ public class GuardController : SingletonPattern<GuardController>
     //Sets guard control mode to manual state
     public void ManualButton()
     {
+        //If another guard is currently in manual mode, switch it back to its last used control method
         if (guardInManualMode)
+        {
             guardInManualMode.currControlMode = guardInManualMode.lastControlMode;
+            SetGuardBehaviorText(guardInManualMode, guardInManualMode.currControlMode);
+        }
 
         GuardPathfinding selectedGuard = SecuritySelection.Instance.selectedObject.GetComponent<GuardPathfinding>();
         selectedGuard.currControlMode = GuardPathfinding.ControlMode.Manual;

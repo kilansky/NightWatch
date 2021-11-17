@@ -11,6 +11,7 @@ public class CameraController : SingletonPattern<CameraController>
     public Transform camFollowPoint;
     public float minFollowDist = 10f;
     public float maxFollowDist = 50f;
+    [Range(0, 0.1f)] public float percOfScreenEdgeToPan = 0.05f;
 
     [HideInInspector] public Transform selectedGuard;
     [HideInInspector] public bool looseFollow; //While true, allow WASD input to break away from the current follow target
@@ -18,11 +19,16 @@ public class CameraController : SingletonPattern<CameraController>
     private Vector3 newCamFollowPos;
     private float newFollowDist;
     private CinemachineVirtualCamera vcam;
+    private float distToPanWidth;
+    private float distToPanHeight;
 
     private void Start()
     {
         vcam = GetComponent<CinemachineVirtualCamera>();
         vcam.Follow = camFollowPoint;
+
+        distToPanWidth = Screen.width * percOfScreenEdgeToPan;
+        distToPanHeight = Screen.height * percOfScreenEdgeToPan;
     }
 
     // Update is called once per frame
@@ -38,8 +44,14 @@ public class CameraController : SingletonPattern<CameraController>
         float minZ = boundingBox.position.z - (boundingBox.localScale.z / 2);
         float maxZ = boundingBox.position.z + (boundingBox.localScale.z / 2);
 
+        //Debug.Log(mouseScreenEdgeInput());
+        Vector3 mouseEdgeInput = mouseScreenEdgeInput().normalized;
+
         //Set newCamPos to the current camera position, + input if not following a guard
-        newCamFollowPos = camFollowPoint.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
+        if (PlayerInputs.Instance.WASDMovement != Vector3.zero) //Prioritize WASD movement
+            newCamFollowPos = camFollowPoint.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
+        else if(!MouseInputUIBlocker.Instance.blockedByUI) //Allow Mouse Panning if not pressing WASD and not over HUD UI
+            newCamFollowPos = camFollowPoint.position + mouseEdgeInput * camMoveSpeed * Time.deltaTime;
 
         //Clamp newCamPos within the bounding box edges
         newCamFollowPos.x = Mathf.Clamp(newCamFollowPos.x, minX, maxX);
@@ -53,6 +65,25 @@ public class CameraController : SingletonPattern<CameraController>
         newFollowDist = transposer.m_FollowOffset.y + PlayerInputs.Instance.ScrollingInput * camZoomSpeed * Time.deltaTime;
         newFollowDist = Mathf.Clamp(newFollowDist, minFollowDist, maxFollowDist);
         transposer.m_FollowOffset.y = newFollowDist;
+    }
+
+    public Vector3 mouseScreenEdgeInput()
+    {
+        Vector3 mouseEdgeInput = Vector3.zero;
+
+        //Horizontal Mouse Input
+        if (PlayerInputs.Instance.MousePosition.x <= Screen.width && PlayerInputs.Instance.MousePosition.x >= Screen.width - distToPanWidth)
+            mouseEdgeInput += new Vector3(1, 0, 0); //Move Right
+        else if (PlayerInputs.Instance.MousePosition.x >= 0 && PlayerInputs.Instance.MousePosition.x <= distToPanWidth)
+            mouseEdgeInput += new Vector3(-1, 0, 0); //Move Left
+
+        //Vertical Mouse Input
+        if (PlayerInputs.Instance.MousePosition.y <= Screen.height && PlayerInputs.Instance.MousePosition.y >= Screen.height - distToPanHeight)
+            mouseEdgeInput += new Vector3(0, 0, 1); //Move Up
+        else if (PlayerInputs.Instance.MousePosition.y >= 0 && PlayerInputs.Instance.MousePosition.y <= distToPanHeight)
+            mouseEdgeInput += new Vector3(0, 0, -1); //Move Down
+
+        return mouseEdgeInput;
     }
 
     //Begin following a set target, lockFollow will prevent camera controls with WASD if true
