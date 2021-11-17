@@ -28,7 +28,11 @@ public class HackedSecurityScript : MonoBehaviour
         objectBeingDisabled.SetActive(false);
         yield return new WaitForSeconds(hackDuration);
         objectBeingDisabled.SetActive(true);
-        objectBeingDisabled.GetComponent<FieldOfView>().StartCoroutine("FindTargetsWithDelay", 0.25f);
+        if (objectBeingDisabled.GetComponent<FieldOfView>())
+        {
+            objectBeingDisabled.GetComponent<FieldOfView>().StartCoroutine("FindTargetsWithDelay", 0.25f);
+
+        }
         Hacked = false;
     }
 }

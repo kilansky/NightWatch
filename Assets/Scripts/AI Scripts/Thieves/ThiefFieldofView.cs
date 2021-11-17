@@ -100,29 +100,41 @@ public class ThiefFieldofView : MonoBehaviour
                                         hackableTargets.Add(target.parent.transform); //Target is visible!
                                         newTarget = false;
                                     }
-                                    for(int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
+                                    if (target.parent.gameObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
                                     {
-                                        for(int w = 0; w < GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security.Count; w++)
+                                        if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
                                         {
-                                            if(GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security[w] == target.parent.gameObject)
+                                            //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
+                                            GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
+                                        {
+                                            for (int w = 0; w < GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security.Count; w++)
                                             {
-                                                if (target.parent.gameObject.GetComponent<HackedSecurityScript>())
+                                                if (GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security[w] == target.parent.gameObject)
                                                 {
-                                                    //Checks if target is within the thief's hacking range and the thief is currently not evading or performing a action
-                                                    if (GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade && GetComponent<ThiefPathfinding>().currAction == ThiefPathfinding.ActionStates.Neutral)
+                                                    if (target.parent.gameObject.GetComponent<HackedSecurityScript>())
                                                     {
-                                                        //print("In Hacking Range");
-                                                        //Checks if the target is not already hacked and the thief is skilled enough to hack it
-                                                        if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
+                                                        //Checks if target is within the thief's hacking range and the thief is currently not evading or performing a action
+                                                        if (GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade && GetComponent<ThiefPathfinding>().currAction == ThiefPathfinding.ActionStates.Neutral)
                                                         {
-                                                            //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
-                                                            GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
+                                                            //print("In Hacking Range");
+                                                            //Checks if the target is not already hacked and the thief is skilled enough to hack it
+                                                            if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
+                                                            {
+                                                                //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
+                                                                GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
+                                                            }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                    
                                 }
                                 else
                                 {

@@ -46,10 +46,6 @@ public class Laser : MonoBehaviour
             }
 
         }
-        if (Physics.Raycast(ray, out hit, hit.distance + 0.5f, wayPointMask))
-        {
-            print("Hit " + hit.transform.gameObject);
-        }
 
 
 
