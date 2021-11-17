@@ -15,6 +15,8 @@ public class ThiefPathfinding : MonoBehaviour
     public GameObject Target;    //Object the Thief is currently trying to steal
     public float TimeBeforeEscape; //Time before Thief will make its escape after it's stolen its last object
     public bool ShowPath; //Displays path
+    public float baseSpeed;
+    public float speedMod;
     public float hackingRange; //Determines how far a thief can hack
     public float hackingBaseDuration; //Determines the base duration of thief hacks
     public float hackingMod; //Determines how much each hacking tier changes the duration of hacking
@@ -72,6 +74,7 @@ public class ThiefPathfinding : MonoBehaviour
         Line = GetComponent<LineRenderer>();
         DoorInteraction = false;
         Agent = GetComponent<NavMeshAgent>();
+        Agent.speed = baseSpeed + (speedMod * SpeedStat);
         ObjectStolen = false;
         timeRemainingToSteal = timeToSteal;
         StartCoroutine(EscapeTimer()); //Starts the Escape Timer
