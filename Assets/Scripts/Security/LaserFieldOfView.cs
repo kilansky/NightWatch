@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldOfView : MonoBehaviour
+public class LaserFieldOfView : MonoBehaviour
 {
     [Range(0, 200)] public float viewRadius;
     [Range(0, 360)] public float viewAngle;
@@ -40,7 +40,7 @@ public class FieldOfView : MonoBehaviour
 
     public IEnumerator FindTargetsWithDelay(float delay)
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
@@ -50,7 +50,7 @@ public class FieldOfView : MonoBehaviour
     //Find all 'targets' such as thieves or doors within this object's field of view
     public virtual void FindVisibleTargets()
     {
-        
+
         RemoveWaypoints();
         visibleTargets.Clear(); //clear the current list of existing targets
 
@@ -63,46 +63,25 @@ public class FieldOfView : MonoBehaviour
             Transform target = targetsInViewRadius[i].transform; //Get target transform
             Vector3 dirToTarget = (target.position - transform.position).normalized; //Get vector towards target
             //Check if target is within the 'viewAngle'
-            if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
                 //Perform raycast to make sure target is not behind a wall
-                if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+                if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target); //Target is visible!
 
-                    //Send an alert if this is a camera with the facial recognition upgrade
-                    if (facialRecognition && target.gameObject.GetComponent<ThiefPathfinding>())
-                        GetComponent<Alert>().SensorTriggered();
-
-                    if (target.gameObject.GetComponent<FakeDoor>())
-                    {
-                        //print("Detected Door");
-                        target.GetComponent<FakeDoor>().FakeDoorOff();
-                    }
-                    if(transform.parent.GetComponent<GuardPathfinding>() && target.gameObject.GetComponent<ThiefPathfinding>())
-                    {
-                        //print("See Thief");
-                        transform.parent.GetComponent<GuardPathfinding>().ThiefSpotted(target.gameObject);
-                    }
+                   
                     if (target.gameObject.GetComponent<Waypoints>())
                     {
                         waypoints.Add(target.gameObject);
-                        if (!transform.parent.GetComponent<GuardPathfinding>() && transform.parent.GetComponent<SecurityMeasure>().securityType != SecurityMeasure.SecurityType.laser)
+                        
+                        if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
                         {
-                            if (transform.parent.parent.GetComponent<CameraRotation>())
-                            {
-                                target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.parent.gameObject);
-                            }
+                            print("Laser is adding waypoint");
                         }
-                        else
-                        {
-                            if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
-                            {
-                                print("Laser is adding waypoint");
-                            }
-                            target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
-                        }
+                        target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
+                        
                     }
                 }
             }
@@ -113,21 +92,12 @@ public class FieldOfView : MonoBehaviour
     {
         for (int w = 0; w < waypoints.Count; w++)
         {
-            if (!transform.parent.GetComponent<GuardPathfinding>() && transform.parent.GetComponent<SecurityMeasure>().securityType != SecurityMeasure.SecurityType.laser)
+            if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
             {
-                if (transform.parent.parent.GetComponent<CameraRotation>())
-                {
-                    waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.parent.gameObject);
-                }
+                print("Laser is removing waypoint");
             }
-            else
-            {
-                if(transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
-                {
-                    print("Laser is removing waypoint");
-                }
-                waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
-            }
+            waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
+            
         }
         waypoints.Clear();
     }
@@ -135,7 +105,7 @@ public class FieldOfView : MonoBehaviour
     //Returns a vector3 pointing in the direction of the given angle
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
-        if(!angleIsGlobal)
+        if (!angleIsGlobal)
             angleInDegrees += transform.eulerAngles.y;
 
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
@@ -155,8 +125,8 @@ public class FieldOfView : MonoBehaviour
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
-            
-            if(i > 0)
+
+            if (i > 0)
             {
                 bool edgeDistThresholdExceeded = Mathf.Abs(oldViewCast.dist - newViewCast.dist) > edgeDistanceThreshold;
 
@@ -186,7 +156,7 @@ public class FieldOfView : MonoBehaviour
         {
             verticies[i + 1] = transform.InverseTransformPoint(viewPoints[i] + Vector3.forward * maskCutawayDist);
 
-            if(i < vertexCount - 2)
+            if (i < vertexCount - 2)
             {
                 triangles[i * 3] = 0;
                 triangles[i * 3 + 1] = i + 1;
@@ -235,7 +205,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
+        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         else
             return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
@@ -268,4 +238,5 @@ public class FieldOfView : MonoBehaviour
             pointB = _pointB;
         }
     }
+
 }

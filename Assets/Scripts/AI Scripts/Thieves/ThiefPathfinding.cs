@@ -45,7 +45,6 @@ public class ThiefPathfinding : MonoBehaviour
     private LineRenderer Line;
     private NavMeshPath Path;
     private GameObject hackedObject; //Object thief is hacking into
-    private bool performAction; //Checks if thief is performing an action
     private bool Leaving;
     private int currentWaypoint; //The current waypoint the thief is traveling to
     private TestDijkstraPath wayPointManager; //The gameobject assigning the thief's paths
@@ -369,7 +368,7 @@ public class ThiefPathfinding : MonoBehaviour
                 //Sets currAction to Neutral
                 currAction = ActionStates.Neutral;
             }
-            performAction = false;
+            //performAction = false;
 
             FindClosestEscapeRoute();
             for (int n = 0; n < wayPointManager.waypoints.Length; n++)

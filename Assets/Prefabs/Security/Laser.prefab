@@ -462,6 +462,10 @@ MonoBehaviour:
   thiefMask:
     serializedVersion: 2
     m_Bits: 8192
+  wayPointMask:
+    serializedVersion: 2
+    m_Bits: 262144
+  FieldOfView: {fileID: 4853676073304872388}
   pinpointAlert: 0
 --- !u!114 &4327972041070984944
 MonoBehaviour:
@@ -585,11 +589,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2213451426504454935, guid: 92b43902f09a4ff4b9ddb865508f092f, type: 3}
       propertyPath: viewAngle
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2213451426504454935, guid: 92b43902f09a4ff4b9ddb865508f092f, type: 3}
       propertyPath: viewRadius
-      value: 30
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 6124210549494509995, guid: 92b43902f09a4ff4b9ddb865508f092f, type: 3}
       propertyPath: m_Name
@@ -641,6 +645,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92b43902f09a4ff4b9ddb865508f092f, type: 3}
+--- !u!1 &4853676073304872388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6124210549494509995, guid: 92b43902f09a4ff4b9ddb865508f092f, type: 3}
+  m_PrefabInstance: {fileID: 1704095276722529391}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5205641502272843620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6888272112997845771, guid: 92b43902f09a4ff4b9ddb865508f092f, type: 3}
