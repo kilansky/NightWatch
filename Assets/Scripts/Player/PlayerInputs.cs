@@ -204,20 +204,16 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
             {
                 isPaused = true;
                 Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.None;
 
-                if(!GameManager.Instance.nightWatchPhase)
+                if (!GameManager.Instance.nightWatchPhase)
                     HUDController.Instance.ShowPauseScreen();
                 else
                     NightHUDController.Instance.ShowPauseScreen();
             }
             else //If the game is paused then unpause the game
             {
-                isPaused = false;
-                Time.timeScale = 1;
-                if (!GameManager.Instance.nightWatchPhase)
-                    HUDController.Instance.HidePauseScreen();
-                else
-                    NightHUDController.Instance.HidePauseScreen();
+                ContinueButtonPressed();
             }
         }
     }
@@ -227,6 +223,8 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     {
         isPaused = false;
         Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Confined;
+
         if (!GameManager.Instance.nightWatchPhase)
             HUDController.Instance.HidePauseScreen();
         else

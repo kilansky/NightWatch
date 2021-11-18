@@ -132,12 +132,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currBehavior: 0
   currAction: 2
-  timeToSteal: 5
+  timeToSteal: 6
+  stealTimeMod: 1
   StealRange: 1
   EvadeSpeedMod: 1.5
   Target: {fileID: 0}
   TimeBeforeEscape: 20
-  ShowPath: 0
+  ShowPath: 1
+  baseSpeed: 1
+  speedMod: 1
   hackingRange: 7.5
   hackingBaseDuration: 3.5
   hackingMod: 0.5

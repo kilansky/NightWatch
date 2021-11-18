@@ -6,16 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameManager : SingletonPattern<GameManager>
 {
     public GameObject sceneViewMask; //allows viewing of hidden objects (like thieves) in the editor or setup phase
-    public GameObject planningCanvas;
-    public GameObject nightCanvas;
-    public Light directionalLight;
-
+    public Light[] directionalLights;
     public float planningPhaseBrightness = 0.75f;
     public float nightPhaseBrightness = 0.25f;
     public float timeToChangeBrightness = 2f;
 
     [HideInInspector] public int currentLevel = 1;
     [HideInInspector] public bool nightWatchPhase = false;
+
+    private GameObject planningCanvas;
+    private GameObject nightCanvas;
     private int currLevel;
 
     // Start is called before the first frame update
@@ -24,16 +24,33 @@ public class GameManager : SingletonPattern<GameManager>
         Time.timeScale = 1;
         PlayerInputs.Instance.canPause = true;
         sceneViewMask.SetActive(false);
+        Cursor.lockState = CursorLockMode.Confined;
+
+        planningCanvas = HUDController.Instance.gameObject;
+        nightCanvas = NightHUDController.Instance.gameObject;
 
         currentLevel = SceneManager.GetActiveScene().buildIndex + 1;
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);
+
+        //Adjust brightness value of lights based on the number of lights
+        int lightCount = 0;
+        foreach (Light light in directionalLights)
+            lightCount++;
+
+        planningPhaseBrightness /= lightCount;
+        nightPhaseBrightness /= lightCount;
+
         BeginPlanningPhase();
     }
 
     //Call on Level Start, allow placement of security measures
     public void BeginPlanningPhase()
     {
-        directionalLight.intensity = planningPhaseBrightness;
+        AudioManager.Instance.PlayDayTrack();
+
+        foreach (Light light in directionalLights)
+            light.intensity = planningPhaseBrightness;
+
         planningCanvas.SetActive(true);
         nightCanvas.SetActive(false);
     }
@@ -41,6 +58,8 @@ public class GameManager : SingletonPattern<GameManager>
     //Call when player presses button, hides the placement UI and begins spawning thieves
     public void BeginNightPhase()
     {
+        AudioManager.Instance.PlayNightTrack();
+
         nightWatchPhase = true;
         StartCoroutine(ChangeTimeOfDay(planningPhaseBrightness, nightPhaseBrightness));
 
@@ -56,11 +75,17 @@ public class GameManager : SingletonPattern<GameManager>
         float timeElapsed = 0f;
         while(timeElapsed < timeToChangeBrightness)
         {
-            directionalLight.intensity = Mathf.Lerp(startBrightness, endBrightness, timeElapsed / timeToChangeBrightness);
+            float newIntensity = Mathf.Lerp(startBrightness, endBrightness, timeElapsed / timeToChangeBrightness);
+
+            foreach (Light light in directionalLights)
+                light.intensity = newIntensity;
+
             timeElapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        directionalLight.intensity = endBrightness;
+
+        foreach (Light light in directionalLights)
+            light.intensity = endBrightness;
     }
 
     //Call once all thieves have been spawned and the last thief is caught or escapes

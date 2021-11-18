@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    [Range(0, 30)] public float viewRadius;
+    [Range(0, 200)] public float viewRadius;
     [Range(0, 360)] public float viewAngle;
 
     public LayerMask targetMask;
@@ -30,7 +30,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine("FindTargetsWithDelay", 0.25f);
+        StartCoroutine(FindTargetsWithDelay(0.25f));
     }
 
     private void LateUpdate()
@@ -88,7 +88,7 @@ public class FieldOfView : MonoBehaviour
                     if (target.gameObject.GetComponent<Waypoints>())
                     {
                         waypoints.Add(target.gameObject);
-                        if (!transform.parent.GetComponent<GuardPathfinding>())
+                        if (!transform.parent.GetComponent<GuardPathfinding>() && transform.parent.GetComponent<SecurityMeasure>().securityType != SecurityMeasure.SecurityType.laser)
                         {
                             if (transform.parent.parent.GetComponent<CameraRotation>())
                             {
@@ -97,6 +97,10 @@ public class FieldOfView : MonoBehaviour
                         }
                         else
                         {
+                            if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                            {
+                                print("Laser is adding waypoint");
+                            }
                             target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
                         }
                     }
@@ -109,7 +113,7 @@ public class FieldOfView : MonoBehaviour
     {
         for (int w = 0; w < waypoints.Count; w++)
         {
-            if (!transform.parent.GetComponent<GuardPathfinding>())
+            if (!transform.parent.GetComponent<GuardPathfinding>() && transform.parent.GetComponent<SecurityMeasure>().securityType != SecurityMeasure.SecurityType.laser)
             {
                 if (transform.parent.parent.GetComponent<CameraRotation>())
                 {
@@ -118,6 +122,10 @@ public class FieldOfView : MonoBehaviour
             }
             else
             {
+                if(transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                {
+                    print("Laser is removing waypoint");
+                }
                 waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
             }
         }

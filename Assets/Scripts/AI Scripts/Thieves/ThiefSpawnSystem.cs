@@ -43,6 +43,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
 
         //Sets up the first timer
         Timer = BaseSpawnTimer;
+        DifficultySelected = GetComponent<LevelManager>().difficulty;
     }
 
     private void Update()

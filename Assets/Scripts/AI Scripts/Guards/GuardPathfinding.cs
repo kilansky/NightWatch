@@ -14,6 +14,7 @@ public class GuardPathfinding : MonoBehaviour
     public ControlMode lastControlMode;
     public float PursuitSpeedMod;
     public float distToCatchThief;
+    public float doorOpenSpeedMod = 1f;
 
     [Header("References")]
     public LayerMask FloorMask;
@@ -26,6 +27,9 @@ public class GuardPathfinding : MonoBehaviour
 
     [Header("Testing UI")]
     public bool displayPathfinding;
+
+    [Header("Menu Prop")]
+    public bool menuProp;
 
     [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool facingFrontDoor;
@@ -73,186 +77,218 @@ public class GuardPathfinding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.nightWatchPhase)
+        if (menuProp)
         {
-            if (currControlMode == ControlMode.Idle)
+            IdleAnimation();
+        }
+        else
+        {
+            if (GameManager.Instance.nightWatchPhase)
             {
-                if (thievesSpotted.Count > 0)
+                if (currControlMode == ControlMode.Idle)
                 {
-                    currControlMode = ControlMode.Chase;
-                }
-                Agent.isStopped = true;
-                //print("Agent Can Not Move");
-                //Do nothing
-                IdleAnimation();
-                ClickPoint = transform.position;
-                clickMoveDestinationUI.transform.position = ClickPoint;
-            }
-            else if (currControlMode == ControlMode.Click)
-            {
-                if (thievesSpotted.Count > 0)
-                {
-                    currControlMode = ControlMode.Chase;
-                }
-                //Click to move
-                ClickMovement();
-                if (doorScript != null && doorScript.IsClosed)
-                {
-                    if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                    if (thievesSpotted.Count > 0)
                     {
-                        DoorInteraction = true;
-                        OpenDoorFunction();
+                        print("Set to chase mode");
+                        currControlMode = ControlMode.Chase;
                     }
-                    else
+                    Agent.isStopped = true;
+                    //print("Agent Can Not Move");
+                    //Do nothing
+                    IdleAnimation();
+                    ClickPoint = transform.position;
+                    clickMoveDestinationUI.transform.position = ClickPoint;
+                }
+                else if (currControlMode == ControlMode.Click)
+                {
+                    if (thievesSpotted.Count > 0)
                     {
-                        if (ClickPoint.x < doorScript.upperXBoundary && ClickPoint.x > doorScript.lowerXBoundary && ClickPoint.z > doorScript.lowerZBoundary && ClickPoint.z < doorScript.upperZBoundary)
+                        print("Set to Chase mode");
+                        currControlMode = ControlMode.Chase;
+                    }
+                    //Click to move
+                    ClickMovement();
+                    if (doorScript != null && doorScript.IsClosed)
+                    {
+                        if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                         {
-                            DoorInteraction = true;
-                            OpenDoorFunction();
-                        }
-                    }
-                }
-            }
-            else if (currControlMode == ControlMode.Patrol)
-            {
-                if (thievesSpotted.Count > 0)
-                {
-                    currControlMode = ControlMode.Chase;
-                }
-                //print("Patrol is Active");
-                if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
-                {
-                    //Patrol to set points
-                    CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
-                    Pathfinding();
-                }
-                if (doorScript != null && doorScript.IsClosed)
-                {
-                    if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
-                    {
-                        DoorInteraction = true;
-                        OpenDoorFunction();
-                    }
-                    else
-                    {
-                        if (CurrentPatrolPoint.x < doorScript.upperXBoundary && CurrentPatrolPoint.x > doorScript.lowerXBoundary && CurrentPatrolPoint.z > doorScript.lowerZBoundary && CurrentPatrolPoint.z < doorScript.upperZBoundary)
-                        {
-                            DoorInteraction = true;
-                            OpenDoorFunction();
-                        }
-                    }
-                }
-
-            }
-            else if (currControlMode == ControlMode.Manual)
-            {
-                if (canManualMove)
-                {
-                    //Full WASD and mouse control
-                    ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
-                    if(PlayerInputs.Instance.WASDMovement == new Vector3(0, 0, 0))
-                    {
-                        IdleAnimation();
-                    }
-                    else
-                    {
-                        if (thiefToChase)
-                        {
-                            RunAnimation();
+                            //print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + transform.position.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + transform.position.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
+                            if (ClickPoint.x > doorScript.upperXBoundary || ClickPoint.x < doorScript.lowerXBoundary || ClickPoint.z < doorScript.lowerZBoundary || ClickPoint.z > doorScript.upperZBoundary)
+                            {
+                                DoorInteraction = true;
+                                OpenDoorFunction();
+                            }
                         }
                         else
                         {
-                            WalkAnimation();
-                        }
-                    }
-                    GuardLookAtMouse();
-                    cameraScript.BeginCameraFollow(transform, false);
-                    cameraScript.selectedGuard = transform;
-                    Agent.isStopped = true;
-                }
-
-                if (thiefToChase)
-                    AttemptToCatchThief();
-
-                if (doorScript != null)
-                {
-                    if (doorScript.GetComponent<DoorControl>().IsClosed)
-                    {
-                        if (DoorInteraction)
-                        {
-                            doorScript.uiNotification.SetActive(true);
-                        }
-
-                        //print("In Door Zone");
-                        if (PlayerInputs.Instance.Interact)
-                        {
-                            canManualMove = false;
-                            Agent.isStopped = false;
-                            //print("Agent Can Move");
-                            Vector3 waitPosition = transform.position;
-                            Agent.SetDestination(waitPosition);
-
-                            if (thiefToChase)
+                            if (ClickPoint.x < doorScript.upperXBoundary && ClickPoint.x > doorScript.lowerXBoundary && ClickPoint.z > doorScript.lowerZBoundary && ClickPoint.z < doorScript.upperZBoundary)
                             {
-                                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration;
+                                DoorInteraction = true;
+                                OpenDoorFunction();
                             }
                             else
                             {
-                                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration;
+                                //print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + ClickPoint.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + ClickPoint.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
                             }
-                            StartCoroutine(OpenDelayCoroutine());
                         }
                     }
                 }
-
-            }
-            else if (currControlMode == ControlMode.Chase)
-            {
-                if (thiefToChase)
+                else if (currControlMode == ControlMode.Patrol)
                 {
-                    AttemptToCatchThief();
-
-                    //print("Going after Thief");
-                    if (DoorInteraction == false)
+                    if (thievesSpotted.Count > 0)
                     {
-                        //Auto-Chase thieves
-                        Agent.isStopped = false;
-                        //print("Agent Can Move");
-                        RunAnimation();
-                        Agent.SetDestination(thiefToChase.transform.position);
+                        print("Set to chase mode");
+                        currControlMode = ControlMode.Chase;
                     }
-                }
-
-                List<GameObject> nullThieves = new List<GameObject>();
-                foreach (GameObject thief in thievesSpotted)
-                {
-                    if (!thief)
-                        nullThieves.Add(thief);
-                }
-                foreach (GameObject thief in nullThieves)
-                {
-                    thievesSpotted.Remove(thief);
-                }
-                if (doorScript != null && doorScript.IsClosed)
-                {
-                    if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                    //print("Patrol is Active");
+                    if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                     {
-                        DoorInteraction = true;
-                        OpenDoorFunction();
+                        //Patrol to set points
+                        CurrentPatrolPoint = gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints[PatrolNumber].transform.position;
+                        Pathfinding();
                     }
-                    else
+                    if (doorScript != null && doorScript.IsClosed)
                     {
-                        if (thiefToChase.transform.position.x < doorScript.upperXBoundary && thiefToChase.transform.position.x > doorScript.lowerXBoundary && thiefToChase.transform.position.z > doorScript.lowerZBoundary && thiefToChase.transform.position.z < doorScript.upperZBoundary)
+                        if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
+                        {
+                            if (CurrentPatrolPoint.x > doorScript.upperXBoundary || CurrentPatrolPoint.x < doorScript.lowerXBoundary || CurrentPatrolPoint.z < doorScript.lowerZBoundary || CurrentPatrolPoint.z > doorScript.upperZBoundary)
+                            {
+                                DoorInteraction = true;
+                                OpenDoorFunction();
+                            }
+                        }
+                        else
+                        {
+                            if (CurrentPatrolPoint.x < doorScript.upperXBoundary && CurrentPatrolPoint.x > doorScript.lowerXBoundary && CurrentPatrolPoint.z > doorScript.lowerZBoundary && CurrentPatrolPoint.z < doorScript.upperZBoundary)
+                            {
+                                DoorInteraction = true;
+                                OpenDoorFunction();
+                            }
+                        }
+                    }
+
+                }
+                else if (currControlMode == ControlMode.Manual)
+                {
+                    if (canManualMove)
+                    {
+                        //Full WASD and mouse control
+                        ManualPosition = transform.position + PlayerInputs.Instance.WASDMovement * Agent.speed * Time.deltaTime;
+                        if (PlayerInputs.Instance.WASDMovement == new Vector3(0, 0, 0))
+                        {
+                            IdleAnimation();
+                        }
+                        else
+                        {
+                            if (thiefToChase)
+                            {
+                                RunAnimation();
+                            }
+                            else
+                            {
+                                WalkAnimation();
+                            }
+                        }
+                        GuardLookAtMouse();
+                        cameraScript.BeginCameraFollow(transform, false);
+                        cameraScript.selectedGuard = transform;
+                        Agent.isStopped = true;
+                    }
+
+                    if (thiefToChase)
+                        AttemptToCatchThief();
+
+                    if (doorScript != null)
+                    {
+                        if (doorScript.GetComponent<DoorControl>().IsClosed)
+                        {
+                            if (DoorInteraction)
+                            {
+                                doorScript.uiNotification.SetActive(true);
+                            }
+
+                            //print("In Door Zone");
+                            if (PlayerInputs.Instance.Interact)
+                            {
+                                canManualMove = false;
+                                Agent.isStopped = false;
+                                //print("Agent Can Move");
+                                Vector3 waitPosition = transform.position;
+                                Agent.SetDestination(waitPosition);
+
+                                if (thiefToChase)
+                                {
+                                    doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration / doorOpenSpeedMod;
+                                }
+                                else
+                                {
+                                    doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration / doorOpenSpeedMod;
+                                }
+                                StartCoroutine(OpenDelayCoroutine());
+                            }
+                        }
+                    }
+
+                }
+                else if (currControlMode == ControlMode.Chase)
+                {
+                    if (thiefToChase)
+                    {
+                        AttemptToCatchThief();
+
+                        //print("Going after Thief");
+                        if (DoorInteraction == false)
+                        {
+                            //Auto-Chase thieves
+                            Agent.isStopped = false;
+                            //print("Agent Can Move");
+                            RunAnimation();
+                            Agent.SetDestination(thiefToChase.transform.position);
+                        }
+                    }
+
+                    List<GameObject> nullThieves = new List<GameObject>();
+                    foreach (GameObject thief in thievesSpotted)
+                    {
+                        if (!thief)
+                            nullThieves.Add(thief);
+                    }
+                    foreach (GameObject thief in nullThieves)
+                    {
+                        thievesSpotted.Remove(thief);
+                    }
+                    if (doorScript != null && doorScript.IsClosed)
+                    {
+                        if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                         {
                             DoorInteraction = true;
                             OpenDoorFunction();
                         }
+                        else
+                        {
+                            if (thievesSpotted.Count > 0)
+                            {
+                                if (thiefToChase.transform.position.x < doorScript.upperXBoundary && thiefToChase.transform.position.x > doorScript.lowerXBoundary && thiefToChase.transform.position.z > doorScript.lowerZBoundary && thiefToChase.transform.position.z < doorScript.upperZBoundary)
+                                {
+                                    DoorInteraction = true;
+                                    OpenDoorFunction();
+                                }
+                            }
+                        }
+                    }
+
+                    if (thievesSpotted.Count <= 0)
+                    {
+                        print("Set to Last Control Mode(" + lastControlMode + ")");
+                        currControlMode = lastControlMode;
                     }
                 }
-            }
 
-            if(displayPathfinding)
-                DrawPath();
+
+
+                if (displayPathfinding)
+                    DrawPath();
+            }
         }
     }
 
@@ -271,6 +307,7 @@ public class GuardPathfinding : MonoBehaviour
 
     private void ClickMovement()
     {
+        print("Click Movement being called");
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
@@ -292,9 +329,10 @@ public class GuardPathfinding : MonoBehaviour
 
         if (DoorInteraction == false)
         {
+            
             Agent.isStopped = false;
-            //print("Agent Can Move");
-            if(Vector3.Distance(transform.position, ClickPoint) > 1)
+            print("Movement allowed");
+            if (Vector3.Distance(transform.position, ClickPoint) > 1)
             {
                 WalkAnimation();
             }
@@ -302,13 +340,12 @@ public class GuardPathfinding : MonoBehaviour
             {
                 IdleAnimation();
             }
-            
+            print("Set to click");
             Agent.SetDestination(ClickPoint);
-            //print("Set Destination is " + Agent.destination);
         }
         else
         {
-            //print("Door Interaction is true");
+            print("Door Interaction is true");
         }
     }
 
@@ -413,7 +450,9 @@ public class GuardPathfinding : MonoBehaviour
     {
         if(currControlMode != ControlMode.Manual)
         {
+            print("Set Last Control to " + currControlMode);
             lastControlMode = currControlMode;
+            print("Set to Chase mode");
             currControlMode = ControlMode.Chase;
             GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
         }
@@ -446,6 +485,7 @@ public class GuardPathfinding : MonoBehaviour
 
             if(currControlMode != ControlMode.Manual)
             {
+                print("Set to last control mode(" + lastControlMode + ")");
                 currControlMode = lastControlMode;
                 GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
                 ResetClickMoveUI();
@@ -492,19 +532,20 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OpenDoorFunction()
     {
+        print("Call Door Open Function");
         if (doorScript.IsClosed)
         {
             Vector3 waitPosition = doorScript.GetWaitPosition(transform.position);
-
+            print("Set to wait position");
             Agent.SetDestination(waitPosition);
 
             if (thiefToChase)
             {
-                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration;
+                doorOpenDelay = doorScript.GetComponent<DoorControl>().chaseOpenDuration / doorOpenSpeedMod;
             }
             else
             {
-                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration;
+                doorOpenDelay = doorScript.GetComponent<DoorControl>().openAnimationDuration / doorOpenSpeedMod;
             }
             facingFrontDoor = false;
             StartCoroutine(OpenDelayCoroutine());
@@ -530,13 +571,17 @@ public class GuardPathfinding : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (GameManager.Instance.nightWatchPhase && other.gameObject == doorScript.gameObject)
+        if (GameManager.Instance.nightWatchPhase && other.GetComponent<DoorControl>())
         {
-            DoorInteraction = false;
-            //doorScript = other.GetComponent<DoorControl>();
-            if (currControlMode == ControlMode.Manual)
+            if(other.gameObject == doorScript.gameObject)
             {
-                doorScript.uiNotification.SetActive(false);
+                DoorInteraction = false;
+                //doorScript = other.GetComponent<DoorControl>();
+                if (currControlMode == ControlMode.Manual)
+                {
+                    doorScript.uiNotification.SetActive(false);
+                }
+
             }
 
         }
@@ -614,11 +659,14 @@ public class GuardPathfinding : MonoBehaviour
         if (currControlMode == ControlMode.Click)
         {
             WalkAnimation();
+            print("Set Destination back to click");
+            DoorInteraction = false;
             Agent.SetDestination(ClickPoint);
         }
         else if (currControlMode == ControlMode.Patrol)
         {
             WalkAnimation();
+            DoorInteraction = false;
             Agent.SetDestination(CurrentPatrolPoint);
             //print("Patrol Destination = " + CurrentPatrolPoint);
         }

@@ -57,7 +57,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         thievesEscapedText.text = thievesEscapedNum.ToString();
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
 
-        if (GameManager.Instance.currentLevel == 1)
+        if (GameManager.Instance.currentLevel == 1 && !Application.isEditor)
             guardSelectionTipText.SetActive(true);
     }
 

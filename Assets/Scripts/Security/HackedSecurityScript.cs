@@ -15,20 +15,22 @@ public class HackedSecurityScript : MonoBehaviour
     public void HackedFunction(int hackLevel)
     {
         hackDuration = hackBaseDuration + (hackDurationMod * hackLevel);
-        objectBeingDisabled.GetComponent<Alert>().DeactivateAlert();
+        objectBeingDisabled.GetComponent<Alert>().TimedDeactivation();
         StartCoroutine(Disabled());
     }
 
     private IEnumerator Disabled()
     {
         if (objectBeingDisabled.GetComponent<FieldOfView>())
-        {
             objectBeingDisabled.GetComponent<FieldOfView>().RemoveWaypoints();
-        }
+
         objectBeingDisabled.SetActive(false);
         yield return new WaitForSeconds(hackDuration);
         objectBeingDisabled.SetActive(true);
-        objectBeingDisabled.GetComponent<FieldOfView>().StartCoroutine("FindTargetsWithDelay", 0.25f);
+
+        if (objectBeingDisabled.GetComponent<FieldOfView>())
+            StartCoroutine(objectBeingDisabled.GetComponent<FieldOfView>().FindTargetsWithDelay(0.25f));
+
         Hacked = false;
     }
 }
