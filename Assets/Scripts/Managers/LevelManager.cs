@@ -3,49 +3,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class LevelManager : MonoBehaviour
 {
     public int difficulty;
-    public bool NoSaveData;
+    public int lastPlayedScene;
+    public GameObject continueWarning;
+
 
     private void Start()
     {
-        if (NoSaveData)
+        LoadDifficultySelection();
+    }
+    public void LoadLastLevel()
+    {
+        if (lastPlayedScene < 1)
         {
-            NoSaveData = false;
-            SaveDifficultySelection(0);
+            continueWarning.SetActive(true);
         }
         else
         {
-            LoadDifficultySelection();
+            SceneManager.LoadScene(lastPlayedScene);
         }
+        
     }
-
     public void LoadLevel(int level)
     {
         SceneManager.LoadScene(level);
     }
+    public void QuitGame(int curr)
+    {
+        if (SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            lastPlayedScene = SceneManager.GetActiveScene().buildIndex + curr;
+            SaveSystemScript.SaveGameInfo(this);
+            print("Last Played Scene");
+        }
+        print("Scene build " + SceneManager.GetActiveScene().buildIndex);
+        
+        Application.Quit();
+    }
+    public void SaveCurrentInformation(int curr)
+    {
+        
+    }
     public void SaveDifficultySelection(int diff)
     {
         difficulty = diff;
+        if(SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            lastPlayedScene = SceneManager.GetActiveScene().buildIndex;
+        }
+
         SaveSystemScript.SaveGameInfo(this);
     }
     public void LoadDifficultySelection()
     {
         GameData data = SaveSystemScript.LoadGameInfo();
-        difficulty = data.difficultySelection;
-        if (difficulty == 0)
+        if (data != null)
         {
-            print("Difficulty selected is easy");
+            difficulty = data.difficultySelection;
+            lastPlayedScene = data.lastScene;
+            print("Last Level = " + lastPlayedScene);
+            if (difficulty == 0)
+            {
+                print("Difficulty selected is easy");
+            }
+            else if (difficulty == 1)
+            {
+                print("Difficulty selected is normal");
+            }
+            else if (difficulty == 2)
+            {
+                print("Difficulty selected is hard");
+            }
         }
-        else if (difficulty == 1)
+        else
         {
-            print("Difficulty selected is normal");
+            SaveDifficultySelection(0);
         }
-        else if (difficulty == 2)
-        {
-            print("Difficulty selected is hard");
-        }
+        
 
 
     }
