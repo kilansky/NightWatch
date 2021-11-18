@@ -10,6 +10,7 @@ public class ThiefPathfinding : MonoBehaviour
     public BehaviorStates currBehavior = BehaviorStates.Sneak;
     public ActionStates currAction = ActionStates.Neutral;
     public float timeToSteal;    //Time it takes to steal objects
+    public float stealTimeMod;
     public float StealRange;     //Distance from the target object that the thief will begin its steal action
     public float EvadeSpeedMod;
     public GameObject Target;    //Object the Thief is currently trying to steal
@@ -39,6 +40,7 @@ public class ThiefPathfinding : MonoBehaviour
 
     private NavMeshAgent Agent;
     private float timeRemainingToSteal;    //The progress of the steal timer
+   
     private bool ObjectStolen; //Stolen
     private int ItemsHeld; //Number of target items the thief is holding
     private float doorOpenDelay; //Time the thief must stand still as the door opens
@@ -76,7 +78,7 @@ public class ThiefPathfinding : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = baseSpeed + (speedMod * SpeedStat);
         ObjectStolen = false;
-        timeRemainingToSteal = timeToSteal;
+        timeRemainingToSteal = timeToSteal - (stealTimeMod * HackingStat);
         StartCoroutine(EscapeTimer()); //Starts the Escape Timer
     }
 
@@ -441,8 +443,8 @@ public class ThiefPathfinding : MonoBehaviour
         }
         else
         {
-            timeRemainingToSteal = timeToSteal;
-            //print("Stole Object");
+            timeRemainingToSteal = timeToSteal - (stealTimeMod * HackingStat);
+            print("Time it took " + gameObject + " to steal object: " + (timeToSteal - (stealTimeMod * HackingStat)));
             ItemsHeld += 1; //Adds one item to itemsheld
             if (TimeBeforeEscape <= 0 || ThiefSpawnSystem.Instance.TargetObjects.Count < 1) //Checks to if the Escape Timer is over and if there are any target objects left. If either are true, the thief begins the escape phase
             {
