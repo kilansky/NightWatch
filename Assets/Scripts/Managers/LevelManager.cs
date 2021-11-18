@@ -2,18 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class LevelManager : MonoBehaviour
 {
     public int difficulty;
     public int lastPlayedScene;
+    public bool LevelOneCompletion;
     public GameObject continueWarning;
+    public Button SecondLevel;
+    private int selectedLevel;
 
 
     private void Start()
     {
+        selectedLevel = 1;
         LoadDifficultySelection();
+        if (!SecondLevel)
+        {
+            if (LevelOneCompletion)
+            {
+                SecondLevel.interactable = true;
+            }
+        }
     }
     public void LoadLastLevel()
     {
@@ -26,6 +38,15 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene(lastPlayedScene);
         }
         
+    }
+    public void selectLevel(int level)
+    {
+        selectedLevel = level;
+        print("Select Level " + selectedLevel);
+    }
+    public void loadSelectedLevel()
+    {
+        SceneManager.LoadScene(selectedLevel);
     }
     public void LoadLevel(int level)
     {
@@ -43,10 +64,6 @@ public class LevelManager : MonoBehaviour
         
         Application.Quit();
     }
-    public void SaveCurrentInformation(int curr)
-    {
-        
-    }
     public void SaveDifficultySelection(int diff)
     {
         difficulty = diff;
@@ -54,7 +71,6 @@ public class LevelManager : MonoBehaviour
         {
             lastPlayedScene = SceneManager.GetActiveScene().buildIndex;
         }
-
         SaveSystemScript.SaveGameInfo(this);
     }
     public void LoadDifficultySelection()
