@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class ThiefPathfinding : MonoBehaviour
 {
+    public Animator animator;
     public enum BehaviorStates {Sneak, Escape, Evade}
     public enum ActionStates {Hacking, Lockpicking, Neutral}
     public BehaviorStates currBehavior = BehaviorStates.Sneak;
@@ -266,6 +268,7 @@ public class ThiefPathfinding : MonoBehaviour
         //Checks if the Thief is close enough to steal the target object
         if (Vector3.Distance(transform.position, Target.transform.position) < StealRange)
         {
+            movementAnimation();
             Agent.SetDestination(transform.position);
             StealAction();
         }
@@ -292,6 +295,7 @@ public class ThiefPathfinding : MonoBehaviour
         {
             if (currentWaypoint < 0)
             {
+                movementAnimation();
                 Agent.SetDestination(SpawnPoint.position);
             }
             else
@@ -313,6 +317,7 @@ public class ThiefPathfinding : MonoBehaviour
         {
             if (currentWaypoint < 0)
             {
+                movementAnimation();
                 Agent.SetDestination(SpawnPoint.position);
             }
             else
@@ -525,6 +530,7 @@ public class ThiefPathfinding : MonoBehaviour
         //print("Begin Hacking");
         Agent.isStopped = true;
         currAction = ActionStates.Hacking;
+        hackingAnimation();
         //Thief waits for a few seconds until the hacking duration is over
         yield return new WaitForSeconds((hackingBaseDuration - (HackingStat * hackingMod)));
         //Doesn't disable the object if the thief enters evade mode
@@ -597,6 +603,7 @@ public class ThiefPathfinding : MonoBehaviour
             doorScript.GetComponent<DoorControl>().OpenDoor();
         }
 
+        doorInteractAnimation();
         yield return new WaitForSeconds(doorOpenDelay);
 
         if(currBehavior == BehaviorStates.Sneak)
@@ -611,5 +618,39 @@ public class ThiefPathfinding : MonoBehaviour
         }
         
         doorOpenDelay = 0;
+    }
+
+
+
+    private void movementAnimation()
+    {
+        if (currBehavior == BehaviorStates.Evade)
+        {
+            animator.SetBool("Sneaking", false);
+            animator.SetBool("Running", true);
+            animator.SetBool("DoorInteract", false);
+            animator.SetBool("Hack", false);
+        }
+        else
+        {
+            animator.SetBool("Sneaking", true);
+            animator.SetBool("Running", false);
+            animator.SetBool("DoorInteract", false);
+            animator.SetBool("Hack", false);
+        }
+    }
+    private void doorInteractAnimation()
+    {
+        animator.SetBool("Sneaking", false);
+        animator.SetBool("Running", false);
+        animator.SetBool("DoorInteract", true);
+        animator.SetBool("Hack", false);
+    }
+    private void hackingAnimation()
+    {
+        animator.SetBool("Sneaking", false);
+        animator.SetBool("Running", false);
+        animator.SetBool("DoorInteract", false);
+        animator.SetBool("Hack", true);
     }
 }
