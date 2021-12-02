@@ -409,6 +409,7 @@ public class ThiefPathfinding : MonoBehaviour
             GetPath(SpawnPoint.gameObject);
             currBehavior = BehaviorStates.Evade;
             Agent.speed *= EvadeSpeedMod;
+            movementAnimation();
         }
     }
 
