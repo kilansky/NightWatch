@@ -606,6 +606,7 @@ public class ThiefPathfinding : MonoBehaviour
         doorInteractAnimation();
         yield return new WaitForSeconds(doorOpenDelay);
 
+        print("Door Opened");
         if(currBehavior == BehaviorStates.Sneak)
         {
             Agent.SetDestination(Target.transform.position);
@@ -624,6 +625,7 @@ public class ThiefPathfinding : MonoBehaviour
 
     private void movementAnimation()
     {
+        print("Play Movement Animation");
         if (currBehavior == BehaviorStates.Evade)
         {
             animator.SetBool("Sneaking", false);
@@ -641,6 +643,7 @@ public class ThiefPathfinding : MonoBehaviour
     }
     private void doorInteractAnimation()
     {
+        print("Play Door Animation");
         animator.SetBool("Sneaking", false);
         animator.SetBool("Running", false);
         animator.SetBool("DoorInteract", true);
@@ -648,6 +651,7 @@ public class ThiefPathfinding : MonoBehaviour
     }
     private void hackingAnimation()
     {
+        print("Play Hacking Animation");
         animator.SetBool("Sneaking", false);
         animator.SetBool("Running", false);
         animator.SetBool("DoorInteract", false);
