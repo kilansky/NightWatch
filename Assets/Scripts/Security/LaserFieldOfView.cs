@@ -68,7 +68,7 @@ public class LaserFieldOfView : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 200f, obstacleMask))
         {
             print("Hit Point is " + hit.point);
-            if((transform.position.x - hit.point.x) != 0)
+            if ((transform.position.x - hit.point.x) != 0)
             {
                 print((transform.position.x - hit.point.x) * 1 + " > " + (transform.position.z - hit.point.z) * 1);
                 detectionBox.position = new Vector3(transform.position.x - ((transform.position.x - hit.point.x) / 2), transform.position.y, transform.position.z);
@@ -81,7 +81,7 @@ public class LaserFieldOfView : MonoBehaviour
                 detectionBox.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - ((transform.position.z - hit.point.z) / 2));
                 detectionBox.localScale = new Vector3(6, 5, (transform.position.z - hit.point.z));
             }
-            
+
         }
         visibleTargets.Clear(); //clear the current list of existing targets
 
@@ -91,18 +91,18 @@ public class LaserFieldOfView : MonoBehaviour
         Collider[] targetsInViewRadius = Physics.OverlapBox(detectionBox.position, detectionBox.localScale, Quaternion.identity, targetMask);
         int w = 0;
         print("Checking found objects");
-        while(w < targetsInViewRadius.Length)
+        while (w < targetsInViewRadius.Length)
         {
             print("Target is in box");
         }
         //Check each target found to see if they are within view
-       /* for (int i = 0; i < targetsInViewRadius.Length; i++)
+        for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             print("Target is in box");
             Transform target = targetsInViewRadius[i].transform; //Get target transform
-            
-                                                                                     //Check if target is within the 'viewAngle'
-            
+
+            //Check if target is within the 'viewAngle'
+
             visibleTargets.Add(target); //Target is visible!
 
 
@@ -113,22 +113,32 @@ public class LaserFieldOfView : MonoBehaviour
                 target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
 
             }
-            
+
             Vector3 dirToTarget = (target.position - transform.position).normalized; //Get vector towards target
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
-               
+
                 //Perform raycast to make sure target is not behind a wall
                 if (!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
-                    
+
                 }
             }
             else
             {
                 print("Vector3 angle is " + Vector3.Angle(transform.forward, dirToTarget) + " and view angle " + viewAngle);
-            }*/
+            }
+
+        }
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+        if (drawBox)
+            //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+            Gizmos.DrawWireCube(detectionBox.position, detectionBox.localScale);
     }
 }
 
