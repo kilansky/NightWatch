@@ -82,6 +82,7 @@ public class ThiefPathfinding : MonoBehaviour
         ObjectStolen = false;
         timeRemainingToSteal = timeToSteal - (stealTimeMod * HackingStat);
         StartCoroutine(EscapeTimer()); //Starts the Escape Timer
+        movementAnimation();
     }
 
     // Update is called once per frame
@@ -440,6 +441,7 @@ public class ThiefPathfinding : MonoBehaviour
     //Steal Action
     private void StealAction()
     {
+        hackingAnimation();
         //Checks to see if the steal timer is over
         if (timeRemainingToSteal > 0)
         {
@@ -482,6 +484,7 @@ public class ThiefPathfinding : MonoBehaviour
                     }
                 }
                 GetPath(Target);
+                movementAnimation();
             }                    
         }      
     }
@@ -541,6 +544,7 @@ public class ThiefPathfinding : MonoBehaviour
         }
         Agent.isStopped = false;
         currAction = ActionStates.Neutral;
+        movementAnimation();
     }
 
     //Door Interactions
@@ -564,9 +568,9 @@ public class ThiefPathfinding : MonoBehaviour
             }
 
             Agent.SetDestination(waitPosition); //Causes thief to go towards the waitPosition
-
+            
             StartCoroutine(OpenDelayCoroutine());
-            //print("Thief Opens Door");
+            print("Thief Opens Door");
         }
     }
 
@@ -617,7 +621,7 @@ public class ThiefPathfinding : MonoBehaviour
             Agent.SetDestination(SpawnPoint.position); //Triggered Error once
             
         }
-        
+        movementAnimation();
         doorOpenDelay = 0;
     }
 
