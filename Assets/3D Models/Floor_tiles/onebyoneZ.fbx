@@ -7,12 +7,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2021
-		Month: 11
-		Day: 17
-		Hour: 17
-		Minute: 54
-		Second: 36
-		Millisecond: 298
+		Month: 12
+		Day: 3
+		Hour: 8
+		Minute: 40
+		Second: 10
+		Millisecond: 814
 	}
 	Creator: "FBX SDK/FBX Plugins version 2020.1"
 	OtherFlags:  {
@@ -31,20 +31,20 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\onebythree.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\onebythree.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\newtileZ\onebyoneZ.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\newtileZ\onebyoneZ.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "2022"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "18/11/2021 01:54:36.297"
-			P: "Original|FileName", "KString", "", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\onebythree.fbx"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "03/12/2021 16:40:10.813"
+			P: "Original|FileName", "KString", "", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\newtileZ\onebyoneZ.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "2022"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "18/11/2021 01:54:36.297"
-			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "03/12/2021 16:40:10.813"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Alex\Desktop\470NightWatch_Models\470NightWatch_Models\assets\Floor_Tiles\newtileZ"
 			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\Alex\Desktop\470NightWatch_Models\NightWatchModels.ma"
 		}
 	}
@@ -80,7 +80,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2894934788320, "", "Scene" {
+	Document: 2281264990368, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
@@ -100,7 +100,7 @@ References:  {
 
 Definitions:  {
 	Version: 100
-	Count: 6
+	Count: 8
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -132,45 +132,18 @@ Definitions:  {
 			}
 		}
 	}
-	ObjectType: "Geometry" {
+	ObjectType: "NodeAttribute" {
 		Count: 1
-		PropertyTemplate: "FbxMesh" {
+		PropertyTemplate: "FbxNull" {
 			Properties70:  {
 				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
-				P: "BBoxMin", "Vector3D", "Vector", "",0,0,0
-				P: "BBoxMax", "Vector3D", "Vector", "",0,0,0
-				P: "Primary Visibility", "bool", "", "",1
-				P: "Casts Shadows", "bool", "", "",1
-				P: "Receive Shadows", "bool", "", "",1
-			}
-		}
-	}
-	ObjectType: "Material" {
-		Count: 1
-		PropertyTemplate: "FbxSurfaceLambert" {
-			Properties70:  {
-				P: "ShadingModel", "KString", "", "", "Lambert"
-				P: "MultiLayer", "bool", "", "",0
-				P: "EmissiveColor", "Color", "", "A",0,0,0
-				P: "EmissiveFactor", "Number", "", "A",1
-				P: "AmbientColor", "Color", "", "A",0.2,0.2,0.2
-				P: "AmbientFactor", "Number", "", "A",1
-				P: "DiffuseColor", "Color", "", "A",0.8,0.8,0.8
-				P: "DiffuseFactor", "Number", "", "A",1
-				P: "Bump", "Vector3D", "Vector", "",0,0,0
-				P: "NormalMap", "Vector3D", "Vector", "",0,0,0
-				P: "BumpFactor", "double", "Number", "",1
-				P: "TransparentColor", "Color", "", "A",0,0,0
-				P: "TransparencyFactor", "Number", "", "A",0
-				P: "DisplacementColor", "ColorRGB", "Color", "",0,0,0
-				P: "DisplacementFactor", "double", "Number", "",1
-				P: "VectorDisplacementColor", "ColorRGB", "Color", "",0,0,0
-				P: "VectorDisplacementFactor", "double", "Number", "",1
+				P: "Size", "double", "Number", "",100
+				P: "Look", "enum", "", "",1
 			}
 		}
 	}
 	ObjectType: "Model" {
-		Count: 1
+		Count: 2
 		PropertyTemplate: "FbxNode" {
 			Properties70:  {
 				P: "QuaternionInterpolate", "enum", "", "",0
@@ -247,15 +220,58 @@ Definitions:  {
 			}
 		}
 	}
+	ObjectType: "Geometry" {
+		Count: 1
+		PropertyTemplate: "FbxMesh" {
+			Properties70:  {
+				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
+				P: "BBoxMin", "Vector3D", "Vector", "",0,0,0
+				P: "BBoxMax", "Vector3D", "Vector", "",0,0,0
+				P: "Primary Visibility", "bool", "", "",1
+				P: "Casts Shadows", "bool", "", "",1
+				P: "Receive Shadows", "bool", "", "",1
+			}
+		}
+	}
+	ObjectType: "Material" {
+		Count: 1
+		PropertyTemplate: "FbxSurfaceLambert" {
+			Properties70:  {
+				P: "ShadingModel", "KString", "", "", "Lambert"
+				P: "MultiLayer", "bool", "", "",0
+				P: "EmissiveColor", "Color", "", "A",0,0,0
+				P: "EmissiveFactor", "Number", "", "A",1
+				P: "AmbientColor", "Color", "", "A",0.2,0.2,0.2
+				P: "AmbientFactor", "Number", "", "A",1
+				P: "DiffuseColor", "Color", "", "A",0.8,0.8,0.8
+				P: "DiffuseFactor", "Number", "", "A",1
+				P: "Bump", "Vector3D", "Vector", "",0,0,0
+				P: "NormalMap", "Vector3D", "Vector", "",0,0,0
+				P: "BumpFactor", "double", "Number", "",1
+				P: "TransparentColor", "Color", "", "A",0,0,0
+				P: "TransparencyFactor", "Number", "", "A",0
+				P: "DisplacementColor", "ColorRGB", "Color", "",0,0,0
+				P: "DisplacementFactor", "double", "Number", "",1
+				P: "VectorDisplacementColor", "ColorRGB", "Color", "",0,0,0
+				P: "VectorDisplacementFactor", "double", "Number", "",1
+			}
+		}
+	}
 }
 
 ; Object properties
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 2894500626256, "Geometry::", "Mesh" {
+	NodeAttribute: 2282839112272, "NodeAttribute::", "Null" {
+		Properties70:  {
+			P: "Look", "enum", "", "",0
+		}
+		TypeFlags: "Null"
+	}
+	Geometry: 2282831693696, "Geometry::", "Mesh" {
 		Vertices: *12 {
-			a: -400.000030517578,0,0,-300,0,0,-400.000030517578,0,-300,-300,0,-300
+			a: -50,0,50,50,0,50,-50,0,-50,50,0,-50
 		} 
 		PolygonVertexIndex: *4 {
 			a: 0,1,3,-3
@@ -282,7 +298,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "IndexToDirect"
 			UV: *8 {
-				a: 0.362241357564926,0.564529299736023,0.491300255060196,0.564529299736023,0.491300255060196,0.951705932617188,0.362241357564926,0.951705932617188
+				a: 3.53902578353882e-08,1.95503234863281e-05,0.0999999940395355,0,0.100019574165344,0.0999999642372131,1.95857137441635e-05,0.100019514560699
 			} 
 			UVIndex: *4 {
 				a: 0,1,2,3
@@ -326,22 +342,30 @@ Objects:  {
 			}
 		}
 	}
-	Model: 2894382123984, "Model::onebythree", "Mesh" {
+	Model: 2281049926944, "Model::floor_tiles", "Null" {
 		Version: 232
 		Properties70:  {
-			P: "RotationPivot", "Vector3D", "Vector", "",-400,0,7.105427357601e-15
-			P: "ScalingPivot", "Vector3D", "Vector", "",-400,0,7.105427357601e-15
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
 			P: "DefaultAttributeIndex", "int", "Integer", "",0
-			P: "Lcl Translation", "Lcl Translation", "", "A",400,0,0
+		}
+		Shading: Y
+		Culling: "CullingOff"
+	}
+	Model: 2281049943184, "Model::onebyoneZ", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "RotationActive", "bool", "", "",1
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
 			P: "currentUVSet", "KString", "", "U", "map1"
 		}
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2894921516816, "Material::lambert1", "" {
+	Material: 2282818411680, "Material::lambert1", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -356,7 +380,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	AnimationStack: 2894418108288, "AnimStack::Take 001", "" {
+	AnimationStack: 2282824570576, "AnimStack::Take 001", "" {
 		Properties70:  {
 			P: "LocalStart", "KTime", "Time", "",1924423250
 			P: "LocalStop", "KTime", "Time", "",230930790000
@@ -364,7 +388,7 @@ Objects:  {
 			P: "ReferenceStop", "KTime", "Time", "",230930790000
 		}
 	}
-	AnimationLayer: 2894378340400, "AnimLayer::BaseLayer", "" {
+	AnimationLayer: 2282840848496, "AnimLayer::BaseLayer", "" {
 	}
 }
 
@@ -373,17 +397,23 @@ Objects:  {
 
 Connections:  {
 	
-	;Model::onebythree, Model::RootNode
-	C: "OO",2894382123984,0
+	;Model::floor_tiles, Model::RootNode
+	C: "OO",2281049926944,0
 	
 	;AnimLayer::BaseLayer, AnimStack::Take 001
-	C: "OO",2894378340400,2894418108288
+	C: "OO",2282840848496,2282824570576
 	
-	;Geometry::, Model::onebythree
-	C: "OO",2894500626256,2894382123984
+	;NodeAttribute::, Model::floor_tiles
+	C: "OO",2282839112272,2281049926944
 	
-	;Material::lambert1, Model::onebythree
-	C: "OO",2894921516816,2894382123984
+	;Model::onebyoneZ, Model::floor_tiles
+	C: "OO",2281049943184,2281049926944
+	
+	;Geometry::, Model::onebyoneZ
+	C: "OO",2282831693696,2281049943184
+	
+	;Material::lambert1, Model::onebyoneZ
+	C: "OO",2282818411680,2281049943184
 }
 ;Takes section
 ;----------------------------------------------------
