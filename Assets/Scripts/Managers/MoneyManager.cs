@@ -20,7 +20,7 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     // Start is called before the first frame update
     private void Start()
     {
-        if(SceneManager.GetActiveScene().buildIndex == 0)
+        if(SceneManager.GetActiveScene().buildIndex == 1)
         {
             money = startingMoney;
         }
