@@ -23,7 +23,6 @@ public class FieldOfView : MonoBehaviour
     public float maskCutawayDist = 0.25f;
 
     public bool facialRecognition = false;
-
     private void Start()
     {
         viewMesh = new Mesh();
@@ -63,7 +62,7 @@ public class FieldOfView : MonoBehaviour
             Transform target = targetsInViewRadius[i].transform; //Get target transform
             Vector3 dirToTarget = (target.position - transform.position).normalized; //Get vector towards target
             //Check if target is within the 'viewAngle'
-            if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            if(Vector3.Angle(transform.forward, dirToTarget) < (viewAngle * 0.6f))
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
                 //Perform raycast to make sure target is not behind a wall
@@ -87,21 +86,22 @@ public class FieldOfView : MonoBehaviour
                     }
                     if (target.gameObject.GetComponent<Waypoints>())
                     {
+                        print("See waypoint");
                         waypoints.Add(target.gameObject);
-                        if (!transform.parent.GetComponent<GuardPathfinding>() && transform.parent.GetComponent<SecurityMeasure>().securityType != SecurityMeasure.SecurityType.laser)
+                        if (!transform.parent.GetComponent<GuardPathfinding>())
                         {
                             if (transform.parent.parent.GetComponent<CameraRotation>())
                             {
                                 target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.parent.gameObject);
                             }
-                        }
-                        else
-                        {
-                            if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                            else
                             {
-                                print("Laser is adding waypoint");
+                                if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                                {
+                                    print("Laser is adding waypoint");
+                                }
+                                target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
                             }
-                            target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
                         }
                     }
                 }
@@ -113,21 +113,22 @@ public class FieldOfView : MonoBehaviour
     {
         for (int w = 0; w < waypoints.Count; w++)
         {
-            if (!transform.parent.GetComponent<GuardPathfinding>() && transform.parent.GetComponent<SecurityMeasure>().securityType != SecurityMeasure.SecurityType.laser)
+            if (!transform.parent.GetComponent<GuardPathfinding>())
             {
                 if (transform.parent.parent.GetComponent<CameraRotation>())
                 {
                     waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.parent.gameObject);
                 }
-            }
-            else
-            {
-                if(transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                else
                 {
-                    print("Laser is removing waypoint");
+                    if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                    {
+                        print("Laser is removing waypoint");
+                    }
+                    waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
                 }
-                waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
             }
+            
         }
         waypoints.Clear();
     }
