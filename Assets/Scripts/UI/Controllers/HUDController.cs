@@ -18,6 +18,13 @@ public class HUDController : SingletonPattern<HUDController>
     public GameObject noPatrolWarningPanel;
     public GameObject securityButtonsPanel;
 
+    [Header("Fade To Black Overlay")]
+    public Image blackOverlay;
+    public TextMeshProUGUI currNightText;
+    public float fadeInTextTime = 2f;
+    public float textHoldTime = 1f;
+    public float fadeToBlackTime = 2f;
+
     [Header("Night Watch Button")]
     public Button nightWatchButton;
 
@@ -46,6 +53,11 @@ public class HUDController : SingletonPattern<HUDController>
 
         securityScript = SecurityPlacement.Instance;
         SetSecurityCosts();
+        SetCurrentNightText();
+
+        PlayerInputs.Instance.canPause = false;
+        blackOverlay.gameObject.SetActive(true);
+        StartCoroutine(FadeTextToWhite());
     }
 
     //Activated when the CCTV Camera Button is pressed to place a camera
@@ -213,11 +225,59 @@ public class HUDController : SingletonPattern<HUDController>
         pausePanel.SetActive(false);
     }
 
+    public void SetCurrentNightText()
+    {
+        currNightText.text = "Day " + GameManager.Instance.currentLevel;
+    }
+
     //Set the states of the money text, security buttons panel, and night watch button
     public void SetPlanningUIActive(bool moneyActive, bool securityButtonsActive, bool nightWatchButtonActive)
     {
         moneyText.gameObject.SetActive(moneyActive);
         securityButtonsPanel.SetActive(securityButtonsActive);
         nightWatchButton.gameObject.SetActive(nightWatchButtonActive);
+    }
+
+    private IEnumerator FadeTextToWhite()
+    {
+        currNightText.color = new Color(1, 1, 1, 0);
+        float timeElaped = 0;
+
+        yield return new WaitForSeconds(0.5f);
+
+        while (timeElaped < fadeInTextTime)
+        {
+            float alpha = Mathf.Lerp(0, 1, timeElaped / fadeInTextTime);
+            currNightText.color = new Color(1, 1, 1, alpha);
+            timeElaped += Time.unscaledDeltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        currNightText.color = new Color(1, 1, 1, 1);
+
+        yield return new WaitForSeconds(textHoldTime);
+        StartCoroutine(FadeFromBlack());
+    }
+
+    private IEnumerator FadeFromBlack()
+    {
+        blackOverlay.color = new Color(0, 0, 0, 1);
+        float timeElaped = 0;
+
+        while (timeElaped < fadeToBlackTime)
+        {
+            float alpha = Mathf.Lerp(1, 0, timeElaped / fadeToBlackTime);
+            blackOverlay.color = new Color(0, 0, 0, alpha);
+            currNightText.color = new Color(alpha, alpha, alpha, alpha);
+            timeElaped += Time.unscaledDeltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        blackOverlay.color = new Color(0, 0, 0, 0);
+        currNightText.color = new Color(0, 0, 0, 0);
+
+        yield return new WaitForEndOfFrame();
+        blackOverlay.gameObject.SetActive(false);
+
+        CameraController.Instance.canPanWithMouse = true;
+        PlayerInputs.Instance.canPause = true;
     }
 }

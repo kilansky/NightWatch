@@ -12,6 +12,7 @@ public class CameraController : SingletonPattern<CameraController>
     public float minFollowDist = 10f;
     public float maxFollowDist = 50f;
     [Range(0, 0.1f)] public float percOfScreenEdgeToPan = 0.05f;
+    public bool canPanWithMouse;
 
     [HideInInspector] public Transform selectedGuard;
     [HideInInspector] public bool looseFollow; //While true, allow WASD input to break away from the current follow target
@@ -24,6 +25,8 @@ public class CameraController : SingletonPattern<CameraController>
 
     private void Start()
     {
+        canPanWithMouse = false;
+        newCamFollowPos = camFollowPoint.position;
         vcam = GetComponent<CinemachineVirtualCamera>();
         vcam.Follow = camFollowPoint;
 
@@ -50,7 +53,7 @@ public class CameraController : SingletonPattern<CameraController>
         //Set newCamPos to the current camera position, + input if not following a guard
         if (PlayerInputs.Instance.WASDMovement != Vector3.zero) //Prioritize WASD movement
             newCamFollowPos = camFollowPoint.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
-        else if(!MouseInputUIBlocker.Instance.blockedByUI) //Allow Mouse Panning if not pressing WASD and not over HUD UI
+        else if(canPanWithMouse && !MouseInputUIBlocker.Instance.blockedByUI) //Allow Mouse Panning if not pressing WASD and not over HUD UI
             newCamFollowPos = camFollowPoint.position + mouseEdgeInput * camMoveSpeed * Time.deltaTime;
 
         //Clamp newCamPos within the bounding box edges

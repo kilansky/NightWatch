@@ -34,8 +34,6 @@ public class GuardPathfinding : MonoBehaviour
     [HideInInspector] public GameObject thiefToChase;
     [HideInInspector] public bool facingFrontDoor;
 
-
-
     //Privates
     private Vector3 CurrentPatrolPoint;
     private Vector3 ClickPoint;
@@ -55,7 +53,6 @@ public class GuardPathfinding : MonoBehaviour
     private bool canManualMove;
     private bool speedIncreased;
     
-
     // Start is called before the first frame update
     void Start()
     {
@@ -93,7 +90,6 @@ public class GuardPathfinding : MonoBehaviour
                         currControlMode = ControlMode.Chase;
                     }
                     Agent.isStopped = true;
-                    //print("Agent Can Not Move");
                     //Do nothing
                     IdleAnimation();
                     ClickPoint = transform.position;
@@ -112,7 +108,6 @@ public class GuardPathfinding : MonoBehaviour
                     {
                         if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                         {
-                            //print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + transform.position.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + transform.position.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
                             if (ClickPoint.x > doorScript.upperXBoundary || ClickPoint.x < doorScript.lowerXBoundary || ClickPoint.z < doorScript.lowerZBoundary || ClickPoint.z > doorScript.upperZBoundary)
                             {
                                 DoorInteraction = true;
@@ -126,10 +121,6 @@ public class GuardPathfinding : MonoBehaviour
                                 DoorInteraction = true;
                                 OpenDoorFunction();
                             }
-                            else
-                            {
-                                //print("UpperBoundary X(" + doorScript.upperXBoundary + ") is < " + ClickPoint.x + " > LowerBoundary X(" + doorScript.lowerXBoundary + "), UpperBoundary Z(" + doorScript.upperZBoundary + ") is < " + ClickPoint.z + " > LowerBoundary Z(" + doorScript.lowerZBoundary + ")");
-                            }
                         }
                     }
                 }
@@ -140,7 +131,6 @@ public class GuardPathfinding : MonoBehaviour
                         print("Set to chase mode");
                         currControlMode = ControlMode.Chase;
                     }
-                    //print("Patrol is Active");
                     if (gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count > 0)
                     {
                         //Patrol to set points
@@ -206,13 +196,10 @@ public class GuardPathfinding : MonoBehaviour
                             {
                                 doorScript.uiNotification.SetActive(true);
                             }
-
-                            //print("In Door Zone");
                             if (PlayerInputs.Instance.Interact)
                             {
                                 canManualMove = false;
                                 Agent.isStopped = false;
-                                //print("Agent Can Move");
                                 Vector3 waitPosition = transform.position;
                                 Agent.SetDestination(waitPosition);
 
@@ -236,12 +223,10 @@ public class GuardPathfinding : MonoBehaviour
                     {
                         AttemptToCatchThief();
 
-                        //print("Going after Thief");
                         if (DoorInteraction == false)
                         {
                             //Auto-Chase thieves
                             Agent.isStopped = false;
-                            //print("Agent Can Move");
                             RunAnimation();
                             Agent.SetDestination(thiefToChase.transform.position);
                         }
@@ -283,9 +268,6 @@ public class GuardPathfinding : MonoBehaviour
                         currControlMode = lastControlMode;
                     }
                 }
-
-
-
                 if (displayPathfinding)
                     DrawPath();
             }
@@ -312,7 +294,7 @@ public class GuardPathfinding : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
         {
-            clickMoveUI.transform.position = new Vector3(hit.point.x, 0.05f, hit.point.z);
+            clickMoveUI.transform.position = new Vector3(hit.point.x, 0.1f, hit.point.z);
 
             if (PlayerInputs.Instance.LeftClickPressed && !EventSystem.current.IsPointerOverGameObject())
             {
@@ -321,8 +303,7 @@ public class GuardPathfinding : MonoBehaviour
                 if (NavMesh.SamplePosition(hit.point, out NavIsHit, 0.1f, walkableMask))
                 {
                     ClickPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-                    clickMoveDestinationUI.transform.position = new Vector3(hit.point.x, 0.05f, hit.point.z);
-                    //print("Placed New Click Point"); 
+                    clickMoveDestinationUI.transform.position = new Vector3(hit.point.x, 0.1f, hit.point.z);
                 }
             }
         }
@@ -352,18 +333,14 @@ public class GuardPathfinding : MonoBehaviour
     //Follow set patrol points
     private void Pathfinding()
     {
-        //print("Pathfinding On");
         if (Vector3.Distance(transform.position, CurrentPatrolPoint) < 0.5)
         {
-            //print("Looking for new point");
             if (PatrolNumber < gameObject.GetComponent<GuardPatrolPoints>().PatrolPoints.Count - 1)
             {
-                //print("Next Patrol Point");
                 PatrolNumber += 1;
             }
             else
             {
-                //print("Reset Patrol Points");
                 PatrolNumber = 0;
             }
             Agent.SetDestination(CurrentPatrolPoint);
@@ -373,7 +350,6 @@ public class GuardPathfinding : MonoBehaviour
             if (DoorInteraction == false)
             {
                 Agent.isStopped = false;
-                //print("Agent Can Move");
                 WalkAnimation();
                 Agent.SetDestination(CurrentPatrolPoint);
             }
@@ -489,7 +465,6 @@ public class GuardPathfinding : MonoBehaviour
                 currControlMode = lastControlMode;
                 GuardController.Instance.SetGuardBehaviorText(this, currControlMode);
                 ResetClickMoveUI();
-                //print("currControlMode is " + currControlMode);
             }
 
             alertedIcon.SetActive(false);
@@ -558,7 +533,6 @@ public class GuardPathfinding : MonoBehaviour
         if (other.GetComponent<DoorControl>() && currControlMode != ControlMode.Manual)
         {
             doorScript = other.GetComponent<DoorControl>();
-            //print("Enter Door Collider");
         }
 
         //Door enter while in manual mode
@@ -576,86 +550,37 @@ public class GuardPathfinding : MonoBehaviour
             if(other.gameObject == doorScript.gameObject)
             {
                 DoorInteraction = false;
-                //doorScript = other.GetComponent<DoorControl>();
                 if (currControlMode == ControlMode.Manual)
                 {
                     doorScript.uiNotification.SetActive(false);
                 }
-
             }
-
         }
-
-
-
-        /* //Exit door collider w/o opening it
-         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsClosed)
-             DoorInteraction = false;
-
-         //Exit door collider after opeing it
-         if (other.GetComponent<DoorControl>() && other.GetComponent<DoorControl>().IsOpened)
-         {
-             DoorInteraction = true;
-             if (currControlMode == ControlMode.Manual)
-             {
-                 canManualMove = false;
-                 Agent.isStopped = false;
-                 Vector3 waitPosition = transform.position;
-                 Agent.SetDestination(waitPosition);
-             }
-             else
-             {
-                 Agent.isStopped = true;
-                 print("Stop Moving");
-             }
-
-             if (currControlMode == ControlMode.Chase)
-             {
-                 doorOpenDelay = other.GetComponent<DoorControl>().chaseCloseDuration;
-             }
-             else
-             {
-                 doorOpenDelay = other.GetComponent<DoorControl>().closeAnimationDuration;
-             }
-
-             StartCoroutine(CloseDelayCoroutine());
-             print("Guard Closes Door");
-         }*/
     }
 
     private IEnumerator OpenDelayCoroutine()
     {
-        //print("Open Door Coroutine starting");
         IdleAnimation();
         if (currControlMode != ControlMode.Manual)
         {
             while (Vector3.Distance(Agent.destination, transform.position) > Agent.stoppingDistance)
-            {
-                //print("Distance is " + Vector3.Distance(Agent.destination, transform.position));
-                //print("Do Nothing");
                 yield return null;
-            }
         }
-        //print("Nothing wrong with if statement");
+
         if (currControlMode == ControlMode.Chase)
         {
             OpenDoorAnimation();
-
-            //print("Nothing wrong with animation");
             doorScript.GetComponent<DoorControl>().ChaseOpenDoor();
         }
+
         else
         {
             OpenDoorAnimation();
-            //print("Nothing wrong with animation");
             doorScript.GetComponent<DoorControl>().OpenDoor();
         }
-        //print("Open door function should have started");
-        //print(doorOpenDelay);
+
         yield return new WaitForSeconds(doorOpenDelay);
 
-        //DoorInteraction = false;
-        //print("Door Interaction = " + DoorInteraction);
         if (currControlMode == ControlMode.Click)
         {
             WalkAnimation();
@@ -668,7 +593,6 @@ public class GuardPathfinding : MonoBehaviour
             WalkAnimation();
             DoorInteraction = false;
             Agent.SetDestination(CurrentPatrolPoint);
-            //print("Patrol Destination = " + CurrentPatrolPoint);
         }
         else if (currControlMode == ControlMode.Chase)
         {
@@ -682,10 +606,8 @@ public class GuardPathfinding : MonoBehaviour
         else if (currControlMode == ControlMode.Manual)
         {
             IdleAnimation();
-            //print("Can Move");
             DoorInteraction = true;
             Agent.isStopped = true;
-            //print("Agent Can Not Move");
             canManualMove = true;
         }
 
@@ -696,7 +618,6 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (!speedIncreased)
         {
-            //print("Speed Increase");
             Agent.speed = Agent.speed * PursuitSpeedMod;
             speedIncreased = true;
         }
@@ -705,7 +626,6 @@ public class GuardPathfinding : MonoBehaviour
     {
         if (speedIncreased)
         {
-            //print("Speed Decrease");
             Agent.speed = Agent.speed / PursuitSpeedMod;
             speedIncreased = false;
         }

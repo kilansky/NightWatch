@@ -29,7 +29,7 @@ public class GameManager : SingletonPattern<GameManager>
         planningCanvas = HUDController.Instance.gameObject;
         nightCanvas = NightHUDController.Instance.gameObject;
 
-        currentLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);
 
         //Adjust brightness value of lights based on the number of lights
@@ -46,7 +46,7 @@ public class GameManager : SingletonPattern<GameManager>
     //Call on Level Start, allow placement of security measures
     public void BeginPlanningPhase()
     {
-        AudioManager.Instance.PlayDayTrack();
+        //AudioManager.Instance.PlayDayTrack();
 
         foreach (Light light in directionalLights)
             light.intensity = planningPhaseBrightness;
@@ -58,7 +58,7 @@ public class GameManager : SingletonPattern<GameManager>
     //Call when player presses button, hides the placement UI and begins spawning thieves
     public void BeginNightPhase()
     {
-        AudioManager.Instance.PlayNightTrack();
+        //AudioManager.Instance.PlayNightTrack();
 
         nightWatchPhase = true;
         StartCoroutine(ChangeTimeOfDay(planningPhaseBrightness, nightPhaseBrightness));

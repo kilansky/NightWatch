@@ -5,6 +5,7 @@ using UnityEngine;
 public class Waypoints : MonoBehaviour
 {
     public List<GameObject> security = new List<GameObject>();
+    public Transform[] spawnpoint;
     public Transform[] ConnectedPoints;
     public int NumberReference;
     public float weightModifier;
@@ -20,7 +21,10 @@ public class Waypoints : MonoBehaviour
 
     private void Update()
     {
-
+        if (security.Count > 0)
+        {
+            //print(gameObject + " has " + security.Count + " security objects looking at it");
+        }
     }
 
 

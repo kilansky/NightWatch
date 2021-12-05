@@ -12,12 +12,14 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     private bool hotkey2;
     private bool hotkey3;
     private bool hotkey4;
+    private bool pauseKey;
     [HideInInspector] public Vector3 WASDMovement { get { return wasdMovement; } } //Returns the movement vector of the camera this frame
     [HideInInspector] public bool Interact { get { return interact; } } //True for 1 frame when the interact (E) key is pressed           
     [HideInInspector] public bool Hotkey1 { get { return hotkey1; } }   //True for 1 frame when hotkey1 (1) is pressed           
     [HideInInspector] public bool Hotkey2 { get { return hotkey2; } }   //True for 1 frame when hotkey2 (2) is pressed           
     [HideInInspector] public bool Hotkey3 { get { return hotkey3; } }   //True for 1 frame when hotkey3 (3) is pressed           
     [HideInInspector] public bool Hotkey4 { get { return hotkey4; } }   //True for 1 frame when hotkey4 (4) is pressed           
+    [HideInInspector] public bool PauseKey { get { return pauseKey; } } //True for 1 frame when pause key is pressed           
 
     //Mouse Related Variables
     private bool leftClickPressed;
@@ -178,6 +180,7 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
         hotkey2 = false;
         hotkey3 = false;
         hotkey4 = false;
+        pauseKey = false;
     }
 
     //Scroll Wheel used to zoom the camera
@@ -200,6 +203,9 @@ public class PlayerInputs : SingletonPattern<PlayerInputs>
     {
         if (context.performed && canPause) //prevent pausing when dead
         {
+            pauseKey = true;
+            StartCoroutine(ResetPressedKeyInput());
+
             if (!IsPaused) //If the game is not paused then pause the game
             {
                 isPaused = true;

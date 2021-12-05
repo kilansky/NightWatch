@@ -30,6 +30,7 @@ public class ThiefPathfinding : MonoBehaviour
 
     [HideInInspector] public Transform SpawnPoint;    //The Entry Point the Thief entered the building in
     [HideInInspector] public List<GameObject> alertedGuard = new List<GameObject>();
+    public List<Transform> blockedWaypoints = new List<Transform>();
     [Header("Thief Stats")]
     public int SpeedStat; //Int 0
     public int StealthStat; //Int 1
@@ -82,6 +83,7 @@ public class ThiefPathfinding : MonoBehaviour
         ObjectStolen = false;
         timeRemainingToSteal = timeToSteal - (stealTimeMod * HackingStat);
         StartCoroutine(EscapeTimer()); //Starts the Escape Timer
+        movementAnimation();
     }
 
     // Update is called once per frame
@@ -108,18 +110,71 @@ public class ThiefPathfinding : MonoBehaviour
     private void GetPath(GameObject targetPoint)
     {
         ShortestPath.Clear();
-        wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[0];
+        int tempPoint = 0;
+        wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[tempPoint];
+        bool pathAvailable = false;
+        
         for (int i = 0; i < targetPoint.GetComponent<TargetPoint>().nearestWaypoint.Length; i++)
         {
-            //Check which connected waypoint to the thief's target point is closest to the thief
-            if (Vector3.Distance(transform.position, wayPointManager.endPoint.position) > Vector3.Distance(transform.position, targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i].position))
+            bool isNotBlocked = true;
+            for (int b = 0; b < blockedWaypoints.Count; b++)
             {
-
-                wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i];
+                if (targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i] == blockedWaypoints[b])
+                {
+                    print("Waypoint " + targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i].gameObject + " is blocked");
+                    if (i == tempPoint && tempPoint < (targetPoint.GetComponent<TargetPoint>().nearestWaypoint.Length - 1))
+                    {
+                        tempPoint += 1;
+                        wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[tempPoint];
+                        print("New Waypoint is " + targetPoint.GetComponent<TargetPoint>().nearestWaypoint[tempPoint].gameObject);
+                    }
+                    isNotBlocked = false;
+                    break;
+                }
+            }
+            if (isNotBlocked)
+            {
+                //Check which connected waypoint to the thief's target point is closest to the thief
+                if (Vector3.Distance(transform.position, wayPointManager.endPoint.position) > Vector3.Distance(transform.position, targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i].position))
+                {
+                    wayPointManager.endPoint = targetPoint.GetComponent<TargetPoint>().nearestWaypoint[i];
+                }
+                pathAvailable = true;
+            }
+            
+        }
+        if (pathAvailable)
+        {
+            wayPointManager.FindShortestPath(gameObject);
+            currentWaypoint = ShortestPath.Count - 1;
+        }
+        else
+        {
+            print("There is no path available");
+            //Acquire new target point and then search for new path again
+            if (currBehavior == BehaviorStates.Sneak)
+            {
+                print("Find different steal point");
+                if (ThiefSpawnSystem.Instance.TargetObjects.Count > 0)
+                {
+                    int NextTarget = Random.Range(0, ThiefSpawnSystem.Instance.TargetObjects.Count - 1);
+                    ThiefSpawnSystem.Instance.TargetObjects.Add(Target);
+                    Target = ThiefSpawnSystem.Instance.TargetObjects[NextTarget];
+                    print("New Target is " + Target);
+                    GetPath(Target);
+                }
+                else
+                {
+                    print("No alternative steal points");
+                }
+            }
+            else
+            {
+                print("Find different spawn point");
+                FindClosestEscapeRoute();
+                GetPath(Target);
             }
         }
-        wayPointManager.FindShortestPath(gameObject);
-        currentWaypoint = ShortestPath.Count - 1;
     }
 
     private void moveToWaypoints()
@@ -148,11 +203,24 @@ public class ThiefPathfinding : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, wayPointManager.startPoint.position) > Vector3.Distance(transform.position, wayPointManager.waypoints[n].position))
             {
-                wayPointManager.startPoint = wayPointManager.waypoints[n];
+                bool isNotBlocked = true;
+                for(int b = 0; b < blockedWaypoints.Count; b++)
+                {
+                    if(wayPointManager.waypoints[n] != blockedWaypoints[b])
+                    {
+                        isNotBlocked = false;
+                    }
+                }
+                if (isNotBlocked)
+                {
+                    wayPointManager.startPoint = wayPointManager.waypoints[n];
+                }
+                
             }
         }
         if(currBehavior == BehaviorStates.Sneak)
         {
+            print("Finding new path");
             GetPath(Target);
         }
         else
@@ -385,29 +453,28 @@ public class ThiefPathfinding : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, wayPointManager.startPoint.position) > Vector3.Distance(transform.position, wayPointManager.waypoints[n].position))
                 {
-                    validWayPoint = true;
-                    for(int w = 0; w < wayPointManager.waypoints[n].GetComponent<Waypoints>().security.Count; w++)
+                    if (Vector3.Distance(transform.position, wayPointManager.startPoint.position) > Vector3.Distance(transform.position, wayPointManager.waypoints[n].position))
                     {
-                        for(int g = 0; g < alertedGuard.Count; g++)
+                        bool isNotBlocked = true;
+                        for (int b = 0; b < blockedWaypoints.Count; b++)
                         {
-                            //Check if waypoint is being spotted by guard
-                            if (wayPointManager.waypoints[n].GetComponent<Waypoints>().security[w] != alertedGuard[g])
+                            if (wayPointManager.waypoints[n] != blockedWaypoints[b])
                             {
-                                validWayPoint = false;
-                                //print(gameObject + " should not go to " + wayPointManager.waypoints[n]);
-                                break;
+                                isNotBlocked = false;
                             }
-                        }   
-                    }
-                    if (validWayPoint == true)
-                    {
-                        wayPointManager.startPoint = wayPointManager.waypoints[n];
+                        }
+                        if (isNotBlocked)
+                        {
+                            wayPointManager.startPoint = wayPointManager.waypoints[n];
+                        }
+
                     }
                 }
             }
             GetPath(SpawnPoint.gameObject);
             currBehavior = BehaviorStates.Evade;
             Agent.speed *= EvadeSpeedMod;
+            movementAnimation();
         }
     }
 
@@ -440,6 +507,7 @@ public class ThiefPathfinding : MonoBehaviour
     //Steal Action
     private void StealAction()
     {
+        hackingAnimation();
         //Checks to see if the steal timer is over
         if (timeRemainingToSteal > 0)
         {
@@ -482,6 +550,7 @@ public class ThiefPathfinding : MonoBehaviour
                     }
                 }
                 GetPath(Target);
+                movementAnimation();
             }                    
         }      
     }
@@ -494,7 +563,19 @@ public class ThiefPathfinding : MonoBehaviour
         {
             if(Vector3.Distance(transform.position, SpawnPoint.position) > Vector3.Distance(transform.position, spawnSystem.Entry_Locations[i].position))
             {
-                SpawnPoint = spawnSystem.Entry_Locations[i];
+                bool isFree = true;
+                for(var s = 0; s < blockedWaypoints.Count; s++)
+                {
+                    if(spawnSystem.Entry_Locations[i].position == blockedWaypoints[s].position)
+                    {
+                        isFree = false;
+                        break;
+                    }
+                }
+                if (isFree)
+                {
+                    SpawnPoint = spawnSystem.Entry_Locations[i];
+                }
             }
         }
     }
@@ -541,6 +622,7 @@ public class ThiefPathfinding : MonoBehaviour
         }
         Agent.isStopped = false;
         currAction = ActionStates.Neutral;
+        movementAnimation();
     }
 
     //Door Interactions
@@ -564,7 +646,7 @@ public class ThiefPathfinding : MonoBehaviour
             }
 
             Agent.SetDestination(waitPosition); //Causes thief to go towards the waitPosition
-
+            
             StartCoroutine(OpenDelayCoroutine());
             //print("Thief Opens Door");
         }
@@ -605,8 +687,7 @@ public class ThiefPathfinding : MonoBehaviour
 
         doorInteractAnimation();
         yield return new WaitForSeconds(doorOpenDelay);
-
-        print("Door Opened");
+        
         if(currBehavior == BehaviorStates.Sneak)
         {
             Agent.SetDestination(Target.transform.position);
@@ -617,7 +698,7 @@ public class ThiefPathfinding : MonoBehaviour
             Agent.SetDestination(SpawnPoint.position); //Triggered Error once
             
         }
-        
+        movementAnimation();
         doorOpenDelay = 0;
     }
 
@@ -625,7 +706,6 @@ public class ThiefPathfinding : MonoBehaviour
 
     private void movementAnimation()
     {
-        print("Play Movement Animation");
         if (currBehavior == BehaviorStates.Evade)
         {
             animator.SetBool("Sneaking", false);
@@ -643,7 +723,6 @@ public class ThiefPathfinding : MonoBehaviour
     }
     private void doorInteractAnimation()
     {
-        print("Play Door Animation");
         animator.SetBool("Sneaking", false);
         animator.SetBool("Running", false);
         animator.SetBool("DoorInteract", true);
@@ -651,7 +730,6 @@ public class ThiefPathfinding : MonoBehaviour
     }
     private void hackingAnimation()
     {
-        print("Play Hacking Animation");
         animator.SetBool("Sneaking", false);
         animator.SetBool("Running", false);
         animator.SetBool("DoorInteract", false);

@@ -73,157 +73,197 @@ public class ThiefFieldofView : MonoBehaviour
                     //Checks if target does not have the PatrolMarker script and its camoRating is less than the thief's PerceptionStat
                     if (!target.parent.gameObject.GetComponent<PatrolMarker>())
                     {
-                        if(target.parent.gameObject.GetComponent<HackedSecurityScript>())
-                        {
-                            //print("See Security measure as " + target.parent.gameObject);
-                            if(GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
-                            {
-                                if(GetComponent<ThiefPathfinding>().HackingStat > target.parent.GetComponent<HackedSecurityScript>().hackResistance)
-                                {
-                                    //Checks if there's at least one target in the visible target list
-                                    if (hackableTargets.Count > 0)
-                                    {
-                                        //For loop checking all objects in visibleTargets list
-                                        for (int n = 0; n < hackableTargets.Count; n++)
-                                        {
-                                            //Checks if target is already in the visibleTargets list
-                                            if (hackableTargets[n] == target.parent.transform)
-                                            {
-                                                newTarget = false;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    //Adds target to the list if its new
-                                    if (newTarget == true)
-                                    {
-                                        hackableTargets.Add(target.parent.transform); //Target is visible!
-                                        newTarget = false;
-                                    }
-                                    if (target.parent.gameObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
-                                    {
-                                        if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
-                                        {
-                                            //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
-                                            GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        for (int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
-                                        {
-                                            for (int w = 0; w < GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security.Count; w++)
-                                            {
-                                                if (GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security[w] == target.parent.gameObject)
-                                                {
-                                                    if (target.parent.gameObject.GetComponent<HackedSecurityScript>())
-                                                    {
-                                                        //Checks if target is within the thief's hacking range and the thief is currently not evading or performing a action
-                                                        if (GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade && GetComponent<ThiefPathfinding>().currAction == ThiefPathfinding.ActionStates.Neutral)
-                                                        {
-                                                            //print("In Hacking Range");
-                                                            //Checks if the target is not already hacked and the thief is skilled enough to hack it
-                                                            if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
-                                                            {
-                                                                //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
-                                                                GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                                else
-                                {
-                                    //Checks if there's at least one target in the visible target list
-                                    if (visibleTargets.Count > 0)
-                                    {
-                                        //For loop checking all objects in visibleTargets list
-                                        for (int n = 0; n < visibleTargets.Count; n++)
-                                        {
-                                            //Checks if target is already in the visibleTargets list
-                                            if (visibleTargets[n] == target.parent.transform)
-                                            {
-                                                newTarget = false;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    //Adds target to the list if its new
-                                    if (newTarget == true)
-                                    {
-                                        visibleTargets.Add(target.parent.transform); //Target is visible!
-                                        newTarget = false;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (target.parent.gameObject.GetComponent<GuardPathfinding>())
-                        {
-                            for (int n = 0; n < visibleTargets.Count; n++)
-                            {
-                                //Checks if target is already in the visibleTargets list
-                                if (visibleTargets[n] == target)
-                                {
-                                    newTarget = false;
-                                    break;
-                                }
-                            }
-                            if (newTarget == true)
-                            {
-                                visibleTargets.Add(target.parent.transform); //Target is visible!
-                                newTarget = false;
-                            }
-                        }
-
-                        //Checks if taarget is a waypoint
-                        if (target.GetComponent<Waypoints>())
-                        {
-                            //Checks all of thief's paths
-                            for(int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
-                            {
-                                //Checks if waypoint is a part of thief's path
-                                if(target == GetComponent<ThiefPathfinding>().ShortestPath[p])
-                                {
-                                    noLongerBlocked = true;
-                                    //Checks all security that has detected the waypoint
-                                    for (int n = 0; n < target.GetComponent<Waypoints>().security.Count; n++)
-                                    {
-                                        
-                                        //Checks all thief's knownsecurity
-                                        for (int s = 0; s < visibleTargets.Count; s++)
-                                        {
-                                             //Checks if the thief and waypoint security objects are the same
-                                            if (target.GetComponent<Waypoints>().security[n] == visibleTargets[s].gameObject)
-                                            {
-                                                if(GetComponent<ThiefPathfinding>().waypointWeights[target.GetComponent<Waypoints>().NumberReference] == 0)
-                                                {
-                                                    GetComponent<ThiefPathfinding>().addWeight(target.GetComponent<Waypoints>().NumberReference);
-                                                    GetComponent<ThiefPathfinding>().pathIsBlocked(target.GetComponent<Waypoints>().gameObject);
-                                                }
-                                                noLongerBlocked = false;
-                                            }
-                                        }
-                                        
-                                    }
-                                    if (noLongerBlocked && GetComponent<ThiefPathfinding>().waypointWeights[target.GetComponent<Waypoints>().NumberReference] > 0)
-                                    {
-                                        GetComponent<ThiefPathfinding>().removeWeight(target.GetComponent<Waypoints>().NumberReference);
-                                        break;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
+                        CheckForHackableSecurity(target);
+                        CheckForGuards(target);
+                        CheckForWaypoints(target);
                     }
                 }
             }
         }
     }
+    private void CheckForHackableSecurity(Transform target)
+    {
+        if (target.parent.gameObject.GetComponent<HackedSecurityScript>())
+        {
+            //print("See Security measure as " + target.parent.gameObject);
+            if (GetComponent<ThiefPathfinding>().PerceptionStat > target.parent.GetComponent<SecurityMeasure>().camoRating)
+            {
+                if (GetComponent<ThiefPathfinding>().HackingStat > target.parent.GetComponent<HackedSecurityScript>().hackResistance)
+                {
+                    //Checks if there's at least one target in the visible target list
+                    if (hackableTargets.Count > 0)
+                    {
+                        //For loop checking all objects in visibleTargets list
+                        for (int n = 0; n < hackableTargets.Count; n++)
+                        {
+                            //Checks if target is already in the visibleTargets list
+                            if (hackableTargets[n] == target.parent.transform)
+                            {
+                                newTarget = false;
+                                break;
+                            }
+                        }
+                    }
+                    //Adds target to the list if its new
+                    if (newTarget == true)
+                    {
+                        hackableTargets.Add(target.parent.transform); //Target is visible!
+                        newTarget = false;
+                    }
+                    if (target.parent.gameObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                    {
+                        if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
+                        {
+                            //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
+                            GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        for (int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
+                        {
+                            for (int w = 0; w < GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security.Count; w++)
+                            {
+                                if (GetComponent<ThiefPathfinding>().ShortestPath[p].GetComponent<Waypoints>().security[w] == target.parent.gameObject)
+                                {
+                                    if (target.parent.gameObject.GetComponent<HackedSecurityScript>())
+                                    {
+                                        //Checks if target is within the thief's hacking range and the thief is currently not evading or performing a action
+                                        if (GetComponent<ThiefPathfinding>().currBehavior != ThiefPathfinding.BehaviorStates.Evade && GetComponent<ThiefPathfinding>().currAction == ThiefPathfinding.ActionStates.Neutral)
+                                        {
+                                            //print("In Hacking Range");
+                                            //Checks if the target is not already hacked and the thief is skilled enough to hack it
+                                            if (!target.parent.gameObject.GetComponent<HackedSecurityScript>().Hacked && target.parent.gameObject.GetComponent<HackedSecurityScript>().hackResistance < GetComponent<ThiefPathfinding>().HackingStat)
+                                            {
+                                                //Activates the thief's CheckForHackableObjects function while inseting the target's parent gameObject as the gameObject
+                                                GetComponent<ThiefPathfinding>().CheckForHackableObjects(target.parent.gameObject);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    //Checks if there's at least one target in the visible target list
+                    if (visibleTargets.Count > 0)
+                    {
+                        //For loop checking all objects in visibleTargets list
+                        for (int n = 0; n < visibleTargets.Count; n++)
+                        {
+                            //Checks if target is already in the visibleTargets list
+                            if (visibleTargets[n] == target.parent.transform)
+                            {
+                                newTarget = false;
+                                break;
+                            }
+                        }
+                    }
+                    //Adds target to the list if its new
+                    if (newTarget == true)
+                    {
+                        visibleTargets.Add(target.parent.transform); //Target is visible!
+                        newTarget = false;
+                    }
+                }
+            }
+        }
+    }
+    private void CheckForGuards(Transform target)
+    {
+        //ERROR: If Thief sees a guard but not the waypoint next to the guard, it'll still run to the guard
+        //ERROR: If Thief gets spotted by a guard from behind while looking at a waypoint on the otherside from the guard, the thief will recognize the waypoint as being blocked by the guard and start running towards the guard
+        if (target.parent.gameObject.GetComponent<GuardPathfinding>())
+        {
+            print("Can see guard");
+            for (int n = 0; n < visibleTargets.Count; n++)
+            {
+                //Checks if target is already in the visibleTargets list
+                if (visibleTargets[n] == target)
+                {
+                    newTarget = false;
+                    break;
+                }
+            }
+            if (newTarget == true)
+            {
+                visibleTargets.Add(target.parent.transform); //Target is visible!
+                newTarget = false;
+            }
+        }
+    }
+
+    private void CheckForWaypoints(Transform target)
+    {
+        //Checks if taarget is a waypoint
+        if (target.GetComponent<Waypoints>())
+        {
+            //Checks all of thief's paths
+            for (int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
+            {
+                //Checks if waypoint is a part of thief's path
+                if (target == GetComponent<ThiefPathfinding>().ShortestPath[p])
+                {
+                    noLongerBlocked = true;
+                    //Checks all security that has detected the waypoint
+                    for (int n = 0; n < target.GetComponent<Waypoints>().security.Count; n++)
+                    {
+
+                        //Checks all thief's knownsecurity
+                        for (int s = 0; s < visibleTargets.Count; s++)
+                        {
+                            //Checks if the thief and waypoint security objects are the same
+                            if (target.GetComponent<Waypoints>().security[n] == visibleTargets[s].gameObject)
+                            {
+                                if (GetComponent<ThiefPathfinding>().waypointWeights[target.GetComponent<Waypoints>().NumberReference] == 0)
+                                {
+                                    GetComponent<ThiefPathfinding>().addWeight(target.GetComponent<Waypoints>().NumberReference);
+                                    if (target.GetComponent<Waypoints>().security[n].gameObject.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.guard)
+                                    {
+                                        print("Sees guard");
+                                        if (target.GetComponent<Waypoints>().spawnpoint.Length > 0)
+                                        {
+                                            for (int sp = 0; sp < target.GetComponent<Waypoints>().spawnpoint.Length; sp++)
+                                            {
+                                                gameObject.GetComponent<ThiefPathfinding>().blockedWaypoints.Add(target.GetComponent<Waypoints>().spawnpoint[sp]);
+                                                print("Spawn Path blocked by guard");
+                                            }
+                                            
+                                        }
+                                        if(GetComponent<ThiefPathfinding>().Target != null)
+                                        {
+                                            for (int tp = 0; tp < GetComponent<ThiefPathfinding>().Target.GetComponent<TargetPoint>().nearestWaypoint.Length; tp++)
+                                            {
+                                                if (GetComponent<ThiefPathfinding>().Target.GetComponent<TargetPoint>().nearestWaypoint[tp].transform == target)
+                                                {
+                                                    GetComponent<ThiefPathfinding>().blockedWaypoints.Add(target);
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                    GetComponent<ThiefPathfinding>().pathIsBlocked(target.GetComponent<Waypoints>().gameObject);
+                                }
+                                noLongerBlocked = false;
+                            }
+                        }
+
+                    }
+                    if (noLongerBlocked && GetComponent<ThiefPathfinding>().waypointWeights[target.GetComponent<Waypoints>().NumberReference] > 0)
+                    {
+                        GetComponent<ThiefPathfinding>().removeWeight(target.GetComponent<Waypoints>().NumberReference);
+                        print("Path no longer blocked");
+                        break;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
 
     //Returns a vector3 pointing in the direction of the given angle
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
