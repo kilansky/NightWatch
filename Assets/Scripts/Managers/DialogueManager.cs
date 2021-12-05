@@ -33,9 +33,16 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
     private void Start()
     {
-        sentencesQueue = new Queue<string>();
-        StartDialogue(dialogues[0]);
-        HUDController.Instance.SetPlanningUIActive(false, false, false);
+        if(dialogues.Length > 0)
+        {
+            sentencesQueue = new Queue<string>();
+            StartDialogue(dialogues[0]);
+            HUDController.Instance.SetPlanningUIActive(false, false, false);
+        }
+        else
+        {
+            StartCoroutine(WaitToSkipDialogueAtStart());
+        }
     }
 
     private void Update()
@@ -109,6 +116,12 @@ public class DialogueManager : SingletonPattern<DialogueManager>
             return;
         }
 
+        SkipAllDialogue();
+    }
+
+    private IEnumerator WaitToSkipDialogueAtStart()
+    {
+        yield return new WaitForEndOfFrame();
         SkipAllDialogue();
     }
 
