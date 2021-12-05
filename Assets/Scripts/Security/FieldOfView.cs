@@ -86,23 +86,24 @@ public class FieldOfView : MonoBehaviour
                     }
                     if (target.gameObject.GetComponent<Waypoints>())
                     {
-                        print("See waypoint");
                         waypoints.Add(target.gameObject);
-                        if (!transform.parent.GetComponent<GuardPathfinding>())
+                        if (transform.parent.GetComponent<GuardPathfinding>())
                         {
-                            if (transform.parent.parent.GetComponent<CameraRotation>())
-                            {
-                                target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.parent.gameObject);
-                            }
-                            else
-                            {
-                                if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
-                                {
-                                    print("Laser is adding waypoint");
-                                }
-                                target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
-                            }
+                            target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
                         }
+                        else if(transform.parent.parent.GetComponent<CameraRotation>())
+                        {
+                            target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.parent.gameObject);
+                        }
+                        else
+                        {
+                            if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                            {
+                                print("Laser is adding waypoint");
+                            }
+                            target.gameObject.GetComponent<Waypoints>().security.Add(transform.parent.gameObject);
+                        }
+
                     }
                 }
             }
@@ -113,22 +114,23 @@ public class FieldOfView : MonoBehaviour
     {
         for (int w = 0; w < waypoints.Count; w++)
         {
-            if (!transform.parent.GetComponent<GuardPathfinding>())
+            if (transform.parent.GetComponent<GuardPathfinding>())
             {
-                if (transform.parent.parent.GetComponent<CameraRotation>())
-                {
-                    waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.parent.gameObject);
-                }
-                else
-                {
-                    if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
-                    {
-                        print("Laser is removing waypoint");
-                    }
-                    waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
-                }
+                waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
             }
-            
+            else if (transform.parent.parent.GetComponent<CameraRotation>())
+            {
+                waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.parent.gameObject);
+            }
+            else
+            {
+                if (transform.parent.GetComponent<SecurityMeasure>().securityType == SecurityMeasure.SecurityType.laser)
+                {
+                    print("Laser is removing waypoint");
+                }
+                waypoints[w].GetComponent<Waypoints>().security.Remove(transform.parent.gameObject);
+            }
+
         }
         waypoints.Clear();
     }
