@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2600472344928288058}
+  - component: {fileID: 2427662668882548394}
   m_Layer: 0
   m_Name: PictureVertical
   m_TagString: Untagged
@@ -32,6 +33,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2427662668882548394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967547512982995197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609bd9a6ef45c3148983cfa554031b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pictures:
+  - {fileID: 2100000, guid: 957571ceee1c7f34f9d004f9d497c190, type: 2}
+  - {fileID: 2100000, guid: a5a9bc46900508941938233871d17761, type: 2}
+  - {fileID: 2100000, guid: 4e6e5698e52f094449df05d48bba770c, type: 2}
+  - {fileID: 2100000, guid: 0673213df05aa654ebacb32e792c15d1, type: 2}
+  meshRenderer: {fileID: 3510323499065892169}
 --- !u!1 &5351674080394195605
 GameObject:
   m_ObjectHideFlags: 0
@@ -50,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6647795262415837353
 Transform:
   m_ObjectHideFlags: 0

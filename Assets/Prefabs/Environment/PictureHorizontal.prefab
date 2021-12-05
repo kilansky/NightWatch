@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8739263081030336742
 Transform:
   m_ObjectHideFlags: 0
@@ -200,6 +200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3578907479188937727}
+  - component: {fileID: 3782036307834656902}
   m_Layer: 0
   m_Name: PictureHorizontal
   m_TagString: Untagged
@@ -223,3 +224,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &3782036307834656902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5142735815803129296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609bd9a6ef45c3148983cfa554031b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pictures:
+  - {fileID: 2100000, guid: 13968d0439c401e46ae2bbeda2b7877e, type: 2}
+  - {fileID: 2100000, guid: 2ca98c7f79d69ec48a8dc228acfcd837, type: 2}
+  - {fileID: 2100000, guid: 3385595de1e986d4eaf7981352440c8a, type: 2}
+  - {fileID: 2100000, guid: c968d2969daaa6744a1e6f9288c74a90, type: 2}
+  - {fileID: 2100000, guid: bc0f643e6bb943d4c8cc076c36b49547, type: 2}
+  meshRenderer: {fileID: 6168922807949199824}
