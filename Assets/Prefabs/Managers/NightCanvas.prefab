@@ -712,8 +712,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1978573029}
-        m_TargetAssemblyTypeName: PauseButtons, Assembly-CSharp
+      - m_Target: {fileID: 4264589739564153125}
+        m_TargetAssemblyTypeName: NightHUDController, Assembly-CSharp
         m_MethodName: LoadNextLevel
         m_Mode: 1
         m_Arguments:
@@ -1507,7 +1507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99215686, g: 0.40392157, b: 0.40392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1570,7 +1570,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1978573029}
         m_TargetAssemblyTypeName: PauseButtons, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: BackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
