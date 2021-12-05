@@ -29,7 +29,7 @@ public class GameManager : SingletonPattern<GameManager>
         planningCanvas = HUDController.Instance.gameObject;
         nightCanvas = NightHUDController.Instance.gameObject;
 
-        currentLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
         HUDController.Instance.SetAvailableStartingButtons(currentLevel);
 
         //Adjust brightness value of lights based on the number of lights
