@@ -942,8 +942,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 836411958}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
-      propertyPath: BaseSpawnTimer
+      propertyPath: Timer_Mod
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: BaseSpawnTimer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: numThievesToSpawn
@@ -959,7 +963,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: SpawnWeights.Array.data[0]
-      value: 1
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: SpawnWeights.Array.data[2]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: SpawnWeights.Array.data[3]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
+      propertyPath: SpawnWeights.Array.data[4]
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1130652127497433280, guid: 148858c1233969348b9cafa798b94d2b, type: 3}
       propertyPath: TargetObjects.Array.data[0]
@@ -2178,7 +2194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWaypoint:
   - {fileID: 91073007524013985}
-  - {fileID: 91073007541095905}
 --- !u!4 &91073005791789010
 Transform:
   m_ObjectHideFlags: 0
@@ -2231,6 +2246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint: []
   ConnectedPoints:
   - {fileID: 91073006340017089}
   - {fileID: 91073007524013985}
@@ -2396,6 +2412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint:
+  - {fileID: 91073006085775365}
   ConnectedPoints:
   - {fileID: 91073005843121858}
   - {fileID: 91073006499528335}
@@ -2601,6 +2619,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint:
+  - {fileID: 91073007136147919}
   ConnectedPoints:
   - {fileID: 91073007524013985}
   - {fileID: 91073007228860487}
@@ -2799,6 +2819,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint:
+  - {fileID: 91073006064734939}
+  - {fileID: 91073007310676673}
   ConnectedPoints:
   - {fileID: 91073007228860487}
   - {fileID: 91073005843121858}
@@ -3059,6 +3082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint: []
   ConnectedPoints:
   - {fileID: 91073007541095905}
   - {fileID: 91073005953116023}
@@ -3182,7 +3206,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWaypoint:
   - {fileID: 91073006038269056}
-  - {fileID: 91073007228860487}
 --- !u!23 &91073006897133845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3431,7 +3454,7 @@ GameObject:
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3546,6 +3569,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint:
+  - {fileID: 91073007136147919}
+  - {fileID: 91073007310676673}
   ConnectedPoints:
   - {fileID: 91073006038269056}
   - {fileID: 91073006340017089}
@@ -3626,6 +3652,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint:
+  - {fileID: 91073005791789010}
   ConnectedPoints:
   - {fileID: 91073006038269056}
   - {fileID: 91073005843121858}
@@ -3730,6 +3758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   security: []
+  spawnpoint: []
   ConnectedPoints:
   - {fileID: 91073006499528335}
   - {fileID: 91073007524013985}

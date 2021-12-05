@@ -6,4 +6,5 @@ public class TargetPoint : MonoBehaviour
 {
     public Transform[] nearestWaypoint;
     
+    
 }
