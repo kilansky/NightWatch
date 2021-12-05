@@ -108,7 +108,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             SetPlacementRotation(hitZ.normal);
 
             //check if mouse is NOT over a non-placable area and the Cancel Placement Skill Gate is not active
-            if (!Physics.Raycast(ray, out hit, Mathf.Infinity, placementBlockedMask) && !cancelPlacementSkillGate)
+            if (!Physics.Raycast(ray, out hit, Mathf.Infinity, placementBlockedMask) && 
+                !Physics.Raycast(rayZ, out hitZ, 3f, placementBlockedMask) && !cancelPlacementSkillGate)
             {
                 //If not overlapping with another object, and is affordable, allow placement on wall
                 if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping

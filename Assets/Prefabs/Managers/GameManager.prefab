@@ -1808,6 +1808,7 @@ MonoBehaviour:
   menuTrack: {fileID: 8300000, guid: 818ea1f4527d8a240bb2e5f6e836e6c5, type: 3}
   dayTrack: {fileID: 8300000, guid: 8fc080a5e041eda4d8af8124c18820be, type: 3}
   nightTrack: {fileID: 8300000, guid: bab70855fd9c3804c85716f45aaa3536, type: 3}
+  testTracks: []
 --- !u!1 &2507036668142959295
 GameObject:
   m_ObjectHideFlags: 0
@@ -2582,7 +2583,7 @@ MonoBehaviour:
   guardPatrolButton: {fileID: 0}
   guardPointClickButton: {fileID: 0}
   guardManualButton: {fileID: 0}
-  allowUpgrades: 0
+  allowUpgrades: 1
   selectedObject: {fileID: 0}
   offScreenPos: {x: 0, y: -10, z: 0}
   canSelect: 0
@@ -2642,7 +2643,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a223280a68895e47811d1b2e19dc655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  continueWarning: {fileID: 0}
+  SecondLevel: {fileID: 0}
+  blackOverlay: {fileID: 0}
+  fadeToBlackTime: 2
   difficulty: 0
+  lastPlayedScene: 0
+  LevelOneCompletion: 0
 --- !u!1 &8930499129977071488
 GameObject:
   m_ObjectHideFlags: 0
