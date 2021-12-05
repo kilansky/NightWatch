@@ -186,6 +186,7 @@ public class HUDController : SingletonPattern<HUDController>
     public void ShowNoPatrolWarning()
     {
         //Debug.Log("Show Warning");
+        SecuritySelection.Instance.canSelect = false;
         noPatrolWarningPanel.SetActive(true);
         nightWatchButton.interactable = false;
     }
@@ -195,6 +196,7 @@ public class HUDController : SingletonPattern<HUDController>
     {
         noPatrolWarningPanel.SetActive(false);
         nightWatchButton.interactable = true;
+        SecuritySelection.Instance.canSelect = true;
 
         if (beginNightWatch)
             GameManager.Instance.BeginNightPhase();

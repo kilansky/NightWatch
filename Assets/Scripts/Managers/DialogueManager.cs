@@ -47,7 +47,8 @@ public class DialogueManager : SingletonPattern<DialogueManager>
 
     private void Update()
     {
-        if(inConversation && !skillCheckStarted && PlayerInputs.Instance.LeftClickPressed && !PlayerInputs.Instance.IsPaused)
+        if(inConversation && !skillCheckStarted && PlayerInputs.Instance.LeftClickPressed 
+            && DialogueMouseDetector.Instance.mouseOverDialogue && !PlayerInputs.Instance.IsPaused)
         {
             DisplayNextSentence();
         }
@@ -129,6 +130,7 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     {
         dialogueBox.SetActive(false);
         inConversation = false;
+        CameraController.Instance.canPanWithMouse = true;
 
         SkillCheckManager.Instance.cameraControlsPanel.SetActive(false);
         SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
