@@ -131,8 +131,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7934679847386057021}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 16.1, z: -1.9}
-  m_LocalScale: {x: 47.385357, y: 87.63477, z: 36.793514}
+  m_LocalPosition: {x: 0, y: 16.1, z: -3.7}
+  m_LocalScale: {x: 37.327816, y: 87.63477, z: 39.088684}
   m_Children: []
   m_Father: {fileID: 7934679847457164727}
   m_RootOrder: 2
@@ -328,7 +328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7934679848080791857}
   m_LocalRotation: {x: 0.60876137, y: -0, z: -0, w: 0.7933534}
-  m_LocalPosition: {x: -2.8099976, y: 20, z: -4.0200005}
+  m_LocalPosition: {x: -2.8099976, y: 20, z: -4.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 887716021}
@@ -524,7 +524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7934679849200255993}
   m_LocalRotation: {x: 0.60876137, y: -0, z: -0, w: 0.7933534}
-  m_LocalPosition: {x: -2.8099976, y: 20, z: -4.0200005}
+  m_LocalPosition: {x: -2.8099976, y: 20, z: -4.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7934679847706227067}
@@ -596,10 +596,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camMoveSpeed: 25
-  camZoomSpeed: 16
+  camZoomSpeed: 10
   boundingBox: {fileID: 7934679847386057010}
   camFollowPoint: {fileID: 5418855650471960697}
   minFollowDist: 12
   maxFollowDist: 32
+  percOfScreenEdgeToPan: 0.05
+  canPanWithMouse: 0
   selectedGuard: {fileID: 0}
-  followGuard: 0
+  looseFollow: 0

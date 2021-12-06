@@ -130,7 +130,6 @@ public class DialogueManager : SingletonPattern<DialogueManager>
     {
         dialogueBox.SetActive(false);
         inConversation = false;
-        CameraController.Instance.canPanWithMouse = true;
 
         SkillCheckManager.Instance.cameraControlsPanel.SetActive(false);
         SkillCheckManager.Instance.cctvPlacementArrow.SetActive(false);
