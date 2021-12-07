@@ -201,6 +201,7 @@ public class ThiefFieldofView : MonoBehaviour
         //Checks if taarget is a waypoint
         if (target.GetComponent<Waypoints>())
         {
+            
             //Checks all of thief's paths
             for (int p = 0; p < GetComponent<ThiefPathfinding>().ShortestPath.Count; p++)
             {
