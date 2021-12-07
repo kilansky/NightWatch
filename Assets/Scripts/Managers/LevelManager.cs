@@ -104,6 +104,11 @@ public class LevelManager : SingletonPattern<LevelManager>
         StartCoroutine(FadeToBlack(0));
     }
 
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
+
     public void SaveGameData(int diff)
     {
         difficulty = diff;

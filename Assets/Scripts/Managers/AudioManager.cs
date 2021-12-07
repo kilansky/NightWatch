@@ -18,7 +18,7 @@ public class AudioManager : SingletonPattern<AudioManager>
 
     public void PlayDayTrack()
     {
-        audioSource.Stop();
+        //audioSource.Stop();
         audioSource.clip = dayTrack;
         audioSource.Play();
     }
