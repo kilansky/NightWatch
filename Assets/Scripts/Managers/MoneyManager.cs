@@ -25,10 +25,8 @@ public class MoneyManager : SingletonPattern<MoneyManager>
             money = startingMoney;
         }
 
-        print(HUDController.Instance.moneyText.text);
-        print(money.ToString());
-
-        HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
+        if(SceneManager.GetActiveScene().buildIndex != 0)
+            HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 
     public void SubtractMoney(int amount)
