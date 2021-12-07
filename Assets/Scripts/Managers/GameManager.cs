@@ -46,7 +46,7 @@ public class GameManager : SingletonPattern<GameManager>
     //Call on Level Start, allow placement of security measures
     public void BeginPlanningPhase()
     {
-        //AudioManager.Instance.PlayDayTrack();
+        AudioManager.Instance.PlayDayTrack();
 
         foreach (Light light in directionalLights)
             light.intensity = planningPhaseBrightness;
@@ -58,7 +58,7 @@ public class GameManager : SingletonPattern<GameManager>
     //Call when player presses button, hides the placement UI and begins spawning thieves
     public void BeginNightPhase()
     {
-        //AudioManager.Instance.PlayNightTrack();
+        AudioManager.Instance.PlayNightTrack();
 
         nightWatchPhase = true;
         StartCoroutine(ChangeTimeOfDay(planningPhaseBrightness, nightPhaseBrightness));
