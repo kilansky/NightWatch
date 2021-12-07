@@ -115,10 +115,22 @@ public class LevelManager : MonoBehaviour
         {
             difficulty = data.difficultySelection;
             lastPlayedScene = data.lastScene;
-            if (inProgress)
+            if (SceneManager.GetActiveScene().buildIndex > 0)
             {
-                MoneyManager.Instance.AddMoney(data.money);
+                if (inProgress)
+                {
+                    MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
+                    //MoneyManager.Instance.AddMoney(data.money);
+                }
+                else
+                {
+                    MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
+                    inProgress = true;
+                }
+                print("Load Starting Money of " + MoneyManager.Instance.startingMoney);
+                MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
             }
+            
             print("Last Level = " + lastPlayedScene);
             if (difficulty == 0)
             {
