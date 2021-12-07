@@ -108,7 +108,8 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             SetPlacementRotation(hitZ.normal);
 
             //check if mouse is NOT over a non-placable area and the Cancel Placement Skill Gate is not active
-            if (!Physics.Raycast(ray, out hit, Mathf.Infinity, placementBlockedMask) && !cancelPlacementSkillGate)
+            if (!Physics.Raycast(ray, out hit, Mathf.Infinity, placementBlockedMask) && 
+                !Physics.Raycast(rayZ, out hitZ, 3f, placementBlockedMask) && !cancelPlacementSkillGate)
             {
                 //If not overlapping with another object, and is affordable, allow placement on wall
                 if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
@@ -376,6 +377,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         heldObject = objectToMove;
         movementMode = true;
         HUDController.Instance.EnableButtons(false, false, false, false); //disable security buttons
+        HUDController.Instance.nightWatchButton.interactable = false;
 
         //Store original material of the object to move
         StoreOriginalMaterials();
@@ -395,6 +397,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
         SecuritySelection.Instance.canSelect = true; //enable selections
         HUDController.Instance.EnableButtons(true, true, true, true); //enable security buttons
+        HUDController.Instance.nightWatchButton.interactable = true;
 
         //If the object to move is a guard, enable the model mesh
         if (heldObject.GetComponent<GuardPathfinding>())
@@ -443,6 +446,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             movementMode = false;
             SecuritySelection.Instance.canSelect = true; //enable selections
             HUDController.Instance.EnableButtons(true, true, true, true); //enable security buttons
+            HUDController.Instance.nightWatchButton.interactable = true;
 
             if (heldObject.GetComponent<NavMeshAgent>())
                 heldObject.GetComponent<NavMeshAgent>().enabled = true;

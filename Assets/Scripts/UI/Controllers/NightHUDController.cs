@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -31,6 +32,10 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public TextMeshProUGUI awardedMoneyText;
     public TextMeshProUGUI endOfNightPaymentText;
     public TextMeshProUGUI finalMoneyText;
+
+    [Header("Fade To Black Overlay")]
+    public Image blackOverlay;
+    public float fadeToBlackTime;
 
     [Header("Event Audio")]
     public AudioClip itemStolen;
@@ -114,6 +119,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public void SetGameEndStats()
     {
         PlayerInputs.Instance.canPause = false;
+        CameraController.Instance.canPanWithMouse = false;
         SecuritySelection.Instance.DeactivateAllButtons();
 
         gameEndPanel.SetActive(true);
@@ -161,5 +167,40 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public void HidePauseScreen()
     {
         pausePanel.SetActive(false);
+    }
+
+    //Loads the next level in the build index
+    public void LoadNextLevel()
+    {
+        NightHUDController.Instance.AddMoneyForCurrentSecurity();
+
+        if (MoneyManager.Instance.Money < 500)
+            MoneyManager.Instance.ResetMoney();
+
+        PlayerPrefs.SetInt("Money", MoneyManager.Instance.Money);
+
+        int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(FadeToBlack(currLevelIndex + 1));
+    }
+
+    private IEnumerator FadeToBlack(int levelToLoad)
+    {
+        blackOverlay.gameObject.SetActive(true);
+        blackOverlay.color = new Color(0, 0, 0, 0);
+        float timeElaped = 0;
+
+        while (timeElaped < fadeToBlackTime)
+        {
+            float alpha = Mathf.Lerp(0, 1, timeElaped / fadeToBlackTime);
+            blackOverlay.color = new Color(0, 0, 0, alpha);
+            timeElaped += Time.unscaledDeltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        blackOverlay.color = new Color(0, 0, 0, 1);
+
+        yield return new WaitForEndOfFrame();
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene(levelToLoad);
     }
 }

@@ -7,15 +7,16 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    public int difficulty;
-    public int lastPlayedScene;
-    public bool LevelOneCompletion;
     public GameObject continueWarning;
     public Button SecondLevel;
-    private int selectedLevel;
-    public List<GameObject> securityObjects = new List<GameObject>();
-    public List<Transform> securityPlacements = new List<Transform>();
+    public Image blackOverlay;
+    public float fadeToBlackTime = 2f;
 
+    [HideInInspector] public int difficulty;
+    [HideInInspector] public int lastPlayedScene;
+    [HideInInspector] public bool LevelOneCompletion;
+
+    private int selectedLevel;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+
     public void LoadLastLevel()
     {
         if (lastPlayedScene < 1)
@@ -37,23 +39,26 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(lastPlayedScene);
-        }
-        
+            LoadLevel(lastPlayedScene);
+        }     
     }
+
     public void selectLevel(int level)
     {
         selectedLevel = level;
         print("Select Level " + selectedLevel);
     }
+
     public void loadSelectedLevel()
     {
-        SceneManager.LoadScene(selectedLevel);
+        LoadLevel(selectedLevel);
     }
+
     public void LoadLevel(int level)
     {
-        SceneManager.LoadScene(level);
+        StartCoroutine(FadeToBlack(level));
     }
+
     public void QuitGame(int curr)
     {
         if (SceneManager.GetActiveScene().buildIndex > 0)
@@ -66,6 +71,7 @@ public class LevelManager : MonoBehaviour
         
         Application.Quit();
     }
+
     public void SaveDifficultySelection(int diff)
     {
         difficulty = diff;
@@ -75,6 +81,7 @@ public class LevelManager : MonoBehaviour
         }
         SaveSystemScript.SaveGameInfo(this);
     }
+
     public void LoadDifficultySelection()
     {
         GameData data = SaveSystemScript.LoadGameInfo();
@@ -100,8 +107,24 @@ public class LevelManager : MonoBehaviour
         {
             SaveDifficultySelection(0);
         }
-        
+    }
 
+    private IEnumerator FadeToBlack(int levelToLoad)
+    {
+        blackOverlay.color = new Color(0, 0, 0, 0);
+        float timeElaped = 0;
 
+        while (timeElaped < fadeToBlackTime)
+        {
+            float alpha = Mathf.Lerp(0, 1, timeElaped/fadeToBlackTime);
+            blackOverlay.color = new Color(0, 0, 0, alpha);
+            timeElaped += Time.unscaledDeltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        blackOverlay.color = new Color(0, 0, 0, 1);
+
+        yield return new WaitForEndOfFrame();
+        SceneManager.LoadScene(levelToLoad);
     }
 }

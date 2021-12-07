@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7009632642836336966
 Transform:
@@ -31,6 +31,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9065988459911049983
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4476973937293786575}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.49411345, y: 1.5469941, z: 0.5214082}
+  m_Center: {x: 0.000000022351742, y: 0.77349705, z: 0}
 --- !u!1001 &3665932031916687518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86,8 +99,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: tallCabinet
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c68f793743b74a348be2e7f186aeb868, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c68f793743b74a348be2e7f186aeb868, type: 3}
+--- !u!1 &4476973937293786575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c68f793743b74a348be2e7f186aeb868, type: 3}
+  m_PrefabInstance: {fileID: 3665932031916687518}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3849091965973145461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c68f793743b74a348be2e7f186aeb868, type: 3}

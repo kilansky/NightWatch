@@ -20,15 +20,20 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     // Start is called before the first frame update
     private void Start()
     {
-        if(SceneManager.GetActiveScene().buildIndex == 1)
+        //Set starting money if in day 1 of either building
+        if(SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 4)
         {
             money = startingMoney;
         }
+        //Otherwise, use the money earned from the previous night
         else
         {
             money = PlayerPrefs.GetInt("Money", money);
         }
-        
+
+        print(HUDController.Instance.moneyText.text);
+        print(money.ToString());
+
         HUDController.Instance.moneyText.text = "Money: $" + money.ToString();
     }
 
