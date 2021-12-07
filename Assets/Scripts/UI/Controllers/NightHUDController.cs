@@ -62,7 +62,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         thievesEscapedText.text = thievesEscapedNum.ToString();
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
 
-        if (GameManager.Instance.currentLevel == 1 && !Application.isEditor)
+        if (GameManager.Instance.currentLevel == 1)
             guardSelectionTipText.SetActive(true);
     }
 
@@ -172,7 +172,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     //Loads the next level in the build index
     public void LoadNextLevel()
     {
-        NightHUDController.Instance.AddMoneyForCurrentSecurity();
+        AddMoneyForCurrentSecurity();
 
         if (MoneyManager.Instance.Money < 500)
             MoneyManager.Instance.ResetMoney();

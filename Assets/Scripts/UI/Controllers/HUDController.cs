@@ -151,16 +151,16 @@ public class HUDController : SingletonPattern<HUDController>
     //Sets the active security measure buttons based on the current level
     public void SetAvailableStartingButtons(int currLevel)
     {
-        if (currLevel >= 2)
+        if (currLevel >= 1)
         {
             cctvButton.SetActive(true);
             guardButton.SetActive(true);
         }
 
-        if (currLevel >= 3)
+        if (currLevel >= 2)
             laserButton.SetActive(true);
 
-        if (currLevel >= 4)
+        if (currLevel >= 3)
             audioButton.SetActive(true);
     }
 
