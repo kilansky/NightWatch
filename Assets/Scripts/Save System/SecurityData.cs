@@ -11,11 +11,11 @@ public class SecurityData
 
     public SecurityData(LevelManager data)
     {
-        objNum = data.securityObjects.Count;
+        //objNum = data.securityObjects.Count;
         for(int i = 0; i < objNum; i++)
         {
-            securityObjects.Add(data.securityObjects[i]);
-            securityPlacements.Add(data.securityPlacements[i]);
+            //securityObjects.Add(data.securityObjects[i]);
+           // securityPlacements.Add(data.securityPlacements[i]);
         }
     }
 }
