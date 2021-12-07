@@ -80,7 +80,7 @@ public class LevelManager : SingletonPattern<LevelManager>
     public void LoadMenu()
     {
         AddMoneyForCurrentSecurity();
-
+        lastPlayedScene = SceneManager.GetActiveScene().buildIndex;
         if (MoneyManager.Instance.money < 500)
             MoneyManager.Instance.ResetMoney();
         SaveGameData(difficulty);
@@ -90,24 +90,23 @@ public class LevelManager : SingletonPattern<LevelManager>
 
     public void QuitGame(int curr)
     {
-        if (SceneManager.GetActiveScene().buildIndex > 0)
+        AddMoneyForCurrentSecurity();
+        if(SceneManager.GetActiveScene().buildIndex != 3)
         {
-            lastPlayedScene = SceneManager.GetActiveScene().buildIndex + curr;
-            SaveSystemScript.SaveGameInfo(this);
-            print("Last Played Scene");
+            lastPlayedScene = SceneManager.GetActiveScene().buildIndex + 1;
+            print("New last level is " + lastPlayedScene);
         }
-        print("Scene build " + SceneManager.GetActiveScene().buildIndex);
         
-        Application.Quit();
+        if (MoneyManager.Instance.money < 500)
+            MoneyManager.Instance.ResetMoney();
+        SaveGameData(difficulty);
+        int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(FadeToBlack(0));
     }
 
     public void SaveGameData(int diff)
     {
         difficulty = diff;
-        if(SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            lastPlayedScene = SceneManager.GetActiveScene().buildIndex;
-        }
         if (SceneManager.GetActiveScene().buildIndex > 0)
         {
             money = MoneyManager.Instance.money;

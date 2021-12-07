@@ -186,6 +186,6 @@ public class NightHUDController : SingletonPattern<NightHUDController>
 
     public void QuitLevel()
     {
-        LevelManager.Instance.LoadMenu();
+        LevelManager.Instance.QuitGame(1);
     }
 }
