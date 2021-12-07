@@ -108,8 +108,10 @@ public class GuardPathfinding : MonoBehaviour
                     {
                         if (transform.position.x < doorScript.upperXBoundary && transform.position.x > doorScript.lowerXBoundary && transform.position.z > doorScript.lowerZBoundary && transform.position.z < doorScript.upperZBoundary)
                         {
+                            print("Inside room");
                             if (ClickPoint.x > doorScript.upperXBoundary || ClickPoint.x < doorScript.lowerXBoundary || ClickPoint.z < doorScript.lowerZBoundary || ClickPoint.z > doorScript.upperZBoundary)
                             {
+                                print("Open from inside");
                                 DoorInteraction = true;
                                 OpenDoorFunction();
                             }
@@ -118,6 +120,7 @@ public class GuardPathfinding : MonoBehaviour
                         {
                             if (ClickPoint.x < doorScript.upperXBoundary && ClickPoint.x > doorScript.lowerXBoundary && ClickPoint.z > doorScript.lowerZBoundary && ClickPoint.z < doorScript.upperZBoundary)
                             {
+                                print(doorScript.upperZBoundary + " " + doorScript.lowerZBoundary);
                                 DoorInteraction = true;
                                 OpenDoorFunction();
                             }
@@ -289,7 +292,6 @@ public class GuardPathfinding : MonoBehaviour
 
     private void ClickMovement()
     {
-        print("Click Movement being called");
         Ray ray = mainCamera.ScreenPointToRay(PlayerInputs.Instance.MousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask))
@@ -312,7 +314,6 @@ public class GuardPathfinding : MonoBehaviour
         {
             
             Agent.isStopped = false;
-            print("Movement allowed");
             if (Vector3.Distance(transform.position, ClickPoint) > 1)
             {
                 WalkAnimation();
@@ -321,7 +322,6 @@ public class GuardPathfinding : MonoBehaviour
             {
                 IdleAnimation();
             }
-            print("Set to click");
             Agent.SetDestination(ClickPoint);
         }
         else

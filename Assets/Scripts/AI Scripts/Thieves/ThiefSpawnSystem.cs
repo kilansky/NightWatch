@@ -69,10 +69,12 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
         {
             Timer -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
+            print("Begin Spawning");
         }
 
         if (TargetObjects.Count >= 1) //Checks to see if there are any target items left before spawning in a new thief
         {
+            
             SpawnSequence();
         }
         
@@ -116,6 +118,7 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
     //Thief Spawn function
     private void SpawnSequence()
     {
+        
         GenerateStats();
         Chance = Random.Range(1, TotalChance);
         //print("Number Generated = " + Chance);
@@ -146,5 +149,6 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
         obj.GetComponent<ThiefPathfinding>().SpawnPoint = Entry_Locations[Position];
 
         TargetObjects.Remove(TargetObjects[TargetItemAssigned]); //Removes the assigned target object from the list
+        print("Finished Spawning");
     }
 }
