@@ -23,12 +23,9 @@ public class LevelManager : SingletonPattern<LevelManager>
     {
         selectedLevel = 1;
         LoadGameData();
-        if (!SecondLevel)
+        if(SceneManager.GetActiveScene().buildIndex > 1)
         {
-            if (LevelOneCompletion)
-            {
-                SecondLevel.interactable = true;
-            }
+            SaveGameData(difficulty);
         }
     }
 
@@ -127,7 +124,7 @@ public class LevelManager : SingletonPattern<LevelManager>
             lastPlayedScene = data.lastScene;
             if (SceneManager.GetActiveScene().buildIndex > 0)
             {
-                if (SceneManager.GetActiveScene().buildIndex > 1 && SceneManager.GetActiveScene().buildIndex != 4)
+                if (SceneManager.GetActiveScene().buildIndex > 1)
                 {
                     MoneyManager.Instance.AddMoney(data.money);
                 }
