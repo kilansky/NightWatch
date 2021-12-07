@@ -28,7 +28,7 @@ public class TestDijkstraPath : MonoBehaviour
     }
     public void FindShortestPath(GameObject thief)
     {
-
+        print("Djikstra running");
         previousPath.Clear();
         for(int i = 0; i < waypoints.Length; i++)
         {
@@ -73,6 +73,7 @@ public class TestDijkstraPath : MonoBehaviour
         }
         thief.GetComponent<ThiefPathfinding>().ShortestPath.Add(waypoints[resetNum]);
         unexploredPaths.Clear();
+        print("Djikstra finished");
     }
     
 }
