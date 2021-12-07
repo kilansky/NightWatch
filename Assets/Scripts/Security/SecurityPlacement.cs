@@ -167,7 +167,10 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
         else if (Mathf.RoundToInt(hitNormal.z) == 1) //Face North
             cameraRotation = Quaternion.Euler(0f, 180f, 0f);
         else
-            Debug.LogError("Invaild wall normal to place the camera on");
+        {
+            cameraRotation = Quaternion.Euler(0f, 90f, 0f);
+            Debug.Log("Invaild wall normal to place the camera on");
+        }
 
         heldObject.transform.rotation = cameraRotation;
     }

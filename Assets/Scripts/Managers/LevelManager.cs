@@ -161,10 +161,9 @@ public class LevelManager : SingletonPattern<LevelManager>
     private IEnumerator FadeToBlack(int levelToLoad)
     {
         if(SceneManager.GetActiveScene().buildIndex  > 0)
-        {
             blackOverlay = NightHUDController.Instance.blackOverlay;
-            blackOverlay.gameObject.SetActive(true);
-        }
+
+        blackOverlay.gameObject.SetActive(true);
 
         blackOverlay.color = new Color(0, 0, 0, 0);
         float timeElaped = 0;
