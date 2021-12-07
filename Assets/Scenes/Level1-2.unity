@@ -1121,22 +1121,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5342491503129214846, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5342491503129214846, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1410366340}
+      objectReference: {fileID: 794504250}
     - target: {fileID: 5342491503129214846, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: QuitGame
       objectReference: {fileID: 0}
     - target: {fileID: 5342491503129214846, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LevelManager, Assembly-CSharp
+      value: PauseButtons, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+--- !u!114 &794504250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2302141712334847409, guid: 450bfcf22566136458e7f83e029f0a5f, type: 3}
+  m_PrefabInstance: {fileID: 794504249}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f3a6d4819dc2b24c87f78deff43123e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &830250495
 PrefabInstance:
   m_ObjectHideFlags: 0
