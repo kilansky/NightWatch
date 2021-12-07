@@ -13,13 +13,17 @@ public class UpgradeButtonInfo
     public string description;
     public float increaseAmt = 2.5f;
     [Range(0, 5)] public int maxUpgrades = 3;
+    public Image[] indicatorImages;
 }
 
 public class UpgradePanel : MonoBehaviour
 {
     public UpgradeButtonInfo[] upgradeButtons;
     public TextMeshProUGUI descriptionText;
+    public Color nonUpgradedColor;
+    public Color upgradedColor;
 
+    //Enables or disables interactability with each upgrade button based on its upgrade count and the player's money
     public void SetActiveButtons()
     {
         int i = 0;
@@ -32,6 +36,40 @@ public class UpgradePanel : MonoBehaviour
             else
             {
                 upgradeButton.button.interactable = false;
+            }
+            i++;
+        }
+
+        SetIndicatorImages();
+    }
+
+    //Sets the quantity and color of the indicators for how many upgrades can and have been purchased
+    private void SetIndicatorImages()
+    {
+        int i = 0;
+        foreach (UpgradeButtonInfo upgradeButton in upgradeButtons)
+        {
+            int timesUpgraded = SecuritySelection.Instance.selectedObject.timesUpgraded[i];
+
+            for (int j = 0; j < upgradeButton.indicatorImages.Length; j++)
+            {
+                if (j < upgradeButton.maxUpgrades)
+                {
+                    upgradeButton.indicatorImages[j].gameObject.SetActive(true);
+                }
+                else
+                {
+                    upgradeButton.indicatorImages[j].gameObject.SetActive(false);
+                }
+
+                if(j < timesUpgraded)
+                {
+                    upgradeButton.indicatorImages[j].color = upgradedColor;
+                }
+                else
+                {
+                    upgradeButton.indicatorImages[j].color = nonUpgradedColor;
+                }
             }
             i++;
         }

@@ -18,12 +18,14 @@ public class AudioManager : SingletonPattern<AudioManager>
 
     public void PlayDayTrack()
     {
+        audioSource.Stop();
         audioSource.clip = dayTrack;
         audioSource.Play();
     }
 
     public void PlayNightTrack()
     {
+        audioSource.Stop();
         audioSource.clip = nightTrack;
         audioSource.Play();
     }
