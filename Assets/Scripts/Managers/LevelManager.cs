@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
-public class LevelManager : MonoBehaviour
+public class LevelManager : SingletonPattern<LevelManager>
 {
     public GameObject continueWarning;
     public Button SecondLevel;
@@ -79,6 +78,17 @@ public class LevelManager : MonoBehaviour
         SaveGameData(difficulty);
         int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
         StartCoroutine(FadeToBlack(currLevelIndex + 1));
+    }
+
+    public void LoadMenu()
+    {
+        AddMoneyForCurrentSecurity();
+
+        if (MoneyManager.Instance.money < 500)
+            MoneyManager.Instance.ResetMoney();
+        SaveGameData(difficulty);
+        int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(FadeToBlack(0));
     }
 
     public void QuitGame(int curr)

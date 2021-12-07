@@ -68,6 +68,7 @@ public class GameManager : SingletonPattern<GameManager>
         SecurityPlacement.Instance.ExitPlacementMode();
         ThiefSpawnSystem.Instance.BeginSpawnCycle();
         nightCanvas.SetActive(true);
+        NightHUDController.Instance.StartNight();
     }
 
     public IEnumerator ChangeTimeOfDay(float startBrightness, float endBrightness)
