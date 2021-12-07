@@ -13,15 +13,17 @@ public class LevelManager : MonoBehaviour
     public float fadeToBlackTime = 2f;
 
     [HideInInspector] public int difficulty;
+    [HideInInspector] public int money;
     [HideInInspector] public int lastPlayedScene;
     [HideInInspector] public bool LevelOneCompletion;
+    [HideInInspector] public bool inProgress;
 
     private int selectedLevel;
 
     private void Start()
     {
         selectedLevel = 1;
-        LoadDifficultySelection();
+        LoadGameData();
         if (!SecondLevel)
         {
             if (LevelOneCompletion)
@@ -59,6 +61,26 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(FadeToBlack(level));
     }
 
+    public void AddMoneyForCurrentSecurity()
+    {
+        foreach (GuardController guard in FindObjectsOfType<GuardController>())
+            MoneyManager.Instance.AddMoney(500);
+
+        foreach (HackedSecurityScript security in FindObjectsOfType<HackedSecurityScript>())
+            MoneyManager.Instance.AddMoney(security.GetComponent<SecurityMeasure>().cost);
+    }
+
+    public void LoadNextLevel()
+    {
+        AddMoneyForCurrentSecurity();
+
+        if (MoneyManager.Instance.money < 500)
+            MoneyManager.Instance.ResetMoney();
+        SaveGameData(difficulty);
+        int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        StartCoroutine(FadeToBlack(currLevelIndex + 1));
+    }
+
     public void QuitGame(int curr)
     {
         if (SceneManager.GetActiveScene().buildIndex > 0)
@@ -72,23 +94,31 @@ public class LevelManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void SaveDifficultySelection(int diff)
+    public void SaveGameData(int diff)
     {
         difficulty = diff;
         if(SceneManager.GetActiveScene().buildIndex > 0)
         {
             lastPlayedScene = SceneManager.GetActiveScene().buildIndex;
         }
+        if (inProgress)
+        {
+            money = MoneyManager.Instance.money;
+        }
         SaveSystemScript.SaveGameInfo(this);
     }
 
-    public void LoadDifficultySelection()
+    public void LoadGameData()
     {
         GameData data = SaveSystemScript.LoadGameInfo();
         if (data != null)
         {
             difficulty = data.difficultySelection;
             lastPlayedScene = data.lastScene;
+            if (inProgress)
+            {
+                MoneyManager.Instance.AddMoney(data.money);
+            }
             print("Last Level = " + lastPlayedScene);
             if (difficulty == 0)
             {
@@ -105,7 +135,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            SaveDifficultySelection(0);
+            SaveGameData(0);
         }
     }
 

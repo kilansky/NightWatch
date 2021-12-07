@@ -47,6 +47,13 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     private int thievesApprehendedNum = 0;
     private AudioSource audioSource;
 
+    //Save System
+    [HideInInspector] public int difficulty;
+    [HideInInspector] public int lastPlayedScene;
+    [HideInInspector] public bool LevelOneCompletion;
+
+    private int selectedLevel;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -127,7 +134,7 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         escapedFinalNum.text = thievesEscapedNum.ToString();
         apprehendedFinalNum.text = thievesApprehendedNum.ToString();
 
-        int unspentMoney = MoneyManager.Instance.Money;
+        int unspentMoney = MoneyManager.Instance.money;
         int penaltyMoney = MoneyManager.Instance.itemStolenPenalty * itemStolenNum;
         int awardedMoney = MoneyManager.Instance.thiefApprehendedAward * thievesApprehendedNum;
         int endOfNightPayment = MoneyManager.Instance.endOfNightPayment;
@@ -167,40 +174,5 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public void HidePauseScreen()
     {
         pausePanel.SetActive(false);
-    }
-
-    //Loads the next level in the build index
-    public void LoadNextLevel()
-    {
-        AddMoneyForCurrentSecurity();
-
-        if (MoneyManager.Instance.Money < 500)
-            MoneyManager.Instance.ResetMoney();
-
-        PlayerPrefs.SetInt("Money", MoneyManager.Instance.Money);
-
-        int currLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        StartCoroutine(FadeToBlack(currLevelIndex + 1));
-    }
-
-    private IEnumerator FadeToBlack(int levelToLoad)
-    {
-        blackOverlay.gameObject.SetActive(true);
-        blackOverlay.color = new Color(0, 0, 0, 0);
-        float timeElaped = 0;
-
-        while (timeElaped < fadeToBlackTime)
-        {
-            float alpha = Mathf.Lerp(0, 1, timeElaped / fadeToBlackTime);
-            blackOverlay.color = new Color(0, 0, 0, alpha);
-            timeElaped += Time.unscaledDeltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-        blackOverlay.color = new Color(0, 0, 0, 1);
-
-        yield return new WaitForEndOfFrame();
-
-        Time.timeScale = 1;
-        SceneManager.LoadScene(levelToLoad);
     }
 }

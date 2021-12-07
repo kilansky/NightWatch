@@ -14,8 +14,7 @@ public class MoneyManager : SingletonPattern<MoneyManager>
     public int thiefApprehendedAward = 100;
     public int endOfNightPayment = 300;
 
-    private int money;
-    public int Money { get { return money; } }
+    public int money;
 
     // Start is called before the first frame update
     private void Start()
@@ -24,11 +23,6 @@ public class MoneyManager : SingletonPattern<MoneyManager>
         if(SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 4)
         {
             money = startingMoney;
-        }
-        //Otherwise, use the money earned from the previous night
-        else
-        {
-            money = PlayerPrefs.GetInt("Money", money);
         }
 
         print(HUDController.Instance.moneyText.text);

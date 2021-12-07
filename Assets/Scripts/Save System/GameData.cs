@@ -7,7 +7,9 @@ public class GameData
 {
     public int difficultySelection;
     public int lastScene;
+    public int money;
     public bool LevelOne;
+    public bool inProgress;
 
 
     public GameData (LevelManager gameInfo)
@@ -15,5 +17,7 @@ public class GameData
         difficultySelection = gameInfo.difficulty;
         lastScene = gameInfo.lastPlayedScene;
         LevelOne = gameInfo.LevelOneCompletion;
+        money = gameInfo.money;
+        inProgress = gameInfo.inProgress;
     }
 }

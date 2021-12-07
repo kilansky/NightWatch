@@ -113,7 +113,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
             {
                 //If not overlapping with another object, and is affordable, allow placement on wall
                 if (!heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
-                    && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
+                    && (movementMode || MoneyManager.Instance.money >= heldObjectCost))
                 {
                     SetPlacementMaterial("green");
 
@@ -132,7 +132,7 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
 
             //check if held object is not placed on walls (ie: Guards), is not overlapping with other things, and is affordable
             if (!placeOnWalls && !heldObject.transform.GetChild(0).GetComponent<OverlapDetection>().isOverlapping
-                && (movementMode || MoneyManager.Instance.Money >= heldObjectCost))
+                && (movementMode || MoneyManager.Instance.money >= heldObjectCost))
             {
                 //Check if held object is over a nav mesh area
                 NavMeshHit NavIsHit;
@@ -459,13 +459,13 @@ public class SecurityPlacement : SingletonPattern<SecurityPlacement>
     private void CheckToShowFundsTooltip()
     {
         //If the player cannot afford another of this security measure, show the insufficent funds tooltip
-        if (!insufficientFundsTooltip && placementMode && MoneyManager.Instance.Money < heldObjectCost)
+        if (!insufficientFundsTooltip && placementMode && MoneyManager.Instance.money < heldObjectCost)
         {
             TooltipSystem.Instance.ShowTooltip("", "Insufficient Funds");
             insufficientFundsTooltip = true;
         }
         //If the player can afford another of this security measure, hide the insufficent funds tooltip
-        else if (insufficientFundsTooltip && MoneyManager.Instance.Money >= heldObjectCost)
+        else if (insufficientFundsTooltip && MoneyManager.Instance.money >= heldObjectCost)
         {
             TooltipSystem.Instance.HideTooltip();
             insufficientFundsTooltip = false;

@@ -14,9 +14,6 @@ public class PauseButtons : MonoBehaviour
     //Reloads the current scene
     public void RestartButton()
     {
-        NightHUDController.Instance.AddMoneyForCurrentSecurity();
-        PlayerPrefs.SetInt("Money", MoneyManager.Instance.Money);
-
         Scene currScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currScene.buildIndex);
     }

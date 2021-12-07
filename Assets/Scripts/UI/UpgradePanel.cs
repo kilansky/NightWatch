@@ -25,7 +25,7 @@ public class UpgradePanel : MonoBehaviour
         int i = 0;
         foreach (UpgradeButtonInfo upgradeButton in upgradeButtons)
         {
-            if (upgradeButton.cost <= MoneyManager.Instance.Money && SecuritySelection.Instance.selectedObject.timesUpgraded[i] < upgradeButton.maxUpgrades)
+            if (upgradeButton.cost <= MoneyManager.Instance.money && SecuritySelection.Instance.selectedObject.timesUpgraded[i] < upgradeButton.maxUpgrades)
             {
                 upgradeButton.button.interactable = true;
             }
