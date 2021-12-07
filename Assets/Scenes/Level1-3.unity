@@ -514,7 +514,7 @@ PrefabInstance:
       objectReference: {fileID: 632873199}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[0].startSkillCheck
@@ -522,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[1].startSkillCheck
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[2].startSkillCheck
@@ -542,7 +542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[1].sentences.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[2].sentences.Array.size
@@ -586,7 +586,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[1].sentences.Array.data[0]
-      value: Great, now select it and you'll see some new options available to you.
+      value: Don't forget to upgrade your security measures, they can really make
+        the difference!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
+      propertyPath: dialogues.Array.data[1].sentences.Array.data[1]
+      value: That about wraps things up, I've got to go talk with pest control about
+        fumigating my other office building as well.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
+      propertyPath: dialogues.Array.data[1].sentences.Array.data[2]
+      value: Speaking of which, if you can fend off the thieves here tonight, I'll
+        show you over there tomorrow. Good luck!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
+      propertyPath: dialogues.Array.data[1].sentences.Array.data[3]
+      value: Ahem, anyway there's just one other new thing for tonight, an Audio
+        Sensor!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
+      propertyPath: dialogues.Array.data[1].sentences.Array.data[4]
+      value: These bad boys can detect thief movement through walls. Go ahead and
+        try one out.
       objectReference: {fileID: 0}
     - target: {fileID: 1473927246880156344, guid: bcdbb560e326aae438b52b0f688cd69b, type: 3}
       propertyPath: dialogues.Array.data[2].sentences.Array.data[0]
