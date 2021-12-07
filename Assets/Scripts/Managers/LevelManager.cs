@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
     public GameObject continueWarning;
     public Button SecondLevel;
     private int selectedLevel;
+    public List<GameObject> securityObjects = new List<GameObject>();
+    public List<Transform> securityPlacements = new List<Transform>();
 
 
     private void Start()
