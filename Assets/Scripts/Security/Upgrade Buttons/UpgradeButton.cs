@@ -50,7 +50,9 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         //Check all buttons and disable them if max upgrades reached or money is too low
         upgradePanel.SetActiveButtons();
-        SkillCheckManager.Instance.UpgradePurchased();
+
+        if(SkillCheckManager.Instance)
+            SkillCheckManager.Instance.UpgradePurchased();
     }
 
     public bool MaxUpgradeReached()
