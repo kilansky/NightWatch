@@ -31,12 +31,10 @@ public class DialogueMouseDetector : SingletonPattern<DialogueMouseDetector>
     public void EnterUI()
     {
         mouseOverDialogue = true;
-        CameraController.Instance.canPanWithMouse = false;
     }
 
     public void ExitUI()
     {
         mouseOverDialogue = false;
-        CameraController.Instance.canPanWithMouse = true;
     }
 }

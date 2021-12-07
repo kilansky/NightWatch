@@ -69,7 +69,6 @@ public class ThiefSpawnSystem : SingletonPattern<ThiefSpawnSystem>
         {
             Timer -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
-            print("Begin Spawning");
         }
 
         if (TargetObjects.Count >= 1) //Checks to see if there are any target items left before spawning in a new thief

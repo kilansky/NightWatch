@@ -34,7 +34,7 @@ public class Alert : MonoBehaviour
 
     private IEnumerator SoundAlarm()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             audioSource.Play();
             yield return new WaitForSeconds(alarmSoundInterval);

@@ -1797,7 +1797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -1806,7 +1806,7 @@ PrefabInstance:
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1410366339}
+      objectReference: {fileID: 1839074988}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -1817,7 +1817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: QuitGame
+      value: QuitLevel
       objectReference: {fileID: 0}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -1825,7 +1825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LevelManager, Assembly-CSharp
+      value: NightHUDController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 900760584, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -2277,6 +2277,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5589234399159366552, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
   m_PrefabInstance: {fileID: 1839074985}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1839074988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4264589739564153125, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}
+  m_PrefabInstance: {fileID: 1839074985}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38e9101bbe10a674a8badca5a2923ce2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1863728017 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7013498042110297731, guid: c0420dc67d71418418ef2fecfa2cc93c, type: 3}

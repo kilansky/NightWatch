@@ -37,8 +37,10 @@ public class CameraController : SingletonPattern<CameraController>
     // Update is called once per frame
     void Update()
     {
+        Vector3 mouseEdgeInput = mouseScreenEdgeInput().normalized;
+
         //If there was WASD input on the last frame and the camera is loosely following a target, end the follow
-        if (looseFollow && PlayerInputs.Instance.WASDMovement != Vector3.zero)
+        if (looseFollow && (PlayerInputs.Instance.WASDMovement != Vector3.zero || mouseEdgeInput != Vector3.zero))
             EndCameraFollow();
 
         //Get edges of bounding box
@@ -47,14 +49,13 @@ public class CameraController : SingletonPattern<CameraController>
         float minZ = boundingBox.position.z - (boundingBox.localScale.z / 2);
         float maxZ = boundingBox.position.z + (boundingBox.localScale.z / 2);
 
-        //Debug.Log(mouseScreenEdgeInput());
-        Vector3 mouseEdgeInput = mouseScreenEdgeInput().normalized;
-
         //Set newCamPos to the current camera position, + input if not following a guard
         if (PlayerInputs.Instance.WASDMovement != Vector3.zero) //Prioritize WASD movement
             newCamFollowPos = camFollowPoint.position + PlayerInputs.Instance.WASDMovement * camMoveSpeed * Time.deltaTime;
-        else if(canPanWithMouse && !MouseInputUIBlocker.Instance.blockedByUI) //Allow Mouse Panning if not pressing WASD and not over HUD UI
+        else if(canPanWithMouse) //Allow Mouse Panning if not pressing WASD and not over HUD UI
             newCamFollowPos = camFollowPoint.position + mouseEdgeInput * camMoveSpeed * Time.deltaTime;
+
+        //&& (!MouseInputUIBlocker.Instance.blockedByUI && !GameManager.Instance.nightWatchPhase)
 
         //Clamp newCamPos within the bounding box edges
         newCamFollowPos.x = Mathf.Clamp(newCamFollowPos.x, minX, maxX);
