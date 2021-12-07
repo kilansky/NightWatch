@@ -111,7 +111,7 @@ public class LevelManager : SingletonPattern<LevelManager>
         {
             lastPlayedScene = SceneManager.GetActiveScene().buildIndex;
         }
-        if (inProgress)
+        if (SceneManager.GetActiveScene().buildIndex > 0)
         {
             money = MoneyManager.Instance.money;
         }
@@ -127,20 +127,17 @@ public class LevelManager : SingletonPattern<LevelManager>
             lastPlayedScene = data.lastScene;
             if (SceneManager.GetActiveScene().buildIndex > 0)
             {
-                if (inProgress)
+                if (SceneManager.GetActiveScene().buildIndex > 1 && SceneManager.GetActiveScene().buildIndex != 4)
                 {
-                    MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
-                    //MoneyManager.Instance.AddMoney(data.money);
+                    MoneyManager.Instance.AddMoney(data.money);
                 }
                 else
                 {
                     MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
-                    inProgress = true;
                 }
-                print("Load Starting Money of " + MoneyManager.Instance.startingMoney);
-                MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
             }
-            
+
+            print("Player has " + MoneyManager.Instance.money + " dollars");
             print("Last Level = " + lastPlayedScene);
             if (difficulty == 0)
             {
