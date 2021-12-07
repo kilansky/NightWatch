@@ -13,12 +13,20 @@ public class UpgradeButtonInfo
     public string description;
     public float increaseAmt = 2.5f;
     [Range(0, 5)] public int maxUpgrades = 3;
+    public Image[] indicatorImages;
 }
 
 public class UpgradePanel : MonoBehaviour
 {
     public UpgradeButtonInfo[] upgradeButtons;
     public TextMeshProUGUI descriptionText;
+    public Color nonUpgradedColor;
+    public Color upgradedColor;
+
+    private void Start()
+    {
+        SetIndicatorImageCount();
+    }
 
     public void SetActiveButtons()
     {
@@ -34,6 +42,25 @@ public class UpgradePanel : MonoBehaviour
                 upgradeButton.button.interactable = false;
             }
             i++;
+        }
+    }
+
+    public void SetIndicatorImageCount()
+    {
+        foreach (UpgradeButtonInfo upgradeButton in upgradeButtons)
+        {
+            for (int i = 0; i < upgradeButton.indicatorImages.Length; i++)
+            {
+                if (i < upgradeButton.maxUpgrades)
+                {
+                    upgradeButton.indicatorImages[i].gameObject.SetActive(true);
+                    upgradeButton.indicatorImages[i].color = nonUpgradedColor;
+                }
+                else
+                {
+                    upgradeButton.indicatorImages[i].gameObject.SetActive(false);
+                }
+            }
         }
     }
 }

@@ -45,6 +45,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         MoneyManager.Instance.SubtractMoney(upgradeButtonInfo.cost);
         SecuritySelection.Instance.selectedObject.cost += upgradeButtonInfo.cost;
         SecuritySelection.Instance.selectedObject.timesUpgraded[upgradeIndex] += 1;
+        int timesUpgraded = SecuritySelection.Instance.selectedObject.timesUpgraded[upgradeIndex];
+        upgradeButtonInfo.indicatorImages[timesUpgraded - 1].color = upgradePanel.upgradedColor;
 
         //Check all buttons and disable them if max upgrades reached or money is too low
         upgradePanel.SetActiveButtons();
