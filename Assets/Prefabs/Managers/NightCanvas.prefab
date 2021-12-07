@@ -627,8 +627,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 400, y: -10.168884}
-  m_SizeDelta: {x: 293.0611, y: -20.3385}
+  m_AnchoredPosition: {x: 300, y: -10.168884}
+  m_SizeDelta: {x: 300, y: -20.3385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &334629219
 CanvasRenderer:
@@ -714,19 +714,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4264589739564153125}
         m_TargetAssemblyTypeName: NightHUDController, Assembly-CSharp
-        m_MethodName: LoadNextLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
-        m_MethodName: SaveCurrentInformation
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1495,8 +1483,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -206.00006, y: -10.168888}
-  m_SizeDelta: {x: 293.0611, y: -20.3385}
+  m_AnchoredPosition: {x: -300, y: -10.168888}
+  m_SizeDelta: {x: 300, y: -20.3385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &900760586
 CanvasRenderer:
@@ -1580,10 +1568,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 3
+      - m_Target: {fileID: 4264589739564153125}
+        m_TargetAssemblyTypeName: NightHUDController, Assembly-CSharp
+        m_MethodName: QuitLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3993,7 +3981,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55.75
+  m_fontSize: 57.15
   m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6557,6 +6545,9 @@ MonoBehaviour:
   itemStolen: {fileID: 8300000, guid: 116681abe8d508c4d9185187da52ef2c, type: 3}
   thiefEscaped: {fileID: 8300000, guid: c8f4ca3553161924da7e99f7e96bd665, type: 3}
   thiefApprehended: {fileID: 8300000, guid: 2eb21f33e9dd3ff49a1d9bea6e658a78, type: 3}
+  difficulty: 0
+  lastPlayedScene: 0
+  LevelOneCompletion: 0
 --- !u!82 &2467743333250175380
 AudioSource:
   m_ObjectHideFlags: 0

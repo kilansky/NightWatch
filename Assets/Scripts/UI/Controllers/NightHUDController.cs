@@ -68,7 +68,10 @@ public class NightHUDController : SingletonPattern<NightHUDController>
         itemStolenText.text = itemStolenNum.ToString();
         thievesEscapedText.text = thievesEscapedNum.ToString();
         thievesApprehendedText.text = thievesApprehendedNum.ToString();
+    }
 
+    public void StartNight()
+    {
         if (GameManager.Instance.currentLevel == 1)
             guardSelectionTipText.SetActive(true);
     }
@@ -174,5 +177,15 @@ public class NightHUDController : SingletonPattern<NightHUDController>
     public void HidePauseScreen()
     {
         pausePanel.SetActive(false);
+    }
+
+    public void NextLevel()
+    {
+        LevelManager.Instance.LoadNextLevel();
+    }
+
+    public void QuitLevel()
+    {
+        LevelManager.Instance.LoadMenu();
     }
 }
